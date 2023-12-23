@@ -9,7 +9,6 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
 from ...errors.unprocessable_entity_error import UnprocessableEntityError
 from ...types.http_validation_error import HttpValidationError
-from .resources.testcase.client import AsyncTestcaseClient, TestcaseClient
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -23,7 +22,6 @@ OMIT = typing.cast(typing.Any, ...)
 class TestsetClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
-        self.testcase = TestcaseClient(client_wrapper=self._client_wrapper)
 
     def get(self, testset_id: int) -> typing.Any:
         """
@@ -83,7 +81,6 @@ class TestsetClient:
 class AsyncTestsetClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
-        self.testcase = AsyncTestcaseClient(client_wrapper=self._client_wrapper)
 
     async def get(self, testset_id: int) -> typing.Any:
         """

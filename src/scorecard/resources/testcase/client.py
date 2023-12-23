@@ -4,11 +4,11 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-from .....core.api_error import ApiError
-from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
-from .....core.jsonable_encoder import jsonable_encoder
-from .....errors.unprocessable_entity_error import UnprocessableEntityError
-from .....types.http_validation_error import HttpValidationError
+from ...core.api_error import ApiError
+from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+from ...core.jsonable_encoder import jsonable_encoder
+from ...errors.unprocessable_entity_error import UnprocessableEntityError
+from ...types.http_validation_error import HttpValidationError
 
 try:
     import pydantic.v1 as pydantic  # type: ignore

@@ -7,6 +7,7 @@ import httpx
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .environment import ScorecardEnvironment
 from .resources.run.client import AsyncRunClient, RunClient
+from .resources.testcase.client import AsyncTestcaseClient, TestcaseClient
 from .resources.testrecord.client import AsyncTestrecordClient, TestrecordClient
 from .resources.testset.client import AsyncTestsetClient, TestsetClient
 
@@ -27,6 +28,7 @@ class Scorecard:
             httpx_client=httpx.Client(timeout=timeout) if httpx_client is None else httpx_client,
         )
         self.testset = TestsetClient(client_wrapper=self._client_wrapper)
+        self.testcase = TestcaseClient(client_wrapper=self._client_wrapper)
         self.run = RunClient(client_wrapper=self._client_wrapper)
         self.testrecord = TestrecordClient(client_wrapper=self._client_wrapper)
 
@@ -47,6 +49,7 @@ class AsyncScorecard:
             httpx_client=httpx.AsyncClient(timeout=timeout) if httpx_client is None else httpx_client,
         )
         self.testset = AsyncTestsetClient(client_wrapper=self._client_wrapper)
+        self.testcase = AsyncTestcaseClient(client_wrapper=self._client_wrapper)
         self.run = AsyncRunClient(client_wrapper=self._client_wrapper)
         self.testrecord = AsyncTestrecordClient(client_wrapper=self._client_wrapper)
 
