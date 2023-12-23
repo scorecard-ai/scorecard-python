@@ -46,8 +46,8 @@ client = AsyncScorecard(
   api_key="YOUR_API_KEY"
 )
 
-async def start_execution() -> None:
-  testset = client.testset.create(
+async def main() -> None:
+  testset = await client.testset.create(
     testset_id=1234, 
     user_query="Your prompt...", 
     model_params: {
@@ -57,7 +57,7 @@ async def start_execution() -> None:
 
   print(testset)
 
-asyncio.run(start_execution())
+asyncio.run(main())
 ```
 
 ## Timeouts
