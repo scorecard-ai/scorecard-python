@@ -1,4 +1,5 @@
 src/scorecard/run_all_tests.py
+src/scorecard/client.py
 src/scorecard/__init__.py
 
 README.md
