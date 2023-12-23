@@ -4,8 +4,10 @@ from .app_create_run_params import AppCreateRunParams
 from .app_test_record_create import AppTestRecordCreate
 from .app_test_set_create import AppTestSetCreate
 from .create_github_workflow_params import CreateGithubWorkflowParams
+from .execution_params import ExecutionParams
 from .http_validation_error import HttpValidationError
 from .model_params import ModelParams
+from .score_execution_params import ScoreExecutionParams
 from .scoring_params import ScoringParams
 from .test_case_create import TestCaseCreate
 from .validation_error import ValidationError
@@ -16,8 +18,10 @@ __all__ = [
     "AppTestRecordCreate",
     "AppTestSetCreate",
     "CreateGithubWorkflowParams",
+    "ExecutionParams",
     "HttpValidationError",
     "ModelParams",
+    "ScoreExecutionParams",
     "ScoringParams",
     "TestCaseCreate",
     "ValidationError",
