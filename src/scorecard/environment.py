@@ -4,4 +4,4 @@ import enum
 
 
 class ScorecardEnvironment(enum.Enum):
-    PRODUCTION = "https://api.getscorecard.ai"
+    DEFAULT = "https://api.getscorecard.ai"
