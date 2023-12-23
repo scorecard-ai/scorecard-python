@@ -1,3 +1,4 @@
-
+src/scorecard/run_all_tests.py
+src/scorecard/__init__.py
 
 README.md
