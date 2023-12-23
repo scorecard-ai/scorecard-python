@@ -2,9 +2,6 @@
 
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-SDK%20generated%20by%20Fern-brightgreen)](https://github.com/fern-api/fern)
 
-With Scorecard AI's capabilities within your GitHub repository, you can automatically run end-to-end tests, 
-analyze system behavior, and obtain actionable insights—all in an automated manner.
-
 ## Installation
 
 Add this dependency to your project's build file:
@@ -16,28 +13,6 @@ poetry add fern-scorecard
 ```
 
 ## Usage
-Just import `run_all_tests` and our SDK will do the rest; we will load your test cases, 
-invoke your models with saved prompts, and record success and failure. 
-
-```python 
-from scorecard import run_all_tests
-from app import call_model # model call from your application
-
-run_all_tests(
-  # Your Testset ID 
-  input_testset_id=123,
-  # Your Scoring Config ID
-  scoring_config_id=456,
-  # The model invocation that you would like to test
-  model_invocation=lambda prompt: call_model(prompt),
-  # Defaults to SCORECARD_API_KEY
-  api_key="YOUR_API_KEY"
-)
-```
-
-## HTTP Client
-We also export an HTTP client so that you can hit our APIs 
-directly.
 
 ```python
 import scorecard
@@ -48,20 +23,15 @@ client = Scorecard(
   api_key="YOUR_API_KEY"
 )
 
-execution_response = client.start_execution(
-  scoring_model_name = "GPT 4",
-  run_id = "run-id",
-  testset_id = "testset-id",
-  api_token = "token",
-  model_under_test = scorecard.ModelParams(
-    model_name = "GPT 3",
-    temperature = 0.45,
-    max_tokens = 200,
-  ),
-  prompt_template: "Who are you?",
+testset = client.testset.create(
+  testset_id=1234, 
+  user_query="Your prompt...", 
+  model_params: {
+    "param": "value"
+  }
 )
 
-print(execution_response)
+print(testset)
 ```
 
 ## Async Client
@@ -70,27 +40,22 @@ print(execution_response)
 import scorecard
 import asyncio
 
-from scorecard.client import Scorecard
+from scorecard.client import AsyncScorecard
 
-scorecard_client = AsyncScorecard(
+client = AsyncScorecard(
   api_key="YOUR_API_KEY"
 )
 
 async def start_execution() -> None:
-  execution_response = scorecard_client.start_execution(
-    scoring_model_name = "GPT 4",
-    run_id = "run-id",
-    testset_id = "testset-id",
-    api_token = "token",
-    model_under_test = scorecard.ModelParams(
-      model_name = "GPT 3",
-      temperature = 0.45,
-      max_tokens = 200,
-    ),
-    prompt_template: "Who are you?",
-  );
+  testset = client.testset.create(
+    testset_id=1234, 
+    user_query="Your prompt...", 
+    model_params: {
+      "param": "value"
+    }
+  )
 
-  print(execution_response)
+  print(testset)
 
 asyncio.run(start_execution())
 ```
@@ -115,12 +80,18 @@ from scorecard.core import ApiError
 from scorecard import UnprocessableEntityError
 
 try:
-  scorecard.testsets.get("testset-id")
+  client.testset.get("testset-id")
 except UnprocessableEntityError as e: 
   # handle unprocessable entity error
 except APIError as e:  
   # handle any api related error
 ```
+
+Error codes are as followed:
+
+| Status Code | Error Type                 |
+| ----------- | -------------------------- |
+| 422         | `UnprocessableEntityError` |
 
 ## Beta status
 
