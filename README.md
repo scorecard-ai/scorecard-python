@@ -13,26 +13,6 @@ poetry add fern-scorecard
 ```
 
 ## Usage
-Just import `run_all_tests` and our SDK will do the rest; we will load your test cases, 
-invoke your models with saved prompts, and record success and failure. 
-
-```python 
-from scorecard import run_all_tests
-from app import call_model # model call from your application
-
-run_all_tests(
-  # Your Testset ID 
-  input_testset_id=123,
-  # Your Scoring Config ID
-  scoring_config_id=456,
-  # The model invocation that you would like to test
-  model_invocation=lambda prompt: call_model(prompt),
-  # Defaults to SCORECARD_API_KEY
-  api_key="YOUR_API_KEY"
-)
-```
-
-## HTTP Client
 We also export an HTTP client so that you can hit our APIs 
 directly.
 
@@ -42,7 +22,7 @@ import scorecard
 from scorecard.client import Scorecard
 
 client = Scorecard(
-  api_key="YOUR_API_KEY"
+  api_key="YOUR_API_KEY" # Defaults to SCORECARD_API_KEY
 )
 
 testset = client.testset.create(
@@ -57,6 +37,7 @@ print(testset)
 ```
 
 ## Async Client
+Use our async cien to make non-blocking requests to the API. 
 
 ```python
 import scorecard
@@ -65,7 +46,7 @@ import asyncio
 from scorecard.client import AsyncScorecard
 
 client = AsyncScorecard(
-  api_key="YOUR_API_KEY"
+  api_key="YOUR_API_KEY" # Defaults to SCORECARD_API_KEY
 )
 
 async def main() -> None:
@@ -80,6 +61,29 @@ async def main() -> None:
   print(testset)
 
 asyncio.run(main())
+```
+
+## Running Tests
+The `run_tests` method will load your test cases, 
+invoke your models with saved prompts, and record success and failure. This is 
+available on both the sync and async client.  
+
+```python 
+from app import call_model # model call from your application
+from scorecard.client import Scorecard
+
+client = Scorecard(
+  api_key="YOUR_API_KEY"
+)
+
+client.run_tests(
+  # Your Testset ID 
+  input_testset_id=123,
+  # Your Scoring Config ID
+  scoring_config_id=456,
+  # The model invocation that you would like to test
+  model_invocation=lambda prompt: call_model(prompt),
+)
 ```
 
 ## Timeouts
