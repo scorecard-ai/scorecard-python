@@ -13,6 +13,28 @@ poetry add fern-scorecard
 ```
 
 ## Usage
+Just import `run_all_tests` and our SDK will do the rest; we will load your test cases, 
+invoke your models with saved prompts, and record success and failure. 
+
+```python 
+from scorecard import run_all_tests
+from app import call_model # model call from your application
+
+run_all_tests(
+  # Your Testset ID 
+  input_testset_id=123,
+  # Your Scoring Config ID
+  scoring_config_id=456,
+  # The model invocation that you would like to test
+  model_invocation=lambda prompt: call_model(prompt),
+  # Defaults to SCORECARD_API_KEY
+  api_key="YOUR_API_KEY"
+)
+```
+
+## HTTP Client
+We also export an HTTP client so that you can hit our APIs 
+directly.
 
 ```python
 import scorecard
