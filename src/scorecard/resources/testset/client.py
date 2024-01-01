@@ -7,8 +7,15 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
+from ...errors.forbidden_error import ForbiddenError
+from ...errors.not_found_error import NotFoundError
+from ...errors.unauthorized_error import UnauthorizedError
 from ...errors.unprocessable_entity_error import UnprocessableEntityError
 from ...types.http_validation_error import HttpValidationError
+from ...types.not_found_error_body import NotFoundErrorBody
+from ...types.test_set_external import TestSetExternal
+from ...types.unauthenticated_error import UnauthenticatedError
+from ...types.unauthorized_error_body import UnauthorizedErrorBody
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -23,12 +30,21 @@ class TestsetClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get(self, testset_id: int) -> typing.Any:
+    def get(self, testset_id: int) -> TestSetExternal:
         """
         Retrieve testset metadata
 
         Parameters:
             - testset_id: int.
+        ---
+        from scorecard.client import Scorecard
+
+        client = Scorecard(
+            api_key="YOUR_API_KEY",
+        )
+        client.testset.get(
+            testset_id=1,
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -37,7 +53,13 @@ class TestsetClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(TestSetExternal, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
         if _response.status_code == 422:
             raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
         try:
@@ -46,9 +68,9 @@ class TestsetClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create(self, *, name: str, description: typing.Optional[str] = OMIT, using_retrieval: bool) -> typing.Any:
+    def create(self, *, name: str, description: typing.Optional[str] = OMIT, using_retrieval: bool) -> TestSetExternal:
         """
-        Create a new test set
+        Create a new Test Set
 
         Parameters:
             - name: str.
@@ -68,7 +90,13 @@ class TestsetClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(TestSetExternal, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
         if _response.status_code == 422:
             raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
         try:
@@ -82,12 +110,21 @@ class AsyncTestsetClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get(self, testset_id: int) -> typing.Any:
+    async def get(self, testset_id: int) -> TestSetExternal:
         """
         Retrieve testset metadata
 
         Parameters:
             - testset_id: int.
+        ---
+        from scorecard.client import AsyncScorecard
+
+        client = AsyncScorecard(
+            api_key="YOUR_API_KEY",
+        )
+        await client.testset.get(
+            testset_id=1,
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",
@@ -96,7 +133,13 @@ class AsyncTestsetClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(TestSetExternal, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
         if _response.status_code == 422:
             raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
         try:
@@ -105,9 +148,11 @@ class AsyncTestsetClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def create(self, *, name: str, description: typing.Optional[str] = OMIT, using_retrieval: bool) -> typing.Any:
+    async def create(
+        self, *, name: str, description: typing.Optional[str] = OMIT, using_retrieval: bool
+    ) -> TestSetExternal:
         """
-        Create a new test set
+        Create a new Test Set
 
         Parameters:
             - name: str.
@@ -127,7 +172,13 @@ class AsyncTestsetClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(TestSetExternal, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
         if _response.status_code == 422:
             raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
         try:

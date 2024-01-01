@@ -2,4 +2,4 @@
 
 import typing
 
-AppTestRecordCreate = typing.Any
+TestCaseCreateInput = typing.Any

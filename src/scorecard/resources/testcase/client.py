@@ -7,8 +7,15 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
+from ...errors.forbidden_error import ForbiddenError
+from ...errors.not_found_error import NotFoundError
+from ...errors.unauthorized_error import UnauthorizedError
 from ...errors.unprocessable_entity_error import UnprocessableEntityError
 from ...types.http_validation_error import HttpValidationError
+from ...types.not_found_error_body import NotFoundErrorBody
+from ...types.test_case import TestCase
+from ...types.unauthenticated_error import UnauthenticatedError
+from ...types.unauthorized_error_body import UnauthorizedErrorBody
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -23,21 +30,31 @@ class TestcaseClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get_all(self, testset_id: int) -> typing.Any:
+    def get(self, testcase_id: int, testset_id: int) -> TestCase:
         """
-        Retrieve the testcases in a test set.
+        Retrieve Testcase data
 
         Parameters:
+            - testcase_id: int.
+
             - testset_id: int.
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/testcase"),
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/testcase/{testcase_id}"
+            ),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(TestCase, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
         if _response.status_code == 422:
             raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
         try:
@@ -46,7 +63,7 @@ class TestcaseClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def add(
+    def create(
         self,
         testset_id: int,
         *,
@@ -54,9 +71,9 @@ class TestcaseClient:
         context: typing.Optional[str] = OMIT,
         response: typing.Optional[str] = OMIT,
         ideal: typing.Optional[str] = OMIT,
-    ) -> typing.Any:
+    ) -> TestCase:
         """
-        Add a testcase to a test set.
+        Create a new Testcase
 
         Parameters:
             - testset_id: int.
@@ -84,7 +101,13 @@ class TestcaseClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(TestCase, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
         if _response.status_code == 422:
             raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
         try:
@@ -98,21 +121,31 @@ class AsyncTestcaseClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get_all(self, testset_id: int) -> typing.Any:
+    async def get(self, testcase_id: int, testset_id: int) -> TestCase:
         """
-        Retrieve the testcases in a test set.
+        Retrieve Testcase data
 
         Parameters:
+            - testcase_id: int.
+
             - testset_id: int.
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/testcase"),
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/testcase/{testcase_id}"
+            ),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(TestCase, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
         if _response.status_code == 422:
             raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
         try:
@@ -121,7 +154,7 @@ class AsyncTestcaseClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def add(
+    async def create(
         self,
         testset_id: int,
         *,
@@ -129,9 +162,9 @@ class AsyncTestcaseClient:
         context: typing.Optional[str] = OMIT,
         response: typing.Optional[str] = OMIT,
         ideal: typing.Optional[str] = OMIT,
-    ) -> typing.Any:
+    ) -> TestCase:
         """
-        Add a testcase to a test set.
+        Create a new Testcase
 
         Parameters:
             - testset_id: int.
@@ -159,7 +192,13 @@ class AsyncTestcaseClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(TestCase, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
         if _response.status_code == 422:
             raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
         try:

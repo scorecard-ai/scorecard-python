@@ -2,4 +2,4 @@
 
 import typing
 
-AppTestRecordCreate = typing.Any
+LibDtoTypesTestRecordCreate = typing.Any
