@@ -32,7 +32,7 @@ class TestrecordClient:
 
     def get(self, testrecord_id: int, run_id: int) -> TestRecord:
         """
-        Retrieve testset metadata
+        Retrieve Testrecord metadata
 
         Parameters:
             - testrecord_id: int.
@@ -75,7 +75,7 @@ class TestrecordClient:
         ideal: typing.Optional[str] = OMIT,
     ) -> TestRecord:
         """
-        Create a new Test Set
+        Create a new Testrecord
 
         Parameters:
             - run_id: int.
@@ -133,7 +133,7 @@ class AsyncTestrecordClient:
 
     async def get(self, testrecord_id: int, run_id: int) -> TestRecord:
         """
-        Retrieve testset metadata
+        Retrieve Testrecord metadata
 
         Parameters:
             - testrecord_id: int.
@@ -176,7 +176,7 @@ class AsyncTestrecordClient:
         ideal: typing.Optional[str] = OMIT,
     ) -> TestRecord:
         """
-        Create a new Test Set
+        Create a new Testrecord
 
         Parameters:
             - run_id: int.

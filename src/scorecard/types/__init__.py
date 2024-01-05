@@ -13,7 +13,9 @@ from .lib_dto_types_test_record_create import LibDtoTypesTestRecordCreate
 from .lib_dto_types_test_set_create import LibDtoTypesTestSetCreate
 from .model_params import ModelParams
 from .not_found_error_body import NotFoundErrorBody
+from .paginated_test_case_response import PaginatedTestCaseResponse
 from .run_external import RunExternal
+from .run_status import RunStatus
 from .score_execution_params import ScoreExecutionParams
 from .scoring_params import ScoringParams
 from .test_case import TestCase
@@ -46,7 +48,9 @@ __all__ = [
     "LibDtoTypesTestSetCreate",
     "ModelParams",
     "NotFoundErrorBody",
+    "PaginatedTestCaseResponse",
     "RunExternal",
+    "RunStatus",
     "ScoreExecutionParams",
     "ScoringParams",
     "TestCase",

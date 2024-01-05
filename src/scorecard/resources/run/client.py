@@ -7,7 +7,6 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
-from ...core.remove_none_from_dict import remove_none_from_dict
 from ...errors.forbidden_error import ForbiddenError
 from ...errors.not_found_error import NotFoundError
 from ...errors.unauthorized_error import UnauthorizedError
@@ -15,6 +14,7 @@ from ...errors.unprocessable_entity_error import UnprocessableEntityError
 from ...types.http_validation_error import HttpValidationError
 from ...types.not_found_error_body import NotFoundErrorBody
 from ...types.run_external import RunExternal
+from ...types.run_status import RunStatus
 from ...types.unauthenticated_error import UnauthenticatedError
 from ...types.unauthorized_error_body import UnauthorizedErrorBody
 
@@ -40,7 +40,7 @@ class RunClient:
         model_params: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
     ) -> RunExternal:
         """
-        create a test run
+        Create a new Run
 
         Parameters:
             - testset_id: int.
@@ -83,10 +83,19 @@ class RunClient:
 
     def get(self, run_id: int) -> RunExternal:
         """
-        retrieve a test run
+        Retrieve a Run metadata
 
         Parameters:
             - run_id: int.
+        ---
+        from scorecard.client import Scorecard
+
+        client = Scorecard(
+            api_key="YOUR_API_KEY",
+        )
+        client.run.get(
+            run_id=1,
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -110,19 +119,30 @@ class RunClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def update(self, run_id: int, *, status: str) -> RunExternal:
+    def update_status(self, run_id: int, *, status: RunStatus) -> RunExternal:
         """
         Update the status of a run.
 
         Parameters:
             - run_id: int.
 
-            - status: str.
+            - status: RunStatus.
+        ---
+        from scorecard import RunStatus
+        from scorecard.client import Scorecard
+
+        client = Scorecard(
+            api_key="YOUR_API_KEY",
+        )
+        client.run.update_status(
+            run_id=1,
+            status=RunStatus.PENDING,
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "PATCH",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/run/{run_id}"),
-            params=remove_none_from_dict({"status": status}),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/run/{run_id}/status"),
+            json=jsonable_encoder({"status": status}),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
@@ -156,7 +176,7 @@ class AsyncRunClient:
         model_params: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
     ) -> RunExternal:
         """
-        create a test run
+        Create a new Run
 
         Parameters:
             - testset_id: int.
@@ -199,10 +219,19 @@ class AsyncRunClient:
 
     async def get(self, run_id: int) -> RunExternal:
         """
-        retrieve a test run
+        Retrieve a Run metadata
 
         Parameters:
             - run_id: int.
+        ---
+        from scorecard.client import AsyncScorecard
+
+        client = AsyncScorecard(
+            api_key="YOUR_API_KEY",
+        )
+        await client.run.get(
+            run_id=1,
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",
@@ -226,19 +255,30 @@ class AsyncRunClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def update(self, run_id: int, *, status: str) -> RunExternal:
+    async def update_status(self, run_id: int, *, status: RunStatus) -> RunExternal:
         """
         Update the status of a run.
 
         Parameters:
             - run_id: int.
 
-            - status: str.
+            - status: RunStatus.
+        ---
+        from scorecard import RunStatus
+        from scorecard.client import AsyncScorecard
+
+        client = AsyncScorecard(
+            api_key="YOUR_API_KEY",
+        )
+        await client.run.update_status(
+            run_id=1,
+            status=RunStatus.PENDING,
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "PATCH",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/run/{run_id}"),
-            params=remove_none_from_dict({"status": status}),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/run/{run_id}/status"),
+            json=jsonable_encoder({"status": status}),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
