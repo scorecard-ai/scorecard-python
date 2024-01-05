@@ -5,7 +5,6 @@ import urllib.parse
 from json.decoder import JSONDecodeError
 
 import httpx
-import os
 
 from .core.api_error import ApiError
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
@@ -36,12 +35,10 @@ class Scorecard:
         *,
         base_url: typing.Optional[str] = None,
         environment: ScorecardEnvironment = ScorecardEnvironment.DEFAULT,
-        api_key: typing.Optional[str] = os.getenv("SCORECARD_API_KEY"),
+        api_key: str,
         timeout: typing.Optional[float] = 60,
         httpx_client: typing.Optional[httpx.Client] = None,
     ):
-        if api_key is None: 
-            raise ApiError(body="Please provide an api_key or set SCORECARD_API_KEY")
         self._client_wrapper = SyncClientWrapper(
             base_url=_get_base_url(base_url=base_url, environment=environment),
             api_key=api_key,
@@ -529,12 +526,10 @@ class AsyncScorecard:
         *,
         base_url: typing.Optional[str] = None,
         environment: ScorecardEnvironment = ScorecardEnvironment.DEFAULT,
-        api_key: typing.Optional[str] = os.getenv("SCORECARD_API_KEY"),
+        api_key: str,
         timeout: typing.Optional[float] = 60,
         httpx_client: typing.Optional[httpx.AsyncClient] = None,
     ):
-        if api_key is None: 
-            raise ApiError(body="Please provide an api_key or set SCORECARD_API_KEY")
         self._client_wrapper = AsyncClientWrapper(
             base_url=_get_base_url(base_url=base_url, environment=environment),
             api_key=api_key,
