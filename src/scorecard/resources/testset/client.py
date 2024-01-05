@@ -7,12 +7,14 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
+from ...core.remove_none_from_dict import remove_none_from_dict
 from ...errors.forbidden_error import ForbiddenError
 from ...errors.not_found_error import NotFoundError
 from ...errors.unauthorized_error import UnauthorizedError
 from ...errors.unprocessable_entity_error import UnprocessableEntityError
 from ...types.http_validation_error import HttpValidationError
 from ...types.not_found_error_body import NotFoundErrorBody
+from ...types.paginated_test_case_response import PaginatedTestCaseResponse
 from ...types.test_set_external import TestSetExternal
 from ...types.unauthenticated_error import UnauthenticatedError
 from ...types.unauthorized_error_body import UnauthorizedErrorBody
@@ -105,6 +107,42 @@ class TestsetClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def get_testcases(
+        self, testset_id: int, *, page: typing.Optional[int] = None, page_size: typing.Optional[int] = None
+    ) -> PaginatedTestCaseResponse:
+        """
+        Retrieve all Testcases from a Testset
+
+        Parameters:
+            - testset_id: int.
+
+            - page: typing.Optional[int].
+
+            - page_size: typing.Optional[int].
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/testcase"),
+            params=remove_none_from_dict({"page": page, "page_size": page_size}),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(PaginatedTestCaseResponse, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 422:
+            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
 
 class AsyncTestsetClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -173,6 +211,42 @@ class AsyncTestsetClient:
         )
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(TestSetExternal, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 422:
+            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def get_testcases(
+        self, testset_id: int, *, page: typing.Optional[int] = None, page_size: typing.Optional[int] = None
+    ) -> PaginatedTestCaseResponse:
+        """
+        Retrieve all Testcases from a Testset
+
+        Parameters:
+            - testset_id: int.
+
+            - page: typing.Optional[int].
+
+            - page_size: typing.Optional[int].
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/testcase"),
+            params=remove_none_from_dict({"page": page, "page_size": page_size}),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(PaginatedTestCaseResponse, _response.json())  # type: ignore
         if _response.status_code == 401:
             raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
         if _response.status_code == 403:
