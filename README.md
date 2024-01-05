@@ -8,9 +8,9 @@
 Add this dependency to your project's build file:
 
 ```bash
-pip install fern-scorecard
+pip install scorecard-ai
 # or
-poetry add fern-scorecard
+poetry add scorecard-ai
 ```
 
 ## Usage
