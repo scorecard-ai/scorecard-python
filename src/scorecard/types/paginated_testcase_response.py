@@ -4,6 +4,7 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
+from .test_case import TestCase
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -11,11 +12,11 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class ModelParams(pydantic.BaseModel):
-    model_name: str
-    temperature: typing.Optional[float]
-    top_p: typing.Optional[float]
-    max_tokens: typing.Optional[int]
+class PaginatedTestcaseResponse(pydantic.BaseModel):
+    count: int
+    next: typing.Optional[str]
+    previous: typing.Optional[str]
+    results: typing.List[TestCase]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

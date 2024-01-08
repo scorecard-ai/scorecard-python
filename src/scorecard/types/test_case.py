@@ -4,8 +4,8 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
-from .test_case_custom_inputs import TestCaseCustomInputs
-from .test_case_custom_labels import TestCaseCustomLabels
+from .test_case_custom_inputs_value import TestCaseCustomInputsValue
+from .test_case_custom_labels_value import TestCaseCustomLabelsValue
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -19,11 +19,9 @@ class TestCase(pydantic.BaseModel):
     testset_id: int
     user_query: str
     context: typing.Optional[str]
-    response: typing.Optional[str]
     ideal: typing.Optional[str]
-    full_prompt: typing.Optional[str]
-    custom_inputs: typing.Optional[TestCaseCustomInputs]
-    custom_labels: typing.Optional[TestCaseCustomLabels]
+    custom_inputs: typing.Optional[typing.Dict[str, typing.Optional[TestCaseCustomInputsValue]]]
+    custom_labels: typing.Optional[typing.Dict[str, typing.Optional[TestCaseCustomLabelsValue]]]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

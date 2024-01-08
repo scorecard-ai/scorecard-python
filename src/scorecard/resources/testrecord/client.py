@@ -13,9 +13,12 @@ from ...errors.unauthorized_error import UnauthorizedError
 from ...errors.unprocessable_entity_error import UnprocessableEntityError
 from ...types.http_validation_error import HttpValidationError
 from ...types.not_found_error_body import NotFoundErrorBody
-from ...types.test_record import TestRecord
+from ...types.testrecord import Testrecord
 from ...types.unauthenticated_error import UnauthenticatedError
 from ...types.unauthorized_error_body import UnauthorizedErrorBody
+from .types.testrecord_create_params_custom_inputs_value import TestrecordCreateParamsCustomInputsValue
+from .types.testrecord_create_params_custom_labels_value import TestrecordCreateParamsCustomLabelsValue
+from .types.testrecord_create_params_custom_outputs_value import TestrecordCreateParamsCustomOutputsValue
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -30,7 +33,7 @@ class TestrecordClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get(self, testrecord_id: int, run_id: int) -> TestRecord:
+    def get(self, testrecord_id: int, run_id: int) -> Testrecord:
         """
         Retrieve Testrecord metadata
 
@@ -48,7 +51,7 @@ class TestrecordClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TestRecord, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(Testrecord, _response.json())  # type: ignore
         if _response.status_code == 401:
             raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
         if _response.status_code == 403:
@@ -73,7 +76,16 @@ class TestrecordClient:
         context: typing.Optional[str] = OMIT,
         response: typing.Optional[str] = OMIT,
         ideal: typing.Optional[str] = OMIT,
-    ) -> TestRecord:
+        custom_inputs: typing.Optional[
+            typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomInputsValue]]
+        ] = OMIT,
+        custom_outputs: typing.Optional[
+            typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomOutputsValue]]
+        ] = OMIT,
+        custom_labels: typing.Optional[
+            typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomLabelsValue]]
+        ] = OMIT,
+    ) -> Testrecord:
         """
         Create a new Testrecord
 
@@ -91,6 +103,12 @@ class TestrecordClient:
             - response: typing.Optional[str].
 
             - ideal: typing.Optional[str].
+
+            - custom_inputs: typing.Optional[typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomInputsValue]]].
+
+            - custom_outputs: typing.Optional[typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomOutputsValue]]].
+
+            - custom_labels: typing.Optional[typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomLabelsValue]]].
         """
         _request: typing.Dict[str, typing.Any] = {
             "testset_id": testset_id,
@@ -103,6 +121,12 @@ class TestrecordClient:
             _request["response"] = response
         if ideal is not OMIT:
             _request["ideal"] = ideal
+        if custom_inputs is not OMIT:
+            _request["custom_inputs"] = custom_inputs
+        if custom_outputs is not OMIT:
+            _request["custom_outputs"] = custom_outputs
+        if custom_labels is not OMIT:
+            _request["custom_labels"] = custom_labels
         _response = self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/run/{run_id}/testrecord"),
@@ -111,7 +135,7 @@ class TestrecordClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TestRecord, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(Testrecord, _response.json())  # type: ignore
         if _response.status_code == 401:
             raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
         if _response.status_code == 403:
@@ -131,7 +155,7 @@ class AsyncTestrecordClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get(self, testrecord_id: int, run_id: int) -> TestRecord:
+    async def get(self, testrecord_id: int, run_id: int) -> Testrecord:
         """
         Retrieve Testrecord metadata
 
@@ -149,7 +173,7 @@ class AsyncTestrecordClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TestRecord, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(Testrecord, _response.json())  # type: ignore
         if _response.status_code == 401:
             raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
         if _response.status_code == 403:
@@ -174,7 +198,16 @@ class AsyncTestrecordClient:
         context: typing.Optional[str] = OMIT,
         response: typing.Optional[str] = OMIT,
         ideal: typing.Optional[str] = OMIT,
-    ) -> TestRecord:
+        custom_inputs: typing.Optional[
+            typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomInputsValue]]
+        ] = OMIT,
+        custom_outputs: typing.Optional[
+            typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomOutputsValue]]
+        ] = OMIT,
+        custom_labels: typing.Optional[
+            typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomLabelsValue]]
+        ] = OMIT,
+    ) -> Testrecord:
         """
         Create a new Testrecord
 
@@ -192,6 +225,12 @@ class AsyncTestrecordClient:
             - response: typing.Optional[str].
 
             - ideal: typing.Optional[str].
+
+            - custom_inputs: typing.Optional[typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomInputsValue]]].
+
+            - custom_outputs: typing.Optional[typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomOutputsValue]]].
+
+            - custom_labels: typing.Optional[typing.Dict[str, typing.Optional[TestrecordCreateParamsCustomLabelsValue]]].
         """
         _request: typing.Dict[str, typing.Any] = {
             "testset_id": testset_id,
@@ -204,6 +243,12 @@ class AsyncTestrecordClient:
             _request["response"] = response
         if ideal is not OMIT:
             _request["ideal"] = ideal
+        if custom_inputs is not OMIT:
+            _request["custom_inputs"] = custom_inputs
+        if custom_outputs is not OMIT:
+            _request["custom_outputs"] = custom_outputs
+        if custom_labels is not OMIT:
+            _request["custom_labels"] = custom_labels
         _response = await self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/run/{run_id}/testrecord"),
@@ -212,7 +257,7 @@ class AsyncTestrecordClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TestRecord, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(Testrecord, _response.json())  # type: ignore
         if _response.status_code == 401:
             raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
         if _response.status_code == 403:

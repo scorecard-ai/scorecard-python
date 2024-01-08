@@ -6,93 +6,53 @@ from json.decoder import JSONDecodeError
 
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
-from ...core.jsonable_encoder import jsonable_encoder
 from ...errors.forbidden_error import ForbiddenError
 from ...errors.not_found_error import NotFoundError
 from ...errors.unauthorized_error import UnauthorizedError
 from ...errors.unprocessable_entity_error import UnprocessableEntityError
+from ...types.custom_schema_output import CustomSchemaOutput
 from ...types.http_validation_error import HttpValidationError
 from ...types.not_found_error_body import NotFoundErrorBody
-from ...types.test_case import TestCase
 from ...types.unauthenticated_error import UnauthenticatedError
 from ...types.unauthorized_error_body import UnauthorizedErrorBody
-from .types.testcase_create_params_custom_inputs_value import TestcaseCreateParamsCustomInputsValue
-from .types.testcase_create_params_custom_labels_value import TestcaseCreateParamsCustomLabelsValue
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
 except ImportError:
     import pydantic  # type: ignore
 
-# this is used as the default value for optional parameters
-OMIT = typing.cast(typing.Any, ...)
 
-
-class TestcaseClient:
+class V1Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def create(
-        self,
-        testset_id: int,
-        *,
-        user_query: str,
-        context: typing.Optional[str] = OMIT,
-        ideal: typing.Optional[str] = OMIT,
-        custom_inputs: typing.Optional[typing.Dict[str, typing.Optional[TestcaseCreateParamsCustomInputsValue]]] = OMIT,
-        custom_labels: typing.Optional[typing.Dict[str, typing.Optional[TestcaseCreateParamsCustomLabelsValue]]] = OMIT,
-    ) -> TestCase:
+    def root_v_1_get(self) -> typing.Any:
         """
-        Create a new Testcase
-
-        Parameters:
-            - testset_id: int.
-
-            - user_query: str.
-
-            - context: typing.Optional[str].
-
-            - ideal: typing.Optional[str].
-
-            - custom_inputs: typing.Optional[typing.Dict[str, typing.Optional[TestcaseCreateParamsCustomInputsValue]]].
-
-            - custom_labels: typing.Optional[typing.Dict[str, typing.Optional[TestcaseCreateParamsCustomLabelsValue]]].
+        Root endpoint that returns a welcome message.
         """
-        _request: typing.Dict[str, typing.Any] = {"user_query": user_query}
-        if context is not OMIT:
-            _request["context"] = context
-        if ideal is not OMIT:
-            _request["ideal"] = ideal
-        if custom_inputs is not OMIT:
-            _request["custom_inputs"] = custom_inputs
-        if custom_labels is not OMIT:
-            _request["custom_labels"] = custom_labels
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/testcase"),
-            json=jsonable_encoder(_request),
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v1"),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TestCase, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
         if _response.status_code == 401:
             raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
         if _response.status_code == 403:
             raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
         if _response.status_code == 404:
             raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
-        if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get(self, testcase_id: int, testset_id: int) -> TestCase:
+    def delete(self, testcase_id: int, testset_id: int) -> typing.Any:
         """
-        Retrieve Testcase data
+        Delete a Testcase
 
         Parameters:
             - testcase_id: int.
@@ -100,7 +60,7 @@ class TestcaseClient:
             - testset_id: int.
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
+            "DELETE",
             urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/testcase/{testcase_id}"
             ),
@@ -108,7 +68,45 @@ class TestcaseClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TestCase, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 422:
+            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def read_testset_schema(self, testset_id: int) -> CustomSchemaOutput:
+        """
+        Read the schema of a Testset.
+
+        Parameters:
+            - testset_id: int.
+        ---
+        from scorecard.client import Scorecard
+
+        client = Scorecard(
+            api_key="YOUR_API_KEY",
+        )
+        client.v_1.read_testset_schema(
+            testset_id=1,
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/schema"),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(CustomSchemaOutput, _response.json())  # type: ignore
         if _response.status_code == 401:
             raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
         if _response.status_code == 403:
@@ -124,54 +122,53 @@ class TestcaseClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
-class AsyncTestcaseClient:
+class AsyncV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def create(
-        self,
-        testset_id: int,
-        *,
-        user_query: str,
-        context: typing.Optional[str] = OMIT,
-        ideal: typing.Optional[str] = OMIT,
-        custom_inputs: typing.Optional[typing.Dict[str, typing.Optional[TestcaseCreateParamsCustomInputsValue]]] = OMIT,
-        custom_labels: typing.Optional[typing.Dict[str, typing.Optional[TestcaseCreateParamsCustomLabelsValue]]] = OMIT,
-    ) -> TestCase:
+    async def root_v_1_get(self) -> typing.Any:
         """
-        Create a new Testcase
-
-        Parameters:
-            - testset_id: int.
-
-            - user_query: str.
-
-            - context: typing.Optional[str].
-
-            - ideal: typing.Optional[str].
-
-            - custom_inputs: typing.Optional[typing.Dict[str, typing.Optional[TestcaseCreateParamsCustomInputsValue]]].
-
-            - custom_labels: typing.Optional[typing.Dict[str, typing.Optional[TestcaseCreateParamsCustomLabelsValue]]].
+        Root endpoint that returns a welcome message.
         """
-        _request: typing.Dict[str, typing.Any] = {"user_query": user_query}
-        if context is not OMIT:
-            _request["context"] = context
-        if ideal is not OMIT:
-            _request["ideal"] = ideal
-        if custom_inputs is not OMIT:
-            _request["custom_inputs"] = custom_inputs
-        if custom_labels is not OMIT:
-            _request["custom_labels"] = custom_labels
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/testcase"),
-            json=jsonable_encoder(_request),
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v1"),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TestCase, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(UnauthorizedErrorBody, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(NotFoundErrorBody, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def delete(self, testcase_id: int, testset_id: int) -> typing.Any:
+        """
+        Delete a Testcase
+
+        Parameters:
+            - testcase_id: int.
+
+            - testset_id: int.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "DELETE",
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/testcase/{testcase_id}"
+            ),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
         if _response.status_code == 401:
             raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
         if _response.status_code == 403:
@@ -186,25 +183,30 @@ class AsyncTestcaseClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def get(self, testcase_id: int, testset_id: int) -> TestCase:
+    async def read_testset_schema(self, testset_id: int) -> CustomSchemaOutput:
         """
-        Retrieve Testcase data
+        Read the schema of a Testset.
 
         Parameters:
-            - testcase_id: int.
-
             - testset_id: int.
+        ---
+        from scorecard.client import AsyncScorecard
+
+        client = AsyncScorecard(
+            api_key="YOUR_API_KEY",
+        )
+        await client.v_1.read_testset_schema(
+            testset_id=1,
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/testcase/{testcase_id}"
-            ),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"v1/testset/{testset_id}/schema"),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TestCase, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CustomSchemaOutput, _response.json())  # type: ignore
         if _response.status_code == 401:
             raise UnauthorizedError(pydantic.parse_obj_as(UnauthenticatedError, _response.json()))  # type: ignore
         if _response.status_code == 403:

@@ -4,6 +4,8 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
+from .data_type_enum import DataTypeEnum
+from .role_enum import RoleEnum
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -11,12 +13,15 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class TestCaseCreate(pydantic.BaseModel):
-    testset_id: int
-    user_query: str
-    context: typing.Optional[str]
-    response: typing.Optional[str]
-    ideal: typing.Optional[str]
+class CustomVariable(pydantic.BaseModel):
+    """
+    Custom variable model with name, description, role and data type.
+    """
+
+    name: str
+    description: typing.Optional[str]
+    role: RoleEnum
+    data_type: DataTypeEnum
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

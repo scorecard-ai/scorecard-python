@@ -4,6 +4,7 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
+from .custom_schema_output import CustomSchemaOutput
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -11,8 +12,19 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class BodyTextExtractTextExtractPost(pydantic.BaseModel):
-    file: str
+class Testset(pydantic.BaseModel):
+    id: typing.Optional[int]
+    created_at: typing.Optional[dt.datetime]
+    name: typing.Optional[str]
+    description: typing.Optional[str]
+    using_retrieval: typing.Optional[bool]
+    ingestion_method: typing.Optional[str]
+    num_testcases: typing.Optional[int]
+    published: typing.Optional[bool]
+    updated_at: typing.Optional[dt.datetime]
+    is_archived: typing.Optional[bool]
+    project_id: typing.Optional[int]
+    custom_schema: typing.Optional[CustomSchemaOutput]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

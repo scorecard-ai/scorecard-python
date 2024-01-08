@@ -4,8 +4,6 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
-from .test_record_custom_inputs import TestRecordCustomInputs
-from .test_record_custom_labels import TestRecordCustomLabels
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -13,18 +11,13 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class TestRecord(pydantic.BaseModel):
-    id: typing.Optional[int]
-    created_at: typing.Optional[dt.datetime]
-    run_id: int
-    testset_id: int
-    user_query: str
-    context: typing.Optional[str]
-    model_response: typing.Optional[str]
-    ideal: typing.Optional[str]
-    full_prompt: typing.Optional[str]
-    custom_inputs: typing.Optional[TestRecordCustomInputs]
-    custom_labels: typing.Optional[TestRecordCustomLabels]
+class FileUrl(pydantic.BaseModel):
+    """
+    File model with url and name.
+    """
+
+    url: str
+    name: typing.Optional[str]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

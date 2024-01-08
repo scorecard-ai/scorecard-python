@@ -13,6 +13,7 @@ from ...errors.unauthorized_error import UnauthorizedError
 from ...errors.unprocessable_entity_error import UnprocessableEntityError
 from ...types.http_validation_error import HttpValidationError
 from ...types.not_found_error_body import NotFoundErrorBody
+from ...types.run_create_params import RunCreateParams
 from ...types.run_external import RunExternal
 from ...types.run_status import RunStatus
 from ...types.unauthenticated_error import UnauthenticatedError
@@ -31,37 +32,17 @@ class RunClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def create(
-        self,
-        *,
-        testset_id: int,
-        scoring_config_id: typing.Optional[int] = OMIT,
-        status: typing.Optional[str] = OMIT,
-        model_params: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
-    ) -> RunExternal:
+    def create(self, *, request: RunCreateParams) -> RunExternal:
         """
         Create a new Run
 
         Parameters:
-            - testset_id: int.
-
-            - scoring_config_id: typing.Optional[int].
-
-            - status: typing.Optional[str].
-
-            - model_params: typing.Optional[typing.Dict[str, typing.Any]].
+            - request: RunCreateParams.
         """
-        _request: typing.Dict[str, typing.Any] = {"testset_id": testset_id}
-        if scoring_config_id is not OMIT:
-            _request["scoring_config_id"] = scoring_config_id
-        if status is not OMIT:
-            _request["status"] = status
-        if model_params is not OMIT:
-            _request["model_params"] = model_params
         _response = self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v1/run"),
-            json=jsonable_encoder(_request),
+            json=jsonable_encoder(request),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
@@ -86,7 +67,7 @@ class RunClient:
         Retrieve a Run metadata
 
         Parameters:
-            - run_id: int.
+            - run_id: int. The id of the run to retrieve.
         ---
         from scorecard.client import Scorecard
 
@@ -124,7 +105,7 @@ class RunClient:
         Update the status of a run.
 
         Parameters:
-            - run_id: int.
+            - run_id: int. The id of the run to update.
 
             - status: RunStatus.
         ---
@@ -167,37 +148,17 @@ class AsyncRunClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def create(
-        self,
-        *,
-        testset_id: int,
-        scoring_config_id: typing.Optional[int] = OMIT,
-        status: typing.Optional[str] = OMIT,
-        model_params: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
-    ) -> RunExternal:
+    async def create(self, *, request: RunCreateParams) -> RunExternal:
         """
         Create a new Run
 
         Parameters:
-            - testset_id: int.
-
-            - scoring_config_id: typing.Optional[int].
-
-            - status: typing.Optional[str].
-
-            - model_params: typing.Optional[typing.Dict[str, typing.Any]].
+            - request: RunCreateParams.
         """
-        _request: typing.Dict[str, typing.Any] = {"testset_id": testset_id}
-        if scoring_config_id is not OMIT:
-            _request["scoring_config_id"] = scoring_config_id
-        if status is not OMIT:
-            _request["status"] = status
-        if model_params is not OMIT:
-            _request["model_params"] = model_params
         _response = await self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "v1/run"),
-            json=jsonable_encoder(_request),
+            json=jsonable_encoder(request),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
@@ -222,7 +183,7 @@ class AsyncRunClient:
         Retrieve a Run metadata
 
         Parameters:
-            - run_id: int.
+            - run_id: int. The id of the run to retrieve.
         ---
         from scorecard.client import AsyncScorecard
 
@@ -260,7 +221,7 @@ class AsyncRunClient:
         Update the status of a run.
 
         Parameters:
-            - run_id: int.
+            - run_id: int. The id of the run to update.
 
             - status: RunStatus.
         ---

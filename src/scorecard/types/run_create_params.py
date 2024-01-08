@@ -11,18 +11,11 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class TestRecordCreate(pydantic.BaseModel):
-    run_id: int
-    testcase_id: int
-    model_response: str
-    user_query: typing.Optional[str]
-    context: typing.Optional[str]
-    prompt: typing.Optional[str]
-    ideal: typing.Optional[str]
-    debug_output: typing.Optional[str]
-    model_params: typing.Optional[typing.Dict[str, typing.Any]]
-    testset_id: typing.Optional[int]
+class RunCreateParams(pydantic.BaseModel):
+    testset_id: int
+    scoring_config_id: typing.Optional[int]
     status: typing.Optional[str]
+    model_params: typing.Optional[typing.Dict[str, typing.Any]]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
