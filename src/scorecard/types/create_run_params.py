@@ -11,9 +11,9 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class RunCreateParams(pydantic.BaseModel):
+class CreateRunParams(pydantic.BaseModel):
     testset_id: int
-    scoring_config_id: typing.Optional[int]
+    scoring_config_id: int
     status: typing.Optional[str]
     model_params: typing.Optional[typing.Dict[str, typing.Any]]
 
