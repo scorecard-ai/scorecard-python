@@ -2,56 +2,13 @@
 
 import typing
 
-import httpx
-
-from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+from .base_client import BaseScorecard, AsyncBaseScorecard
 from .core.api_error import ApiError
-from .environment import ScorecardEnvironment
-from .resources.run.client import AsyncRunClient, RunClient
-from .resources.testcase.client import AsyncTestcaseClient, TestcaseClient
-from .resources.testrecord.client import AsyncTestrecordClient, TestrecordClient
-from .resources.testset.client import AsyncTestsetClient, TestsetClient
 from .types import RunStatus
 from .types import Run
 
 
-class Scorecard:
-    def __init__(
-        self,
-        *,
-        base_url: typing.Optional[str] = None,
-        environment: ScorecardEnvironment = ScorecardEnvironment.DEFAULT,
-        api_key: str,
-        timeout: typing.Optional[float] = 60,
-        httpx_client: typing.Optional[httpx.Client] = None,
-    ):
-        """
-        Instantiate the Scorecard SDK.
-
-        Parameters:
-            - base_url: typing.Optional[str]. Overrides the base_url used by the client
-
-            - environment: typing.Optional[ScorecardEnvironment]. Defaults to https://api.getscorecard.ai.
-
-            - api_key: typing.Optional[str]. Your Scorecard API Key. Defaults to the env variable SCORECARD_API_KEY.
-
-            - timeout: typing.Optional[float]. Defaults to 60 seconds.
-
-            - httpx_client: typing.Optional[httpx.Client]. Override the httpx client used by the sdk.
-        """
-        if api_key is None:
-            raise ApiError(body="Please provide an api_key or set SCORECARD_API_KEY")
-        self._client_wrapper = SyncClientWrapper(
-            base_url=_get_base_url(base_url=base_url, environment=environment),
-            api_key=api_key,
-            httpx_client=(
-                httpx.Client(timeout=timeout) if httpx_client is None else httpx_client
-            ),
-        )
-        self.testset = TestsetClient(client_wrapper=self._client_wrapper)
-        self.testcase = TestcaseClient(client_wrapper=self._client_wrapper)
-        self.testrecord = TestrecordClient(client_wrapper=self._client_wrapper)
-        self.run = RunClient(client_wrapper=self._client_wrapper)
+class Scorecard(BaseScorecard):
 
     def run_tests(
         self,
@@ -77,7 +34,7 @@ class Scorecard:
             raise ApiError(
                 body=f"Didn't receive run id after creating run for testid={input_testset_id}"
             )
-        self.run.update_status(run.id, status=RunStatus.RUNNING_EXECUTION)
+        self.run.update_status(run.id, status="running_execution")
         testcases = self.testset.get_testcases(input_testset_id)
 
         for testcase in testcases.results:
@@ -102,7 +59,7 @@ class Scorecard:
                 response=response,
             )
 
-        self.run.update_status(run.id, status=RunStatus.AWAITING_SCORING)
+        self.run.update_status(run.id, status="awaiting_scoring")
 
         print("Finished running testcases.")
         print(
@@ -111,45 +68,7 @@ class Scorecard:
         return run
 
 
-class AsyncScorecard:
-    def __init__(
-        self,
-        *,
-        base_url: typing.Optional[str] = None,
-        environment: ScorecardEnvironment = ScorecardEnvironment.DEFAULT,
-        api_key: str,
-        timeout: typing.Optional[float] = 60,
-        httpx_client: typing.Optional[httpx.AsyncClient] = None,
-    ):
-        """
-        Instantiate the Scorecard SDK.
-
-        Parameters:
-            - base_url: typing.Optional[str]. Overrides the base_url used by the client
-
-            - environment: typing.Optional[ScorecardEnvironment]. Defaults to https://api.getscorecard.ai.
-
-            - api_key: typing.Optional[str]. Your Scorecard API Key. Defaults to the env variable SCORECARD_API_KEY.
-
-            - timeout: typing.Optional[float]. Defaults to 60 seconds.
-
-            - httpx_client: typing.Optional[httpx.Client]. Override the httpx client used by the sdk.
-        """
-        if api_key is None:
-            raise ApiError(body="Please provide an api_key or set SCORECARD_API_KEY")
-        self._client_wrapper = AsyncClientWrapper(
-            base_url=_get_base_url(base_url=base_url, environment=environment),
-            api_key=api_key,
-            httpx_client=(
-                httpx.AsyncClient(timeout=timeout)
-                if httpx_client is None
-                else httpx_client
-            ),
-        )
-        self.testset = AsyncTestsetClient(client_wrapper=self._client_wrapper)
-        self.testcase = AsyncTestcaseClient(client_wrapper=self._client_wrapper)
-        self.testrecord = AsyncTestrecordClient(client_wrapper=self._client_wrapper)
-        self.run = AsyncRunClient(client_wrapper=self._client_wrapper)
+class AsyncScorecard(AsyncBaseScorecard):
 
     async def run_tests(
         self,
@@ -175,7 +94,7 @@ class AsyncScorecard:
             raise ApiError(
                 body=f"Didn't receive run id after creating run for testid={input_testset_id}"
             )
-        await self.run.update_status(run.id, status=RunStatus.RUNNING_EXECUTION)
+        await self.run.update_status(run.id, status="running_execution")
         testcases = await self.testset.get_testcases(input_testset_id)
 
         for testcase in testcases.results:
@@ -200,23 +119,10 @@ class AsyncScorecard:
                 response=response,
             )
 
-        await self.run.update_status(run.id, status=RunStatus.AWAITING_SCORING)
+        await self.run.update_status(run.id, status="awaiting_scoring")
 
         print("Finished running testcases.")
         print(
             f"You can view the run details at https://app.getscorecard.ai/view-records/{run.id}"
         )
         return run
-
-
-def _get_base_url(
-    *, base_url: typing.Optional[str] = None, environment: ScorecardEnvironment
-) -> str:
-    if base_url is not None:
-        return base_url
-    elif environment is not None:
-        return environment.value
-    else:
-        raise Exception(
-            "Please pass in either base_url or environment to construct the client"
-        )
