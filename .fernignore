@@ -2,4 +2,4 @@
 
 README.md
 LICENSE
-src/client.py
+src/scorecard/client.py
