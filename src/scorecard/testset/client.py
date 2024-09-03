@@ -17,6 +17,7 @@ from ..types.http_validation_error import HttpValidationError
 from json.decoder import JSONDecodeError
 from ..core.api_error import ApiError
 from ..types.custom_schema import CustomSchema
+from ..types.ingestion_method import IngestionMethod
 from ..types.paginated_testcase_response import PaginatedTestcaseResponse
 from ..core.client_wrapper import AsyncClientWrapper
 
@@ -202,6 +203,119 @@ class TestsetClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def update(
+        self,
+        testset_id: int,
+        *,
+        name: typing.Optional[str] = OMIT,
+        description: typing.Optional[str] = OMIT,
+        using_retrieval: typing.Optional[bool] = OMIT,
+        custom_schema: typing.Optional[CustomSchema] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Testset:
+        """
+        Update a Testset.
+
+        Parameters
+        ----------
+        testset_id : int
+            The ID of the Testset to update.
+
+        name : typing.Optional[str]
+
+        description : typing.Optional[str]
+            A description for the testset.
+
+        using_retrieval : typing.Optional[bool]
+            Whether or not the testset uses retrieval.
+
+        custom_schema : typing.Optional[CustomSchema]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Testset
+            Successful Response
+
+        Examples
+        --------
+        from scorecard import Scorecard
+
+        client = Scorecard(
+            api_key="YOUR_API_KEY",
+        )
+        client.testset.update(
+            testset_id=1,
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"v1/testset/{jsonable_encoder(testset_id)}",
+            method="PATCH",
+            json={
+                "name": name,
+                "description": description,
+                "using_retrieval": using_retrieval,
+                "custom_schema": custom_schema,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return typing.cast(
+                    Testset,
+                    construct_type(
+                        type_=Testset,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthenticatedError,
+                        construct_type(
+                            type_=UnauthenticatedError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    typing.cast(
+                        UnauthorizedErrorBody,
+                        construct_type(
+                            type_=UnauthorizedErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    typing.cast(
+                        NotFoundErrorBody,
+                        construct_type(
+                            type_=NotFoundErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    typing.cast(
+                        HttpValidationError,
+                        construct_type(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
     def create(
         self,
         *,
@@ -209,6 +323,9 @@ class TestsetClient:
         description: typing.Optional[str] = OMIT,
         using_retrieval: typing.Optional[bool] = OMIT,
         custom_schema: typing.Optional[CustomSchema] = OMIT,
+        project_id: typing.Optional[int] = OMIT,
+        ingestion_method: typing.Optional[IngestionMethod] = OMIT,
+        published: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Testset:
         """
@@ -225,6 +342,15 @@ class TestsetClient:
             Whether or not the testset uses retrieval.
 
         custom_schema : typing.Optional[CustomSchema]
+
+        project_id : typing.Optional[int]
+            The ID of the project to create the testset in. Omitting this optional argument will create the testset inside your Organization's default project.
+
+        ingestion_method : typing.Optional[IngestionMethod]
+            The method of ingestion for the testset.
+
+        published : typing.Optional[bool]
+            Whether or not the testset is published.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -253,6 +379,9 @@ class TestsetClient:
                 "description": description,
                 "using_retrieval": using_retrieval,
                 "custom_schema": custom_schema,
+                "project_id": project_id,
+                "ingestion_method": ingestion_method,
+                "published": published,
             },
             request_options=request_options,
             omit=OMIT,
@@ -697,6 +826,127 @@ class AsyncTestsetClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    async def update(
+        self,
+        testset_id: int,
+        *,
+        name: typing.Optional[str] = OMIT,
+        description: typing.Optional[str] = OMIT,
+        using_retrieval: typing.Optional[bool] = OMIT,
+        custom_schema: typing.Optional[CustomSchema] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Testset:
+        """
+        Update a Testset.
+
+        Parameters
+        ----------
+        testset_id : int
+            The ID of the Testset to update.
+
+        name : typing.Optional[str]
+
+        description : typing.Optional[str]
+            A description for the testset.
+
+        using_retrieval : typing.Optional[bool]
+            Whether or not the testset uses retrieval.
+
+        custom_schema : typing.Optional[CustomSchema]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Testset
+            Successful Response
+
+        Examples
+        --------
+        import asyncio
+
+        from scorecard import AsyncScorecard
+
+        client = AsyncScorecard(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.testset.update(
+                testset_id=1,
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"v1/testset/{jsonable_encoder(testset_id)}",
+            method="PATCH",
+            json={
+                "name": name,
+                "description": description,
+                "using_retrieval": using_retrieval,
+                "custom_schema": custom_schema,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return typing.cast(
+                    Testset,
+                    construct_type(
+                        type_=Testset,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthenticatedError,
+                        construct_type(
+                            type_=UnauthenticatedError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    typing.cast(
+                        UnauthorizedErrorBody,
+                        construct_type(
+                            type_=UnauthorizedErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    typing.cast(
+                        NotFoundErrorBody,
+                        construct_type(
+                            type_=NotFoundErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    typing.cast(
+                        HttpValidationError,
+                        construct_type(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
     async def create(
         self,
         *,
@@ -704,6 +954,9 @@ class AsyncTestsetClient:
         description: typing.Optional[str] = OMIT,
         using_retrieval: typing.Optional[bool] = OMIT,
         custom_schema: typing.Optional[CustomSchema] = OMIT,
+        project_id: typing.Optional[int] = OMIT,
+        ingestion_method: typing.Optional[IngestionMethod] = OMIT,
+        published: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Testset:
         """
@@ -720,6 +973,15 @@ class AsyncTestsetClient:
             Whether or not the testset uses retrieval.
 
         custom_schema : typing.Optional[CustomSchema]
+
+        project_id : typing.Optional[int]
+            The ID of the project to create the testset in. Omitting this optional argument will create the testset inside your Organization's default project.
+
+        ingestion_method : typing.Optional[IngestionMethod]
+            The method of ingestion for the testset.
+
+        published : typing.Optional[bool]
+            Whether or not the testset is published.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -756,6 +1018,9 @@ class AsyncTestsetClient:
                 "description": description,
                 "using_retrieval": using_retrieval,
                 "custom_schema": custom_schema,
+                "project_id": project_id,
+                "ingestion_method": ingestion_method,
+                "published": published,
             },
             request_options=request_options,
             omit=OMIT,
