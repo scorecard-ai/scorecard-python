@@ -65,6 +65,10 @@ class Testset(UncheckedBaseModel):
     """
 
     custom_schema: typing.Optional[CustomSchema] = None
+    created_by_playground: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Whether or not the testset was created by the playground.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

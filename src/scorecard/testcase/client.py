@@ -465,7 +465,7 @@ class TestcaseClient:
         *,
         ids: typing.Optional[typing.Sequence[int]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> TestCase:
+    ) -> typing.List[TestCase]:
         """
         Batch copy Testcases
 
@@ -482,7 +482,7 @@ class TestcaseClient:
 
         Returns
         -------
-        TestCase
+        typing.List[TestCase]
             Successful Response
 
         Examples
@@ -508,9 +508,9 @@ class TestcaseClient:
         try:
             if 200 <= _response.status_code < 300:
                 return typing.cast(
-                    TestCase,
+                    typing.List[TestCase],
                     construct_type(
-                        type_=TestCase,  # type: ignore
+                        type_=typing.List[TestCase],  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1129,7 +1129,7 @@ class AsyncTestcaseClient:
         *,
         ids: typing.Optional[typing.Sequence[int]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> TestCase:
+    ) -> typing.List[TestCase]:
         """
         Batch copy Testcases
 
@@ -1146,7 +1146,7 @@ class AsyncTestcaseClient:
 
         Returns
         -------
-        TestCase
+        typing.List[TestCase]
             Successful Response
 
         Examples
@@ -1180,9 +1180,9 @@ class AsyncTestcaseClient:
         try:
             if 200 <= _response.status_code < 300:
                 return typing.cast(
-                    TestCase,
+                    typing.List[TestCase],
                     construct_type(
-                        type_=TestCase,  # type: ignore
+                        type_=typing.List[TestCase],  # type: ignore
                         object_=_response.json(),
                     ),
                 )

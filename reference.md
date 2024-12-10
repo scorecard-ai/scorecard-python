@@ -12,7 +12,7 @@
 <dl>
 <dd>
 
-Retrieve Testset metadata without Testcase data
+Retrieve all Testsets with cursor-based pagination
 </dd>
 </dl>
 </dd>
@@ -32,9 +32,7 @@ from scorecard import Scorecard
 client = Scorecard(
     api_key="YOUR_API_KEY",
 )
-client.testset.get(
-    testset_id=1,
-)
+client.testset.get()
 
 ```
 </dd>
@@ -50,7 +48,15 @@ client.testset.get(
 <dl>
 <dd>
 
-**testset_id:** `int` — The ID of the Testset to retrieve.
+**cursor:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**size:** `typing.Optional[int]` 
     
 </dd>
 </dl>
@@ -341,6 +347,14 @@ client.testset.create(
 <dd>
 
 **published:** `typing.Optional[bool]` — Whether or not the testset is published.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**created_by_playground:** `typing.Optional[bool]` — Whether or not the testset was created by the playground.
     
 </dd>
 </dl>
@@ -2124,7 +2138,7 @@ client.tracing.span(
 <dl>
 <dd>
 
-Retrieve a prod prompt by name
+Retrieve a prompt by name, defaulting to the production prompt, unless a tag to select the prompt by is specified
 </dd>
 </dl>
 </dd>
@@ -2170,6 +2184,14 @@ client.prompt.get_by_name(
 <dl>
 <dd>
 
+**tag:** `typing.Optional[str]` — Tag to select by. Defaults to selecting the production version
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -2194,11 +2216,11 @@ client.prompt.get_by_name(
 <dl>
 <dd>
 
-Two types of prompts can be created - a root prompt or a child prompt (aka Prompt Version in app).
+Two types of prompts can be created - a root prompt or a child prompt (aka Prompt Version in the app).
 
-        A root prompt can be created by providing the `name` param, and it will always be tagged as prod.
+        A root prompt can be created by providing the `name` param, and it will always be tagged as production.
 
-        A child prompt can be created by providing the `parent_id` param. Note that the `name` param in this case will be ignored as all descendents from a root prompt would share the root's name. `is_prod` can also be provided to configure whether a child should be tagged as prod.
+        A child prompt can be created by providing the `parent_id` param. Note that the `name` param in this case will be ignored as all descendants from a root prompt would share the root's name. `is_prod` can also be provided to configure whether a child should be tagged as production.
 </dd>
 </dl>
 </dd>
@@ -2228,7 +2250,9 @@ client.prompt.create(
         "param3": 100,
         "param4": True,
     },
+    tag="v1.1",
     is_prod=True,
+    project_id=1,
 )
 
 ```
@@ -2287,7 +2311,107 @@ client.prompt.create(
 <dl>
 <dd>
 
+**tag:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **is_prod:** `typing.Optional[bool]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project_id:** `typing.Optional[int]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.prompt.<a href="src/scorecard/prompt/client.py">list_prompts</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List all prompts with cursor-based pagination
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from scorecard import Scorecard
+
+client = Scorecard(
+    api_key="YOUR_API_KEY",
+)
+client.prompt.list_prompts()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**project_id:** `typing.Optional[str]` — ID of Project to filter by.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**cursor:** `typing.Optional[str]` — Cursor for the next page
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**size:** `typing.Optional[int]` — Page size
     
 </dd>
 </dl>
@@ -2389,7 +2513,7 @@ client.prompt.get(
 <dl>
 <dd>
 
-Delete a scoring config.
+Delete a root prompt and all of its children.
 </dd>
 </dl>
 </dd>
@@ -2427,7 +2551,7 @@ client.prompt.delete(
 <dl>
 <dd>
 
-**id:** `str` — The id of the scoring config to delete.
+**id:** `str` — The id of the root prompt to delete.
     
 </dd>
 </dl>
@@ -2565,6 +2689,7 @@ client.scoring_config.create(
     name="Scoring Config Name",
     description="Description of the scoring config",
     metrics=[1, 2, 3],
+    project_id=1,
 )
 
 ```
@@ -2598,6 +2723,14 @@ client.scoring_config.create(
 <dd>
 
 **metrics:** `typing.Optional[typing.Sequence[int]]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project_id:** `typing.Optional[int]` 
     
 </dd>
 </dl>
@@ -2668,6 +2801,76 @@ client.scoring_config.get(
 <dd>
 
 **id:** `str` — The id of the scoring config to get.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.scoring_config.<a href="src/scorecard/scoring_config/client.py">delete</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a scoring config.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from scorecard import Scorecard
+
+client = Scorecard(
+    api_key="YOUR_API_KEY",
+)
+client.scoring_config.delete(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The id of the scoring config to delete.
     
 </dd>
 </dl>

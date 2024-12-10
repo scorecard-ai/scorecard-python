@@ -25,6 +25,10 @@ class ScoringConfig(UncheckedBaseModel):
     is_archived: typing.Optional[bool] = None
     metrics: typing.Optional[typing.List[int]] = None
     created_at: typing.Optional[dt.datetime] = None
+    project_id: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The ID of the project the scoring config belongs to.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

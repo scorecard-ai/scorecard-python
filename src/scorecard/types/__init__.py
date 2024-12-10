@@ -15,6 +15,7 @@ from .json_object_output_value import JsonObjectOutputValue
 from .not_found_error_body import NotFoundErrorBody
 from .paginated_testcase_response import PaginatedTestcaseResponse
 from .prompt import Prompt
+from .prompt_cursor_page import PromptCursorPage
 from .prompt_model_params_value import PromptModelParamsValue
 from .role_enum import RoleEnum
 from .run import Run
@@ -37,6 +38,7 @@ from .testrecord_custom_outputs_value import TestrecordCustomOutputsValue
 from .testrecord_model_debug_info_value import TestrecordModelDebugInfoValue
 from .testrecord_model_params_value import TestrecordModelParamsValue
 from .testset import Testset
+from .testset_cursor_page import TestsetCursorPage
 from .trace import Trace
 from .unauthenticated_error import UnauthenticatedError
 from .unauthorized_error_body import UnauthorizedErrorBody
@@ -59,6 +61,7 @@ __all__ = [
     "NotFoundErrorBody",
     "PaginatedTestcaseResponse",
     "Prompt",
+    "PromptCursorPage",
     "PromptModelParamsValue",
     "RoleEnum",
     "Run",
@@ -81,6 +84,7 @@ __all__ = [
     "TestrecordModelDebugInfoValue",
     "TestrecordModelParamsValue",
     "Testset",
+    "TestsetCursorPage",
     "Trace",
     "UnauthenticatedError",
     "UnauthorizedErrorBody",

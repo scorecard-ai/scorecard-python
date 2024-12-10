@@ -29,6 +29,10 @@ class Prompt(UncheckedBaseModel):
     parent_id: typing.Optional[str] = None
     merge_parent_id: typing.Optional[str] = None
     created_at: typing.Optional[dt.datetime] = None
+    project_id: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The ID of the project the prompt belongs to.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

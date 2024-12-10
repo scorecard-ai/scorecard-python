@@ -3,8 +3,7 @@
 import typing
 from ..core.client_wrapper import SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..types.testset import Testset
-from ..core.jsonable_encoder import jsonable_encoder
+from ..types.testset_cursor_page import TestsetCursorPage
 from ..core.unchecked_base_model import construct_type
 from ..errors.unauthorized_error import UnauthorizedError
 from ..types.unauthenticated_error import UnauthenticatedError
@@ -16,6 +15,8 @@ from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.http_validation_error import HttpValidationError
 from json.decoder import JSONDecodeError
 from ..core.api_error import ApiError
+from ..types.testset import Testset
+from ..core.jsonable_encoder import jsonable_encoder
 from ..types.custom_schema import CustomSchema
 from ..types.ingestion_method import IngestionMethod
 from ..types.paginated_testcase_response import PaginatedTestcaseResponse
@@ -29,21 +30,28 @@ class TestsetClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get(self, testset_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> Testset:
+    def get(
+        self,
+        *,
+        cursor: typing.Optional[str] = None,
+        size: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> TestsetCursorPage:
         """
-        Retrieve Testset metadata without Testcase data
+        Retrieve all Testsets with cursor-based pagination
 
         Parameters
         ----------
-        testset_id : int
-            The ID of the Testset to retrieve.
+        cursor : typing.Optional[str]
+
+        size : typing.Optional[int]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        Testset
+        TestsetCursorPage
             Successful Response
 
         Examples
@@ -53,21 +61,23 @@ class TestsetClient:
         client = Scorecard(
             api_key="YOUR_API_KEY",
         )
-        client.testset.get(
-            testset_id=1,
-        )
+        client.testset.get()
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v1/testset/{jsonable_encoder(testset_id)}",
+            "v1/testset",
             method="GET",
+            params={
+                "cursor": cursor,
+                "size": size,
+            },
             request_options=request_options,
         )
         try:
             if 200 <= _response.status_code < 300:
                 return typing.cast(
-                    Testset,
+                    TestsetCursorPage,
                     construct_type(
-                        type_=Testset,  # type: ignore
+                        type_=TestsetCursorPage,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -326,6 +336,7 @@ class TestsetClient:
         project_id: typing.Optional[int] = OMIT,
         ingestion_method: typing.Optional[IngestionMethod] = OMIT,
         published: typing.Optional[bool] = OMIT,
+        created_by_playground: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Testset:
         """
@@ -351,6 +362,9 @@ class TestsetClient:
 
         published : typing.Optional[bool]
             Whether or not the testset is published.
+
+        created_by_playground : typing.Optional[bool]
+            Whether or not the testset was created by the playground.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -382,6 +396,7 @@ class TestsetClient:
                 "project_id": project_id,
                 "ingestion_method": ingestion_method,
                 "published": published,
+                "created_by_playground": created_by_playground,
             },
             request_options=request_options,
             omit=OMIT,
@@ -636,21 +651,28 @@ class AsyncTestsetClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get(self, testset_id: int, *, request_options: typing.Optional[RequestOptions] = None) -> Testset:
+    async def get(
+        self,
+        *,
+        cursor: typing.Optional[str] = None,
+        size: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> TestsetCursorPage:
         """
-        Retrieve Testset metadata without Testcase data
+        Retrieve all Testsets with cursor-based pagination
 
         Parameters
         ----------
-        testset_id : int
-            The ID of the Testset to retrieve.
+        cursor : typing.Optional[str]
+
+        size : typing.Optional[int]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        Testset
+        TestsetCursorPage
             Successful Response
 
         Examples
@@ -665,24 +687,26 @@ class AsyncTestsetClient:
 
 
         async def main() -> None:
-            await client.testset.get(
-                testset_id=1,
-            )
+            await client.testset.get()
 
 
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v1/testset/{jsonable_encoder(testset_id)}",
+            "v1/testset",
             method="GET",
+            params={
+                "cursor": cursor,
+                "size": size,
+            },
             request_options=request_options,
         )
         try:
             if 200 <= _response.status_code < 300:
                 return typing.cast(
-                    Testset,
+                    TestsetCursorPage,
                     construct_type(
-                        type_=Testset,  # type: ignore
+                        type_=TestsetCursorPage,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -957,6 +981,7 @@ class AsyncTestsetClient:
         project_id: typing.Optional[int] = OMIT,
         ingestion_method: typing.Optional[IngestionMethod] = OMIT,
         published: typing.Optional[bool] = OMIT,
+        created_by_playground: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Testset:
         """
@@ -982,6 +1007,9 @@ class AsyncTestsetClient:
 
         published : typing.Optional[bool]
             Whether or not the testset is published.
+
+        created_by_playground : typing.Optional[bool]
+            Whether or not the testset was created by the playground.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1021,6 +1049,7 @@ class AsyncTestsetClient:
                 "project_id": project_id,
                 "ingestion_method": ingestion_method,
                 "published": published,
+                "created_by_playground": created_by_playground,
             },
             request_options=request_options,
             omit=OMIT,

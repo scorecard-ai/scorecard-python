@@ -32,6 +32,7 @@ class ScoringConfigClient:
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         metrics: typing.Optional[typing.Sequence[int]] = OMIT,
+        project_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ScoringConfig:
         """
@@ -44,6 +45,8 @@ class ScoringConfigClient:
         description : typing.Optional[str]
 
         metrics : typing.Optional[typing.Sequence[int]]
+
+        project_id : typing.Optional[int]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -64,6 +67,7 @@ class ScoringConfigClient:
             name="Scoring Config Name",
             description="Description of the scoring config",
             metrics=[1, 2, 3],
+            project_id=1,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -73,6 +77,7 @@ class ScoringConfigClient:
                 "name": name,
                 "description": description,
                 "metrics": metrics,
+                "project_id": project_id,
             },
             request_options=request_options,
             omit=OMIT,
@@ -218,6 +223,95 @@ class ScoringConfigClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def delete(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[typing.Any]:
+        """
+        Delete a scoring config.
+
+        Parameters
+        ----------
+        id : str
+            The id of the scoring config to delete.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Optional[typing.Any]
+            Successful Response
+
+        Examples
+        --------
+        from scorecard import Scorecard
+
+        client = Scorecard(
+            api_key="YOUR_API_KEY",
+        )
+        client.scoring_config.delete(
+            id="id",
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"v1/scoring_config/{jsonable_encoder(id)}",
+            method="DELETE",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return typing.cast(
+                    typing.Optional[typing.Any],
+                    construct_type(
+                        type_=typing.Optional[typing.Any],  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthenticatedError,
+                        construct_type(
+                            type_=UnauthenticatedError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    typing.cast(
+                        UnauthorizedErrorBody,
+                        construct_type(
+                            type_=UnauthorizedErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    typing.cast(
+                        NotFoundErrorBody,
+                        construct_type(
+                            type_=NotFoundErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    typing.cast(
+                        HttpValidationError,
+                        construct_type(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
 
 class AsyncScoringConfigClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -229,6 +323,7 @@ class AsyncScoringConfigClient:
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         metrics: typing.Optional[typing.Sequence[int]] = OMIT,
+        project_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ScoringConfig:
         """
@@ -241,6 +336,8 @@ class AsyncScoringConfigClient:
         description : typing.Optional[str]
 
         metrics : typing.Optional[typing.Sequence[int]]
+
+        project_id : typing.Optional[int]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -266,6 +363,7 @@ class AsyncScoringConfigClient:
                 name="Scoring Config Name",
                 description="Description of the scoring config",
                 metrics=[1, 2, 3],
+                project_id=1,
             )
 
 
@@ -278,6 +376,7 @@ class AsyncScoringConfigClient:
                 "name": name,
                 "description": description,
                 "metrics": metrics,
+                "project_id": project_id,
             },
             request_options=request_options,
             omit=OMIT,
@@ -383,6 +482,103 @@ class AsyncScoringConfigClient:
                     ScoringConfig,
                     construct_type(
                         type_=ScoringConfig,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthenticatedError,
+                        construct_type(
+                            type_=UnauthenticatedError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    typing.cast(
+                        UnauthorizedErrorBody,
+                        construct_type(
+                            type_=UnauthorizedErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    typing.cast(
+                        NotFoundErrorBody,
+                        construct_type(
+                            type_=NotFoundErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    typing.cast(
+                        HttpValidationError,
+                        construct_type(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def delete(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[typing.Any]:
+        """
+        Delete a scoring config.
+
+        Parameters
+        ----------
+        id : str
+            The id of the scoring config to delete.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Optional[typing.Any]
+            Successful Response
+
+        Examples
+        --------
+        import asyncio
+
+        from scorecard import AsyncScorecard
+
+        client = AsyncScorecard(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.scoring_config.delete(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"v1/scoring_config/{jsonable_encoder(id)}",
+            method="DELETE",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return typing.cast(
+                    typing.Optional[typing.Any],
+                    construct_type(
+                        type_=typing.Optional[typing.Any],  # type: ignore
                         object_=_response.json(),
                     ),
                 )

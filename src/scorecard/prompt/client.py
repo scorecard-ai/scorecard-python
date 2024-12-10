@@ -16,6 +16,7 @@ from ..types.http_validation_error import HttpValidationError
 from json.decoder import JSONDecodeError
 from ..core.api_error import ApiError
 from .types.prompt_create_params_model_params_value import PromptCreateParamsModelParamsValue
+from ..types.prompt_cursor_page import PromptCursorPage
 from ..core.jsonable_encoder import jsonable_encoder
 from ..core.client_wrapper import AsyncClientWrapper
 
@@ -27,14 +28,19 @@ class PromptClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get_by_name(self, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> Prompt:
+    def get_by_name(
+        self, *, name: str, tag: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
+    ) -> Prompt:
         """
-        Retrieve a prod prompt by name
+        Retrieve a prompt by name, defaulting to the production prompt, unless a tag to select the prompt by is specified
 
         Parameters
         ----------
         name : str
             Name of the prompt.
+
+        tag : typing.Optional[str]
+            Tag to select by. Defaults to selecting the production version
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -60,6 +66,7 @@ class PromptClient:
             method="GET",
             params={
                 "name": name,
+                "tag": tag,
             },
             request_options=request_options,
         )
@@ -125,15 +132,17 @@ class PromptClient:
         parent_id: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         model_params: typing.Optional[typing.Dict[str, typing.Optional[PromptCreateParamsModelParamsValue]]] = OMIT,
+        tag: typing.Optional[str] = OMIT,
         is_prod: typing.Optional[bool] = OMIT,
+        project_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Prompt:
         """
-        Two types of prompts can be created - a root prompt or a child prompt (aka Prompt Version in app).
+        Two types of prompts can be created - a root prompt or a child prompt (aka Prompt Version in the app).
 
-                A root prompt can be created by providing the `name` param, and it will always be tagged as prod.
+                A root prompt can be created by providing the `name` param, and it will always be tagged as production.
 
-                A child prompt can be created by providing the `parent_id` param. Note that the `name` param in this case will be ignored as all descendents from a root prompt would share the root's name. `is_prod` can also be provided to configure whether a child should be tagged as prod.
+                A child prompt can be created by providing the `parent_id` param. Note that the `name` param in this case will be ignored as all descendants from a root prompt would share the root's name. `is_prod` can also be provided to configure whether a child should be tagged as production.
 
         Parameters
         ----------
@@ -147,7 +156,11 @@ class PromptClient:
 
         model_params : typing.Optional[typing.Dict[str, typing.Optional[PromptCreateParamsModelParamsValue]]]
 
+        tag : typing.Optional[str]
+
         is_prod : typing.Optional[bool]
+
+        project_id : typing.Optional[int]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -174,6 +187,8 @@ class PromptClient:
                 "param3": 100,
                 "param4": True,
             },
+            tag="1.0",
+            project_id=1,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -185,7 +200,9 @@ class PromptClient:
                 "parent_id": parent_id,
                 "description": description,
                 "model_params": model_params,
+                "tag": tag,
                 "is_prod": is_prod,
+                "project_id": project_id,
             },
             request_options=request_options,
             omit=OMIT,
@@ -196,6 +213,109 @@ class PromptClient:
                     Prompt,
                     construct_type(
                         type_=Prompt,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthenticatedError,
+                        construct_type(
+                            type_=UnauthenticatedError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    typing.cast(
+                        UnauthorizedErrorBody,
+                        construct_type(
+                            type_=UnauthorizedErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    typing.cast(
+                        NotFoundErrorBody,
+                        construct_type(
+                            type_=NotFoundErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    typing.cast(
+                        HttpValidationError,
+                        construct_type(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def list_prompts(
+        self,
+        *,
+        project_id: typing.Optional[str] = None,
+        cursor: typing.Optional[str] = None,
+        size: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PromptCursorPage:
+        """
+        List all prompts with cursor-based pagination
+
+        Parameters
+        ----------
+        project_id : typing.Optional[str]
+            ID of Project to filter by.
+
+        cursor : typing.Optional[str]
+            Cursor for the next page
+
+        size : typing.Optional[int]
+            Page size
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PromptCursorPage
+            Successful Response
+
+        Examples
+        --------
+        from scorecard import Scorecard
+
+        client = Scorecard(
+            api_key="YOUR_API_KEY",
+        )
+        client.prompt.list_prompts()
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "v1/prompt/list",
+            method="GET",
+            params={
+                "project_id": project_id,
+                "cursor": cursor,
+                "size": size,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return typing.cast(
+                    PromptCursorPage,
+                    construct_type(
+                        type_=PromptCursorPage,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -335,12 +455,12 @@ class PromptClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[typing.Any]:
         """
-        Delete a scoring config.
+        Delete a root prompt and all of its children.
 
         Parameters
         ----------
         id : str
-            The id of the scoring config to delete.
+            The id of the root prompt to delete.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -362,7 +482,7 @@ class PromptClient:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"v1/scoring_config/{jsonable_encoder(id)}",
+            f"v1/prompt/{jsonable_encoder(id)}",
             method="DELETE",
             request_options=request_options,
         )
@@ -523,14 +643,19 @@ class AsyncPromptClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get_by_name(self, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> Prompt:
+    async def get_by_name(
+        self, *, name: str, tag: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
+    ) -> Prompt:
         """
-        Retrieve a prod prompt by name
+        Retrieve a prompt by name, defaulting to the production prompt, unless a tag to select the prompt by is specified
 
         Parameters
         ----------
         name : str
             Name of the prompt.
+
+        tag : typing.Optional[str]
+            Tag to select by. Defaults to selecting the production version
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -564,6 +689,7 @@ class AsyncPromptClient:
             method="GET",
             params={
                 "name": name,
+                "tag": tag,
             },
             request_options=request_options,
         )
@@ -629,15 +755,17 @@ class AsyncPromptClient:
         parent_id: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
         model_params: typing.Optional[typing.Dict[str, typing.Optional[PromptCreateParamsModelParamsValue]]] = OMIT,
+        tag: typing.Optional[str] = OMIT,
         is_prod: typing.Optional[bool] = OMIT,
+        project_id: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Prompt:
         """
-        Two types of prompts can be created - a root prompt or a child prompt (aka Prompt Version in app).
+        Two types of prompts can be created - a root prompt or a child prompt (aka Prompt Version in the app).
 
-                A root prompt can be created by providing the `name` param, and it will always be tagged as prod.
+                A root prompt can be created by providing the `name` param, and it will always be tagged as production.
 
-                A child prompt can be created by providing the `parent_id` param. Note that the `name` param in this case will be ignored as all descendents from a root prompt would share the root's name. `is_prod` can also be provided to configure whether a child should be tagged as prod.
+                A child prompt can be created by providing the `parent_id` param. Note that the `name` param in this case will be ignored as all descendants from a root prompt would share the root's name. `is_prod` can also be provided to configure whether a child should be tagged as production.
 
         Parameters
         ----------
@@ -651,7 +779,11 @@ class AsyncPromptClient:
 
         model_params : typing.Optional[typing.Dict[str, typing.Optional[PromptCreateParamsModelParamsValue]]]
 
+        tag : typing.Optional[str]
+
         is_prod : typing.Optional[bool]
+
+        project_id : typing.Optional[int]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -683,6 +815,8 @@ class AsyncPromptClient:
                     "param3": 100,
                     "param4": True,
                 },
+                tag="1.0",
+                project_id=1,
             )
 
 
@@ -697,7 +831,9 @@ class AsyncPromptClient:
                 "parent_id": parent_id,
                 "description": description,
                 "model_params": model_params,
+                "tag": tag,
                 "is_prod": is_prod,
+                "project_id": project_id,
             },
             request_options=request_options,
             omit=OMIT,
@@ -708,6 +844,117 @@ class AsyncPromptClient:
                     Prompt,
                     construct_type(
                         type_=Prompt,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthenticatedError,
+                        construct_type(
+                            type_=UnauthenticatedError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    typing.cast(
+                        UnauthorizedErrorBody,
+                        construct_type(
+                            type_=UnauthorizedErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    typing.cast(
+                        NotFoundErrorBody,
+                        construct_type(
+                            type_=NotFoundErrorBody,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    typing.cast(
+                        HttpValidationError,
+                        construct_type(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    )
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def list_prompts(
+        self,
+        *,
+        project_id: typing.Optional[str] = None,
+        cursor: typing.Optional[str] = None,
+        size: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PromptCursorPage:
+        """
+        List all prompts with cursor-based pagination
+
+        Parameters
+        ----------
+        project_id : typing.Optional[str]
+            ID of Project to filter by.
+
+        cursor : typing.Optional[str]
+            Cursor for the next page
+
+        size : typing.Optional[int]
+            Page size
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PromptCursorPage
+            Successful Response
+
+        Examples
+        --------
+        import asyncio
+
+        from scorecard import AsyncScorecard
+
+        client = AsyncScorecard(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.prompt.list_prompts()
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "v1/prompt/list",
+            method="GET",
+            params={
+                "project_id": project_id,
+                "cursor": cursor,
+                "size": size,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                return typing.cast(
+                    PromptCursorPage,
+                    construct_type(
+                        type_=PromptCursorPage,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -855,12 +1102,12 @@ class AsyncPromptClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[typing.Any]:
         """
-        Delete a scoring config.
+        Delete a root prompt and all of its children.
 
         Parameters
         ----------
         id : str
-            The id of the scoring config to delete.
+            The id of the root prompt to delete.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -890,7 +1137,7 @@ class AsyncPromptClient:
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"v1/scoring_config/{jsonable_encoder(id)}",
+            f"v1/prompt/{jsonable_encoder(id)}",
             method="DELETE",
             request_options=request_options,
         )
