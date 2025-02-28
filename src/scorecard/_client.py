@@ -94,7 +94,7 @@ class Scorecard(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous scorecard client instance.
+        """Construct a new synchronous Scorecard client instance.
 
         This automatically infers the `api_key` argument from the `SCORECARD_API_KEY` environment variable if it is not provided.
         """
@@ -300,7 +300,7 @@ class AsyncScorecard(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async scorecard client instance.
+        """Construct a new async AsyncScorecard client instance.
 
         This automatically infers the `api_key` argument from the `SCORECARD_API_KEY` environment variable if it is not provided.
         """
