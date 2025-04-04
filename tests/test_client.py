@@ -1587,7 +1587,7 @@ class TestAsyncScorecard:
         import threading
 
         from scorecard._utils import asyncify
-        from scorecard._base_client import get_platform 
+        from scorecard._base_client import get_platform
 
         async def test_main() -> None:
             result = await asyncify(get_platform)()
