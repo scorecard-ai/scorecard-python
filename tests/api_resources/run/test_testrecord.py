@@ -38,9 +38,9 @@ class TestTestrecord:
             ideal="The moon is made of rock.",
             model_debug_info={
                 "completion_token_count": 92,
-                "latency_seconds": 3.2360787391662598,
+                "latency_seconds": 3.23607873916626,
                 "prompt_token_count": 28,
-                "total_cost": 0.0030399999999999997,
+                "total_cost": 0.00304,
                 "total_token_count": 120,
             },
             model_params={
@@ -146,9 +146,9 @@ class TestAsyncTestrecord:
             ideal="The moon is made of rock.",
             model_debug_info={
                 "completion_token_count": 92,
-                "latency_seconds": 3.2360787391662598,
+                "latency_seconds": 3.23607873916626,
                 "prompt_token_count": 28,
-                "total_cost": 0.0030399999999999997,
+                "total_cost": 0.00304,
                 "total_token_count": 120,
             },
             model_params={
