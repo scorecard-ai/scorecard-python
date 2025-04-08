@@ -9,5 +9,5 @@ __all__ = ["TestcaseUpdateParams"]
 
 
 class TestcaseUpdateParams(TypedDict, total=False):
-    data: Required[Dict[str, Dict[str, object]]]
+    data: Required[Dict[str, object]]
     """The JSON data of the testcase, which is validated against the testset's schema."""

@@ -22,7 +22,7 @@ class Testcase(BaseModel):
     id: int
     """The ID of the testcase"""
 
-    data: Dict[str, Dict[str, object]]
+    data: Dict[str, object]
     """The JSON data of the testcase, which is validated against the testset's schema."""
 
     inputs: Dict[str, object]

@@ -46,18 +46,9 @@ testset = client.testsets.create(
     },
     name="Long Context Q&A",
     schema={
-        "type": "object",
-        "properties": {
-            "question": {"type": "string"},
-            "idealAnswer": {"type": "string"},
-            "provenance": {"type": "string"},
-            "geo": {"type": "string"},
-        },
-        "fieldMapping": {
-            "inputs": ["question"],
-            "labels": ["idealAnswer"],
-            "metadata": [],
-        },
+        "type": "bar",
+        "properties": "bar",
+        "fieldMapping": "bar",
     },
 )
 print(testset.id)
@@ -95,18 +86,9 @@ async def main() -> None:
         },
         name="Long Context Q&A",
         schema={
-            "type": "object",
-            "properties": {
-                "question": {"type": "string"},
-                "idealAnswer": {"type": "string"},
-                "provenance": {"type": "string"},
-                "geo": {"type": "string"},
-            },
-            "fieldMapping": {
-                "inputs": ["question"],
-                "labels": ["idealAnswer"],
-                "metadata": [],
-            },
+            "type": "bar",
+            "properties": "bar",
+            "fieldMapping": "bar",
         },
     )
     print(testset.id)
@@ -145,18 +127,9 @@ testset = client.testsets.create(
     },
     name="Long Context Q&A",
     schema={
-        "type": "object",
-        "properties": {
-            "question": {"type": "string"},
-            "idealAnswer": {"type": "string"},
-            "provenance": {"type": "string"},
-            "geo": {"type": "string"},
-        },
-        "fieldMapping": {
-            "inputs": ["question"],
-            "labels": ["idealAnswer"],
-            "metadata": [],
-        },
+        "type": "bar",
+        "properties": "bar",
+        "fieldMapping": "bar",
     },
 )
 print(testset.field_mapping)

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import Dict, List
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
@@ -23,7 +23,7 @@ class TestsetCreateParams(TypedDict, total=False):
     name: Required[str]
     """The name of the testset"""
 
-    schema: Required[object]
+    schema: Required[Dict[str, object]]
     """The JSON schema for each testcase in the testset"""
 
 

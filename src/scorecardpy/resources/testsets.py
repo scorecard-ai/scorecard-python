@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Dict, Iterable
 
 import httpx
 
@@ -67,7 +67,7 @@ class TestsetsResource(SyncAPIResource):
         description: str,
         field_mapping: testset_create_params.FieldMapping,
         name: str,
-        schema: object,
+        schema: Dict[str, object],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -122,7 +122,7 @@ class TestsetsResource(SyncAPIResource):
         description: str | NotGiven = NOT_GIVEN,
         field_mapping: testset_update_params.FieldMapping | NotGiven = NOT_GIVEN,
         name: str | NotGiven = NOT_GIVEN,
-        schema: object | NotGiven = NOT_GIVEN,
+        schema: Dict[str, object] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -440,7 +440,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         description: str,
         field_mapping: testset_create_params.FieldMapping,
         name: str,
-        schema: object,
+        schema: Dict[str, object],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -495,7 +495,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         description: str | NotGiven = NOT_GIVEN,
         field_mapping: testset_update_params.FieldMapping | NotGiven = NOT_GIVEN,
         name: str | NotGiven = NOT_GIVEN,
-        schema: object | NotGiven = NOT_GIVEN,
+        schema: Dict[str, object] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

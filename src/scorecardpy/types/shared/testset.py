@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List
+from typing import Dict, List
 
 from pydantic import Field as FieldInfo
 
@@ -37,4 +37,4 @@ class Testset(BaseModel):
     name: str
     """The name of the testset"""
 
-    schema_: object = FieldInfo(alias="schema")
+    schema_: Dict[str, object] = FieldInfo(alias="schema")
