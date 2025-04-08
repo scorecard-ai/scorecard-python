@@ -1,0 +1,47 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from typing import Dict, List, Optional
+
+from pydantic import Field as FieldInfo
+
+from .._models import BaseModel
+
+__all__ = ["TestcaseUpdateResponse", "ValidationError"]
+
+
+class ValidationError(BaseModel):
+    message: str
+    """Human-readable error description"""
+
+    path: str
+    """JSON Pointer to the field with the validation error"""
+
+
+class TestcaseUpdateResponse(BaseModel):
+    __test__ = False
+    id: int
+    """The ID of the testcase"""
+
+    data: Dict[str, object]
+    """The JSON data of the testcase, which is validated against the testset's schema."""
+
+    inputs: Dict[str, object]
+    """Derived from data based on the testset's fieldMapping.
+
+    Contains all fields marked as inputs, including those with validation errors.
+    """
+
+    labels: Dict[str, object]
+    """Derived from data based on the testset's fieldMapping.
+
+    Contains all fields marked as labels, including those with validation errors.
+    """
+
+    testset_id: int = FieldInfo(alias="testsetId")
+    """The ID of the testset this testcase belongs to"""
+
+    validation_errors: Optional[List[ValidationError]] = FieldInfo(alias="validationErrors", default=None)
+    """Validation errors found in the testcase data.
+
+    If present, the testcase doesn't fully conform to its testset's schema.
+    """

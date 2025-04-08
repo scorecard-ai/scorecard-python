@@ -16,32 +16,18 @@ from .testsets import (
     TestsetsResourceWithStreamingResponse,
     AsyncTestsetsResourceWithStreamingResponse,
 )
-from .testcases import (
-    TestcasesResource,
-    AsyncTestcasesResource,
-    TestcasesResourceWithRawResponse,
-    AsyncTestcasesResourceWithRawResponse,
-    TestcasesResourceWithStreamingResponse,
-    AsyncTestcasesResourceWithStreamingResponse,
-)
 
 __all__ = [
-    "ProjectsResource",
-    "AsyncProjectsResource",
-    "ProjectsResourceWithRawResponse",
-    "AsyncProjectsResourceWithRawResponse",
-    "ProjectsResourceWithStreamingResponse",
-    "AsyncProjectsResourceWithStreamingResponse",
     "TestsetsResource",
     "AsyncTestsetsResource",
     "TestsetsResourceWithRawResponse",
     "AsyncTestsetsResourceWithRawResponse",
     "TestsetsResourceWithStreamingResponse",
     "AsyncTestsetsResourceWithStreamingResponse",
-    "TestcasesResource",
-    "AsyncTestcasesResource",
-    "TestcasesResourceWithRawResponse",
-    "AsyncTestcasesResourceWithRawResponse",
-    "TestcasesResourceWithStreamingResponse",
-    "AsyncTestcasesResourceWithStreamingResponse",
+    "ProjectsResource",
+    "AsyncProjectsResource",
+    "ProjectsResourceWithRawResponse",
+    "AsyncProjectsResourceWithRawResponse",
+    "ProjectsResourceWithStreamingResponse",
+    "AsyncProjectsResourceWithStreamingResponse",
 ]

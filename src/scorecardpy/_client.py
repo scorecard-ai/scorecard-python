@@ -24,7 +24,7 @@ from ._utils import (
     get_async_library,
 )
 from ._version import __version__
-from .resources import projects
+from .resources import testcases
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, ScorecardDevError
 from ._base_client import (
@@ -32,6 +32,8 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.projects import projects
+from .resources.testsets import testsets
 
 __all__ = [
     "Timeout",
@@ -47,6 +49,8 @@ __all__ = [
 
 class ScorecardDev(SyncAPIClient):
     projects: projects.ProjectsResource
+    testsets: testsets.TestsetsResource
+    testcases: testcases.TestcasesResource
     with_raw_response: ScorecardDevWithRawResponse
     with_streaming_response: ScorecardDevWithStreamedResponse
 
@@ -105,6 +109,8 @@ class ScorecardDev(SyncAPIClient):
         )
 
         self.projects = projects.ProjectsResource(self)
+        self.testsets = testsets.TestsetsResource(self)
+        self.testcases = testcases.TestcasesResource(self)
         self.with_raw_response = ScorecardDevWithRawResponse(self)
         self.with_streaming_response = ScorecardDevWithStreamedResponse(self)
 
@@ -215,6 +221,8 @@ class ScorecardDev(SyncAPIClient):
 
 class AsyncScorecardDev(AsyncAPIClient):
     projects: projects.AsyncProjectsResource
+    testsets: testsets.AsyncTestsetsResource
+    testcases: testcases.AsyncTestcasesResource
     with_raw_response: AsyncScorecardDevWithRawResponse
     with_streaming_response: AsyncScorecardDevWithStreamedResponse
 
@@ -273,6 +281,8 @@ class AsyncScorecardDev(AsyncAPIClient):
         )
 
         self.projects = projects.AsyncProjectsResource(self)
+        self.testsets = testsets.AsyncTestsetsResource(self)
+        self.testcases = testcases.AsyncTestcasesResource(self)
         self.with_raw_response = AsyncScorecardDevWithRawResponse(self)
         self.with_streaming_response = AsyncScorecardDevWithStreamedResponse(self)
 
@@ -384,21 +394,29 @@ class AsyncScorecardDev(AsyncAPIClient):
 class ScorecardDevWithRawResponse:
     def __init__(self, client: ScorecardDev) -> None:
         self.projects = projects.ProjectsResourceWithRawResponse(client.projects)
+        self.testsets = testsets.TestsetsResourceWithRawResponse(client.testsets)
+        self.testcases = testcases.TestcasesResourceWithRawResponse(client.testcases)
 
 
 class AsyncScorecardDevWithRawResponse:
     def __init__(self, client: AsyncScorecardDev) -> None:
         self.projects = projects.AsyncProjectsResourceWithRawResponse(client.projects)
+        self.testsets = testsets.AsyncTestsetsResourceWithRawResponse(client.testsets)
+        self.testcases = testcases.AsyncTestcasesResourceWithRawResponse(client.testcases)
 
 
 class ScorecardDevWithStreamedResponse:
     def __init__(self, client: ScorecardDev) -> None:
         self.projects = projects.ProjectsResourceWithStreamingResponse(client.projects)
+        self.testsets = testsets.TestsetsResourceWithStreamingResponse(client.testsets)
+        self.testcases = testcases.TestcasesResourceWithStreamingResponse(client.testcases)
 
 
 class AsyncScorecardDevWithStreamedResponse:
     def __init__(self, client: AsyncScorecardDev) -> None:
         self.projects = projects.AsyncProjectsResourceWithStreamingResponse(client.projects)
+        self.testsets = testsets.AsyncTestsetsResourceWithStreamingResponse(client.testsets)
+        self.testcases = testcases.AsyncTestcasesResourceWithStreamingResponse(client.testcases)
 
 
 Client = ScorecardDev

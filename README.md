@@ -80,6 +80,42 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
+## Nested params
+
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
+
+```python
+from scorecardpy import ScorecardDev
+
+client = ScorecardDev()
+
+testset = client.projects.testsets.create(
+    project_id=0,
+    description="Testset for long context Q&A chatbot.",
+    field_mapping={
+        "inputs": ["string"],
+        "labels": ["string"],
+        "metadata": ["string"],
+    },
+    name="Long Context Q&A",
+    schema={
+        "type": "object",
+        "properties": {
+            "question": {"type": "string"},
+            "idealAnswer": {"type": "string"},
+            "provenance": {"type": "string"},
+            "geo": {"type": "string"},
+        },
+        "fieldMapping": {
+            "inputs": ["question"],
+            "labels": ["idealAnswer"],
+            "metadata": [],
+        },
+    },
+)
+print(testset.field_mapping)
+```
+
 ## Handling errors
 
 When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `scorecardpy.APIConnectionError` is raised.
