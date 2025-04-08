@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing_extensions import TypedDict
 
-__all__ = ["TestcaseListParams"]
+__all__ = ["TestsetListTestcasesParams"]
 
 
-class TestcaseListParams(TypedDict, total=False):
+class TestsetListTestcasesParams(TypedDict, total=False):
     cursor: str
     """Cursor for pagination.
 

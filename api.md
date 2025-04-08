@@ -1,7 +1,7 @@
 # Shared Types
 
 ```python
-from scorecardpy.types import APIError
+from scorecardpy.types import APIError, Testcase, Testset
 ```
 
 # Projects
@@ -22,49 +22,27 @@ Types:
 
 ```python
 from scorecardpy.types import (
-    TestsetCreateResponse,
-    TestsetRetrieveResponse,
-    TestsetUpdateResponse,
-    TestsetListResponse,
     TestsetDeleteResponse,
+    TestsetCreateTestcasesResponse,
+    TestsetDeleteTestcasesResponse,
+    TestsetListTestcasesResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /projects/{projectId}/testsets">client.testsets.<a href="./src/scorecardpy/resources/testsets/testsets.py">create</a>(project_id, \*\*<a href="src/scorecardpy/types/testset_create_params.py">params</a>) -> <a href="./src/scorecardpy/types/testset_create_response.py">TestsetCreateResponse</a></code>
-- <code title="get /testsets/{testsetId}">client.testsets.<a href="./src/scorecardpy/resources/testsets/testsets.py">retrieve</a>(testset_id) -> <a href="./src/scorecardpy/types/testset_retrieve_response.py">TestsetRetrieveResponse</a></code>
-- <code title="patch /testsets/{testsetId}">client.testsets.<a href="./src/scorecardpy/resources/testsets/testsets.py">update</a>(testset_id, \*\*<a href="src/scorecardpy/types/testset_update_params.py">params</a>) -> <a href="./src/scorecardpy/types/testset_update_response.py">TestsetUpdateResponse</a></code>
-- <code title="get /projects/{projectId}/testsets">client.testsets.<a href="./src/scorecardpy/resources/testsets/testsets.py">list</a>(project_id, \*\*<a href="src/scorecardpy/types/testset_list_params.py">params</a>) -> <a href="./src/scorecardpy/types/testset_list_response.py">SyncPaginatedResponse[TestsetListResponse]</a></code>
-- <code title="delete /testsets/{testsetId}">client.testsets.<a href="./src/scorecardpy/resources/testsets/testsets.py">delete</a>(testset_id) -> <a href="./src/scorecardpy/types/testset_delete_response.py">TestsetDeleteResponse</a></code>
-
-## Testcases
-
-Types:
-
-```python
-from scorecardpy.types.testsets import (
-    TestcaseCreateResponse,
-    TestcaseListResponse,
-    TestcaseDeleteResponse,
-)
-```
-
-Methods:
-
-- <code title="post /testsets/{testsetId}/testcases">client.testsets.testcases.<a href="./src/scorecardpy/resources/testsets/testcases.py">create</a>(testset_id, \*\*<a href="src/scorecardpy/types/testsets/testcase_create_params.py">params</a>) -> <a href="./src/scorecardpy/types/testsets/testcase_create_response.py">TestcaseCreateResponse</a></code>
-- <code title="get /testsets/{testsetId}/testcases">client.testsets.testcases.<a href="./src/scorecardpy/resources/testsets/testcases.py">list</a>(testset_id, \*\*<a href="src/scorecardpy/types/testsets/testcase_list_params.py">params</a>) -> <a href="./src/scorecardpy/types/testsets/testcase_list_response.py">SyncPaginatedResponse[TestcaseListResponse]</a></code>
-- <code title="delete /testsets/{testsetId}/testcases">client.testsets.testcases.<a href="./src/scorecardpy/resources/testsets/testcases.py">delete</a>(testset_id, \*\*<a href="src/scorecardpy/types/testsets/testcase_delete_params.py">params</a>) -> <a href="./src/scorecardpy/types/testsets/testcase_delete_response.py">TestcaseDeleteResponse</a></code>
+- <code title="post /projects/{projectId}/testsets">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">create</a>(project_id, \*\*<a href="src/scorecardpy/types/testset_create_params.py">params</a>) -> <a href="./src/scorecardpy/types/shared/testset.py">Testset</a></code>
+- <code title="patch /testsets/{testsetId}">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">update</a>(testset_id, \*\*<a href="src/scorecardpy/types/testset_update_params.py">params</a>) -> <a href="./src/scorecardpy/types/shared/testset.py">Testset</a></code>
+- <code title="get /projects/{projectId}/testsets">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">list</a>(project_id, \*\*<a href="src/scorecardpy/types/testset_list_params.py">params</a>) -> <a href="./src/scorecardpy/types/shared/testset.py">SyncPaginatedResponse[Testset]</a></code>
+- <code title="delete /testsets/{testsetId}">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">delete</a>(testset_id) -> <a href="./src/scorecardpy/types/testset_delete_response.py">TestsetDeleteResponse</a></code>
+- <code title="post /testsets/{testsetId}/testcases">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">create_testcases</a>(testset_id, \*\*<a href="src/scorecardpy/types/testset_create_testcases_params.py">params</a>) -> <a href="./src/scorecardpy/types/testset_create_testcases_response.py">TestsetCreateTestcasesResponse</a></code>
+- <code title="delete /testsets/{testsetId}/testcases">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">delete_testcases</a>(testset_id, \*\*<a href="src/scorecardpy/types/testset_delete_testcases_params.py">params</a>) -> <a href="./src/scorecardpy/types/testset_delete_testcases_response.py">TestsetDeleteTestcasesResponse</a></code>
+- <code title="get /testsets/{testsetId}">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">get</a>(testset_id) -> <a href="./src/scorecardpy/types/shared/testset.py">Testset</a></code>
+- <code title="get /testsets/{testsetId}/testcases">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">list_testcases</a>(testset_id, \*\*<a href="src/scorecardpy/types/testset_list_testcases_params.py">params</a>) -> <a href="./src/scorecardpy/types/testset_list_testcases_response.py">TestsetListTestcasesResponse</a></code>
 
 # Testcases
 
-Types:
-
-```python
-from scorecardpy.types import TestcaseRetrieveResponse, TestcaseUpdateResponse
-```
-
 Methods:
 
-- <code title="get /testcases/{testcaseId}">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">retrieve</a>(testcase_id) -> <a href="./src/scorecardpy/types/testcase_retrieve_response.py">TestcaseRetrieveResponse</a></code>
-- <code title="put /testcases/{testcaseId}">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">update</a>(testcase_id, \*\*<a href="src/scorecardpy/types/testcase_update_params.py">params</a>) -> <a href="./src/scorecardpy/types/testcase_update_response.py">TestcaseUpdateResponse</a></code>
+- <code title="put /testcases/{testcaseId}">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">update</a>(testcase_id, \*\*<a href="src/scorecardpy/types/testcase_update_params.py">params</a>) -> <a href="./src/scorecardpy/types/shared/testcase.py">Testcase</a></code>
+- <code title="get /testcases/{testcaseId}">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">get</a>(testcase_id) -> <a href="./src/scorecardpy/types/shared/testcase.py">Testcase</a></code>

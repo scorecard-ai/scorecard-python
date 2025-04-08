@@ -2,17 +2,17 @@
 
 from __future__ import annotations
 
-from .shared import APIError as APIError
+from .shared import Testset as Testset, APIError as APIError, Testcase as Testcase
 from .project_list_params import ProjectListParams as ProjectListParams
 from .testset_list_params import TestsetListParams as TestsetListParams
 from .project_list_response import ProjectListResponse as ProjectListResponse
 from .testset_create_params import TestsetCreateParams as TestsetCreateParams
-from .testset_list_response import TestsetListResponse as TestsetListResponse
 from .testset_update_params import TestsetUpdateParams as TestsetUpdateParams
 from .testcase_update_params import TestcaseUpdateParams as TestcaseUpdateParams
-from .testset_create_response import TestsetCreateResponse as TestsetCreateResponse
 from .testset_delete_response import TestsetDeleteResponse as TestsetDeleteResponse
-from .testset_update_response import TestsetUpdateResponse as TestsetUpdateResponse
-from .testcase_update_response import TestcaseUpdateResponse as TestcaseUpdateResponse
-from .testset_retrieve_response import TestsetRetrieveResponse as TestsetRetrieveResponse
-from .testcase_retrieve_response import TestcaseRetrieveResponse as TestcaseRetrieveResponse
+from .testset_list_testcases_params import TestsetListTestcasesParams as TestsetListTestcasesParams
+from .testset_create_testcases_params import TestsetCreateTestcasesParams as TestsetCreateTestcasesParams
+from .testset_delete_testcases_params import TestsetDeleteTestcasesParams as TestsetDeleteTestcasesParams
+from .testset_list_testcases_response import TestsetListTestcasesResponse as TestsetListTestcasesResponse
+from .testset_create_testcases_response import TestsetCreateTestcasesResponse as TestsetCreateTestcasesResponse
+from .testset_delete_testcases_response import TestsetDeleteTestcasesResponse as TestsetDeleteTestcasesResponse

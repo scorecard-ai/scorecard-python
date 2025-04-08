@@ -4,9 +4,9 @@ from typing import List
 
 from pydantic import Field as FieldInfo
 
-from .._models import BaseModel
+from ..._models import BaseModel
 
-__all__ = ["TestsetListResponse", "FieldMapping"]
+__all__ = ["Testset", "FieldMapping"]
 
 
 class FieldMapping(BaseModel):
@@ -20,7 +20,7 @@ class FieldMapping(BaseModel):
     """Fields that are not inputs or labels"""
 
 
-class TestsetListResponse(BaseModel):
+class Testset(BaseModel):
     __test__ = False
     id: int
     """The ID of the testset"""

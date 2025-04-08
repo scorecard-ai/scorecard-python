@@ -4,9 +4,9 @@ from typing import List
 
 from pydantic import Field as FieldInfo
 
-from ..._models import BaseModel
+from .._models import BaseModel
 
-__all__ = ["TestcaseDeleteResponse", "Error"]
+__all__ = ["TestsetDeleteTestcasesResponse", "Error"]
 
 
 class Error(BaseModel):
@@ -17,7 +17,7 @@ class Error(BaseModel):
     """Error message explaining why the deletion failed"""
 
 
-class TestcaseDeleteResponse(BaseModel):
+class TestsetDeleteTestcasesResponse(BaseModel):
     __test__ = False
     deleted_count: int = FieldInfo(alias="deletedCount")
     """Number of testcases successfully deleted"""

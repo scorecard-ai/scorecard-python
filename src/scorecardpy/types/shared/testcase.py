@@ -4,9 +4,9 @@ from typing import Dict, List, Optional
 
 from pydantic import Field as FieldInfo
 
-from .._models import BaseModel
+from ..._models import BaseModel
 
-__all__ = ["TestcaseUpdateResponse", "ValidationError"]
+__all__ = ["Testcase", "ValidationError"]
 
 
 class ValidationError(BaseModel):
@@ -17,7 +17,7 @@ class ValidationError(BaseModel):
     """JSON Pointer to the field with the validation error"""
 
 
-class TestcaseUpdateResponse(BaseModel):
+class Testcase(BaseModel):
     __test__ = False
     id: int
     """The ID of the testcase"""

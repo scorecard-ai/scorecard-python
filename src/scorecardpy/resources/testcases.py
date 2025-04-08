@@ -21,8 +21,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.testcase_update_response import TestcaseUpdateResponse
-from ..types.testcase_retrieve_response import TestcaseRetrieveResponse
+from ..types.shared.testcase import Testcase
 
 __all__ = ["TestcasesResource", "AsyncTestcasesResource"]
 
@@ -49,37 +48,6 @@ class TestcasesResource(SyncAPIResource):
         """
         return TestcasesResourceWithStreamingResponse(self)
 
-    def retrieve(
-        self,
-        testcase_id: int,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TestcaseRetrieveResponse:
-        """
-        Retrieve a specific testcase by ID.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._get(
-            f"/testcases/{testcase_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=TestcaseRetrieveResponse,
-        )
-
     def update(
         self,
         testcase_id: int,
@@ -91,7 +59,7 @@ class TestcasesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TestcaseUpdateResponse:
+    ) -> Testcase:
         """
         Replace the data of an existing testcase while keeping its ID.
 
@@ -112,7 +80,38 @@ class TestcasesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TestcaseUpdateResponse,
+            cast_to=Testcase,
+        )
+
+    def get(
+        self,
+        testcase_id: int,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Testcase:
+        """
+        Retrieve a specific testcase by ID.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            f"/testcases/{testcase_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Testcase,
         )
 
 
@@ -136,37 +135,6 @@ class AsyncTestcasesResource(AsyncAPIResource):
         """
         return AsyncTestcasesResourceWithStreamingResponse(self)
 
-    async def retrieve(
-        self,
-        testcase_id: int,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TestcaseRetrieveResponse:
-        """
-        Retrieve a specific testcase by ID.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._get(
-            f"/testcases/{testcase_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=TestcaseRetrieveResponse,
-        )
-
     async def update(
         self,
         testcase_id: int,
@@ -178,7 +146,7 @@ class AsyncTestcasesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TestcaseUpdateResponse:
+    ) -> Testcase:
         """
         Replace the data of an existing testcase while keeping its ID.
 
@@ -199,7 +167,38 @@ class AsyncTestcasesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TestcaseUpdateResponse,
+            cast_to=Testcase,
+        )
+
+    async def get(
+        self,
+        testcase_id: int,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Testcase:
+        """
+        Retrieve a specific testcase by ID.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            f"/testcases/{testcase_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Testcase,
         )
 
 
@@ -209,11 +208,11 @@ class TestcasesResourceWithRawResponse:
     def __init__(self, testcases: TestcasesResource) -> None:
         self._testcases = testcases
 
-        self.retrieve = to_raw_response_wrapper(
-            testcases.retrieve,
-        )
         self.update = to_raw_response_wrapper(
             testcases.update,
+        )
+        self.get = to_raw_response_wrapper(
+            testcases.get,
         )
 
 
@@ -221,11 +220,11 @@ class AsyncTestcasesResourceWithRawResponse:
     def __init__(self, testcases: AsyncTestcasesResource) -> None:
         self._testcases = testcases
 
-        self.retrieve = async_to_raw_response_wrapper(
-            testcases.retrieve,
-        )
         self.update = async_to_raw_response_wrapper(
             testcases.update,
+        )
+        self.get = async_to_raw_response_wrapper(
+            testcases.get,
         )
 
 
@@ -235,11 +234,11 @@ class TestcasesResourceWithStreamingResponse:
     def __init__(self, testcases: TestcasesResource) -> None:
         self._testcases = testcases
 
-        self.retrieve = to_streamed_response_wrapper(
-            testcases.retrieve,
-        )
         self.update = to_streamed_response_wrapper(
             testcases.update,
+        )
+        self.get = to_streamed_response_wrapper(
+            testcases.get,
         )
 
 
@@ -247,9 +246,9 @@ class AsyncTestcasesResourceWithStreamingResponse:
     def __init__(self, testcases: AsyncTestcasesResource) -> None:
         self._testcases = testcases
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            testcases.retrieve,
-        )
         self.update = async_to_streamed_response_wrapper(
             testcases.update,
+        )
+        self.get = async_to_streamed_response_wrapper(
+            testcases.get,
         )
