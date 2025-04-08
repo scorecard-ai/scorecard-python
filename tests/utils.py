@@ -8,8 +8,8 @@ from typing import Any, TypeVar, Iterator, cast
 from datetime import date, datetime
 from typing_extensions import Literal, get_args, get_origin, assert_type
 
-from scorecard._types import Omit, NoneType
-from scorecard._utils import (
+from scorecardpy._types import Omit, NoneType
+from scorecardpy._utils import (
     is_dict,
     is_list,
     is_list_type,
@@ -18,8 +18,8 @@ from scorecard._utils import (
     is_annotated_type,
     is_type_alias_type,
 )
-from scorecard._compat import PYDANTIC_V2, field_outer_type, get_model_fields
-from scorecard._models import BaseModel
+from scorecardpy._compat import PYDANTIC_V2, field_outer_type, get_model_fields
+from scorecardpy._models import BaseModel
 
 BaseModelT = TypeVar("BaseModelT", bound=BaseModel)
 

@@ -1,8 +1,8 @@
-# Scorecard Python API library
+# Scorecard Dev Python API library
 
-[![PyPI version](https://img.shields.io/pypi/v/scorecard.svg)](https://pypi.org/project/scorecard/)
+[![PyPI version](https://img.shields.io/pypi/v/scorecardpy.svg)](https://pypi.org/project/scorecardpy/)
 
-The Scorecard Python library provides convenient access to the Scorecard REST API from any Python 3.8+
+The Scorecard Dev Python library provides convenient access to the Scorecard Dev REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -10,7 +10,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The REST API documentation can be found on [www.getscorecard.ai](https://www.getscorecard.ai). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.scorecard.io](https://docs.scorecard.io). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -20,44 +20,50 @@ pip install git+ssh://git@github.com/stainless-sdks/scorecard-python.git
 ```
 
 > [!NOTE]
-> Once this package is [published to PyPI](https://app.stainless.com/docs/guides/publish), this will become: `pip install --pre scorecard`
+> Once this package is [published to PyPI](https://app.stainless.com/docs/guides/publish), this will become: `pip install --pre scorecardpy`
 
 ## Usage
 
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-from scorecard import Scorecard
+import os
+from scorecardpy import ScorecardDev
 
-client = Scorecard(
-    # or 'production' | 'environment_2'; defaults to "production".
-    environment="environment_1",
+client = ScorecardDev(
+    bearer_token=os.environ.get(
+        "SCORECARD_DEV_BEARER_TOKEN"
+    ),  # This is the default and can be omitted
 )
 
-welcome = client.welcome.retrieve()
+page = client.projects.list()
+print(page.data)
 ```
 
-While you can provide an `api_key` keyword argument,
+While you can provide a `bearer_token` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `SCORECARD_API_KEY="My API Key"` to your `.env` file
-so that your API Key is not stored in source control.
+to add `SCORECARD_DEV_BEARER_TOKEN="My Bearer Token"` to your `.env` file
+so that your Bearer Token is not stored in source control.
 
 ## Async usage
 
-Simply import `AsyncScorecard` instead of `Scorecard` and use `await` with each API call:
+Simply import `AsyncScorecardDev` instead of `ScorecardDev` and use `await` with each API call:
 
 ```python
+import os
 import asyncio
-from scorecard import AsyncScorecard
+from scorecardpy import AsyncScorecardDev
 
-client = AsyncScorecard(
-    # or 'production' | 'environment_2'; defaults to "production".
-    environment="environment_1",
+client = AsyncScorecardDev(
+    bearer_token=os.environ.get(
+        "SCORECARD_DEV_BEARER_TOKEN"
+    ),  # This is the default and can be omitted
 )
 
 
 async def main() -> None:
-    welcome = await client.welcome.retrieve()
+    page = await client.projects.list()
+    print(page.data)
 
 
 asyncio.run(main())
@@ -74,66 +80,29 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
-## Nested params
-
-Nested parameters are dictionaries, typed using `TypedDict`, for example:
-
-```python
-from scorecard import Scorecard
-
-client = Scorecard()
-
-testset = client.testset.create(
-    name="Example Testset",
-    custom_schema={
-        "variables": [
-            {
-                "data_type": "text",
-                "name": "example_file_url",
-                "role": "input",
-                "description": "example file url",
-            },
-            {
-                "data_type": "text",
-                "name": "example_json_object",
-                "role": "input",
-                "description": "example json object",
-            },
-            {
-                "data_type": "text",
-                "name": "example_text",
-                "role": "input",
-                "description": "example text",
-            },
-        ]
-    },
-)
-print(testset.custom_schema)
-```
-
 ## Handling errors
 
-When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `scorecard.APIConnectionError` is raised.
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `scorecardpy.APIConnectionError` is raised.
 
 When the API returns a non-success status code (that is, 4xx or 5xx
-response), a subclass of `scorecard.APIStatusError` is raised, containing `status_code` and `response` properties.
+response), a subclass of `scorecardpy.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-All errors inherit from `scorecard.APIError`.
+All errors inherit from `scorecardpy.APIError`.
 
 ```python
-import scorecard
-from scorecard import Scorecard
+import scorecardpy
+from scorecardpy import ScorecardDev
 
-client = Scorecard()
+client = ScorecardDev()
 
 try:
-    client.welcome.retrieve()
-except scorecard.APIConnectionError as e:
+    client.projects.list()
+except scorecardpy.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-except scorecard.RateLimitError as e:
+except scorecardpy.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
-except scorecard.APIStatusError as e:
+except scorecardpy.APIStatusError as e:
     print("Another non-200-range status code was received")
     print(e.status_code)
     print(e.response)
@@ -161,16 +130,16 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from scorecard import Scorecard
+from scorecardpy import ScorecardDev
 
 # Configure the default for all requests:
-client = Scorecard(
+client = ScorecardDev(
     # default is 2
     max_retries=0,
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).welcome.retrieve()
+client.with_options(max_retries=5).projects.list()
 ```
 
 ### Timeouts
@@ -179,21 +148,21 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
 
 ```python
-from scorecard import Scorecard
+from scorecardpy import ScorecardDev
 
 # Configure the default for all requests:
-client = Scorecard(
+client = ScorecardDev(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = Scorecard(
+client = ScorecardDev(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).welcome.retrieve()
+client.with_options(timeout=5.0).projects.list()
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -206,10 +175,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `SCORECARD_LOG` to `info`.
+You can enable logging by setting the environment variable `SCORECARD_DEV_LOG` to `info`.
 
 ```shell
-$ export SCORECARD_LOG=info
+$ export SCORECARD_DEV_LOG=info
 ```
 
 Or to `debug` for more verbose logging.
@@ -231,19 +200,19 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from scorecard import Scorecard
+from scorecardpy import ScorecardDev
 
-client = Scorecard()
-response = client.welcome.with_raw_response.retrieve()
+client = ScorecardDev()
+response = client.projects.with_raw_response.list()
 print(response.headers.get('X-My-Header'))
 
-welcome = response.parse()  # get the object that `welcome.retrieve()` would have returned
-print(welcome)
+project = response.parse()  # get the object that `projects.list()` would have returned
+print(project.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/stainless-sdks/scorecard-python/tree/main/src/scorecard/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/stainless-sdks/scorecard-python/tree/main/src/scorecardpy/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/scorecard-python/tree/main/src/scorecard/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/scorecard-python/tree/main/src/scorecardpy/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -252,7 +221,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.welcome.with_streaming_response.retrieve() as response:
+with client.projects.with_streaming_response.list() as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
@@ -305,10 +274,10 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from scorecard import Scorecard, DefaultHttpxClient
+from scorecardpy import ScorecardDev, DefaultHttpxClient
 
-client = Scorecard(
-    # Or use the `SCORECARD_BASE_URL` env var
+client = ScorecardDev(
+    # Or use the `SCORECARD_DEV_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxy="http://my.test.proxy.example.com",
@@ -328,9 +297,9 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from scorecard import Scorecard
+from scorecardpy import ScorecardDev
 
-with Scorecard() as client:
+with ScorecardDev() as client:
   # make requests here
   ...
 
@@ -356,8 +325,8 @@ If you've upgraded to the latest version but aren't seeing any new features you 
 You can determine the version that is being used at runtime with:
 
 ```py
-import scorecard
-print(scorecard.__version__)
+import scorecardpy
+print(scorecardpy.__version__)
 ```
 
 ## Requirements

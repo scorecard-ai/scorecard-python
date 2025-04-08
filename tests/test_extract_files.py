@@ -4,8 +4,8 @@ from typing import Sequence
 
 import pytest
 
-from scorecard._types import FileTypes
-from scorecard._utils import extract_files
+from scorecardpy._types import FileTypes
+from scorecardpy._utils import extract_files
 
 
 def test_removes_files_from_input() -> None:

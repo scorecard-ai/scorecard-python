@@ -7,9 +7,9 @@ import pytest
 import pydantic
 from pydantic import Field
 
-from scorecard._utils import PropertyInfo
-from scorecard._compat import PYDANTIC_V2, parse_obj, model_dump, model_json
-from scorecard._models import BaseModel, construct_type
+from scorecardpy._utils import PropertyInfo
+from scorecardpy._compat import PYDANTIC_V2, parse_obj, model_dump, model_json
+from scorecardpy._models import BaseModel, construct_type
 
 
 class BasicModel(BaseModel):
