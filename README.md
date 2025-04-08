@@ -36,8 +36,31 @@ client = Scorecard(
     ),  # This is the default and can be omitted
 )
 
-page = client.projects.list()
-print(page.data)
+testset = client.testsets.create(
+    project_id=0,
+    description="Testset for long context Q&A chatbot.",
+    field_mapping={
+        "inputs": ["string"],
+        "labels": ["string"],
+        "metadata": ["string"],
+    },
+    name="Long Context Q&A",
+    schema={
+        "type": "object",
+        "properties": {
+            "question": {"type": "string"},
+            "idealAnswer": {"type": "string"},
+            "provenance": {"type": "string"},
+            "geo": {"type": "string"},
+        },
+        "fieldMapping": {
+            "inputs": ["question"],
+            "labels": ["idealAnswer"],
+            "metadata": [],
+        },
+    },
+)
+print(testset.id)
 ```
 
 While you can provide a `bearer_token` keyword argument,
@@ -62,8 +85,31 @@ client = AsyncScorecard(
 
 
 async def main() -> None:
-    page = await client.projects.list()
-    print(page.data)
+    testset = await client.testsets.create(
+        project_id=0,
+        description="Testset for long context Q&A chatbot.",
+        field_mapping={
+            "inputs": ["string"],
+            "labels": ["string"],
+            "metadata": ["string"],
+        },
+        name="Long Context Q&A",
+        schema={
+            "type": "object",
+            "properties": {
+                "question": {"type": "string"},
+                "idealAnswer": {"type": "string"},
+                "provenance": {"type": "string"},
+                "geo": {"type": "string"},
+            },
+            "fieldMapping": {
+                "inputs": ["question"],
+                "labels": ["idealAnswer"],
+                "metadata": [],
+            },
+        },
+    )
+    print(testset.id)
 
 
 asyncio.run(main())
@@ -132,7 +178,9 @@ from scorecardpy import Scorecard
 client = Scorecard()
 
 try:
-    client.projects.list()
+    client.testsets.get(
+        0,
+    )
 except scorecardpy.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -175,7 +223,9 @@ client = Scorecard(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).projects.list()
+client.with_options(max_retries=5).testsets.get(
+    0,
+)
 ```
 
 ### Timeouts
@@ -198,7 +248,9 @@ client = Scorecard(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).projects.list()
+client.with_options(timeout=5.0).testsets.get(
+    0,
+)
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -239,11 +291,13 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from scorecardpy import Scorecard
 
 client = Scorecard()
-response = client.projects.with_raw_response.list()
+response = client.testsets.with_raw_response.get(
+    0,
+)
 print(response.headers.get('X-My-Header'))
 
-project = response.parse()  # get the object that `projects.list()` would have returned
-print(project.id)
+testset = response.parse()  # get the object that `testsets.get()` would have returned
+print(testset.id)
 ```
 
 These methods return an [`APIResponse`](https://github.com/stainless-sdks/scorecard-python/tree/main/src/scorecardpy/_response.py) object.
@@ -257,7 +311,9 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.projects.with_streaming_response.list() as response:
+with client.testsets.with_streaming_response.get(
+    0,
+) as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
