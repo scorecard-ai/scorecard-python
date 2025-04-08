@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Iterator, AsyncIterator
 import pytest
 from pytest_asyncio import is_async_test
 
-from scorecardpy import ScorecardDev, AsyncScorecardDev
+from scorecardpy import Scorecard, AsyncScorecard
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest
@@ -32,22 +32,22 @@ bearer_token = "My Bearer Token"
 
 
 @pytest.fixture(scope="session")
-def client(request: FixtureRequest) -> Iterator[ScorecardDev]:
+def client(request: FixtureRequest) -> Iterator[Scorecard]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with ScorecardDev(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=strict) as client:
+    with Scorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=strict) as client:
         yield client
 
 
 @pytest.fixture(scope="session")
-async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncScorecardDev]:
+async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncScorecard]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    async with AsyncScorecardDev(
+    async with AsyncScorecard(
         base_url=base_url, bearer_token=bearer_token, _strict_response_validation=strict
     ) as client:
         yield client

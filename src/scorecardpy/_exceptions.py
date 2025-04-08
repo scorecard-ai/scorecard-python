@@ -18,11 +18,11 @@ __all__ = [
 ]
 
 
-class ScorecardDevError(Exception):
+class ScorecardError(Exception):
     pass
 
 
-class APIError(ScorecardDevError):
+class APIError(ScorecardError):
     message: str
     request: httpx.Request
 

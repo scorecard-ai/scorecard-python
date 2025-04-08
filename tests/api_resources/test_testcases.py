@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from scorecardpy import ScorecardDev, AsyncScorecardDev
+from scorecardpy import Scorecard, AsyncScorecard
 from tests.utils import assert_matches_type
 from scorecardpy.types import TestcaseUpdateResponse, TestcaseRetrieveResponse
 
@@ -19,7 +19,7 @@ class TestTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve(self, client: ScorecardDev) -> None:
+    def test_method_retrieve(self, client: Scorecard) -> None:
         testcase = client.testcases.retrieve(
             0,
         )
@@ -27,7 +27,7 @@ class TestTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_retrieve(self, client: ScorecardDev) -> None:
+    def test_raw_response_retrieve(self, client: Scorecard) -> None:
         response = client.testcases.with_raw_response.retrieve(
             0,
         )
@@ -39,7 +39,7 @@ class TestTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_retrieve(self, client: ScorecardDev) -> None:
+    def test_streaming_response_retrieve(self, client: Scorecard) -> None:
         with client.testcases.with_streaming_response.retrieve(
             0,
         ) as response:
@@ -53,7 +53,7 @@ class TestTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update(self, client: ScorecardDev) -> None:
+    def test_method_update(self, client: Scorecard) -> None:
         testcase = client.testcases.update(
             testcase_id=0,
             data={
@@ -66,7 +66,7 @@ class TestTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_update(self, client: ScorecardDev) -> None:
+    def test_raw_response_update(self, client: Scorecard) -> None:
         response = client.testcases.with_raw_response.update(
             testcase_id=0,
             data={
@@ -83,7 +83,7 @@ class TestTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_update(self, client: ScorecardDev) -> None:
+    def test_streaming_response_update(self, client: Scorecard) -> None:
         with client.testcases.with_streaming_response.update(
             testcase_id=0,
             data={
@@ -106,7 +106,7 @@ class TestAsyncTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncScorecardDev) -> None:
+    async def test_method_retrieve(self, async_client: AsyncScorecard) -> None:
         testcase = await async_client.testcases.retrieve(
             0,
         )
@@ -114,7 +114,7 @@ class TestAsyncTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncScorecardDev) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testcases.with_raw_response.retrieve(
             0,
         )
@@ -126,7 +126,7 @@ class TestAsyncTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncScorecardDev) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncScorecard) -> None:
         async with async_client.testcases.with_streaming_response.retrieve(
             0,
         ) as response:
@@ -140,7 +140,7 @@ class TestAsyncTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update(self, async_client: AsyncScorecardDev) -> None:
+    async def test_method_update(self, async_client: AsyncScorecard) -> None:
         testcase = await async_client.testcases.update(
             testcase_id=0,
             data={
@@ -153,7 +153,7 @@ class TestAsyncTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncScorecardDev) -> None:
+    async def test_raw_response_update(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testcases.with_raw_response.update(
             testcase_id=0,
             data={
@@ -170,7 +170,7 @@ class TestAsyncTestcases:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncScorecardDev) -> None:
+    async def test_streaming_response_update(self, async_client: AsyncScorecard) -> None:
         async with async_client.testcases.with_streaming_response.update(
             testcase_id=0,
             data={

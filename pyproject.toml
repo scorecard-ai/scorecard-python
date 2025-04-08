@@ -1,11 +1,11 @@
 [project]
 name = "scorecardpy"
 version = "0.0.1-alpha.0"
-description = "The official Python library for the scorecard-dev API"
+description = "The official Python library for the Scorecard API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Scorecard Dev", email = "team@scorecard.io" },
+{ name = "Scorecard", email = "team@scorecard.io" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",

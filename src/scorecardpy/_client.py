@@ -26,7 +26,7 @@ from ._utils import (
 from ._version import __version__
 from .resources import testcases
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError, ScorecardDevError
+from ._exceptions import APIStatusError, ScorecardError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
@@ -40,19 +40,19 @@ __all__ = [
     "Transport",
     "ProxiesTypes",
     "RequestOptions",
-    "ScorecardDev",
-    "AsyncScorecardDev",
+    "Scorecard",
+    "AsyncScorecard",
     "Client",
     "AsyncClient",
 ]
 
 
-class ScorecardDev(SyncAPIClient):
+class Scorecard(SyncAPIClient):
     projects: projects.ProjectsResource
     testsets: testsets.TestsetsResource
     testcases: testcases.TestcasesResource
-    with_raw_response: ScorecardDevWithRawResponse
-    with_streaming_response: ScorecardDevWithStreamedResponse
+    with_raw_response: ScorecardWithRawResponse
+    with_streaming_response: ScorecardWithStreamedResponse
 
     # client options
     bearer_token: str
@@ -80,20 +80,20 @@ class ScorecardDev(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous ScorecardDev client instance.
+        """Construct a new synchronous Scorecard client instance.
 
         This automatically infers the `bearer_token` argument from the `SCORECARD_DEV_BEARER_TOKEN` environment variable if it is not provided.
         """
         if bearer_token is None:
             bearer_token = os.environ.get("SCORECARD_DEV_BEARER_TOKEN")
         if bearer_token is None:
-            raise ScorecardDevError(
+            raise ScorecardError(
                 "The bearer_token client option must be set either by passing bearer_token to the client or by setting the SCORECARD_DEV_BEARER_TOKEN environment variable"
             )
         self.bearer_token = bearer_token
 
         if base_url is None:
-            base_url = os.environ.get("SCORECARD_DEV_BASE_URL")
+            base_url = os.environ.get("SCORECARD_BASE_URL")
         if base_url is None:
             base_url = f"https://api2.scorecard.io/v2"
 
@@ -111,8 +111,8 @@ class ScorecardDev(SyncAPIClient):
         self.projects = projects.ProjectsResource(self)
         self.testsets = testsets.TestsetsResource(self)
         self.testcases = testcases.TestcasesResource(self)
-        self.with_raw_response = ScorecardDevWithRawResponse(self)
-        self.with_streaming_response = ScorecardDevWithStreamedResponse(self)
+        self.with_raw_response = ScorecardWithRawResponse(self)
+        self.with_streaming_response = ScorecardWithStreamedResponse(self)
 
     @property
     @override
@@ -219,12 +219,12 @@ class ScorecardDev(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncScorecardDev(AsyncAPIClient):
+class AsyncScorecard(AsyncAPIClient):
     projects: projects.AsyncProjectsResource
     testsets: testsets.AsyncTestsetsResource
     testcases: testcases.AsyncTestcasesResource
-    with_raw_response: AsyncScorecardDevWithRawResponse
-    with_streaming_response: AsyncScorecardDevWithStreamedResponse
+    with_raw_response: AsyncScorecardWithRawResponse
+    with_streaming_response: AsyncScorecardWithStreamedResponse
 
     # client options
     bearer_token: str
@@ -252,20 +252,20 @@ class AsyncScorecardDev(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncScorecardDev client instance.
+        """Construct a new async AsyncScorecard client instance.
 
         This automatically infers the `bearer_token` argument from the `SCORECARD_DEV_BEARER_TOKEN` environment variable if it is not provided.
         """
         if bearer_token is None:
             bearer_token = os.environ.get("SCORECARD_DEV_BEARER_TOKEN")
         if bearer_token is None:
-            raise ScorecardDevError(
+            raise ScorecardError(
                 "The bearer_token client option must be set either by passing bearer_token to the client or by setting the SCORECARD_DEV_BEARER_TOKEN environment variable"
             )
         self.bearer_token = bearer_token
 
         if base_url is None:
-            base_url = os.environ.get("SCORECARD_DEV_BASE_URL")
+            base_url = os.environ.get("SCORECARD_BASE_URL")
         if base_url is None:
             base_url = f"https://api2.scorecard.io/v2"
 
@@ -283,8 +283,8 @@ class AsyncScorecardDev(AsyncAPIClient):
         self.projects = projects.AsyncProjectsResource(self)
         self.testsets = testsets.AsyncTestsetsResource(self)
         self.testcases = testcases.AsyncTestcasesResource(self)
-        self.with_raw_response = AsyncScorecardDevWithRawResponse(self)
-        self.with_streaming_response = AsyncScorecardDevWithStreamedResponse(self)
+        self.with_raw_response = AsyncScorecardWithRawResponse(self)
+        self.with_streaming_response = AsyncScorecardWithStreamedResponse(self)
 
     @property
     @override
@@ -391,34 +391,34 @@ class AsyncScorecardDev(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class ScorecardDevWithRawResponse:
-    def __init__(self, client: ScorecardDev) -> None:
+class ScorecardWithRawResponse:
+    def __init__(self, client: Scorecard) -> None:
         self.projects = projects.ProjectsResourceWithRawResponse(client.projects)
         self.testsets = testsets.TestsetsResourceWithRawResponse(client.testsets)
         self.testcases = testcases.TestcasesResourceWithRawResponse(client.testcases)
 
 
-class AsyncScorecardDevWithRawResponse:
-    def __init__(self, client: AsyncScorecardDev) -> None:
+class AsyncScorecardWithRawResponse:
+    def __init__(self, client: AsyncScorecard) -> None:
         self.projects = projects.AsyncProjectsResourceWithRawResponse(client.projects)
         self.testsets = testsets.AsyncTestsetsResourceWithRawResponse(client.testsets)
         self.testcases = testcases.AsyncTestcasesResourceWithRawResponse(client.testcases)
 
 
-class ScorecardDevWithStreamedResponse:
-    def __init__(self, client: ScorecardDev) -> None:
+class ScorecardWithStreamedResponse:
+    def __init__(self, client: Scorecard) -> None:
         self.projects = projects.ProjectsResourceWithStreamingResponse(client.projects)
         self.testsets = testsets.TestsetsResourceWithStreamingResponse(client.testsets)
         self.testcases = testcases.TestcasesResourceWithStreamingResponse(client.testcases)
 
 
-class AsyncScorecardDevWithStreamedResponse:
-    def __init__(self, client: AsyncScorecardDev) -> None:
+class AsyncScorecardWithStreamedResponse:
+    def __init__(self, client: AsyncScorecard) -> None:
         self.projects = projects.AsyncProjectsResourceWithStreamingResponse(client.projects)
         self.testsets = testsets.AsyncTestsetsResourceWithStreamingResponse(client.testsets)
         self.testcases = testcases.AsyncTestcasesResourceWithStreamingResponse(client.testcases)
 
 
-Client = ScorecardDev
+Client = Scorecard
 
-AsyncClient = AsyncScorecardDev
+AsyncClient = AsyncScorecard

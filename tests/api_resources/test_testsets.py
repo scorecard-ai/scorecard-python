@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from scorecardpy import ScorecardDev, AsyncScorecardDev
+from scorecardpy import Scorecard, AsyncScorecard
 from tests.utils import assert_matches_type
 from scorecardpy.types import (
     TestsetDeleteResponse,
@@ -23,7 +23,7 @@ class TestTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_retrieve(self, client: ScorecardDev) -> None:
+    def test_method_retrieve(self, client: Scorecard) -> None:
         testset = client.testsets.retrieve(
             0,
         )
@@ -31,7 +31,7 @@ class TestTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_retrieve(self, client: ScorecardDev) -> None:
+    def test_raw_response_retrieve(self, client: Scorecard) -> None:
         response = client.testsets.with_raw_response.retrieve(
             0,
         )
@@ -43,7 +43,7 @@ class TestTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_retrieve(self, client: ScorecardDev) -> None:
+    def test_streaming_response_retrieve(self, client: Scorecard) -> None:
         with client.testsets.with_streaming_response.retrieve(
             0,
         ) as response:
@@ -57,7 +57,7 @@ class TestTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update(self, client: ScorecardDev) -> None:
+    def test_method_update(self, client: Scorecard) -> None:
         testset = client.testsets.update(
             testset_id=0,
         )
@@ -65,7 +65,7 @@ class TestTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_update_with_all_params(self, client: ScorecardDev) -> None:
+    def test_method_update_with_all_params(self, client: Scorecard) -> None:
         testset = client.testsets.update(
             testset_id=0,
             description="Updated description for the Q&A testset.",
@@ -81,7 +81,7 @@ class TestTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_update(self, client: ScorecardDev) -> None:
+    def test_raw_response_update(self, client: Scorecard) -> None:
         response = client.testsets.with_raw_response.update(
             testset_id=0,
         )
@@ -93,7 +93,7 @@ class TestTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_update(self, client: ScorecardDev) -> None:
+    def test_streaming_response_update(self, client: Scorecard) -> None:
         with client.testsets.with_streaming_response.update(
             testset_id=0,
         ) as response:
@@ -107,7 +107,7 @@ class TestTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_delete(self, client: ScorecardDev) -> None:
+    def test_method_delete(self, client: Scorecard) -> None:
         testset = client.testsets.delete(
             0,
         )
@@ -115,7 +115,7 @@ class TestTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_delete(self, client: ScorecardDev) -> None:
+    def test_raw_response_delete(self, client: Scorecard) -> None:
         response = client.testsets.with_raw_response.delete(
             0,
         )
@@ -127,7 +127,7 @@ class TestTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_delete(self, client: ScorecardDev) -> None:
+    def test_streaming_response_delete(self, client: Scorecard) -> None:
         with client.testsets.with_streaming_response.delete(
             0,
         ) as response:
@@ -145,7 +145,7 @@ class TestAsyncTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncScorecardDev) -> None:
+    async def test_method_retrieve(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.retrieve(
             0,
         )
@@ -153,7 +153,7 @@ class TestAsyncTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncScorecardDev) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testsets.with_raw_response.retrieve(
             0,
         )
@@ -165,7 +165,7 @@ class TestAsyncTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncScorecardDev) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncScorecard) -> None:
         async with async_client.testsets.with_streaming_response.retrieve(
             0,
         ) as response:
@@ -179,7 +179,7 @@ class TestAsyncTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update(self, async_client: AsyncScorecardDev) -> None:
+    async def test_method_update(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.update(
             testset_id=0,
         )
@@ -187,7 +187,7 @@ class TestAsyncTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncScorecardDev) -> None:
+    async def test_method_update_with_all_params(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.update(
             testset_id=0,
             description="Updated description for the Q&A testset.",
@@ -203,7 +203,7 @@ class TestAsyncTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncScorecardDev) -> None:
+    async def test_raw_response_update(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testsets.with_raw_response.update(
             testset_id=0,
         )
@@ -215,7 +215,7 @@ class TestAsyncTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncScorecardDev) -> None:
+    async def test_streaming_response_update(self, async_client: AsyncScorecard) -> None:
         async with async_client.testsets.with_streaming_response.update(
             testset_id=0,
         ) as response:
@@ -229,7 +229,7 @@ class TestAsyncTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_delete(self, async_client: AsyncScorecardDev) -> None:
+    async def test_method_delete(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.delete(
             0,
         )
@@ -237,7 +237,7 @@ class TestAsyncTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncScorecardDev) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testsets.with_raw_response.delete(
             0,
         )
@@ -249,7 +249,7 @@ class TestAsyncTestsets:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncScorecardDev) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncScorecard) -> None:
         async with async_client.testsets.with_streaming_response.delete(
             0,
         ) as response:
