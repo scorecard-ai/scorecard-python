@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import httpx
 
-from ...types import testset_update_params
+from ...types import testset_list_params, testset_create_params, testset_update_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
@@ -26,7 +26,10 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
+from ...pagination import SyncPaginatedResponse, AsyncPaginatedResponse
+from ..._base_client import AsyncPaginator, make_request_options
+from ...types.testset_list_response import TestsetListResponse
+from ...types.testset_create_response import TestsetCreateResponse
 from ...types.testset_delete_response import TestsetDeleteResponse
 from ...types.testset_update_response import TestsetUpdateResponse
 from ...types.testset_retrieve_response import TestsetRetrieveResponse
@@ -59,6 +62,61 @@ class TestsetsResource(SyncAPIResource):
         For more information, see https://www.github.com/stainless-sdks/scorecard-python#with_streaming_response
         """
         return TestsetsResourceWithStreamingResponse(self)
+
+    def create(
+        self,
+        project_id: int,
+        *,
+        description: str,
+        field_mapping: testset_create_params.FieldMapping,
+        name: str,
+        schema: object,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TestsetCreateResponse:
+        """Create a new testset for a project.
+
+        The testset will be created in the project
+        specified in the path.
+
+        Args:
+          description: The description of the testset
+
+          field_mapping: Maps top-level keys of the testcase schema to their roles (input/label).
+              Unmapped fields are treated as metadata.
+
+          name: The name of the testset
+
+          schema: The JSON schema for each testcase in the testset
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            f"/projects/{project_id}/testsets",
+            body=maybe_transform(
+                {
+                    "description": description,
+                    "field_mapping": field_mapping,
+                    "name": name,
+                    "schema": schema,
+                },
+                testset_create_params.TestsetCreateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=TestsetCreateResponse,
+        )
 
     def retrieve(
         self,
@@ -156,6 +214,56 @@ class TestsetsResource(SyncAPIResource):
             cast_to=TestsetUpdateResponse,
         )
 
+    def list(
+        self,
+        project_id: int,
+        *,
+        cursor: str | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> SyncPaginatedResponse[TestsetListResponse]:
+        """
+        Retrieve a paginated list of testsets belonging to a project.
+
+        Args:
+          cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get
+              the next page of results.
+
+          limit: Maximum number of items to return (1-100). Use with `cursor` for pagination
+              through large sets.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get_api_list(
+            f"/projects/{project_id}/testsets",
+            page=SyncPaginatedResponse[TestsetListResponse],
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "limit": limit,
+                    },
+                    testset_list_params.TestsetListParams,
+                ),
+            ),
+            model=TestsetListResponse,
+        )
+
     def delete(
         self,
         testset_id: int,
@@ -211,6 +319,61 @@ class AsyncTestsetsResource(AsyncAPIResource):
         For more information, see https://www.github.com/stainless-sdks/scorecard-python#with_streaming_response
         """
         return AsyncTestsetsResourceWithStreamingResponse(self)
+
+    async def create(
+        self,
+        project_id: int,
+        *,
+        description: str,
+        field_mapping: testset_create_params.FieldMapping,
+        name: str,
+        schema: object,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TestsetCreateResponse:
+        """Create a new testset for a project.
+
+        The testset will be created in the project
+        specified in the path.
+
+        Args:
+          description: The description of the testset
+
+          field_mapping: Maps top-level keys of the testcase schema to their roles (input/label).
+              Unmapped fields are treated as metadata.
+
+          name: The name of the testset
+
+          schema: The JSON schema for each testcase in the testset
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            f"/projects/{project_id}/testsets",
+            body=await async_maybe_transform(
+                {
+                    "description": description,
+                    "field_mapping": field_mapping,
+                    "name": name,
+                    "schema": schema,
+                },
+                testset_create_params.TestsetCreateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=TestsetCreateResponse,
+        )
 
     async def retrieve(
         self,
@@ -308,6 +471,56 @@ class AsyncTestsetsResource(AsyncAPIResource):
             cast_to=TestsetUpdateResponse,
         )
 
+    def list(
+        self,
+        project_id: int,
+        *,
+        cursor: str | NotGiven = NOT_GIVEN,
+        limit: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> AsyncPaginator[TestsetListResponse, AsyncPaginatedResponse[TestsetListResponse]]:
+        """
+        Retrieve a paginated list of testsets belonging to a project.
+
+        Args:
+          cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get
+              the next page of results.
+
+          limit: Maximum number of items to return (1-100). Use with `cursor` for pagination
+              through large sets.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get_api_list(
+            f"/projects/{project_id}/testsets",
+            page=AsyncPaginatedResponse[TestsetListResponse],
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "limit": limit,
+                    },
+                    testset_list_params.TestsetListParams,
+                ),
+            ),
+            model=TestsetListResponse,
+        )
+
     async def delete(
         self,
         testset_id: int,
@@ -346,11 +559,17 @@ class TestsetsResourceWithRawResponse:
     def __init__(self, testsets: TestsetsResource) -> None:
         self._testsets = testsets
 
+        self.create = to_raw_response_wrapper(
+            testsets.create,
+        )
         self.retrieve = to_raw_response_wrapper(
             testsets.retrieve,
         )
         self.update = to_raw_response_wrapper(
             testsets.update,
+        )
+        self.list = to_raw_response_wrapper(
+            testsets.list,
         )
         self.delete = to_raw_response_wrapper(
             testsets.delete,
@@ -365,11 +584,17 @@ class AsyncTestsetsResourceWithRawResponse:
     def __init__(self, testsets: AsyncTestsetsResource) -> None:
         self._testsets = testsets
 
+        self.create = async_to_raw_response_wrapper(
+            testsets.create,
+        )
         self.retrieve = async_to_raw_response_wrapper(
             testsets.retrieve,
         )
         self.update = async_to_raw_response_wrapper(
             testsets.update,
+        )
+        self.list = async_to_raw_response_wrapper(
+            testsets.list,
         )
         self.delete = async_to_raw_response_wrapper(
             testsets.delete,
@@ -386,11 +611,17 @@ class TestsetsResourceWithStreamingResponse:
     def __init__(self, testsets: TestsetsResource) -> None:
         self._testsets = testsets
 
+        self.create = to_streamed_response_wrapper(
+            testsets.create,
+        )
         self.retrieve = to_streamed_response_wrapper(
             testsets.retrieve,
         )
         self.update = to_streamed_response_wrapper(
             testsets.update,
+        )
+        self.list = to_streamed_response_wrapper(
+            testsets.list,
         )
         self.delete = to_streamed_response_wrapper(
             testsets.delete,
@@ -405,11 +636,17 @@ class AsyncTestsetsResourceWithStreamingResponse:
     def __init__(self, testsets: AsyncTestsetsResource) -> None:
         self._testsets = testsets
 
+        self.create = async_to_streamed_response_wrapper(
+            testsets.create,
+        )
         self.retrieve = async_to_streamed_response_wrapper(
             testsets.retrieve,
         )
         self.update = async_to_streamed_response_wrapper(
             testsets.update,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            testsets.list,
         )
         self.delete = async_to_streamed_response_wrapper(
             testsets.delete,

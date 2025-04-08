@@ -4,37 +4,25 @@ from __future__ import annotations
 
 import httpx
 
-from ...types import project_list_params
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform
-from .testsets import (
-    TestsetsResource,
-    AsyncTestsetsResource,
-    TestsetsResourceWithRawResponse,
-    AsyncTestsetsResourceWithRawResponse,
-    TestsetsResourceWithStreamingResponse,
-    AsyncTestsetsResourceWithStreamingResponse,
-)
-from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
+from ..types import project_list_params
+from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._utils import maybe_transform
+from .._compat import cached_property
+from .._resource import SyncAPIResource, AsyncAPIResource
+from .._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...pagination import SyncPaginatedResponse, AsyncPaginatedResponse
-from ..._base_client import AsyncPaginator, make_request_options
-from ...types.project_list_response import ProjectListResponse
+from ..pagination import SyncPaginatedResponse, AsyncPaginatedResponse
+from .._base_client import AsyncPaginator, make_request_options
+from ..types.project_list_response import ProjectListResponse
 
 __all__ = ["ProjectsResource", "AsyncProjectsResource"]
 
 
 class ProjectsResource(SyncAPIResource):
-    @cached_property
-    def testsets(self) -> TestsetsResource:
-        return TestsetsResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> ProjectsResourceWithRawResponse:
         """
@@ -107,10 +95,6 @@ class ProjectsResource(SyncAPIResource):
 
 
 class AsyncProjectsResource(AsyncAPIResource):
-    @cached_property
-    def testsets(self) -> AsyncTestsetsResource:
-        return AsyncTestsetsResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> AsyncProjectsResourceWithRawResponse:
         """
@@ -190,10 +174,6 @@ class ProjectsResourceWithRawResponse:
             projects.list,
         )
 
-    @cached_property
-    def testsets(self) -> TestsetsResourceWithRawResponse:
-        return TestsetsResourceWithRawResponse(self._projects.testsets)
-
 
 class AsyncProjectsResourceWithRawResponse:
     def __init__(self, projects: AsyncProjectsResource) -> None:
@@ -202,10 +182,6 @@ class AsyncProjectsResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             projects.list,
         )
-
-    @cached_property
-    def testsets(self) -> AsyncTestsetsResourceWithRawResponse:
-        return AsyncTestsetsResourceWithRawResponse(self._projects.testsets)
 
 
 class ProjectsResourceWithStreamingResponse:
@@ -216,10 +192,6 @@ class ProjectsResourceWithStreamingResponse:
             projects.list,
         )
 
-    @cached_property
-    def testsets(self) -> TestsetsResourceWithStreamingResponse:
-        return TestsetsResourceWithStreamingResponse(self._projects.testsets)
-
 
 class AsyncProjectsResourceWithStreamingResponse:
     def __init__(self, projects: AsyncProjectsResource) -> None:
@@ -228,7 +200,3 @@ class AsyncProjectsResourceWithStreamingResponse:
         self.list = async_to_streamed_response_wrapper(
             projects.list,
         )
-
-    @cached_property
-    def testsets(self) -> AsyncTestsetsResourceWithStreamingResponse:
-        return AsyncTestsetsResourceWithStreamingResponse(self._projects.testsets)

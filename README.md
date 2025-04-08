@@ -89,7 +89,7 @@ from scorecardpy import Scorecard
 
 client = Scorecard()
 
-testset = client.projects.testsets.create(
+testset = client.testsets.create(
     project_id=0,
     description="Testset for long context Q&A chatbot.",
     field_mapping={
