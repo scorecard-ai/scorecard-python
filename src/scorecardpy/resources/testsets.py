@@ -30,8 +30,8 @@ from .._response import (
 from ..pagination import SyncPaginatedResponse, AsyncPaginatedResponse
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.shared.testset import Testset
+from ..types.shared.testcase import Testcase
 from ..types.testset_delete_response import TestsetDeleteResponse
-from ..types.testset_list_testcases_response import TestsetListTestcasesResponse
 from ..types.testset_create_testcases_response import TestsetCreateTestcasesResponse
 from ..types.testset_delete_testcases_response import TestsetDeleteTestcasesResponse
 
@@ -374,7 +374,7 @@ class TestsetsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TestsetListTestcasesResponse:
+    ) -> SyncPaginatedResponse[Testcase]:
         """
         Retrieve a paginated list of testcases belonging to a testset.
 
@@ -393,8 +393,9 @@ class TestsetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._get_api_list(
             f"/testsets/{testset_id}/testcases",
+            page=SyncPaginatedResponse[Testcase],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -408,7 +409,7 @@ class TestsetsResource(SyncAPIResource):
                     testset_list_testcases_params.TestsetListTestcasesParams,
                 ),
             ),
-            cast_to=TestsetListTestcasesResponse,
+            model=Testcase,
         )
 
 
@@ -738,7 +739,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
             cast_to=Testset,
         )
 
-    async def list_testcases(
+    def list_testcases(
         self,
         testset_id: int,
         *,
@@ -750,7 +751,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TestsetListTestcasesResponse:
+    ) -> AsyncPaginator[Testcase, AsyncPaginatedResponse[Testcase]]:
         """
         Retrieve a paginated list of testcases belonging to a testset.
 
@@ -769,14 +770,15 @@ class AsyncTestsetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return self._get_api_list(
             f"/testsets/{testset_id}/testcases",
+            page=AsyncPaginatedResponse[Testcase],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "cursor": cursor,
                         "limit": limit,
@@ -784,7 +786,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
                     testset_list_testcases_params.TestsetListTestcasesParams,
                 ),
             ),
-            cast_to=TestsetListTestcasesResponse,
+            model=Testcase,
         )
 
 

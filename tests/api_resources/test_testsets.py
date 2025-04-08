@@ -11,12 +11,11 @@ from scorecardpy import Scorecard, AsyncScorecard
 from tests.utils import assert_matches_type
 from scorecardpy.types import (
     TestsetDeleteResponse,
-    TestsetListTestcasesResponse,
     TestsetCreateTestcasesResponse,
     TestsetDeleteTestcasesResponse,
 )
 from scorecardpy.pagination import SyncPaginatedResponse, AsyncPaginatedResponse
-from scorecardpy.types.shared import Testset
+from scorecardpy.types.shared import Testset, Testcase
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -429,7 +428,7 @@ class TestTestsets:
         testset = client.testsets.list_testcases(
             testset_id=0,
         )
-        assert_matches_type(TestsetListTestcasesResponse, testset, path=["response"])
+        assert_matches_type(SyncPaginatedResponse[Testcase], testset, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -439,7 +438,7 @@ class TestTestsets:
             cursor="cursor",
             limit=20,
         )
-        assert_matches_type(TestsetListTestcasesResponse, testset, path=["response"])
+        assert_matches_type(SyncPaginatedResponse[Testcase], testset, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -451,7 +450,7 @@ class TestTestsets:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         testset = response.parse()
-        assert_matches_type(TestsetListTestcasesResponse, testset, path=["response"])
+        assert_matches_type(SyncPaginatedResponse[Testcase], testset, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -463,7 +462,7 @@ class TestTestsets:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             testset = response.parse()
-            assert_matches_type(TestsetListTestcasesResponse, testset, path=["response"])
+            assert_matches_type(SyncPaginatedResponse[Testcase], testset, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -876,7 +875,7 @@ class TestAsyncTestsets:
         testset = await async_client.testsets.list_testcases(
             testset_id=0,
         )
-        assert_matches_type(TestsetListTestcasesResponse, testset, path=["response"])
+        assert_matches_type(AsyncPaginatedResponse[Testcase], testset, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -886,7 +885,7 @@ class TestAsyncTestsets:
             cursor="cursor",
             limit=20,
         )
-        assert_matches_type(TestsetListTestcasesResponse, testset, path=["response"])
+        assert_matches_type(AsyncPaginatedResponse[Testcase], testset, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -898,7 +897,7 @@ class TestAsyncTestsets:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         testset = await response.parse()
-        assert_matches_type(TestsetListTestcasesResponse, testset, path=["response"])
+        assert_matches_type(AsyncPaginatedResponse[Testcase], testset, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
@@ -910,6 +909,6 @@ class TestAsyncTestsets:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             testset = await response.parse()
-            assert_matches_type(TestsetListTestcasesResponse, testset, path=["response"])
+            assert_matches_type(AsyncPaginatedResponse[Testcase], testset, path=["response"])
 
         assert cast(Any, response.is_closed) is True

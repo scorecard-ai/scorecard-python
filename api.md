@@ -25,7 +25,6 @@ from scorecardpy.types import (
     TestsetDeleteResponse,
     TestsetCreateTestcasesResponse,
     TestsetDeleteTestcasesResponse,
-    TestsetListTestcasesResponse,
 )
 ```
 
@@ -38,7 +37,7 @@ Methods:
 - <code title="post /testsets/{testsetId}/testcases">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">create_testcases</a>(testset_id, \*\*<a href="src/scorecardpy/types/testset_create_testcases_params.py">params</a>) -> <a href="./src/scorecardpy/types/testset_create_testcases_response.py">TestsetCreateTestcasesResponse</a></code>
 - <code title="delete /testsets/{testsetId}/testcases">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">delete_testcases</a>(testset_id, \*\*<a href="src/scorecardpy/types/testset_delete_testcases_params.py">params</a>) -> <a href="./src/scorecardpy/types/testset_delete_testcases_response.py">TestsetDeleteTestcasesResponse</a></code>
 - <code title="get /testsets/{testsetId}">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">get</a>(testset_id) -> <a href="./src/scorecardpy/types/shared/testset.py">Testset</a></code>
-- <code title="get /testsets/{testsetId}/testcases">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">list_testcases</a>(testset_id, \*\*<a href="src/scorecardpy/types/testset_list_testcases_params.py">params</a>) -> <a href="./src/scorecardpy/types/testset_list_testcases_response.py">TestsetListTestcasesResponse</a></code>
+- <code title="get /testsets/{testsetId}/testcases">client.testsets.<a href="./src/scorecardpy/resources/testsets.py">list_testcases</a>(testset_id, \*\*<a href="src/scorecardpy/types/testset_list_testcases_params.py">params</a>) -> <a href="./src/scorecardpy/types/shared/testcase.py">SyncPaginatedResponse[Testcase]</a></code>
 
 # Testcases
 
