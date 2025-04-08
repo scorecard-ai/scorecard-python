@@ -14,5 +14,5 @@ class TestsetCreateTestcasesParams(TypedDict, total=False):
 
 
 class Item(TypedDict, total=False):
-    data: Required[Dict[str, object]]
+    data: Required[Dict[str, Dict[str, object]]]
     """The JSON data of the testcase, which is validated against the testset's schema."""
