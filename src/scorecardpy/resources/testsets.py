@@ -242,7 +242,7 @@ class TestsetsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TestsetDeleteResponse:
         """
-        Delete a testset
+        Delete testset
 
         Args:
           extra_headers: Send extra headers
@@ -343,7 +343,7 @@ class TestsetsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testset:
         """
-        Get a testset by ID
+        Get testset by ID
 
         Args:
           extra_headers: Send extra headers
@@ -615,7 +615,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TestsetDeleteResponse:
         """
-        Delete a testset
+        Delete testset
 
         Args:
           extra_headers: Send extra headers
@@ -720,7 +720,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testset:
         """
-        Get a testset by ID
+        Get testset by ID
 
         Args:
           extra_headers: Send extra headers
