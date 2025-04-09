@@ -5,9 +5,9 @@ from typing import List
 from .._models import BaseModel
 from .testcase import Testcase
 
-__all__ = ["TestsetCreateTestcasesResponse"]
+__all__ = ["TestcaseCreateResponse"]
 
 
-class TestsetCreateTestcasesResponse(BaseModel):
+class TestcaseCreateResponse(BaseModel):
     __test__ = False
     items: List[Testcase]

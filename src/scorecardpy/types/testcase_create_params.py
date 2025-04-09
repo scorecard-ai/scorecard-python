@@ -5,10 +5,10 @@ from __future__ import annotations
 from typing import Dict, Iterable
 from typing_extensions import Required, TypedDict
 
-__all__ = ["TestsetCreateTestcasesParams", "Item"]
+__all__ = ["TestcaseCreateParams", "Item"]
 
 
-class TestsetCreateTestcasesParams(TypedDict, total=False):
+class TestcaseCreateParams(TypedDict, total=False):
     items: Required[Iterable[Item]]
     """Testcases to create (max 100)"""
 

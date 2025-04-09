@@ -5,9 +5,9 @@ from __future__ import annotations
 from typing import Iterable
 from typing_extensions import Required, TypedDict
 
-__all__ = ["TestsetDeleteTestcasesParams"]
+__all__ = ["TestcaseDeleteParams"]
 
 
-class TestsetDeleteTestcasesParams(TypedDict, total=False):
+class TestcaseDeleteParams(TypedDict, total=False):
     ids: Required[Iterable[int]]
     """IDs of testcases to delete (max 100)"""
