@@ -80,13 +80,13 @@ class Scorecard(SyncAPIClient):
     ) -> None:
         """Construct a new synchronous Scorecard client instance.
 
-        This automatically infers the `bearer_token` argument from the `SCORECARD_DEV_BEARER_TOKEN` environment variable if it is not provided.
+        This automatically infers the `bearer_token` argument from the `SCORECARD_API_KEY` environment variable if it is not provided.
         """
         if bearer_token is None:
-            bearer_token = os.environ.get("SCORECARD_DEV_BEARER_TOKEN")
+            bearer_token = os.environ.get("SCORECARD_API_KEY")
         if bearer_token is None:
             raise ScorecardError(
-                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the SCORECARD_DEV_BEARER_TOKEN environment variable"
+                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the SCORECARD_API_KEY environment variable"
             )
         self.bearer_token = bearer_token
 
@@ -252,13 +252,13 @@ class AsyncScorecard(AsyncAPIClient):
     ) -> None:
         """Construct a new async AsyncScorecard client instance.
 
-        This automatically infers the `bearer_token` argument from the `SCORECARD_DEV_BEARER_TOKEN` environment variable if it is not provided.
+        This automatically infers the `bearer_token` argument from the `SCORECARD_API_KEY` environment variable if it is not provided.
         """
         if bearer_token is None:
-            bearer_token = os.environ.get("SCORECARD_DEV_BEARER_TOKEN")
+            bearer_token = os.environ.get("SCORECARD_API_KEY")
         if bearer_token is None:
             raise ScorecardError(
-                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the SCORECARD_DEV_BEARER_TOKEN environment variable"
+                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the SCORECARD_API_KEY environment variable"
             )
         self.bearer_token = bearer_token
 

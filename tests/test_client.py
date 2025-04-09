@@ -346,7 +346,7 @@ class TestScorecard:
         assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
 
         with pytest.raises(ScorecardError):
-            with update_env(**{"SCORECARD_DEV_BEARER_TOKEN": Omit()}):
+            with update_env(**{"SCORECARD_API_KEY": Omit()}):
                 client2 = Scorecard(base_url=base_url, bearer_token=None, _strict_response_validation=True)
             _ = client2
 
@@ -1126,7 +1126,7 @@ class TestAsyncScorecard:
         assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
 
         with pytest.raises(ScorecardError):
-            with update_env(**{"SCORECARD_DEV_BEARER_TOKEN": Omit()}):
+            with update_env(**{"SCORECARD_API_KEY": Omit()}):
                 client2 = AsyncScorecard(base_url=base_url, bearer_token=None, _strict_response_validation=True)
             _ = client2
 

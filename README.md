@@ -31,9 +31,7 @@ import os
 from scorecardpy import Scorecard
 
 client = Scorecard(
-    bearer_token=os.environ.get(
-        "SCORECARD_DEV_BEARER_TOKEN"
-    ),  # This is the default and can be omitted
+    bearer_token=os.environ.get("SCORECARD_API_KEY"),  # This is the default and can be omitted
 )
 
 testset = client.testsets.create(
@@ -56,7 +54,7 @@ print(testset.id)
 
 While you can provide a `bearer_token` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `SCORECARD_DEV_BEARER_TOKEN="My Bearer Token"` to your `.env` file
+to add `SCORECARD_API_KEY="My Bearer Token"` to your `.env` file
 so that your Bearer Token is not stored in source control.
 
 ## Async usage
@@ -69,9 +67,7 @@ import asyncio
 from scorecardpy import AsyncScorecard
 
 client = AsyncScorecard(
-    bearer_token=os.environ.get(
-        "SCORECARD_DEV_BEARER_TOKEN"
-    ),  # This is the default and can be omitted
+    bearer_token=os.environ.get("SCORECARD_API_KEY"),  # This is the default and can be omitted
 )
 
 
