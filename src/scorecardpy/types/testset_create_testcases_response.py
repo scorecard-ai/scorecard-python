@@ -3,7 +3,7 @@
 from typing import List
 
 from .._models import BaseModel
-from .shared.testcase import Testcase
+from .testcase import Testcase
 
 __all__ = ["TestsetCreateTestcasesResponse"]
 

@@ -10,12 +10,13 @@ import pytest
 from scorecardpy import Scorecard, AsyncScorecard
 from tests.utils import assert_matches_type
 from scorecardpy.types import (
+    Testcase,
     TestsetDeleteResponse,
     TestsetCreateTestcasesResponse,
     TestsetDeleteTestcasesResponse,
 )
 from scorecardpy.pagination import SyncPaginatedResponse, AsyncPaginatedResponse
-from scorecardpy.types.shared import Testset, Testcase
+from scorecardpy.types.shared import Testset
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

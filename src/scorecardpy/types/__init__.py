@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from .shared import Testset as Testset, APIError as APIError, Testcase as Testcase
+from .shared import Testset as Testset, APIError as APIError
+from .testcase import Testcase as Testcase
 from .project_list_params import ProjectListParams as ProjectListParams
 from .testset_list_params import TestsetListParams as TestsetListParams
 from .project_list_response import ProjectListResponse as ProjectListResponse

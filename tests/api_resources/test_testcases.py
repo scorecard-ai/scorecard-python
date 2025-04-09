@@ -9,7 +9,7 @@ import pytest
 
 from scorecardpy import Scorecard, AsyncScorecard
 from tests.utils import assert_matches_type
-from scorecardpy.types.shared import Testcase
+from scorecardpy.types import Testcase
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

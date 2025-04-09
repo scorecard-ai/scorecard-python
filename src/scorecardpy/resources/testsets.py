@@ -29,8 +29,8 @@ from .._response import (
 )
 from ..pagination import SyncPaginatedResponse, AsyncPaginatedResponse
 from .._base_client import AsyncPaginator, make_request_options
+from ..types.testcase import Testcase
 from ..types.shared.testset import Testset
-from ..types.shared.testcase import Testcase
 from ..types.testset_delete_response import TestsetDeleteResponse
 from ..types.testset_create_testcases_response import TestsetCreateTestcasesResponse
 from ..types.testset_delete_testcases_response import TestsetDeleteTestcasesResponse
