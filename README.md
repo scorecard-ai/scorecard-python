@@ -32,6 +32,8 @@ from scorecardpy import Scorecard
 
 client = Scorecard(
     bearer_token=os.environ.get("SCORECARD_API_KEY"),  # This is the default and can be omitted
+    # or 'production' | 'local'; defaults to "production".
+    environment="staging",
 )
 
 testset = client.testsets.create(
@@ -68,6 +70,8 @@ from scorecardpy import AsyncScorecard
 
 client = AsyncScorecard(
     bearer_token=os.environ.get("SCORECARD_API_KEY"),  # This is the default and can be omitted
+    # or 'production' | 'local'; defaults to "production".
+    environment="staging",
 )
 
 
