@@ -10,7 +10,7 @@ __all__ = ["TestcaseDeleteResponse", "Error"]
 
 
 class Error(BaseModel):
-    id: int
+    id: str
     """ID of the testcase that failed to be deleted"""
 
     message: str

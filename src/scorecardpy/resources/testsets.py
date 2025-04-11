@@ -52,7 +52,7 @@ class TestsetsResource(SyncAPIResource):
 
     def create(
         self,
-        project_id: int,
+        project_id: str,
         *,
         description: str,
         field_mapping: testset_create_params.FieldMapping,
@@ -88,6 +88,8 @@ class TestsetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return self._post(
             f"/projects/{project_id}/testsets",
             body=maybe_transform(
@@ -107,7 +109,7 @@ class TestsetsResource(SyncAPIResource):
 
     def update(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
         description: str | NotGiven = NOT_GIVEN,
         field_mapping: testset_update_params.FieldMapping | NotGiven = NOT_GIVEN,
@@ -153,6 +155,8 @@ class TestsetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return self._patch(
             f"/testsets/{testset_id}",
             body=maybe_transform(
@@ -172,7 +176,7 @@ class TestsetsResource(SyncAPIResource):
 
     def list(
         self,
-        project_id: int,
+        project_id: str,
         *,
         cursor: str | NotGiven = NOT_GIVEN,
         limit: int | NotGiven = NOT_GIVEN,
@@ -201,6 +205,8 @@ class TestsetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return self._get_api_list(
             f"/projects/{project_id}/testsets",
             page=SyncPaginatedResponse[Testset],
@@ -222,7 +228,7 @@ class TestsetsResource(SyncAPIResource):
 
     def delete(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -243,6 +249,8 @@ class TestsetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return self._delete(
             f"/testsets/{testset_id}",
             options=make_request_options(
@@ -253,7 +261,7 @@ class TestsetsResource(SyncAPIResource):
 
     def get(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -274,6 +282,8 @@ class TestsetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return self._get(
             f"/testsets/{testset_id}",
             options=make_request_options(
@@ -305,7 +315,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
 
     async def create(
         self,
-        project_id: int,
+        project_id: str,
         *,
         description: str,
         field_mapping: testset_create_params.FieldMapping,
@@ -341,6 +351,8 @@ class AsyncTestsetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return await self._post(
             f"/projects/{project_id}/testsets",
             body=await async_maybe_transform(
@@ -360,7 +372,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
 
     async def update(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
         description: str | NotGiven = NOT_GIVEN,
         field_mapping: testset_update_params.FieldMapping | NotGiven = NOT_GIVEN,
@@ -406,6 +418,8 @@ class AsyncTestsetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return await self._patch(
             f"/testsets/{testset_id}",
             body=await async_maybe_transform(
@@ -425,7 +439,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
 
     def list(
         self,
-        project_id: int,
+        project_id: str,
         *,
         cursor: str | NotGiven = NOT_GIVEN,
         limit: int | NotGiven = NOT_GIVEN,
@@ -454,6 +468,8 @@ class AsyncTestsetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return self._get_api_list(
             f"/projects/{project_id}/testsets",
             page=AsyncPaginatedResponse[Testset],
@@ -475,7 +491,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
 
     async def delete(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -496,6 +512,8 @@ class AsyncTestsetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return await self._delete(
             f"/testsets/{testset_id}",
             options=make_request_options(
@@ -506,7 +524,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
 
     async def get(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -527,6 +545,8 @@ class AsyncTestsetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return await self._get(
             f"/testsets/{testset_id}",
             options=make_request_options(
