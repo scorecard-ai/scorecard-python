@@ -93,7 +93,7 @@ class Scorecard(SyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("SCORECARD_BASE_URL")
         if base_url is None:
-            base_url = f"https://api2.scorecard.io/v2"
+            base_url = f"https://api2.scorecard.io/api/v2"
 
         super().__init__(
             version=__version__,
@@ -265,7 +265,7 @@ class AsyncScorecard(AsyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("SCORECARD_BASE_URL")
         if base_url is None:
-            base_url = f"https://api2.scorecard.io/v2"
+            base_url = f"https://api2.scorecard.io/api/v2"
 
         super().__init__(
             version=__version__,
