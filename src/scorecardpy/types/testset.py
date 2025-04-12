@@ -22,7 +22,7 @@ class FieldMapping(BaseModel):
 
 class Testset(BaseModel):
     __test__ = False
-    id: str
+    id: int
     """The ID of the testset"""
 
     description: str
@@ -34,7 +34,8 @@ class Testset(BaseModel):
     Unmapped fields are treated as metadata.
     """
 
+    json_schema: Dict[str, object] = FieldInfo(alias="jsonSchema")
+    """The JSON schema for each testcase in the testset"""
+
     name: str
     """The name of the testset"""
-
-    schema_: Dict[str, object] = FieldInfo(alias="schema")

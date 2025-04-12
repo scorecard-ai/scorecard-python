@@ -20,11 +20,11 @@ class TestsetCreateParams(TypedDict, total=False):
     Unmapped fields are treated as metadata.
     """
 
+    json_schema: Required[Annotated[Dict[str, object], PropertyInfo(alias="jsonSchema")]]
+    """The JSON schema for each testcase in the testset"""
+
     name: Required[str]
     """The name of the testset"""
-
-    schema: Required[Dict[str, object]]
-    """The JSON schema for each testcase in the testset"""
 
 
 class FieldMapping(TypedDict, total=False):

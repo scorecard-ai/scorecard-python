@@ -19,7 +19,7 @@ class ValidationError(BaseModel):
 
 class Testcase(BaseModel):
     __test__ = False
-    id: str
+    id: int
     """The ID of the testcase"""
 
     data: Dict[str, object]
@@ -37,7 +37,7 @@ class Testcase(BaseModel):
     Contains all fields marked as labels, including those with validation errors.
     """
 
-    testset_id: str = FieldInfo(alias="testsetId")
+    testset_id: int = FieldInfo(alias="testsetId")
     """The ID of the testset this testcase belongs to"""
 
     validation_errors: Optional[List[ValidationError]] = FieldInfo(alias="validationErrors", default=None)

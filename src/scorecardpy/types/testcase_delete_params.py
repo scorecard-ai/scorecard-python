@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import Iterable
 from typing_extensions import Required, TypedDict
 
 __all__ = ["TestcaseDeleteParams"]
 
 
 class TestcaseDeleteParams(TypedDict, total=False):
-    ids: Required[List[str]]
+    ids: Required[Iterable[int]]
     """IDs of testcases to delete (max 100)"""

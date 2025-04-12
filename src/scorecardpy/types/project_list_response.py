@@ -8,7 +8,7 @@ __all__ = ["ProjectListResponse"]
 
 
 class ProjectListResponse(BaseModel):
-    id: str
+    id: int
     """The ID of the project"""
 
     name: Optional[str] = None
