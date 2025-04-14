@@ -22,7 +22,7 @@ class FieldMapping(BaseModel):
 
 class Testset(BaseModel):
     __test__ = False
-    id: int
+    id: str
     """The ID of the testset"""
 
     description: str

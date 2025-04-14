@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable
+from typing import Dict, List, Iterable
 
 import httpx
 
@@ -58,7 +58,7 @@ class TestcasesResource(SyncAPIResource):
 
     def create(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
         items: Iterable[testcase_create_params.Item],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -82,6 +82,8 @@ class TestcasesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return self._post(
             f"/testsets/{testset_id}/testcases",
             body=maybe_transform({"items": items}, testcase_create_params.TestcaseCreateParams),
@@ -93,7 +95,7 @@ class TestcasesResource(SyncAPIResource):
 
     def update(
         self,
-        testcase_id: int,
+        testcase_id: str,
         *,
         data: Dict[str, object],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -117,6 +119,8 @@ class TestcasesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testcase_id:
+            raise ValueError(f"Expected a non-empty value for `testcase_id` but received {testcase_id!r}")
         return self._put(
             f"/testcases/{testcase_id}",
             body=maybe_transform({"data": data}, testcase_update_params.TestcaseUpdateParams),
@@ -128,7 +132,7 @@ class TestcasesResource(SyncAPIResource):
 
     def list(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
         cursor: str | NotGiven = NOT_GIVEN,
         limit: int | NotGiven = NOT_GIVEN,
@@ -157,6 +161,8 @@ class TestcasesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return self._get_api_list(
             f"/testsets/{testset_id}/testcases",
             page=SyncPaginatedResponse[Testcase],
@@ -178,9 +184,9 @@ class TestcasesResource(SyncAPIResource):
 
     def delete(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
-        ids: Iterable[int],
+        ids: List[str],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -202,6 +208,8 @@ class TestcasesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return self._delete(
             f"/testsets/{testset_id}/testcases",
             body=maybe_transform({"ids": ids}, testcase_delete_params.TestcaseDeleteParams),
@@ -213,7 +221,7 @@ class TestcasesResource(SyncAPIResource):
 
     def get(
         self,
-        testcase_id: int,
+        testcase_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -234,6 +242,8 @@ class TestcasesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testcase_id:
+            raise ValueError(f"Expected a non-empty value for `testcase_id` but received {testcase_id!r}")
         return self._get(
             f"/testcases/{testcase_id}",
             options=make_request_options(
@@ -265,7 +275,7 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
     async def create(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
         items: Iterable[testcase_create_params.Item],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -289,6 +299,8 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return await self._post(
             f"/testsets/{testset_id}/testcases",
             body=await async_maybe_transform({"items": items}, testcase_create_params.TestcaseCreateParams),
@@ -300,7 +312,7 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
     async def update(
         self,
-        testcase_id: int,
+        testcase_id: str,
         *,
         data: Dict[str, object],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -324,6 +336,8 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testcase_id:
+            raise ValueError(f"Expected a non-empty value for `testcase_id` but received {testcase_id!r}")
         return await self._put(
             f"/testcases/{testcase_id}",
             body=await async_maybe_transform({"data": data}, testcase_update_params.TestcaseUpdateParams),
@@ -335,7 +349,7 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
     def list(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
         cursor: str | NotGiven = NOT_GIVEN,
         limit: int | NotGiven = NOT_GIVEN,
@@ -364,6 +378,8 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return self._get_api_list(
             f"/testsets/{testset_id}/testcases",
             page=AsyncPaginatedResponse[Testcase],
@@ -385,9 +401,9 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
     async def delete(
         self,
-        testset_id: int,
+        testset_id: str,
         *,
-        ids: Iterable[int],
+        ids: List[str],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -409,6 +425,8 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testset_id:
+            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
         return await self._delete(
             f"/testsets/{testset_id}/testcases",
             body=await async_maybe_transform({"ids": ids}, testcase_delete_params.TestcaseDeleteParams),
@@ -420,7 +438,7 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
     async def get(
         self,
-        testcase_id: int,
+        testcase_id: str,
         *,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -441,6 +459,8 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not testcase_id:
+            raise ValueError(f"Expected a non-empty value for `testcase_id` but received {testcase_id!r}")
         return await self._get(
             f"/testcases/{testcase_id}",
             options=make_request_options(
