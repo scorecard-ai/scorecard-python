@@ -22,14 +22,14 @@ class Testcase(BaseModel):
     id: str
     """The ID of the testcase"""
 
-    data: Dict[str, object]
-    """The JSON data of the testcase, which is validated against the testset's schema."""
-
     inputs: Dict[str, object]
     """Derived from data based on the testset's fieldMapping.
 
     Contains all fields marked as inputs, including those with validation errors.
     """
+
+    json_data: Dict[str, object] = FieldInfo(alias="jsonData")
+    """The JSON data of the testcase, which is validated against the testset's schema."""
 
     labels: Dict[str, object]
     """Derived from data based on the testset's fieldMapping.

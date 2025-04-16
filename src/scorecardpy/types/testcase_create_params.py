@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from typing import Dict, Iterable
-from typing_extensions import Required, TypedDict
+from typing_extensions import Required, Annotated, TypedDict
+
+from .._utils import PropertyInfo
 
 __all__ = ["TestcaseCreateParams", "Item"]
 
@@ -14,5 +16,5 @@ class TestcaseCreateParams(TypedDict, total=False):
 
 
 class Item(TypedDict, total=False):
-    data: Required[Dict[str, object]]
+    json_data: Required[Annotated[Dict[str, object], PropertyInfo(alias="jsonData")]]
     """The JSON data of the testcase, which is validated against the testset's schema."""

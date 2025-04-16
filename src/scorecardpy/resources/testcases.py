@@ -97,7 +97,7 @@ class TestcasesResource(SyncAPIResource):
         self,
         testcase_id: str,
         *,
-        data: Dict[str, object],
+        json_data: Dict[str, object],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -109,7 +109,7 @@ class TestcasesResource(SyncAPIResource):
         Replace the data of an existing testcase while keeping its ID.
 
         Args:
-          data: The JSON data of the testcase, which is validated against the testset's schema.
+          json_data: The JSON data of the testcase, which is validated against the testset's schema.
 
           extra_headers: Send extra headers
 
@@ -123,7 +123,7 @@ class TestcasesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `testcase_id` but received {testcase_id!r}")
         return self._put(
             f"/testcases/{testcase_id}",
-            body=maybe_transform({"data": data}, testcase_update_params.TestcaseUpdateParams),
+            body=maybe_transform({"json_data": json_data}, testcase_update_params.TestcaseUpdateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -314,7 +314,7 @@ class AsyncTestcasesResource(AsyncAPIResource):
         self,
         testcase_id: str,
         *,
-        data: Dict[str, object],
+        json_data: Dict[str, object],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -326,7 +326,7 @@ class AsyncTestcasesResource(AsyncAPIResource):
         Replace the data of an existing testcase while keeping its ID.
 
         Args:
-          data: The JSON data of the testcase, which is validated against the testset's schema.
+          json_data: The JSON data of the testcase, which is validated against the testset's schema.
 
           extra_headers: Send extra headers
 
@@ -340,7 +340,7 @@ class AsyncTestcasesResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `testcase_id` but received {testcase_id!r}")
         return await self._put(
             f"/testcases/{testcase_id}",
-            body=await async_maybe_transform({"data": data}, testcase_update_params.TestcaseUpdateParams),
+            body=await async_maybe_transform({"json_data": json_data}, testcase_update_params.TestcaseUpdateParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
