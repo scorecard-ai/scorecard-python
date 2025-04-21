@@ -37,7 +37,7 @@ Methods:
 Types:
 
 ```python
-from scorecardpy.types import Testcase, TestcaseCreateResponse
+from scorecardpy.types import Testcase, TestcaseCreateResponse, TestcaseDeleteResponse
 ```
 
 Methods:
@@ -45,4 +45,5 @@ Methods:
 - <code title="post /testsets/{testsetId}/testcases">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">create</a>(testset_id, \*\*<a href="src/scorecardpy/types/testcase_create_params.py">params</a>) -> <a href="./src/scorecardpy/types/testcase_create_response.py">TestcaseCreateResponse</a></code>
 - <code title="put /testcases/{testcaseId}">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">update</a>(testcase_id, \*\*<a href="src/scorecardpy/types/testcase_update_params.py">params</a>) -> <a href="./src/scorecardpy/types/testcase.py">Testcase</a></code>
 - <code title="get /testsets/{testsetId}/testcases">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">list</a>(testset_id, \*\*<a href="src/scorecardpy/types/testcase_list_params.py">params</a>) -> <a href="./src/scorecardpy/types/testcase.py">SyncPaginatedResponse[Testcase]</a></code>
+- <code title="post /testcases/bulk-delete">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">delete</a>(\*\*<a href="src/scorecardpy/types/testcase_delete_params.py">params</a>) -> <a href="./src/scorecardpy/types/testcase_delete_response.py">TestcaseDeleteResponse</a></code>
 - <code title="get /testcases/{testcaseId}">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">get</a>(testcase_id) -> <a href="./src/scorecardpy/types/testcase.py">Testcase</a></code>
