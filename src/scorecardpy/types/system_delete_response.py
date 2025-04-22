@@ -3,10 +3,9 @@
 
 from .._models import BaseModel
 
-__all__ = ["TestcaseDeleteResponse"]
+__all__ = ["SystemDeleteResponse"]
 
 
-class TestcaseDeleteResponse(BaseModel):
-    __test__ = False
+class SystemDeleteResponse(BaseModel):
     success: bool
     """Whether the deletion was successful"""

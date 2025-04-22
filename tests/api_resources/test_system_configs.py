@@ -1,0 +1,423 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+import os
+from typing import Any, cast
+
+import pytest
+
+from scorecardpy import Scorecard, AsyncScorecard
+from tests.utils import assert_matches_type
+from scorecardpy.types import SystemConfig
+from scorecardpy.pagination import SyncPaginatedResponse, AsyncPaginatedResponse
+
+base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
+
+
+class TestSystemConfigs:
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_create(self, client: Scorecard) -> None:
+        system_config = client.system_configs.create(
+            path_system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="5fa85f64-5717-4562-b3fc-2c963f66afa7",
+            config={
+                "temperature": "bar",
+                "maxTokens": "bar",
+                "model": "bar",
+            },
+            label="Production (Low Temperature)",
+            body_system_id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        )
+        assert_matches_type(SystemConfig, system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_create_with_all_params(self, client: Scorecard) -> None:
+        system_config = client.system_configs.create(
+            path_system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="5fa85f64-5717-4562-b3fc-2c963f66afa7",
+            config={
+                "temperature": "bar",
+                "maxTokens": "bar",
+                "model": "bar",
+            },
+            label="Production (Low Temperature)",
+            body_system_id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            validation_errors=[
+                {
+                    "message": "Required field missing",
+                    "path": "/data/question",
+                }
+            ],
+        )
+        assert_matches_type(SystemConfig, system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_raw_response_create(self, client: Scorecard) -> None:
+        response = client.system_configs.with_raw_response.create(
+            path_system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="5fa85f64-5717-4562-b3fc-2c963f66afa7",
+            config={
+                "temperature": "bar",
+                "maxTokens": "bar",
+                "model": "bar",
+            },
+            label="Production (Low Temperature)",
+            body_system_id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        system_config = response.parse()
+        assert_matches_type(SystemConfig, system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_streaming_response_create(self, client: Scorecard) -> None:
+        with client.system_configs.with_streaming_response.create(
+            path_system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="5fa85f64-5717-4562-b3fc-2c963f66afa7",
+            config={
+                "temperature": "bar",
+                "maxTokens": "bar",
+                "model": "bar",
+            },
+            label="Production (Low Temperature)",
+            body_system_id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            system_config = response.parse()
+            assert_matches_type(SystemConfig, system_config, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_path_params_create(self, client: Scorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_system_id` but received ''"):
+            client.system_configs.with_raw_response.create(
+                path_system_id="",
+                id="5fa85f64-5717-4562-b3fc-2c963f66afa7",
+                config={
+                    "temperature": "bar",
+                    "maxTokens": "bar",
+                    "model": "bar",
+                },
+                label="Production (Low Temperature)",
+                body_system_id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            )
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_list(self, client: Scorecard) -> None:
+        system_config = client.system_configs.list(
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(SyncPaginatedResponse[SystemConfig], system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_list_with_all_params(self, client: Scorecard) -> None:
+        system_config = client.system_configs.list(
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            cursor="123",
+            limit=20,
+        )
+        assert_matches_type(SyncPaginatedResponse[SystemConfig], system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_raw_response_list(self, client: Scorecard) -> None:
+        response = client.system_configs.with_raw_response.list(
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        system_config = response.parse()
+        assert_matches_type(SyncPaginatedResponse[SystemConfig], system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_streaming_response_list(self, client: Scorecard) -> None:
+        with client.system_configs.with_streaming_response.list(
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            system_config = response.parse()
+            assert_matches_type(SyncPaginatedResponse[SystemConfig], system_config, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_path_params_list(self, client: Scorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_id` but received ''"):
+            client.system_configs.with_raw_response.list(
+                system_id="",
+            )
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_get(self, client: Scorecard) -> None:
+        system_config = client.system_configs.get(
+            system_config_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(SystemConfig, system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_raw_response_get(self, client: Scorecard) -> None:
+        response = client.system_configs.with_raw_response.get(
+            system_config_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        system_config = response.parse()
+        assert_matches_type(SystemConfig, system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_streaming_response_get(self, client: Scorecard) -> None:
+        with client.system_configs.with_streaming_response.get(
+            system_config_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            system_config = response.parse()
+            assert_matches_type(SystemConfig, system_config, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_path_params_get(self, client: Scorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_id` but received ''"):
+            client.system_configs.with_raw_response.get(
+                system_config_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                system_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_config_id` but received ''"):
+            client.system_configs.with_raw_response.get(
+                system_config_id="",
+                system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            )
+
+
+class TestAsyncSystemConfigs:
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_create(self, async_client: AsyncScorecard) -> None:
+        system_config = await async_client.system_configs.create(
+            path_system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="5fa85f64-5717-4562-b3fc-2c963f66afa7",
+            config={
+                "temperature": "bar",
+                "maxTokens": "bar",
+                "model": "bar",
+            },
+            label="Production (Low Temperature)",
+            body_system_id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        )
+        assert_matches_type(SystemConfig, system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncScorecard) -> None:
+        system_config = await async_client.system_configs.create(
+            path_system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="5fa85f64-5717-4562-b3fc-2c963f66afa7",
+            config={
+                "temperature": "bar",
+                "maxTokens": "bar",
+                "model": "bar",
+            },
+            label="Production (Low Temperature)",
+            body_system_id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            validation_errors=[
+                {
+                    "message": "Required field missing",
+                    "path": "/data/question",
+                }
+            ],
+        )
+        assert_matches_type(SystemConfig, system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_raw_response_create(self, async_client: AsyncScorecard) -> None:
+        response = await async_client.system_configs.with_raw_response.create(
+            path_system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="5fa85f64-5717-4562-b3fc-2c963f66afa7",
+            config={
+                "temperature": "bar",
+                "maxTokens": "bar",
+                "model": "bar",
+            },
+            label="Production (Low Temperature)",
+            body_system_id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        system_config = await response.parse()
+        assert_matches_type(SystemConfig, system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_streaming_response_create(self, async_client: AsyncScorecard) -> None:
+        async with async_client.system_configs.with_streaming_response.create(
+            path_system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            id="5fa85f64-5717-4562-b3fc-2c963f66afa7",
+            config={
+                "temperature": "bar",
+                "maxTokens": "bar",
+                "model": "bar",
+            },
+            label="Production (Low Temperature)",
+            body_system_id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            system_config = await response.parse()
+            assert_matches_type(SystemConfig, system_config, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_path_params_create(self, async_client: AsyncScorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `path_system_id` but received ''"):
+            await async_client.system_configs.with_raw_response.create(
+                path_system_id="",
+                id="5fa85f64-5717-4562-b3fc-2c963f66afa7",
+                config={
+                    "temperature": "bar",
+                    "maxTokens": "bar",
+                    "model": "bar",
+                },
+                label="Production (Low Temperature)",
+                body_system_id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            )
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_list(self, async_client: AsyncScorecard) -> None:
+        system_config = await async_client.system_configs.list(
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(AsyncPaginatedResponse[SystemConfig], system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncScorecard) -> None:
+        system_config = await async_client.system_configs.list(
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            cursor="123",
+            limit=20,
+        )
+        assert_matches_type(AsyncPaginatedResponse[SystemConfig], system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_raw_response_list(self, async_client: AsyncScorecard) -> None:
+        response = await async_client.system_configs.with_raw_response.list(
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        system_config = await response.parse()
+        assert_matches_type(AsyncPaginatedResponse[SystemConfig], system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_streaming_response_list(self, async_client: AsyncScorecard) -> None:
+        async with async_client.system_configs.with_streaming_response.list(
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            system_config = await response.parse()
+            assert_matches_type(AsyncPaginatedResponse[SystemConfig], system_config, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_path_params_list(self, async_client: AsyncScorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_id` but received ''"):
+            await async_client.system_configs.with_raw_response.list(
+                system_id="",
+            )
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_get(self, async_client: AsyncScorecard) -> None:
+        system_config = await async_client.system_configs.get(
+            system_config_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(SystemConfig, system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_raw_response_get(self, async_client: AsyncScorecard) -> None:
+        response = await async_client.system_configs.with_raw_response.get(
+            system_config_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        system_config = await response.parse()
+        assert_matches_type(SystemConfig, system_config, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_streaming_response_get(self, async_client: AsyncScorecard) -> None:
+        async with async_client.system_configs.with_streaming_response.get(
+            system_config_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            system_config = await response.parse()
+            assert_matches_type(SystemConfig, system_config, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_path_params_get(self, async_client: AsyncScorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_id` but received ''"):
+            await async_client.system_configs.with_raw_response.get(
+                system_config_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                system_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_config_id` but received ''"):
+            await async_client.system_configs.with_raw_response.get(
+                system_config_id="",
+                system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            )

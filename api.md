@@ -37,7 +37,7 @@ Methods:
 Types:
 
 ```python
-from scorecardpy.types import Testcase, TestcaseCreateResponse, TestcaseDeleteResponse
+from scorecardpy.types import Testcase, TestcaseCreateResponse
 ```
 
 Methods:
@@ -45,5 +45,34 @@ Methods:
 - <code title="post /testsets/{testsetId}/testcases">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">create</a>(testset_id, \*\*<a href="src/scorecardpy/types/testcase_create_params.py">params</a>) -> <a href="./src/scorecardpy/types/testcase_create_response.py">TestcaseCreateResponse</a></code>
 - <code title="put /testcases/{testcaseId}">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">update</a>(testcase_id, \*\*<a href="src/scorecardpy/types/testcase_update_params.py">params</a>) -> <a href="./src/scorecardpy/types/testcase.py">Testcase</a></code>
 - <code title="get /testsets/{testsetId}/testcases">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">list</a>(testset_id, \*\*<a href="src/scorecardpy/types/testcase_list_params.py">params</a>) -> <a href="./src/scorecardpy/types/testcase.py">SyncPaginatedResponse[Testcase]</a></code>
-- <code title="post /testcases/bulk-delete">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">delete</a>(\*\*<a href="src/scorecardpy/types/testcase_delete_params.py">params</a>) -> <a href="./src/scorecardpy/types/testcase_delete_response.py">TestcaseDeleteResponse</a></code>
 - <code title="get /testcases/{testcaseId}">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">get</a>(testcase_id) -> <a href="./src/scorecardpy/types/testcase.py">Testcase</a></code>
+
+# Systems
+
+Types:
+
+```python
+from scorecardpy.types import System, SystemDeleteResponse
+```
+
+Methods:
+
+- <code title="post /projects/{projectId}/systems">client.systems.<a href="./src/scorecardpy/resources/systems.py">create</a>(project_id, \*\*<a href="src/scorecardpy/types/system_create_params.py">params</a>) -> <a href="./src/scorecardpy/types/system.py">System</a></code>
+- <code title="patch /systems/{systemId}">client.systems.<a href="./src/scorecardpy/resources/systems.py">update</a>(system_id, \*\*<a href="src/scorecardpy/types/system_update_params.py">params</a>) -> <a href="./src/scorecardpy/types/system.py">System</a></code>
+- <code title="get /projects/{projectId}/systems">client.systems.<a href="./src/scorecardpy/resources/systems.py">list</a>(project_id, \*\*<a href="src/scorecardpy/types/system_list_params.py">params</a>) -> <a href="./src/scorecardpy/types/system.py">SyncPaginatedResponse[System]</a></code>
+- <code title="delete /systems/{systemId}">client.systems.<a href="./src/scorecardpy/resources/systems.py">delete</a>(system_id) -> <a href="./src/scorecardpy/types/system_delete_response.py">SystemDeleteResponse</a></code>
+- <code title="get /systems/{systemId}">client.systems.<a href="./src/scorecardpy/resources/systems.py">get</a>(system_id) -> <a href="./src/scorecardpy/types/system.py">System</a></code>
+
+# SystemConfigs
+
+Types:
+
+```python
+from scorecardpy.types import SystemConfig
+```
+
+Methods:
+
+- <code title="post /systems/{systemId}/configs">client.system_configs.<a href="./src/scorecardpy/resources/system_configs.py">create</a>(path_system_id, \*\*<a href="src/scorecardpy/types/system_config_create_params.py">params</a>) -> <a href="./src/scorecardpy/types/system_config.py">SystemConfig</a></code>
+- <code title="get /systems/{systemId}/configs">client.system_configs.<a href="./src/scorecardpy/resources/system_configs.py">list</a>(system_id, \*\*<a href="src/scorecardpy/types/system_config_list_params.py">params</a>) -> <a href="./src/scorecardpy/types/system_config.py">SyncPaginatedResponse[SystemConfig]</a></code>
+- <code title="get /systems/{systemId}/configs/{systemConfigId}">client.system_configs.<a href="./src/scorecardpy/resources/system_configs.py">get</a>(system_config_id, \*, system_id) -> <a href="./src/scorecardpy/types/system_config.py">SystemConfig</a></code>

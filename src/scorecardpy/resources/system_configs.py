@@ -6,7 +6,7 @@ from typing import Dict, Iterable
 
 import httpx
 
-from ..types import testcase_list_params, testcase_create_params, testcase_update_params
+from ..types import system_config_list_params, system_config_create_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
@@ -22,51 +22,75 @@ from .._response import (
 )
 from ..pagination import SyncPaginatedResponse, AsyncPaginatedResponse
 from .._base_client import AsyncPaginator, make_request_options
-from ..types.testcase import Testcase
-from ..types.testcase_create_response import TestcaseCreateResponse
+from ..types.system_config import SystemConfig
 
-__all__ = ["TestcasesResource", "AsyncTestcasesResource"]
+__all__ = ["SystemConfigsResource", "AsyncSystemConfigsResource"]
 
 
-class TestcasesResource(SyncAPIResource):
-    __test__ = False
-
+class SystemConfigsResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> TestcasesResourceWithRawResponse:
+    def with_raw_response(self) -> SystemConfigsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/stainless-sdks/scorecard-python#accessing-raw-response-data-eg-headers
         """
-        return TestcasesResourceWithRawResponse(self)
+        return SystemConfigsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> TestcasesResourceWithStreamingResponse:
+    def with_streaming_response(self) -> SystemConfigsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/stainless-sdks/scorecard-python#with_streaming_response
         """
-        return TestcasesResourceWithStreamingResponse(self)
+        return SystemConfigsResourceWithStreamingResponse(self)
 
     def create(
         self,
-        testset_id: str,
+        path_system_id: str,
         *,
-        items: Iterable[testcase_create_params.Item],
+        id: str,
+        config: Dict[str, object],
+        label: str,
+        body_system_id: str,
+        validation_errors: Iterable[system_config_create_params.ValidationError] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TestcaseCreateResponse:
+    ) -> SystemConfig:
         """
-        Create multiple testcases in the specified testset.
+        Create a new configuration for a system.
+
+        Each configuration contains specific parameter values that match the system's
+        configSchema - things like model parameters, thresholds, or processing options.
+        Once created, configurations cannot be modified, ensuring stable reference
+        points for evaluations.
+
+        When creating a configuration:
+
+        - The 'config' object is validated against the parent system's configSchema
+        - Configurations with validation errors are still stored, with errors included
+          in the response
+        - Validation errors indicate fields that don't match the schema but don't
+          prevent creation
+        - Having validation errors may affect how some evaluation metrics are calculated
 
         Args:
-          items: Testcases to create (max 100)
+          id: The ID of the system configuration
+
+          config: The configuration of the system
+
+          label: The label for the system configuration
+
+          body_system_id: The ID of the system the configuration belongs to
+
+          validation_errors: Validation errors found in the configuration. If present, the configuration
+              doesn't fully conform to its system's configSchema.
 
           extra_headers: Send extra headers
 
@@ -76,57 +100,29 @@ class TestcasesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not testset_id:
-            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
+        if not path_system_id:
+            raise ValueError(f"Expected a non-empty value for `path_system_id` but received {path_system_id!r}")
         return self._post(
-            f"/testsets/{testset_id}/testcases",
-            body=maybe_transform({"items": items}, testcase_create_params.TestcaseCreateParams),
+            f"/systems/{path_system_id}/configs",
+            body=maybe_transform(
+                {
+                    "id": id,
+                    "config": config,
+                    "label": label,
+                    "body_system_id": body_system_id,
+                    "validation_errors": validation_errors,
+                },
+                system_config_create_params.SystemConfigCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TestcaseCreateResponse,
-        )
-
-    def update(
-        self,
-        testcase_id: str,
-        *,
-        json_data: Dict[str, object],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Testcase:
-        """
-        Replace the data of an existing testcase while keeping its ID.
-
-        Args:
-          json_data: The JSON data of the testcase, which is validated against the testset's schema.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not testcase_id:
-            raise ValueError(f"Expected a non-empty value for `testcase_id` but received {testcase_id!r}")
-        return self._put(
-            f"/testcases/{testcase_id}",
-            body=maybe_transform({"json_data": json_data}, testcase_update_params.TestcaseUpdateParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Testcase,
+            cast_to=SystemConfig,
         )
 
     def list(
         self,
-        testset_id: str,
+        system_id: str,
         *,
         cursor: str | NotGiven = NOT_GIVEN,
         limit: int | NotGiven = NOT_GIVEN,
@@ -136,9 +132,12 @@ class TestcasesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> SyncPaginatedResponse[Testcase]:
+    ) -> SyncPaginatedResponse[SystemConfig]:
         """
-        Retrieve a paginated list of testcases belonging to a testset.
+        Retrieve a paginated list of configurations for a specific system.
+
+        System configurations provide concrete parameter values for a System Under Test,
+        defining exactly how the system should be configured during an evaluation run.
 
         Args:
           cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get
@@ -155,11 +154,11 @@ class TestcasesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not testset_id:
-            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
+        if not system_id:
+            raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         return self._get_api_list(
-            f"/testsets/{testset_id}/testcases",
-            page=SyncPaginatedResponse[Testcase],
+            f"/systems/{system_id}/configs",
+            page=SyncPaginatedResponse[SystemConfig],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -170,25 +169,26 @@ class TestcasesResource(SyncAPIResource):
                         "cursor": cursor,
                         "limit": limit,
                     },
-                    testcase_list_params.TestcaseListParams,
+                    system_config_list_params.SystemConfigListParams,
                 ),
             ),
-            model=Testcase,
+            model=SystemConfig,
         )
 
     def get(
         self,
-        testcase_id: str,
+        system_config_id: str,
         *,
+        system_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Testcase:
+    ) -> SystemConfig:
         """
-        Retrieve a specific testcase by ID.
+        Retrieve a specific system configuration by ID.
 
         Args:
           extra_headers: Send extra headers
@@ -199,54 +199,83 @@ class TestcasesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not testcase_id:
-            raise ValueError(f"Expected a non-empty value for `testcase_id` but received {testcase_id!r}")
+        if not system_id:
+            raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
+        if not system_config_id:
+            raise ValueError(f"Expected a non-empty value for `system_config_id` but received {system_config_id!r}")
         return self._get(
-            f"/testcases/{testcase_id}",
+            f"/systems/{system_id}/configs/{system_config_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Testcase,
+            cast_to=SystemConfig,
         )
 
 
-class AsyncTestcasesResource(AsyncAPIResource):
+class AsyncSystemConfigsResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncTestcasesResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncSystemConfigsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/stainless-sdks/scorecard-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncTestcasesResourceWithRawResponse(self)
+        return AsyncSystemConfigsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncTestcasesResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncSystemConfigsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/stainless-sdks/scorecard-python#with_streaming_response
         """
-        return AsyncTestcasesResourceWithStreamingResponse(self)
+        return AsyncSystemConfigsResourceWithStreamingResponse(self)
 
     async def create(
         self,
-        testset_id: str,
+        path_system_id: str,
         *,
-        items: Iterable[testcase_create_params.Item],
+        id: str,
+        config: Dict[str, object],
+        label: str,
+        body_system_id: str,
+        validation_errors: Iterable[system_config_create_params.ValidationError] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TestcaseCreateResponse:
+    ) -> SystemConfig:
         """
-        Create multiple testcases in the specified testset.
+        Create a new configuration for a system.
+
+        Each configuration contains specific parameter values that match the system's
+        configSchema - things like model parameters, thresholds, or processing options.
+        Once created, configurations cannot be modified, ensuring stable reference
+        points for evaluations.
+
+        When creating a configuration:
+
+        - The 'config' object is validated against the parent system's configSchema
+        - Configurations with validation errors are still stored, with errors included
+          in the response
+        - Validation errors indicate fields that don't match the schema but don't
+          prevent creation
+        - Having validation errors may affect how some evaluation metrics are calculated
 
         Args:
-          items: Testcases to create (max 100)
+          id: The ID of the system configuration
+
+          config: The configuration of the system
+
+          label: The label for the system configuration
+
+          body_system_id: The ID of the system the configuration belongs to
+
+          validation_errors: Validation errors found in the configuration. If present, the configuration
+              doesn't fully conform to its system's configSchema.
 
           extra_headers: Send extra headers
 
@@ -256,57 +285,29 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not testset_id:
-            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
+        if not path_system_id:
+            raise ValueError(f"Expected a non-empty value for `path_system_id` but received {path_system_id!r}")
         return await self._post(
-            f"/testsets/{testset_id}/testcases",
-            body=await async_maybe_transform({"items": items}, testcase_create_params.TestcaseCreateParams),
+            f"/systems/{path_system_id}/configs",
+            body=await async_maybe_transform(
+                {
+                    "id": id,
+                    "config": config,
+                    "label": label,
+                    "body_system_id": body_system_id,
+                    "validation_errors": validation_errors,
+                },
+                system_config_create_params.SystemConfigCreateParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TestcaseCreateResponse,
-        )
-
-    async def update(
-        self,
-        testcase_id: str,
-        *,
-        json_data: Dict[str, object],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Testcase:
-        """
-        Replace the data of an existing testcase while keeping its ID.
-
-        Args:
-          json_data: The JSON data of the testcase, which is validated against the testset's schema.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not testcase_id:
-            raise ValueError(f"Expected a non-empty value for `testcase_id` but received {testcase_id!r}")
-        return await self._put(
-            f"/testcases/{testcase_id}",
-            body=await async_maybe_transform({"json_data": json_data}, testcase_update_params.TestcaseUpdateParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Testcase,
+            cast_to=SystemConfig,
         )
 
     def list(
         self,
-        testset_id: str,
+        system_id: str,
         *,
         cursor: str | NotGiven = NOT_GIVEN,
         limit: int | NotGiven = NOT_GIVEN,
@@ -316,9 +317,12 @@ class AsyncTestcasesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncPaginator[Testcase, AsyncPaginatedResponse[Testcase]]:
+    ) -> AsyncPaginator[SystemConfig, AsyncPaginatedResponse[SystemConfig]]:
         """
-        Retrieve a paginated list of testcases belonging to a testset.
+        Retrieve a paginated list of configurations for a specific system.
+
+        System configurations provide concrete parameter values for a System Under Test,
+        defining exactly how the system should be configured during an evaluation run.
 
         Args:
           cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get
@@ -335,11 +339,11 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not testset_id:
-            raise ValueError(f"Expected a non-empty value for `testset_id` but received {testset_id!r}")
+        if not system_id:
+            raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         return self._get_api_list(
-            f"/testsets/{testset_id}/testcases",
-            page=AsyncPaginatedResponse[Testcase],
+            f"/systems/{system_id}/configs",
+            page=AsyncPaginatedResponse[SystemConfig],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -350,25 +354,26 @@ class AsyncTestcasesResource(AsyncAPIResource):
                         "cursor": cursor,
                         "limit": limit,
                     },
-                    testcase_list_params.TestcaseListParams,
+                    system_config_list_params.SystemConfigListParams,
                 ),
             ),
-            model=Testcase,
+            model=SystemConfig,
         )
 
     async def get(
         self,
-        testcase_id: str,
+        system_config_id: str,
         *,
+        system_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Testcase:
+    ) -> SystemConfig:
         """
-        Retrieve a specific testcase by ID.
+        Retrieve a specific system configuration by ID.
 
         Args:
           extra_headers: Send extra headers
@@ -379,88 +384,74 @@ class AsyncTestcasesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not testcase_id:
-            raise ValueError(f"Expected a non-empty value for `testcase_id` but received {testcase_id!r}")
+        if not system_id:
+            raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
+        if not system_config_id:
+            raise ValueError(f"Expected a non-empty value for `system_config_id` but received {system_config_id!r}")
         return await self._get(
-            f"/testcases/{testcase_id}",
+            f"/systems/{system_id}/configs/{system_config_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Testcase,
+            cast_to=SystemConfig,
         )
 
 
-class TestcasesResourceWithRawResponse:
-    __test__ = False
-
-    def __init__(self, testcases: TestcasesResource) -> None:
-        self._testcases = testcases
+class SystemConfigsResourceWithRawResponse:
+    def __init__(self, system_configs: SystemConfigsResource) -> None:
+        self._system_configs = system_configs
 
         self.create = to_raw_response_wrapper(
-            testcases.create,
-        )
-        self.update = to_raw_response_wrapper(
-            testcases.update,
+            system_configs.create,
         )
         self.list = to_raw_response_wrapper(
-            testcases.list,
+            system_configs.list,
         )
         self.get = to_raw_response_wrapper(
-            testcases.get,
+            system_configs.get,
         )
 
 
-class AsyncTestcasesResourceWithRawResponse:
-    def __init__(self, testcases: AsyncTestcasesResource) -> None:
-        self._testcases = testcases
+class AsyncSystemConfigsResourceWithRawResponse:
+    def __init__(self, system_configs: AsyncSystemConfigsResource) -> None:
+        self._system_configs = system_configs
 
         self.create = async_to_raw_response_wrapper(
-            testcases.create,
-        )
-        self.update = async_to_raw_response_wrapper(
-            testcases.update,
+            system_configs.create,
         )
         self.list = async_to_raw_response_wrapper(
-            testcases.list,
+            system_configs.list,
         )
         self.get = async_to_raw_response_wrapper(
-            testcases.get,
+            system_configs.get,
         )
 
 
-class TestcasesResourceWithStreamingResponse:
-    __test__ = False
-
-    def __init__(self, testcases: TestcasesResource) -> None:
-        self._testcases = testcases
+class SystemConfigsResourceWithStreamingResponse:
+    def __init__(self, system_configs: SystemConfigsResource) -> None:
+        self._system_configs = system_configs
 
         self.create = to_streamed_response_wrapper(
-            testcases.create,
-        )
-        self.update = to_streamed_response_wrapper(
-            testcases.update,
+            system_configs.create,
         )
         self.list = to_streamed_response_wrapper(
-            testcases.list,
+            system_configs.list,
         )
         self.get = to_streamed_response_wrapper(
-            testcases.get,
+            system_configs.get,
         )
 
 
-class AsyncTestcasesResourceWithStreamingResponse:
-    def __init__(self, testcases: AsyncTestcasesResource) -> None:
-        self._testcases = testcases
+class AsyncSystemConfigsResourceWithStreamingResponse:
+    def __init__(self, system_configs: AsyncSystemConfigsResource) -> None:
+        self._system_configs = system_configs
 
         self.create = async_to_streamed_response_wrapper(
-            testcases.create,
-        )
-        self.update = async_to_streamed_response_wrapper(
-            testcases.update,
+            system_configs.create,
         )
         self.list = async_to_streamed_response_wrapper(
-            testcases.list,
+            system_configs.list,
         )
         self.get = async_to_streamed_response_wrapper(
-            testcases.get,
+            system_configs.get,
         )

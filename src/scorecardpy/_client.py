@@ -24,7 +24,7 @@ from ._utils import (
     get_async_library,
 )
 from ._version import __version__
-from .resources import projects, testsets, testcases
+from .resources import systems, projects, testsets, testcases, system_configs
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, ScorecardError
 from ._base_client import (
@@ -56,6 +56,8 @@ class Scorecard(SyncAPIClient):
     projects: projects.ProjectsResource
     testsets: testsets.TestsetsResource
     testcases: testcases.TestcasesResource
+    systems: systems.SystemsResource
+    system_configs: system_configs.SystemConfigsResource
     with_raw_response: ScorecardWithRawResponse
     with_streaming_response: ScorecardWithStreamedResponse
 
@@ -140,6 +142,8 @@ class Scorecard(SyncAPIClient):
         self.projects = projects.ProjectsResource(self)
         self.testsets = testsets.TestsetsResource(self)
         self.testcases = testcases.TestcasesResource(self)
+        self.systems = systems.SystemsResource(self)
+        self.system_configs = system_configs.SystemConfigsResource(self)
         self.with_raw_response = ScorecardWithRawResponse(self)
         self.with_streaming_response = ScorecardWithStreamedResponse(self)
 
@@ -254,6 +258,8 @@ class AsyncScorecard(AsyncAPIClient):
     projects: projects.AsyncProjectsResource
     testsets: testsets.AsyncTestsetsResource
     testcases: testcases.AsyncTestcasesResource
+    systems: systems.AsyncSystemsResource
+    system_configs: system_configs.AsyncSystemConfigsResource
     with_raw_response: AsyncScorecardWithRawResponse
     with_streaming_response: AsyncScorecardWithStreamedResponse
 
@@ -338,6 +344,8 @@ class AsyncScorecard(AsyncAPIClient):
         self.projects = projects.AsyncProjectsResource(self)
         self.testsets = testsets.AsyncTestsetsResource(self)
         self.testcases = testcases.AsyncTestcasesResource(self)
+        self.systems = systems.AsyncSystemsResource(self)
+        self.system_configs = system_configs.AsyncSystemConfigsResource(self)
         self.with_raw_response = AsyncScorecardWithRawResponse(self)
         self.with_streaming_response = AsyncScorecardWithStreamedResponse(self)
 
@@ -453,6 +461,8 @@ class ScorecardWithRawResponse:
         self.projects = projects.ProjectsResourceWithRawResponse(client.projects)
         self.testsets = testsets.TestsetsResourceWithRawResponse(client.testsets)
         self.testcases = testcases.TestcasesResourceWithRawResponse(client.testcases)
+        self.systems = systems.SystemsResourceWithRawResponse(client.systems)
+        self.system_configs = system_configs.SystemConfigsResourceWithRawResponse(client.system_configs)
 
 
 class AsyncScorecardWithRawResponse:
@@ -460,6 +470,8 @@ class AsyncScorecardWithRawResponse:
         self.projects = projects.AsyncProjectsResourceWithRawResponse(client.projects)
         self.testsets = testsets.AsyncTestsetsResourceWithRawResponse(client.testsets)
         self.testcases = testcases.AsyncTestcasesResourceWithRawResponse(client.testcases)
+        self.systems = systems.AsyncSystemsResourceWithRawResponse(client.systems)
+        self.system_configs = system_configs.AsyncSystemConfigsResourceWithRawResponse(client.system_configs)
 
 
 class ScorecardWithStreamedResponse:
@@ -467,6 +479,8 @@ class ScorecardWithStreamedResponse:
         self.projects = projects.ProjectsResourceWithStreamingResponse(client.projects)
         self.testsets = testsets.TestsetsResourceWithStreamingResponse(client.testsets)
         self.testcases = testcases.TestcasesResourceWithStreamingResponse(client.testcases)
+        self.systems = systems.SystemsResourceWithStreamingResponse(client.systems)
+        self.system_configs = system_configs.SystemConfigsResourceWithStreamingResponse(client.system_configs)
 
 
 class AsyncScorecardWithStreamedResponse:
@@ -474,6 +488,8 @@ class AsyncScorecardWithStreamedResponse:
         self.projects = projects.AsyncProjectsResourceWithStreamingResponse(client.projects)
         self.testsets = testsets.AsyncTestsetsResourceWithStreamingResponse(client.testsets)
         self.testcases = testcases.AsyncTestcasesResourceWithStreamingResponse(client.testcases)
+        self.systems = systems.AsyncSystemsResourceWithStreamingResponse(client.systems)
+        self.system_configs = system_configs.AsyncSystemConfigsResourceWithStreamingResponse(client.system_configs)
 
 
 Client = Scorecard
