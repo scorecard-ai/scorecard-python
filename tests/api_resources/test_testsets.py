@@ -28,11 +28,14 @@ class TestTestsets:
             project_id="projectId",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
-                "inputs": ["string"],
-                "labels": ["string"],
+                "inputs": ["question"],
+                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
-            json_schema={"foo": "bar"},
+            json_schema={
+                "type": "bar",
+                "properties": "bar",
+            },
             name="Long Context Q&A",
         )
         assert_matches_type(Testset, testset, path=["response"])
@@ -44,11 +47,14 @@ class TestTestsets:
             project_id="projectId",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
-                "inputs": ["string"],
-                "labels": ["string"],
+                "inputs": ["question"],
+                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
-            json_schema={"foo": "bar"},
+            json_schema={
+                "type": "bar",
+                "properties": "bar",
+            },
             name="Long Context Q&A",
         )
 
@@ -64,11 +70,14 @@ class TestTestsets:
             project_id="projectId",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
-                "inputs": ["string"],
-                "labels": ["string"],
+                "inputs": ["question"],
+                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
-            json_schema={"foo": "bar"},
+            json_schema={
+                "type": "bar",
+                "properties": "bar",
+            },
             name="Long Context Q&A",
         ) as response:
             assert not response.is_closed
@@ -87,11 +96,14 @@ class TestTestsets:
                 project_id="",
                 description="Testset for long context Q&A chatbot.",
                 field_mapping={
-                    "inputs": ["string"],
-                    "labels": ["string"],
+                    "inputs": ["question"],
+                    "labels": ["idealAnswer"],
                     "metadata": ["string"],
                 },
-                json_schema={"foo": "bar"},
+                json_schema={
+                    "type": "bar",
+                    "properties": "bar",
+                },
                 name="Long Context Q&A",
             )
 
@@ -300,11 +312,14 @@ class TestAsyncTestsets:
             project_id="projectId",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
-                "inputs": ["string"],
-                "labels": ["string"],
+                "inputs": ["question"],
+                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
-            json_schema={"foo": "bar"},
+            json_schema={
+                "type": "bar",
+                "properties": "bar",
+            },
             name="Long Context Q&A",
         )
         assert_matches_type(Testset, testset, path=["response"])
@@ -316,11 +331,14 @@ class TestAsyncTestsets:
             project_id="projectId",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
-                "inputs": ["string"],
-                "labels": ["string"],
+                "inputs": ["question"],
+                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
-            json_schema={"foo": "bar"},
+            json_schema={
+                "type": "bar",
+                "properties": "bar",
+            },
             name="Long Context Q&A",
         )
 
@@ -336,11 +354,14 @@ class TestAsyncTestsets:
             project_id="projectId",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
-                "inputs": ["string"],
-                "labels": ["string"],
+                "inputs": ["question"],
+                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
-            json_schema={"foo": "bar"},
+            json_schema={
+                "type": "bar",
+                "properties": "bar",
+            },
             name="Long Context Q&A",
         ) as response:
             assert not response.is_closed
@@ -359,11 +380,14 @@ class TestAsyncTestsets:
                 project_id="",
                 description="Testset for long context Q&A chatbot.",
                 field_mapping={
-                    "inputs": ["string"],
-                    "labels": ["string"],
+                    "inputs": ["question"],
+                    "labels": ["idealAnswer"],
                     "metadata": ["string"],
                 },
-                json_schema={"foo": "bar"},
+                json_schema={
+                    "type": "bar",
+                    "properties": "bar",
+                },
                 name="Long Context Q&A",
             )
 

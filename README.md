@@ -40,11 +40,14 @@ testset = client.testsets.create(
     project_id="projectId",
     description="Testset for long context Q&A chatbot.",
     field_mapping={
-        "inputs": ["string"],
-        "labels": ["string"],
+        "inputs": ["question"],
+        "labels": ["idealAnswer"],
         "metadata": ["string"],
     },
-    json_schema={"foo": "bar"},
+    json_schema={
+        "type": "bar",
+        "properties": "bar",
+    },
     name="Long Context Q&A",
 )
 print(testset.id)
@@ -76,11 +79,14 @@ async def main() -> None:
         project_id="projectId",
         description="Testset for long context Q&A chatbot.",
         field_mapping={
-            "inputs": ["string"],
-            "labels": ["string"],
+            "inputs": ["question"],
+            "labels": ["idealAnswer"],
             "metadata": ["string"],
         },
-        json_schema={"foo": "bar"},
+        json_schema={
+            "type": "bar",
+            "properties": "bar",
+        },
         name="Long Context Q&A",
     )
     print(testset.id)
@@ -113,11 +119,14 @@ testset = client.testsets.create(
     project_id="projectId",
     description="Testset for long context Q&A chatbot.",
     field_mapping={
-        "inputs": ["string"],
-        "labels": ["string"],
+        "inputs": ["question"],
+        "labels": ["idealAnswer"],
         "metadata": ["string"],
     },
-    json_schema={"foo": "bar"},
+    json_schema={
+        "type": "bar",
+        "properties": "bar",
+    },
     name="Long Context Q&A",
 )
 print(testset.field_mapping)

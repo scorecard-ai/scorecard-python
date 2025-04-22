@@ -18,8 +18,10 @@ from .testset_create_params import TestsetCreateParams as TestsetCreateParams
 from .testset_update_params import TestsetUpdateParams as TestsetUpdateParams
 from .system_delete_response import SystemDeleteResponse as SystemDeleteResponse
 from .testcase_create_params import TestcaseCreateParams as TestcaseCreateParams
+from .testcase_delete_params import TestcaseDeleteParams as TestcaseDeleteParams
 from .testcase_update_params import TestcaseUpdateParams as TestcaseUpdateParams
 from .testset_delete_response import TestsetDeleteResponse as TestsetDeleteResponse
 from .testcase_create_response import TestcaseCreateResponse as TestcaseCreateResponse
+from .testcase_delete_response import TestcaseDeleteResponse as TestcaseDeleteResponse
 from .system_config_list_params import SystemConfigListParams as SystemConfigListParams
 from .system_config_create_params import SystemConfigCreateParams as SystemConfigCreateParams

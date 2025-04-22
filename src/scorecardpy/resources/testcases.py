@@ -2,11 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Dict, Iterable
+from typing import Dict, List, Iterable
 
 import httpx
 
-from ..types import testcase_list_params, testcase_create_params, testcase_update_params
+from ..types import (
+    testcase_list_params,
+    testcase_create_params,
+    testcase_delete_params,
+    testcase_update_params,
+)
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
@@ -24,6 +29,7 @@ from ..pagination import SyncPaginatedResponse, AsyncPaginatedResponse
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.testcase import Testcase
 from ..types.testcase_create_response import TestcaseCreateResponse
+from ..types.testcase_delete_response import TestcaseDeleteResponse
 
 __all__ = ["TestcasesResource", "AsyncTestcasesResource"]
 
@@ -174,6 +180,40 @@ class TestcasesResource(SyncAPIResource):
                 ),
             ),
             model=Testcase,
+        )
+
+    def delete(
+        self,
+        *,
+        ids: List[str],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TestcaseDeleteResponse:
+        """
+        Delete multiple testcases by their IDs.
+
+        Args:
+          ids: IDs of testcases to delete
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/testcases/bulk-delete",
+            body=maybe_transform({"ids": ids}, testcase_delete_params.TestcaseDeleteParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=TestcaseDeleteResponse,
         )
 
     def get(
@@ -356,6 +396,40 @@ class AsyncTestcasesResource(AsyncAPIResource):
             model=Testcase,
         )
 
+    async def delete(
+        self,
+        *,
+        ids: List[str],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TestcaseDeleteResponse:
+        """
+        Delete multiple testcases by their IDs.
+
+        Args:
+          ids: IDs of testcases to delete
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/testcases/bulk-delete",
+            body=await async_maybe_transform({"ids": ids}, testcase_delete_params.TestcaseDeleteParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=TestcaseDeleteResponse,
+        )
+
     async def get(
         self,
         testcase_id: str,
@@ -405,6 +479,9 @@ class TestcasesResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             testcases.list,
         )
+        self.delete = to_raw_response_wrapper(
+            testcases.delete,
+        )
         self.get = to_raw_response_wrapper(
             testcases.get,
         )
@@ -422,6 +499,9 @@ class AsyncTestcasesResourceWithRawResponse:
         )
         self.list = async_to_raw_response_wrapper(
             testcases.list,
+        )
+        self.delete = async_to_raw_response_wrapper(
+            testcases.delete,
         )
         self.get = async_to_raw_response_wrapper(
             testcases.get,
@@ -443,6 +523,9 @@ class TestcasesResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             testcases.list,
         )
+        self.delete = to_streamed_response_wrapper(
+            testcases.delete,
+        )
         self.get = to_streamed_response_wrapper(
             testcases.get,
         )
@@ -460,6 +543,9 @@ class AsyncTestcasesResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             testcases.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            testcases.delete,
         )
         self.get = async_to_streamed_response_wrapper(
             testcases.get,
