@@ -11,9 +11,6 @@ __all__ = ["SystemCreateParams"]
 
 
 class SystemCreateParams(TypedDict, total=False):
-    id: Required[str]
-    """The ID of the system"""
-
     config_schema: Required[Annotated[Dict[str, object], PropertyInfo(alias="configSchema")]]
     """The schema of the system's configuration"""
 

@@ -26,7 +26,6 @@ class TestSystems:
     def test_method_create(self, client: Scorecard) -> None:
         system = client.systems.create(
             project_id="projectId",
-            id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -52,7 +51,6 @@ class TestSystems:
     def test_raw_response_create(self, client: Scorecard) -> None:
         response = client.systems.with_raw_response.create(
             project_id="projectId",
-            id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -82,7 +80,6 @@ class TestSystems:
     def test_streaming_response_create(self, client: Scorecard) -> None:
         with client.systems.with_streaming_response.create(
             project_id="projectId",
-            id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -115,7 +112,6 @@ class TestSystems:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
             client.systems.with_raw_response.create(
                 project_id="",
-                id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 config_schema={
                     "type": "bar",
                     "properties": "bar",
@@ -335,7 +331,6 @@ class TestAsyncSystems:
     async def test_method_create(self, async_client: AsyncScorecard) -> None:
         system = await async_client.systems.create(
             project_id="projectId",
-            id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -361,7 +356,6 @@ class TestAsyncSystems:
     async def test_raw_response_create(self, async_client: AsyncScorecard) -> None:
         response = await async_client.systems.with_raw_response.create(
             project_id="projectId",
-            id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -391,7 +385,6 @@ class TestAsyncSystems:
     async def test_streaming_response_create(self, async_client: AsyncScorecard) -> None:
         async with async_client.systems.with_streaming_response.create(
             project_id="projectId",
-            id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -424,7 +417,6 @@ class TestAsyncSystems:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
             await async_client.systems.with_raw_response.create(
                 project_id="",
-                id="3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 config_schema={
                     "type": "bar",
                     "properties": "bar",

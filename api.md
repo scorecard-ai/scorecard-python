@@ -48,6 +48,30 @@ Methods:
 - <code title="post /testcases/bulk-delete">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">delete</a>(\*\*<a href="src/scorecardpy/types/testcase_delete_params.py">params</a>) -> <a href="./src/scorecardpy/types/testcase_delete_response.py">TestcaseDeleteResponse</a></code>
 - <code title="get /testcases/{testcaseId}">client.testcases.<a href="./src/scorecardpy/resources/testcases.py">get</a>(testcase_id) -> <a href="./src/scorecardpy/types/testcase.py">Testcase</a></code>
 
+# Runs
+
+Types:
+
+```python
+from scorecardpy.types import Run
+```
+
+Methods:
+
+- <code title="post /projects/{projectId}/runs">client.runs.<a href="./src/scorecardpy/resources/runs.py">create</a>(project_id, \*\*<a href="src/scorecardpy/types/run_create_params.py">params</a>) -> <a href="./src/scorecardpy/types/run.py">Run</a></code>
+
+# ExecutionRecords
+
+Types:
+
+```python
+from scorecardpy.types import ExecutionRecord
+```
+
+Methods:
+
+- <code title="post /runs/{runId}/executionrecords">client.execution_records.<a href="./src/scorecardpy/resources/execution_records.py">create</a>(run_id, \*\*<a href="src/scorecardpy/types/execution_record_create_params.py">params</a>) -> <a href="./src/scorecardpy/types/execution_record.py">ExecutionRecord</a></code>
+
 # Systems
 
 Types:
@@ -74,6 +98,6 @@ from scorecardpy.types import SystemConfig
 
 Methods:
 
-- <code title="post /systems/{systemId}/configs">client.system_configs.<a href="./src/scorecardpy/resources/system_configs.py">create</a>(path_system_id, \*\*<a href="src/scorecardpy/types/system_config_create_params.py">params</a>) -> <a href="./src/scorecardpy/types/system_config.py">SystemConfig</a></code>
+- <code title="post /systems/{systemId}/configs">client.system_configs.<a href="./src/scorecardpy/resources/system_configs.py">create</a>(system_id, \*\*<a href="src/scorecardpy/types/system_config_create_params.py">params</a>) -> <a href="./src/scorecardpy/types/system_config.py">SystemConfig</a></code>
 - <code title="get /systems/{systemId}/configs">client.system_configs.<a href="./src/scorecardpy/resources/system_configs.py">list</a>(system_id, \*\*<a href="src/scorecardpy/types/system_config_list_params.py">params</a>) -> <a href="./src/scorecardpy/types/system_config.py">SyncPaginatedResponse[SystemConfig]</a></code>
 - <code title="get /systems/{systemId}/configs/{systemConfigId}">client.system_configs.<a href="./src/scorecardpy/resources/system_configs.py">get</a>(system_config_id, \*, system_id) -> <a href="./src/scorecardpy/types/system_config.py">SystemConfig</a></code>

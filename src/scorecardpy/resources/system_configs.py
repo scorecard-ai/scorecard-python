@@ -46,12 +46,10 @@ class SystemConfigsResource(SyncAPIResource):
 
     def create(
         self,
-        path_system_id: str,
+        system_id: str,
         *,
-        id: str,
         config: Dict[str, object],
         label: str,
-        body_system_id: str,
         validation_errors: Iterable[system_config_create_params.ValidationError] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -78,13 +76,9 @@ class SystemConfigsResource(SyncAPIResource):
         - Having validation errors may affect how some evaluation metrics are calculated
 
         Args:
-          id: The ID of the system configuration
-
           config: The configuration of the system
 
           label: The label for the system configuration
-
-          body_system_id: The ID of the system the configuration belongs to
 
           validation_errors: Validation errors found in the configuration. If present, the configuration
               doesn't fully conform to its system's configSchema.
@@ -97,16 +91,14 @@ class SystemConfigsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not path_system_id:
-            raise ValueError(f"Expected a non-empty value for `path_system_id` but received {path_system_id!r}")
+        if not system_id:
+            raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         return self._post(
-            f"/systems/{path_system_id}/configs",
+            f"/systems/{system_id}/configs",
             body=maybe_transform(
                 {
-                    "id": id,
                     "config": config,
                     "label": label,
-                    "body_system_id": body_system_id,
                     "validation_errors": validation_errors,
                 },
                 system_config_create_params.SystemConfigCreateParams,
@@ -231,12 +223,10 @@ class AsyncSystemConfigsResource(AsyncAPIResource):
 
     async def create(
         self,
-        path_system_id: str,
+        system_id: str,
         *,
-        id: str,
         config: Dict[str, object],
         label: str,
-        body_system_id: str,
         validation_errors: Iterable[system_config_create_params.ValidationError] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -263,13 +253,9 @@ class AsyncSystemConfigsResource(AsyncAPIResource):
         - Having validation errors may affect how some evaluation metrics are calculated
 
         Args:
-          id: The ID of the system configuration
-
           config: The configuration of the system
 
           label: The label for the system configuration
-
-          body_system_id: The ID of the system the configuration belongs to
 
           validation_errors: Validation errors found in the configuration. If present, the configuration
               doesn't fully conform to its system's configSchema.
@@ -282,16 +268,14 @@ class AsyncSystemConfigsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not path_system_id:
-            raise ValueError(f"Expected a non-empty value for `path_system_id` but received {path_system_id!r}")
+        if not system_id:
+            raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         return await self._post(
-            f"/systems/{path_system_id}/configs",
+            f"/systems/{system_id}/configs",
             body=await async_maybe_transform(
                 {
-                    "id": id,
                     "config": config,
                     "label": label,
-                    "body_system_id": body_system_id,
                     "validation_errors": validation_errors,
                 },
                 system_config_create_params.SystemConfigCreateParams,

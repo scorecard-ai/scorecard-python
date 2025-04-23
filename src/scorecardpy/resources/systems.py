@@ -49,7 +49,6 @@ class SystemsResource(SyncAPIResource):
         self,
         project_id: str,
         *,
-        id: str,
         config_schema: Dict[str, object],
         description: str,
         input_schema: Dict[str, object],
@@ -80,8 +79,6 @@ class SystemsResource(SyncAPIResource):
         interface rather than implementation details.
 
         Args:
-          id: The ID of the system
-
           config_schema: The schema of the system's configuration
 
           description: The description of the system
@@ -106,7 +103,6 @@ class SystemsResource(SyncAPIResource):
             f"/projects/{project_id}/systems",
             body=maybe_transform(
                 {
-                    "id": id,
                     "config_schema": config_schema,
                     "description": description,
                     "input_schema": input_schema,
@@ -337,7 +333,6 @@ class AsyncSystemsResource(AsyncAPIResource):
         self,
         project_id: str,
         *,
-        id: str,
         config_schema: Dict[str, object],
         description: str,
         input_schema: Dict[str, object],
@@ -368,8 +363,6 @@ class AsyncSystemsResource(AsyncAPIResource):
         interface rather than implementation details.
 
         Args:
-          id: The ID of the system
-
           config_schema: The schema of the system's configuration
 
           description: The description of the system
@@ -394,7 +387,6 @@ class AsyncSystemsResource(AsyncAPIResource):
             f"/projects/{project_id}/systems",
             body=await async_maybe_transform(
                 {
-                    "id": id,
                     "config_schema": config_schema,
                     "description": description,
                     "input_schema": input_schema,

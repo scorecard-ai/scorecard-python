@@ -27,7 +27,29 @@ class TestTestcases:
     def test_method_create(self, client: Scorecard) -> None:
         testcase = client.testcases.create(
             testset_id="testsetId",
-            items=[{"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}],
+            items=[
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+            ],
         )
         assert_matches_type(TestcaseCreateResponse, testcase, path=["response"])
 
@@ -36,7 +58,29 @@ class TestTestcases:
     def test_raw_response_create(self, client: Scorecard) -> None:
         response = client.testcases.with_raw_response.create(
             testset_id="testsetId",
-            items=[{"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}],
+            items=[
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+            ],
         )
 
         assert response.is_closed is True
@@ -49,7 +93,29 @@ class TestTestcases:
     def test_streaming_response_create(self, client: Scorecard) -> None:
         with client.testcases.with_streaming_response.create(
             testset_id="testsetId",
-            items=[{"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}],
+            items=[
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+            ],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -65,7 +131,29 @@ class TestTestcases:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `testset_id` but received ''"):
             client.testcases.with_raw_response.create(
                 testset_id="",
-                items=[{"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}],
+                items=[
+                    {
+                        "json_data": {
+                            "question": "bar",
+                            "idealAnswer": "bar",
+                            "provenance": "bar",
+                        }
+                    },
+                    {
+                        "json_data": {
+                            "question": "bar",
+                            "idealAnswer": "bar",
+                            "provenance": "bar",
+                        }
+                    },
+                    {
+                        "json_data": {
+                            "question": "bar",
+                            "idealAnswer": "bar",
+                            "provenance": "bar",
+                        }
+                    },
+                ],
             )
 
     @pytest.mark.skip()
@@ -73,7 +161,11 @@ class TestTestcases:
     def test_method_update(self, client: Scorecard) -> None:
         testcase = client.testcases.update(
             testcase_id="testcaseId",
-            json_data={"foo": "bar"},
+            json_data={
+                "question": "bar",
+                "idealAnswer": "bar",
+                "provenance": "bar",
+            },
         )
         assert_matches_type(Testcase, testcase, path=["response"])
 
@@ -82,7 +174,11 @@ class TestTestcases:
     def test_raw_response_update(self, client: Scorecard) -> None:
         response = client.testcases.with_raw_response.update(
             testcase_id="testcaseId",
-            json_data={"foo": "bar"},
+            json_data={
+                "question": "bar",
+                "idealAnswer": "bar",
+                "provenance": "bar",
+            },
         )
 
         assert response.is_closed is True
@@ -95,7 +191,11 @@ class TestTestcases:
     def test_streaming_response_update(self, client: Scorecard) -> None:
         with client.testcases.with_streaming_response.update(
             testcase_id="testcaseId",
-            json_data={"foo": "bar"},
+            json_data={
+                "question": "bar",
+                "idealAnswer": "bar",
+                "provenance": "bar",
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -111,7 +211,11 @@ class TestTestcases:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `testcase_id` but received ''"):
             client.testcases.with_raw_response.update(
                 testcase_id="",
-                json_data={"foo": "bar"},
+                json_data={
+                    "question": "bar",
+                    "idealAnswer": "bar",
+                    "provenance": "bar",
+                },
             )
 
     @pytest.mark.skip()
@@ -251,7 +355,29 @@ class TestAsyncTestcases:
     async def test_method_create(self, async_client: AsyncScorecard) -> None:
         testcase = await async_client.testcases.create(
             testset_id="testsetId",
-            items=[{"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}],
+            items=[
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+            ],
         )
         assert_matches_type(TestcaseCreateResponse, testcase, path=["response"])
 
@@ -260,7 +386,29 @@ class TestAsyncTestcases:
     async def test_raw_response_create(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testcases.with_raw_response.create(
             testset_id="testsetId",
-            items=[{"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}],
+            items=[
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+            ],
         )
 
         assert response.is_closed is True
@@ -273,7 +421,29 @@ class TestAsyncTestcases:
     async def test_streaming_response_create(self, async_client: AsyncScorecard) -> None:
         async with async_client.testcases.with_streaming_response.create(
             testset_id="testsetId",
-            items=[{"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}],
+            items=[
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+                {
+                    "json_data": {
+                        "question": "bar",
+                        "idealAnswer": "bar",
+                        "provenance": "bar",
+                    }
+                },
+            ],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -289,7 +459,29 @@ class TestAsyncTestcases:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `testset_id` but received ''"):
             await async_client.testcases.with_raw_response.create(
                 testset_id="",
-                items=[{"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}, {"json_data": {"foo": "bar"}}],
+                items=[
+                    {
+                        "json_data": {
+                            "question": "bar",
+                            "idealAnswer": "bar",
+                            "provenance": "bar",
+                        }
+                    },
+                    {
+                        "json_data": {
+                            "question": "bar",
+                            "idealAnswer": "bar",
+                            "provenance": "bar",
+                        }
+                    },
+                    {
+                        "json_data": {
+                            "question": "bar",
+                            "idealAnswer": "bar",
+                            "provenance": "bar",
+                        }
+                    },
+                ],
             )
 
     @pytest.mark.skip()
@@ -297,7 +489,11 @@ class TestAsyncTestcases:
     async def test_method_update(self, async_client: AsyncScorecard) -> None:
         testcase = await async_client.testcases.update(
             testcase_id="testcaseId",
-            json_data={"foo": "bar"},
+            json_data={
+                "question": "bar",
+                "idealAnswer": "bar",
+                "provenance": "bar",
+            },
         )
         assert_matches_type(Testcase, testcase, path=["response"])
 
@@ -306,7 +502,11 @@ class TestAsyncTestcases:
     async def test_raw_response_update(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testcases.with_raw_response.update(
             testcase_id="testcaseId",
-            json_data={"foo": "bar"},
+            json_data={
+                "question": "bar",
+                "idealAnswer": "bar",
+                "provenance": "bar",
+            },
         )
 
         assert response.is_closed is True
@@ -319,7 +519,11 @@ class TestAsyncTestcases:
     async def test_streaming_response_update(self, async_client: AsyncScorecard) -> None:
         async with async_client.testcases.with_streaming_response.update(
             testcase_id="testcaseId",
-            json_data={"foo": "bar"},
+            json_data={
+                "question": "bar",
+                "idealAnswer": "bar",
+                "provenance": "bar",
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -335,7 +539,11 @@ class TestAsyncTestcases:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `testcase_id` but received ''"):
             await async_client.testcases.with_raw_response.update(
                 testcase_id="",
-                json_data={"foo": "bar"},
+                json_data={
+                    "question": "bar",
+                    "idealAnswer": "bar",
+                    "provenance": "bar",
+                },
             )
 
     @pytest.mark.skip()

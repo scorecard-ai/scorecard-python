@@ -11,17 +11,11 @@ __all__ = ["SystemConfigCreateParams", "ValidationError"]
 
 
 class SystemConfigCreateParams(TypedDict, total=False):
-    id: Required[str]
-    """The ID of the system configuration"""
-
     config: Required[Dict[str, object]]
     """The configuration of the system"""
 
     label: Required[str]
     """The label for the system configuration"""
-
-    body_system_id: Required[Annotated[str, PropertyInfo(alias="systemId")]]
-    """The ID of the system the configuration belongs to"""
 
     validation_errors: Annotated[Iterable[ValidationError], PropertyInfo(alias="validationErrors")]
     """Validation errors found in the configuration.
