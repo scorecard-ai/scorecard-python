@@ -28,7 +28,7 @@ class TestSystemConfigs:
                 "maxTokens": "bar",
                 "model": "bar",
             },
-            label="Production (Low Temperature)",
+            name="Production (Low Temperature)",
         )
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
@@ -42,7 +42,7 @@ class TestSystemConfigs:
                 "maxTokens": "bar",
                 "model": "bar",
             },
-            label="Production (Low Temperature)",
+            name="Production (Low Temperature)",
             validation_errors=[
                 {
                     "message": "Required field missing",
@@ -62,7 +62,7 @@ class TestSystemConfigs:
                 "maxTokens": "bar",
                 "model": "bar",
             },
-            label="Production (Low Temperature)",
+            name="Production (Low Temperature)",
         )
 
         assert response.is_closed is True
@@ -80,7 +80,7 @@ class TestSystemConfigs:
                 "maxTokens": "bar",
                 "model": "bar",
             },
-            label="Production (Low Temperature)",
+            name="Production (Low Temperature)",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -101,7 +101,7 @@ class TestSystemConfigs:
                     "maxTokens": "bar",
                     "model": "bar",
                 },
-                label="Production (Low Temperature)",
+                name="Production (Low Temperature)",
             )
 
     @pytest.mark.skip()
@@ -222,7 +222,7 @@ class TestAsyncSystemConfigs:
                 "maxTokens": "bar",
                 "model": "bar",
             },
-            label="Production (Low Temperature)",
+            name="Production (Low Temperature)",
         )
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
@@ -236,7 +236,7 @@ class TestAsyncSystemConfigs:
                 "maxTokens": "bar",
                 "model": "bar",
             },
-            label="Production (Low Temperature)",
+            name="Production (Low Temperature)",
             validation_errors=[
                 {
                     "message": "Required field missing",
@@ -256,7 +256,7 @@ class TestAsyncSystemConfigs:
                 "maxTokens": "bar",
                 "model": "bar",
             },
-            label="Production (Low Temperature)",
+            name="Production (Low Temperature)",
         )
 
         assert response.is_closed is True
@@ -274,7 +274,7 @@ class TestAsyncSystemConfigs:
                 "maxTokens": "bar",
                 "model": "bar",
             },
-            label="Production (Low Temperature)",
+            name="Production (Low Temperature)",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -295,7 +295,7 @@ class TestAsyncSystemConfigs:
                     "maxTokens": "bar",
                     "model": "bar",
                 },
-                label="Production (Low Temperature)",
+                name="Production (Low Temperature)",
             )
 
     @pytest.mark.skip()

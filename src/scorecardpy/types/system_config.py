@@ -24,8 +24,8 @@ class SystemConfig(BaseModel):
     config: Dict[str, object]
     """The configuration of the system"""
 
-    label: str
-    """The label for the system configuration"""
+    name: str
+    """The name of the system configuration"""
 
     system_id: str = FieldInfo(alias="systemId")
     """The ID of the system the configuration belongs to"""

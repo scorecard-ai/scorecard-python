@@ -49,7 +49,7 @@ class SystemConfigsResource(SyncAPIResource):
         system_id: str,
         *,
         config: Dict[str, object],
-        label: str,
+        name: str,
         validation_errors: Iterable[system_config_create_params.ValidationError] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -78,7 +78,7 @@ class SystemConfigsResource(SyncAPIResource):
         Args:
           config: The configuration of the system
 
-          label: The label for the system configuration
+          name: The name of the system configuration
 
           validation_errors: Validation errors found in the configuration. If present, the configuration
               doesn't fully conform to its system's configSchema.
@@ -98,7 +98,7 @@ class SystemConfigsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "config": config,
-                    "label": label,
+                    "name": name,
                     "validation_errors": validation_errors,
                 },
                 system_config_create_params.SystemConfigCreateParams,
@@ -226,7 +226,7 @@ class AsyncSystemConfigsResource(AsyncAPIResource):
         system_id: str,
         *,
         config: Dict[str, object],
-        label: str,
+        name: str,
         validation_errors: Iterable[system_config_create_params.ValidationError] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -255,7 +255,7 @@ class AsyncSystemConfigsResource(AsyncAPIResource):
         Args:
           config: The configuration of the system
 
-          label: The label for the system configuration
+          name: The name of the system configuration
 
           validation_errors: Validation errors found in the configuration. If present, the configuration
               doesn't fully conform to its system's configSchema.
@@ -275,7 +275,7 @@ class AsyncSystemConfigsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "config": config,
-                    "label": label,
+                    "name": name,
                     "validation_errors": validation_errors,
                 },
                 system_config_create_params.SystemConfigCreateParams,

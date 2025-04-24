@@ -14,8 +14,8 @@ class SystemConfigCreateParams(TypedDict, total=False):
     config: Required[Dict[str, object]]
     """The configuration of the system"""
 
-    label: Required[str]
-    """The label for the system configuration"""
+    name: Required[str]
+    """The name of the system configuration"""
 
     validation_errors: Annotated[Iterable[ValidationError], PropertyInfo(alias="validationErrors")]
     """Validation errors found in the configuration.
