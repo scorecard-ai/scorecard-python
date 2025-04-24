@@ -23,9 +23,18 @@ class TestRuns:
         run = client.runs.create(
             project_id="projectId",
             metric_ids=["789", "101"],
-            name="First Run",
-            system_config_id="456",
             testset_id="123",
+        )
+        assert_matches_type(Run, run, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_create_with_all_params(self, client: Scorecard) -> None:
+        run = client.runs.create(
+            project_id="projectId",
+            metric_ids=["789", "101"],
+            testset_id="123",
+            system_config_id="456",
         )
         assert_matches_type(Run, run, path=["response"])
 
@@ -35,8 +44,6 @@ class TestRuns:
         response = client.runs.with_raw_response.create(
             project_id="projectId",
             metric_ids=["789", "101"],
-            name="First Run",
-            system_config_id="456",
             testset_id="123",
         )
 
@@ -51,8 +58,6 @@ class TestRuns:
         with client.runs.with_streaming_response.create(
             project_id="projectId",
             metric_ids=["789", "101"],
-            name="First Run",
-            system_config_id="456",
             testset_id="123",
         ) as response:
             assert not response.is_closed
@@ -70,8 +75,6 @@ class TestRuns:
             client.runs.with_raw_response.create(
                 project_id="",
                 metric_ids=["789", "101"],
-                name="First Run",
-                system_config_id="456",
                 testset_id="123",
             )
 
@@ -85,9 +88,18 @@ class TestAsyncRuns:
         run = await async_client.runs.create(
             project_id="projectId",
             metric_ids=["789", "101"],
-            name="First Run",
-            system_config_id="456",
             testset_id="123",
+        )
+        assert_matches_type(Run, run, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncScorecard) -> None:
+        run = await async_client.runs.create(
+            project_id="projectId",
+            metric_ids=["789", "101"],
+            testset_id="123",
+            system_config_id="456",
         )
         assert_matches_type(Run, run, path=["response"])
 
@@ -97,8 +109,6 @@ class TestAsyncRuns:
         response = await async_client.runs.with_raw_response.create(
             project_id="projectId",
             metric_ids=["789", "101"],
-            name="First Run",
-            system_config_id="456",
             testset_id="123",
         )
 
@@ -113,8 +123,6 @@ class TestAsyncRuns:
         async with async_client.runs.with_streaming_response.create(
             project_id="projectId",
             metric_ids=["789", "101"],
-            name="First Run",
-            system_config_id="456",
             testset_id="123",
         ) as response:
             assert not response.is_closed
@@ -132,7 +140,5 @@ class TestAsyncRuns:
             await async_client.runs.with_raw_response.create(
                 project_id="",
                 metric_ids=["789", "101"],
-                name="First Run",
-                system_config_id="456",
                 testset_id="123",
             )
