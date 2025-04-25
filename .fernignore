@@ -1,8 +1,0 @@
-# Add files that you don't want Fern to modify
-
-README.md
-LICENSE
-mypy.ini
-src/scorecard/client.py
-src/scorecard/telemetry.py
-.github/workflows/ci.yml

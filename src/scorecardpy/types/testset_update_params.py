@@ -1,0 +1,38 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+from typing import Dict, List
+from typing_extensions import Required, Annotated, TypedDict
+
+from .._utils import PropertyInfo
+
+__all__ = ["TestsetUpdateParams", "FieldMapping"]
+
+
+class TestsetUpdateParams(TypedDict, total=False):
+    description: str
+    """The description of the testset"""
+
+    field_mapping: Annotated[FieldMapping, PropertyInfo(alias="fieldMapping")]
+    """Maps top-level keys of the testcase schema to their roles (input/label).
+
+    Unmapped fields are treated as metadata.
+    """
+
+    json_schema: Annotated[Dict[str, object], PropertyInfo(alias="jsonSchema")]
+    """The JSON schema for each testcase in the testset"""
+
+    name: str
+    """The name of the testset"""
+
+
+class FieldMapping(TypedDict, total=False):
+    inputs: Required[List[str]]
+    """Fields that represent inputs to the AI system"""
+
+    labels: Required[List[str]]
+    """Fields that represent expected outputs/labels"""
+
+    metadata: Required[List[str]]
+    """Fields that are not inputs or labels"""

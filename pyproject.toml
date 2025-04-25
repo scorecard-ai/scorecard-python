@@ -1,88 +1,207 @@
-[tool.poetry]
-name = "scorecard-ai"
-version = "1.1.1"
-description = ""
-readme = "README.md"
-authors = []
-keywords = []
-
-classifiers = [
-    "Intended Audience :: Developers",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Operating System :: OS Independent",
-    "Operating System :: POSIX",
-    "Operating System :: MacOS",
-    "Operating System :: POSIX :: Linux",
-    "Operating System :: Microsoft :: Windows",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Typing :: Typed"
+[project]
+name = "scorecardpy"
+version = "0.0.1-alpha.1"
+description = "The official Python library for the Scorecard API"
+dynamic = ["readme"]
+license = "Apache-2.0"
+authors = [
+{ name = "Scorecard", email = "team@scorecard.io" },
 ]
-packages = [
-    { include = "scorecard", from = "src"}
+dependencies = [
+    "httpx>=0.23.0, <1",
+    "pydantic>=1.9.0, <3",
+    "typing-extensions>=4.10, <5",
+    "anyio>=3.5.0, <5",
+    "distro>=1.7.0, <2",
+    "sniffio",
+]
+requires-python = ">= 3.8"
+classifiers = [
+  "Typing :: Typed",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Operating System :: OS Independent",
+  "Operating System :: POSIX",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: Microsoft :: Windows",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "License :: OSI Approved :: Apache Software License"
 ]
 
 [project.urls]
-Repository = 'https://github.com/scorecard-ai/scorecard-python'
+Homepage = "https://github.com/scorecard-ai/scorecard-python"
+Repository = "https://github.com/scorecard-ai/scorecard-python"
 
-[tool.poetry.dependencies]
-python = "<3.13,>=3.9"
-boto3 = { version="^1.34.100", optional = true}
-dspy-ai = { version="^2.4.9", optional = true}
-httpx = ">=0.21.2"
-langchain = { version="^0.1.20", optional = true}
-llama-index = { version="^0.10.37", optional = true}
-mistralai = { version="^0.1.8", optional = true}
-openai = { version="^1.21.2", optional = true}
-openinference-instrumentation-bedrock = { version="^0.1.3", optional = true}
-openinference-instrumentation-dspy = { version="^0.1.7", optional = true}
-openinference-instrumentation-langchain = { version="^0.1.14", optional = true}
-openinference-instrumentation-llama-index = { version="^1.3.0", optional = true}
-openinference-instrumentation-mistralai = { version="^0.0.5", optional = true}
-openinference-instrumentation-openai = { version="^0.1.4", optional = true}
-opentelemetry-api = { version="^1.24.0", optional = true}
-opentelemetry-exporter-otlp-proto-http = { version="^1.24.0", optional = true}
-opentelemetry-sdk = { version="^1.24.0", optional = true}
-pydantic = ">= 1.9.2"
-pydantic-core = "^2.18.2"
-typing_extensions = ">= 4.0.0"
 
-[tool.poetry.dev-dependencies]
-mypy = "1.0.1"
-pytest = "^7.4.0"
-pytest-asyncio = "^0.23.5"
-python-dateutil = "^2.9.0"
-types-python-dateutil = "^2.9.0.20240316"
-opentelemetry-api = "^1.24.0"
-opentelemetry-exporter-otlp-proto-http = "^1.24.0"
-opentelemetry-sdk = "^1.24.0"
-ruff = "^0.5.6"
+[tool.rye]
+managed = true
+# version pins are in requirements-dev.lock
+dev-dependencies = [
+    "pyright==1.1.399",
+    "mypy",
+    "respx",
+    "pytest",
+    "pytest-asyncio",
+    "ruff",
+    "time-machine",
+    "nox",
+    "dirty-equals>=0.6.0",
+    "importlib-metadata>=6.7.0",
+    "rich>=13.7.1",
+    "nest_asyncio==1.6.0",
+]
+
+[tool.rye.scripts]
+format = { chain = [
+  "format:ruff",
+  "format:docs",
+  "fix:ruff",
+  # run formatting again to fix any inconsistencies when imports are stripped
+  "format:ruff",
+]}
+"format:docs" = "python scripts/utils/ruffen-docs.py README.md api.md"
+"format:ruff" = "ruff format"
+
+"lint" = { chain = [
+  "check:ruff",
+  "typecheck",
+  "check:importable",
+]}
+"check:ruff" = "ruff check ."
+"fix:ruff" = "ruff check --fix ."
+
+"check:importable" = "python -c 'import scorecardpy'"
+
+typecheck = { chain = [
+  "typecheck:pyright",
+  "typecheck:mypy"
+]}
+"typecheck:pyright" = "pyright"
+"typecheck:verify-types" = "pyright --verifytypes scorecardpy --ignoreexternal"
+"typecheck:mypy" = "mypy ."
+
+[build-system]
+requires = ["hatchling==1.26.3", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+  "src/*"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/scorecardpy"]
+
+[tool.hatch.build.targets.sdist]
+# Basically everything except hidden files/directories (such as .github, .devcontainers, .python-version, etc)
+include = [
+  "/*.toml",
+  "/*.json",
+  "/*.lock",
+  "/*.md",
+  "/mypy.ini",
+  "/noxfile.py",
+  "bin/*",
+  "examples/*",
+  "src/*",
+  "tests/*",
+]
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+# replace relative links with absolute links
+pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
+replacement = '[\1](https://github.com/scorecard-ai/scorecard-python/tree/main/\g<2>)'
 
 [tool.pytest.ini_options]
-testpaths = [ "tests" ]
+testpaths = ["tests"]
+addopts = "--tb=short"
+xfail_strict = true
 asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+filterwarnings = [
+  "error"
+]
 
-[tool.mypy]
-plugins = ["pydantic.mypy"]
+[tool.pyright]
+# this enables practically every flag given by pyright.
+# there are a couple of flags that are still disabled by
+# default in strict mode as they are experimental and niche.
+typeCheckingMode = "strict"
+pythonVersion = "3.8"
+
+exclude = [
+    "_dev",
+    ".venv",
+    ".nox",
+]
+
+reportImplicitOverride = true
+reportOverlappingOverload = false
+
+reportImportCycles = false
+reportPrivateUsage = false
 
 [tool.ruff]
 line-length = 120
+output-format = "grouped"
+target-version = "py37"
 
+[tool.ruff.format]
+docstring-code-format = true
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff.lint]
+select = [
+  # isort
+  "I",
+  # bugbear rules
+  "B",
+  # remove unused imports
+  "F401",
+  # bare except statements
+  "E722",
+  # unused arguments
+  "ARG",
+  # print statements
+  "T201",
+  "T203",
+  # misuse of typing.TYPE_CHECKING
+  "TC004",
+  # import rules
+  "TID251",
+]
+ignore = [
+  # mutable defaults
+  "B006",
+]
+unfixable = [
+  # disable auto fix for print statements
+  "T201",
+  "T203",
+]
 
-[tool.poetry.extras]
-telemetry=["opentelemetry-api", "opentelemetry-exporter-otlp-proto-http", "opentelemetry-sdk"]
-instrument-bedrock=["boto3", "openinference-instrumentation-bedrock"]
-instrument-dspy=["dspy-ai", "openinference-instrumentation-dspy"]
-instrument-langchain=["langchain", "openinference-instrumentation-langchain"]
-instrument-llama-index=["llama-index", "openinference-instrumentation-llama-index"]
-instrument-mistralai=["mistralai", "openinference-instrumentation-mistralai"]
-instrument-openai=["openai", "openinference-instrumentation-openai"]
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"functools.lru_cache".msg = "This function does not retain type information for the wrapped function's arguments; The `lru_cache` function from `_utils` should be used instead"
+
+[tool.ruff.lint.isort]
+length-sort = true
+length-sort-straight = true
+combine-as-imports = true
+extra-standard-library = ["typing_extensions"]
+known-first-party = ["scorecardpy", "tests"]
+
+[tool.ruff.lint.per-file-ignores]
+"bin/**.py" = ["T201", "T203"]
+"scripts/**.py" = ["T201", "T203"]
+"tests/**.py" = ["T201", "T203"]
+"examples/**.py" = ["T201", "T203"]
