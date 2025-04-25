@@ -7,10 +7,10 @@ from typing import Any, cast
 
 import pytest
 
-from scorecardpy import Scorecard, AsyncScorecard
 from tests.utils import assert_matches_type
-from scorecardpy.types import SystemConfig
-from scorecardpy.pagination import SyncPaginatedResponse, AsyncPaginatedResponse
+from scorecard_ai import Scorecard, AsyncScorecard
+from scorecard_ai.types import SystemConfig
+from scorecard_ai.pagination import SyncPaginatedResponse, AsyncPaginatedResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

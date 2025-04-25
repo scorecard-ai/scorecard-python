@@ -21,12 +21,12 @@ import pytest
 from respx import MockRouter
 from pydantic import ValidationError
 
-from scorecardpy import Scorecard, AsyncScorecard, APIResponseValidationError
-from scorecardpy._types import Omit
-from scorecardpy._models import BaseModel, FinalRequestOptions
-from scorecardpy._constants import RAW_RESPONSE_HEADER
-from scorecardpy._exceptions import APIStatusError, ScorecardError, APITimeoutError, APIResponseValidationError
-from scorecardpy._base_client import (
+from scorecard_ai import Scorecard, AsyncScorecard, APIResponseValidationError
+from scorecard_ai._types import Omit
+from scorecard_ai._models import BaseModel, FinalRequestOptions
+from scorecard_ai._constants import RAW_RESPONSE_HEADER
+from scorecard_ai._exceptions import APIStatusError, ScorecardError, APITimeoutError, APIResponseValidationError
+from scorecard_ai._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
     BaseClient,
@@ -233,10 +233,10 @@ class TestScorecard:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "scorecardpy/_legacy_response.py",
-                        "scorecardpy/_response.py",
+                        "scorecard_ai/_legacy_response.py",
+                        "scorecard_ai/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "scorecardpy/_compat.py",
+                        "scorecard_ai/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -747,7 +747,7 @@ class TestScorecard:
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("scorecardpy._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/testsets/testsetId").mock(side_effect=httpx.TimeoutException("Test timeout error"))
@@ -759,7 +759,7 @@ class TestScorecard:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("scorecardpy._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/testsets/testsetId").mock(return_value=httpx.Response(500))
@@ -772,7 +772,7 @@ class TestScorecard:
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("scorecardpy._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     def test_retries_taken(
@@ -803,7 +803,7 @@ class TestScorecard:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("scorecardpy._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_omit_retry_count_header(
         self, client: Scorecard, failures_before_success: int, respx_mock: MockRouter
@@ -826,7 +826,7 @@ class TestScorecard:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("scorecardpy._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_overwrite_retry_count_header(
         self, client: Scorecard, failures_before_success: int, respx_mock: MockRouter
@@ -1027,10 +1027,10 @@ class TestAsyncScorecard:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "scorecardpy/_legacy_response.py",
-                        "scorecardpy/_response.py",
+                        "scorecard_ai/_legacy_response.py",
+                        "scorecard_ai/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "scorecardpy/_compat.py",
+                        "scorecard_ai/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -1545,7 +1545,7 @@ class TestAsyncScorecard:
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("scorecardpy._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/testsets/testsetId").mock(side_effect=httpx.TimeoutException("Test timeout error"))
@@ -1557,7 +1557,7 @@ class TestAsyncScorecard:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("scorecardpy._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.get("/testsets/testsetId").mock(return_value=httpx.Response(500))
@@ -1570,7 +1570,7 @@ class TestAsyncScorecard:
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("scorecardpy._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
@@ -1602,7 +1602,7 @@ class TestAsyncScorecard:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("scorecardpy._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_omit_retry_count_header(
@@ -1628,7 +1628,7 @@ class TestAsyncScorecard:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("scorecardpy._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_overwrite_retry_count_header(
@@ -1664,8 +1664,8 @@ class TestAsyncScorecard:
         import nest_asyncio
         import threading
 
-        from scorecardpy._utils import asyncify
-        from scorecardpy._base_client import get_platform
+        from scorecard_ai._utils import asyncify
+        from scorecard_ai._base_client import get_platform
 
         async def test_main() -> None:
             result = await asyncify(get_platform)()
