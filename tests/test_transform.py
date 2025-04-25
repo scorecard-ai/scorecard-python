@@ -8,15 +8,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from scorecardpy._types import NOT_GIVEN, Base64FileInput
-from scorecardpy._utils import (
+from scorecard_ai._types import NOT_GIVEN, Base64FileInput
+from scorecard_ai._utils import (
     PropertyInfo,
     transform as _transform,
     parse_datetime,
     async_transform as _async_transform,
 )
-from scorecardpy._compat import PYDANTIC_V2
-from scorecardpy._models import BaseModel
+from scorecard_ai._compat import PYDANTIC_V2
+from scorecard_ai._models import BaseModel
 
 _T = TypeVar("_T")
 

@@ -5,8 +5,8 @@ from typing import Iterator, AsyncIterator
 import httpx
 import pytest
 
-from scorecardpy import Scorecard, AsyncScorecard
-from scorecardpy._streaming import Stream, AsyncStream, ServerSentEvent
+from scorecard_ai import Scorecard, AsyncScorecard
+from scorecard_ai._streaming import Stream, AsyncStream, ServerSentEvent
 
 
 @pytest.mark.asyncio

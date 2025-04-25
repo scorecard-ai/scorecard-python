@@ -1,6 +1,6 @@
 [project]
-name = "scorecardpy"
-version = "0.0.1-alpha.1"
+name = "scorecard-ai"
+version = "2.0.0-alpha.0"
 description = "The official Python library for the Scorecard API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -75,14 +75,14 @@ format = { chain = [
 "check:ruff" = "ruff check ."
 "fix:ruff" = "ruff check --fix ."
 
-"check:importable" = "python -c 'import scorecardpy'"
+"check:importable" = "python -c 'import scorecard_ai'"
 
 typecheck = { chain = [
   "typecheck:pyright",
   "typecheck:mypy"
 ]}
 "typecheck:pyright" = "pyright"
-"typecheck:verify-types" = "pyright --verifytypes scorecardpy --ignoreexternal"
+"typecheck:verify-types" = "pyright --verifytypes scorecard_ai --ignoreexternal"
 "typecheck:mypy" = "mypy ."
 
 [build-system]
@@ -95,7 +95,7 @@ include = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/scorecardpy"]
+packages = ["src/scorecard_ai"]
 
 [tool.hatch.build.targets.sdist]
 # Basically everything except hidden files/directories (such as .github, .devcontainers, .python-version, etc)
@@ -198,7 +198,7 @@ length-sort = true
 length-sort-straight = true
 combine-as-imports = true
 extra-standard-library = ["typing_extensions"]
-known-first-party = ["scorecardpy", "tests"]
+known-first-party = ["scorecard_ai", "tests"]
 
 [tool.ruff.lint.per-file-ignores]
 "bin/**.py" = ["T201", "T203"]

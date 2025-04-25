@@ -1,6 +1,6 @@
 # Scorecard Python API library
 
-[![PyPI version](https://img.shields.io/pypi/v/scorecardpy.svg)](https://pypi.org/project/scorecardpy/)
+[![PyPI version](https://img.shields.io/pypi/v/scorecard-ai.svg)](https://pypi.org/project/scorecard-ai/)
 
 The Scorecard Python library provides convenient access to the Scorecard REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
@@ -16,7 +16,7 @@ The REST API documentation can be found on [docs.scorecard.io](https://docs.scor
 
 ```sh
 # install from PyPI
-pip install --pre scorecardpy
+pip install --pre scorecard-ai
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from scorecardpy import Scorecard
+from scorecard_ai import Scorecard
 
 client = Scorecard(
     bearer_token=os.environ.get("SCORECARD_API_KEY"),  # This is the default and can be omitted
@@ -62,7 +62,7 @@ Simply import `AsyncScorecard` instead of `Scorecard` and use `await` with each 
 ```python
 import os
 import asyncio
-from scorecardpy import AsyncScorecard
+from scorecard_ai import AsyncScorecard
 
 client = AsyncScorecard(
     bearer_token=os.environ.get("SCORECARD_API_KEY"),  # This is the default and can be omitted
@@ -108,7 +108,7 @@ Typed requests and responses provide autocomplete and documentation within your 
 Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
 ```python
-from scorecardpy import Scorecard
+from scorecard_ai import Scorecard
 
 client = Scorecard()
 
@@ -131,16 +131,16 @@ print(testset.field_mapping)
 
 ## Handling errors
 
-When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `scorecardpy.APIConnectionError` is raised.
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `scorecard_ai.APIConnectionError` is raised.
 
 When the API returns a non-success status code (that is, 4xx or 5xx
-response), a subclass of `scorecardpy.APIStatusError` is raised, containing `status_code` and `response` properties.
+response), a subclass of `scorecard_ai.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-All errors inherit from `scorecardpy.APIError`.
+All errors inherit from `scorecard_ai.APIError`.
 
 ```python
-import scorecardpy
-from scorecardpy import Scorecard
+import scorecard_ai
+from scorecard_ai import Scorecard
 
 client = Scorecard()
 
@@ -148,12 +148,12 @@ try:
     client.testsets.get(
         "testsetId",
     )
-except scorecardpy.APIConnectionError as e:
+except scorecard_ai.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-except scorecardpy.RateLimitError as e:
+except scorecard_ai.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
-except scorecardpy.APIStatusError as e:
+except scorecard_ai.APIStatusError as e:
     print("Another non-200-range status code was received")
     print(e.status_code)
     print(e.response)
@@ -181,7 +181,7 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from scorecardpy import Scorecard
+from scorecard_ai import Scorecard
 
 # Configure the default for all requests:
 client = Scorecard(
@@ -201,7 +201,7 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
 
 ```python
-from scorecardpy import Scorecard
+from scorecard_ai import Scorecard
 
 # Configure the default for all requests:
 client = Scorecard(
@@ -255,7 +255,7 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from scorecardpy import Scorecard
+from scorecard_ai import Scorecard
 
 client = Scorecard()
 response = client.testsets.with_raw_response.get(
@@ -267,9 +267,9 @@ testset = response.parse()  # get the object that `testsets.get()` would have re
 print(testset.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/scorecard-ai/scorecard-python/tree/main/src/scorecardpy/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/scorecard-ai/scorecard-python/tree/main/src/scorecard_ai/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/scorecard-ai/scorecard-python/tree/main/src/scorecardpy/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/scorecard-ai/scorecard-python/tree/main/src/scorecard_ai/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -333,7 +333,7 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from scorecardpy import Scorecard, DefaultHttpxClient
+from scorecard_ai import Scorecard, DefaultHttpxClient
 
 client = Scorecard(
     # Or use the `SCORECARD_BASE_URL` env var
@@ -356,7 +356,7 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from scorecardpy import Scorecard
+from scorecard_ai import Scorecard
 
 with Scorecard() as client:
   # make requests here
@@ -384,8 +384,8 @@ If you've upgraded to the latest version but aren't seeing any new features you 
 You can determine the version that is being used at runtime with:
 
 ```py
-import scorecardpy
-print(scorecardpy.__version__)
+import scorecard_ai
+print(scorecard_ai.__version__)
 ```
 
 ## Requirements

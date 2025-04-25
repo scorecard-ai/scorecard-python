@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from scorecardpy import Scorecard, AsyncScorecard
 from tests.utils import assert_matches_type
-from scorecardpy.types import Run
+from scorecard_ai import Scorecard, AsyncScorecard
+from scorecard_ai.types import Run
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

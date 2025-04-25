@@ -61,6 +61,6 @@
   ],
   "release-type": "python",
   "extra-files": [
-    "src/scorecardpy/_version.py"
+    "src/scorecard_ai/_version.py"
   ]
 }
