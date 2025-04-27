@@ -199,7 +199,7 @@ class TestSystems:
     def test_method_list_with_all_params(self, client: Scorecard) -> None:
         system = client.systems.list(
             project_id="projectId",
-            cursor="123",
+            cursor="eyJvZmZzZXQiOjAsInBhZ2VJZCI6ImNvZGUifQ",
             limit=20,
         )
         assert_matches_type(SyncPaginatedResponse[System], system, path=["response"])
@@ -504,7 +504,7 @@ class TestAsyncSystems:
     async def test_method_list_with_all_params(self, async_client: AsyncScorecard) -> None:
         system = await async_client.systems.list(
             project_id="projectId",
-            cursor="123",
+            cursor="eyJvZmZzZXQiOjAsInBhZ2VJZCI6ImNvZGUifQ",
             limit=20,
         )
         assert_matches_type(AsyncPaginatedResponse[System], system, path=["response"])

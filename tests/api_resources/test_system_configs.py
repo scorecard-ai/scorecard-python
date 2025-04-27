@@ -117,7 +117,7 @@ class TestSystemConfigs:
     def test_method_list_with_all_params(self, client: Scorecard) -> None:
         system_config = client.system_configs.list(
             system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            cursor="123",
+            cursor="eyJvZmZzZXQiOjAsInBhZ2VJZCI6ImNvZGUifQ",
             limit=20,
         )
         assert_matches_type(SyncPaginatedResponse[SystemConfig], system_config, path=["response"])
@@ -311,7 +311,7 @@ class TestAsyncSystemConfigs:
     async def test_method_list_with_all_params(self, async_client: AsyncScorecard) -> None:
         system_config = await async_client.system_configs.list(
             system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-            cursor="123",
+            cursor="eyJvZmZzZXQiOjAsInBhZ2VJZCI6ImNvZGUifQ",
             limit=20,
         )
         assert_matches_type(AsyncPaginatedResponse[SystemConfig], system_config, path=["response"])
