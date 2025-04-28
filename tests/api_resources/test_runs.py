@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from scorecard_ai import Scorecard, AsyncScorecard
-from scorecard_ai.types import Run
+from scorecard_ai.types import Run, RunUpdateResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -78,6 +78,52 @@ class TestRuns:
                 testset_id="123",
             )
 
+    @pytest.mark.skip()
+    @parametrize
+    def test_method_update(self, client: Scorecard) -> None:
+        run = client.runs.update(
+            run_id="runId",
+            status="awaiting_scoring",
+        )
+        assert_matches_type(RunUpdateResponse, run, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_raw_response_update(self, client: Scorecard) -> None:
+        response = client.runs.with_raw_response.update(
+            run_id="runId",
+            status="awaiting_scoring",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        run = response.parse()
+        assert_matches_type(RunUpdateResponse, run, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_streaming_response_update(self, client: Scorecard) -> None:
+        with client.runs.with_streaming_response.update(
+            run_id="runId",
+            status="awaiting_scoring",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            run = response.parse()
+            assert_matches_type(RunUpdateResponse, run, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    def test_path_params_update(self, client: Scorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
+            client.runs.with_raw_response.update(
+                run_id="",
+                status="awaiting_scoring",
+            )
+
 
 class TestAsyncRuns:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -141,4 +187,50 @@ class TestAsyncRuns:
                 project_id="",
                 metric_ids=["789", "101"],
                 testset_id="123",
+            )
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_method_update(self, async_client: AsyncScorecard) -> None:
+        run = await async_client.runs.update(
+            run_id="runId",
+            status="awaiting_scoring",
+        )
+        assert_matches_type(RunUpdateResponse, run, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_raw_response_update(self, async_client: AsyncScorecard) -> None:
+        response = await async_client.runs.with_raw_response.update(
+            run_id="runId",
+            status="awaiting_scoring",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        run = await response.parse()
+        assert_matches_type(RunUpdateResponse, run, path=["response"])
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_streaming_response_update(self, async_client: AsyncScorecard) -> None:
+        async with async_client.runs.with_streaming_response.update(
+            run_id="runId",
+            status="awaiting_scoring",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            run = await response.parse()
+            assert_matches_type(RunUpdateResponse, run, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip()
+    @parametrize
+    async def test_path_params_update(self, async_client: AsyncScorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
+            await async_client.runs.with_raw_response.update(
+                run_id="",
+                status="awaiting_scoring",
             )
