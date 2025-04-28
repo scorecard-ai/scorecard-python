@@ -10,8 +10,10 @@ from .testcase import Testcase as Testcase
 from .system_config import SystemConfig as SystemConfig
 from .execution_record import ExecutionRecord as ExecutionRecord
 from .run_create_params import RunCreateParams as RunCreateParams
+from .run_update_params import RunUpdateParams as RunUpdateParams
 from .system_list_params import SystemListParams as SystemListParams
 from .project_list_params import ProjectListParams as ProjectListParams
+from .run_update_response import RunUpdateResponse as RunUpdateResponse
 from .testset_list_params import TestsetListParams as TestsetListParams
 from .system_create_params import SystemCreateParams as SystemCreateParams
 from .system_update_params import SystemUpdateParams as SystemUpdateParams
