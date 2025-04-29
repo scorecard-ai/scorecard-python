@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import runs, systems, projects, testsets, testcases, system_configs, execution_records
+from .resources import runs, records, systems, projects, testsets, testcases, system_configs
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, ScorecardError
 from ._base_client import (
@@ -54,7 +54,7 @@ class Scorecard(SyncAPIClient):
     testsets: testsets.TestsetsResource
     testcases: testcases.TestcasesResource
     runs: runs.RunsResource
-    execution_records: execution_records.ExecutionRecordsResource
+    records: records.RecordsResource
     systems: systems.SystemsResource
     system_configs: system_configs.SystemConfigsResource
     with_raw_response: ScorecardWithRawResponse
@@ -142,7 +142,7 @@ class Scorecard(SyncAPIClient):
         self.testsets = testsets.TestsetsResource(self)
         self.testcases = testcases.TestcasesResource(self)
         self.runs = runs.RunsResource(self)
-        self.execution_records = execution_records.ExecutionRecordsResource(self)
+        self.records = records.RecordsResource(self)
         self.systems = systems.SystemsResource(self)
         self.system_configs = system_configs.SystemConfigsResource(self)
         self.with_raw_response = ScorecardWithRawResponse(self)
@@ -260,7 +260,7 @@ class AsyncScorecard(AsyncAPIClient):
     testsets: testsets.AsyncTestsetsResource
     testcases: testcases.AsyncTestcasesResource
     runs: runs.AsyncRunsResource
-    execution_records: execution_records.AsyncExecutionRecordsResource
+    records: records.AsyncRecordsResource
     systems: systems.AsyncSystemsResource
     system_configs: system_configs.AsyncSystemConfigsResource
     with_raw_response: AsyncScorecardWithRawResponse
@@ -348,7 +348,7 @@ class AsyncScorecard(AsyncAPIClient):
         self.testsets = testsets.AsyncTestsetsResource(self)
         self.testcases = testcases.AsyncTestcasesResource(self)
         self.runs = runs.AsyncRunsResource(self)
-        self.execution_records = execution_records.AsyncExecutionRecordsResource(self)
+        self.records = records.AsyncRecordsResource(self)
         self.systems = systems.AsyncSystemsResource(self)
         self.system_configs = system_configs.AsyncSystemConfigsResource(self)
         self.with_raw_response = AsyncScorecardWithRawResponse(self)
@@ -467,7 +467,7 @@ class ScorecardWithRawResponse:
         self.testsets = testsets.TestsetsResourceWithRawResponse(client.testsets)
         self.testcases = testcases.TestcasesResourceWithRawResponse(client.testcases)
         self.runs = runs.RunsResourceWithRawResponse(client.runs)
-        self.execution_records = execution_records.ExecutionRecordsResourceWithRawResponse(client.execution_records)
+        self.records = records.RecordsResourceWithRawResponse(client.records)
         self.systems = systems.SystemsResourceWithRawResponse(client.systems)
         self.system_configs = system_configs.SystemConfigsResourceWithRawResponse(client.system_configs)
 
@@ -478,9 +478,7 @@ class AsyncScorecardWithRawResponse:
         self.testsets = testsets.AsyncTestsetsResourceWithRawResponse(client.testsets)
         self.testcases = testcases.AsyncTestcasesResourceWithRawResponse(client.testcases)
         self.runs = runs.AsyncRunsResourceWithRawResponse(client.runs)
-        self.execution_records = execution_records.AsyncExecutionRecordsResourceWithRawResponse(
-            client.execution_records
-        )
+        self.records = records.AsyncRecordsResourceWithRawResponse(client.records)
         self.systems = systems.AsyncSystemsResourceWithRawResponse(client.systems)
         self.system_configs = system_configs.AsyncSystemConfigsResourceWithRawResponse(client.system_configs)
 
@@ -491,9 +489,7 @@ class ScorecardWithStreamedResponse:
         self.testsets = testsets.TestsetsResourceWithStreamingResponse(client.testsets)
         self.testcases = testcases.TestcasesResourceWithStreamingResponse(client.testcases)
         self.runs = runs.RunsResourceWithStreamingResponse(client.runs)
-        self.execution_records = execution_records.ExecutionRecordsResourceWithStreamingResponse(
-            client.execution_records
-        )
+        self.records = records.RecordsResourceWithStreamingResponse(client.records)
         self.systems = systems.SystemsResourceWithStreamingResponse(client.systems)
         self.system_configs = system_configs.SystemConfigsResourceWithStreamingResponse(client.system_configs)
 
@@ -504,9 +500,7 @@ class AsyncScorecardWithStreamedResponse:
         self.testsets = testsets.AsyncTestsetsResourceWithStreamingResponse(client.testsets)
         self.testcases = testcases.AsyncTestcasesResourceWithStreamingResponse(client.testcases)
         self.runs = runs.AsyncRunsResourceWithStreamingResponse(client.runs)
-        self.execution_records = execution_records.AsyncExecutionRecordsResourceWithStreamingResponse(
-            client.execution_records
-        )
+        self.records = records.AsyncRecordsResourceWithStreamingResponse(client.records)
         self.systems = systems.AsyncSystemsResourceWithStreamingResponse(client.systems)
         self.system_configs = system_configs.AsyncSystemConfigsResourceWithStreamingResponse(client.system_configs)
 

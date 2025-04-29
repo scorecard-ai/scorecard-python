@@ -274,7 +274,7 @@ class TestTestcases:
     @parametrize
     def test_method_delete(self, client: Scorecard) -> None:
         testcase = client.testcases.delete(
-            ids=["string", "string", "string"],
+            ids=["123", "124", "125"],
         )
         assert_matches_type(TestcaseDeleteResponse, testcase, path=["response"])
 
@@ -282,7 +282,7 @@ class TestTestcases:
     @parametrize
     def test_raw_response_delete(self, client: Scorecard) -> None:
         response = client.testcases.with_raw_response.delete(
-            ids=["string", "string", "string"],
+            ids=["123", "124", "125"],
         )
 
         assert response.is_closed is True
@@ -294,7 +294,7 @@ class TestTestcases:
     @parametrize
     def test_streaming_response_delete(self, client: Scorecard) -> None:
         with client.testcases.with_streaming_response.delete(
-            ids=["string", "string", "string"],
+            ids=["123", "124", "125"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -602,7 +602,7 @@ class TestAsyncTestcases:
     @parametrize
     async def test_method_delete(self, async_client: AsyncScorecard) -> None:
         testcase = await async_client.testcases.delete(
-            ids=["string", "string", "string"],
+            ids=["123", "124", "125"],
         )
         assert_matches_type(TestcaseDeleteResponse, testcase, path=["response"])
 
@@ -610,7 +610,7 @@ class TestAsyncTestcases:
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testcases.with_raw_response.delete(
-            ids=["string", "string", "string"],
+            ids=["123", "124", "125"],
         )
 
         assert response.is_closed is True
@@ -622,7 +622,7 @@ class TestAsyncTestcases:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncScorecard) -> None:
         async with async_client.testcases.with_streaming_response.delete(
-            ids=["string", "string", "string"],
+            ids=["123", "124", "125"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

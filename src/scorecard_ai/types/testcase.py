@@ -11,37 +11,37 @@ __all__ = ["Testcase", "ValidationError"]
 
 class ValidationError(BaseModel):
     message: str
-    """Human-readable error description"""
+    """Human-readable error description."""
 
     path: str
-    """JSON Pointer to the field with the validation error"""
+    """JSON Pointer to the field with the validation error."""
 
 
 class Testcase(BaseModel):
     __test__ = False
     id: str
-    """The ID of the testcase"""
+    """The ID of the Testcase."""
 
     inputs: Dict[str, object]
-    """Derived from data based on the testset's fieldMapping.
+    """Derived from data based on the Testset's fieldMapping.
 
     Contains all fields marked as inputs, including those with validation errors.
     """
 
     json_data: Dict[str, object] = FieldInfo(alias="jsonData")
-    """The JSON data of the testcase, which is validated against the testset's schema."""
+    """The JSON data of the Testcase, which is validated against the Testset's schema."""
 
     labels: Dict[str, object]
-    """Derived from data based on the testset's fieldMapping.
+    """Derived from data based on the Testset's fieldMapping.
 
     Contains all fields marked as labels, including those with validation errors.
     """
 
     testset_id: str = FieldInfo(alias="testsetId")
-    """The ID of the testset this testcase belongs to"""
+    """The ID of the Testset this Testcase belongs to."""
 
     validation_errors: Optional[List[ValidationError]] = FieldInfo(alias="validationErrors", default=None)
-    """Validation errors found in the testcase data.
+    """Validation errors found in the Testcase data.
 
-    If present, the testcase doesn't fully conform to its testset's schema.
+    If present, the Testcase doesn't fully conform to its Testset's schema.
     """

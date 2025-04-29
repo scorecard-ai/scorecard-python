@@ -12,10 +12,10 @@ __all__ = ["RunCreateParams"]
 
 class RunCreateParams(TypedDict, total=False):
     metric_ids: Required[Annotated[List[str], PropertyInfo(alias="metricIds")]]
-    """The IDs of the metrics this Run is using"""
+    """The IDs of the metrics this Run is using."""
 
     testset_id: Required[Annotated[str, PropertyInfo(alias="testsetId")]]
-    """The ID of the Testset this Run is testing"""
+    """The ID of the Testset this Run is testing."""
 
     system_config_id: Annotated[str, PropertyInfo(alias="systemConfigId")]
-    """The ID of the system configuration this Run is using"""
+    """The ID of the system configuration this Run is using."""

@@ -3,18 +3,19 @@
 from __future__ import annotations
 
 from .run import Run as Run
+from .record import Record as Record
 from .shared import APIError as APIError
 from .system import System as System
 from .testset import Testset as Testset
 from .testcase import Testcase as Testcase
 from .system_config import SystemConfig as SystemConfig
-from .execution_record import ExecutionRecord as ExecutionRecord
 from .run_create_params import RunCreateParams as RunCreateParams
 from .run_update_params import RunUpdateParams as RunUpdateParams
 from .system_list_params import SystemListParams as SystemListParams
 from .project_list_params import ProjectListParams as ProjectListParams
 from .run_update_response import RunUpdateResponse as RunUpdateResponse
 from .testset_list_params import TestsetListParams as TestsetListParams
+from .record_create_params import RecordCreateParams as RecordCreateParams
 from .system_create_params import SystemCreateParams as SystemCreateParams
 from .system_update_params import SystemUpdateParams as SystemUpdateParams
 from .testcase_list_params import TestcaseListParams as TestcaseListParams
@@ -30,4 +31,3 @@ from .testcase_create_response import TestcaseCreateResponse as TestcaseCreateRe
 from .testcase_delete_response import TestcaseDeleteResponse as TestcaseDeleteResponse
 from .system_config_list_params import SystemConfigListParams as SystemConfigListParams
 from .system_config_create_params import SystemConfigCreateParams as SystemConfigCreateParams
-from .execution_record_create_params import ExecutionRecordCreateParams as ExecutionRecordCreateParams

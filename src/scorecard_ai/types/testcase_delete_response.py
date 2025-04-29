@@ -8,4 +8,4 @@ __all__ = ["TestcaseDeleteResponse"]
 class TestcaseDeleteResponse(BaseModel):
     __test__ = False
     success: bool
-    """Whether the deletion was successful"""
+    """Whether the deletion was successful."""

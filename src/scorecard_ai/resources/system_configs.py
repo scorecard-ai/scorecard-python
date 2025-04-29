@@ -76,9 +76,9 @@ class SystemConfigsResource(SyncAPIResource):
         - Having validation errors may affect how some evaluation metrics are calculated
 
         Args:
-          config: The configuration of the system
+          config: The configuration of the system.
 
-          name: The name of the system configuration
+          name: The name of the system configuration.
 
           validation_errors: Validation errors found in the configuration. If present, the configuration
               doesn't fully conform to its system's configSchema.
@@ -253,9 +253,9 @@ class AsyncSystemConfigsResource(AsyncAPIResource):
         - Having validation errors may affect how some evaluation metrics are calculated
 
         Args:
-          config: The configuration of the system
+          config: The configuration of the system.
 
-          name: The name of the system configuration
+          name: The name of the system configuration.
 
           validation_errors: Validation errors found in the configuration. If present, the configuration
               doesn't fully conform to its system's configSchema.

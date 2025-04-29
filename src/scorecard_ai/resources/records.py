@@ -6,7 +6,7 @@ from typing import Dict
 
 import httpx
 
-from ..types import execution_record_create_params
+from ..types import record_create_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -18,30 +18,30 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.execution_record import ExecutionRecord
+from ..types.record import Record
 
-__all__ = ["ExecutionRecordsResource", "AsyncExecutionRecordsResource"]
+__all__ = ["RecordsResource", "AsyncRecordsResource"]
 
 
-class ExecutionRecordsResource(SyncAPIResource):
+class RecordsResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> ExecutionRecordsResourceWithRawResponse:
+    def with_raw_response(self) -> RecordsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/scorecard-ai/scorecard-python#accessing-raw-response-data-eg-headers
         """
-        return ExecutionRecordsResourceWithRawResponse(self)
+        return RecordsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> ExecutionRecordsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> RecordsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/scorecard-ai/scorecard-python#with_streaming_response
         """
-        return ExecutionRecordsResourceWithStreamingResponse(self)
+        return RecordsResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -57,19 +57,19 @@ class ExecutionRecordsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ExecutionRecord:
+    ) -> Record:
         """
-        Create a new execution record.
+        Create a new Record in a Run.
 
         Args:
           inputs: The actual inputs sent to the system, which should match the system's input
-              schema
+              schema.
 
-          labels: The expected outputs for the testcase
+          labels: The expected outputs for the Testcase.
 
-          outputs: The actual outputs from the system
+          outputs: The actual outputs from the system.
 
-          testcase_id: The ID of the testcase
+          testcase_id: The ID of the Testcase.
 
           extra_headers: Send extra headers
 
@@ -82,7 +82,7 @@ class ExecutionRecordsResource(SyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return self._post(
-            f"/runs/{run_id}/executionrecords",
+            f"/runs/{run_id}/records",
             body=maybe_transform(
                 {
                     "inputs": inputs,
@@ -90,34 +90,34 @@ class ExecutionRecordsResource(SyncAPIResource):
                     "outputs": outputs,
                     "testcase_id": testcase_id,
                 },
-                execution_record_create_params.ExecutionRecordCreateParams,
+                record_create_params.RecordCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ExecutionRecord,
+            cast_to=Record,
         )
 
 
-class AsyncExecutionRecordsResource(AsyncAPIResource):
+class AsyncRecordsResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncExecutionRecordsResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncRecordsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/scorecard-ai/scorecard-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncExecutionRecordsResourceWithRawResponse(self)
+        return AsyncRecordsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncExecutionRecordsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncRecordsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/scorecard-ai/scorecard-python#with_streaming_response
         """
-        return AsyncExecutionRecordsResourceWithStreamingResponse(self)
+        return AsyncRecordsResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -133,19 +133,19 @@ class AsyncExecutionRecordsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ExecutionRecord:
+    ) -> Record:
         """
-        Create a new execution record.
+        Create a new Record in a Run.
 
         Args:
           inputs: The actual inputs sent to the system, which should match the system's input
-              schema
+              schema.
 
-          labels: The expected outputs for the testcase
+          labels: The expected outputs for the Testcase.
 
-          outputs: The actual outputs from the system
+          outputs: The actual outputs from the system.
 
-          testcase_id: The ID of the testcase
+          testcase_id: The ID of the Testcase.
 
           extra_headers: Send extra headers
 
@@ -158,7 +158,7 @@ class AsyncExecutionRecordsResource(AsyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return await self._post(
-            f"/runs/{run_id}/executionrecords",
+            f"/runs/{run_id}/records",
             body=await async_maybe_transform(
                 {
                     "inputs": inputs,
@@ -166,46 +166,46 @@ class AsyncExecutionRecordsResource(AsyncAPIResource):
                     "outputs": outputs,
                     "testcase_id": testcase_id,
                 },
-                execution_record_create_params.ExecutionRecordCreateParams,
+                record_create_params.RecordCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=ExecutionRecord,
+            cast_to=Record,
         )
 
 
-class ExecutionRecordsResourceWithRawResponse:
-    def __init__(self, execution_records: ExecutionRecordsResource) -> None:
-        self._execution_records = execution_records
+class RecordsResourceWithRawResponse:
+    def __init__(self, records: RecordsResource) -> None:
+        self._records = records
 
         self.create = to_raw_response_wrapper(
-            execution_records.create,
+            records.create,
         )
 
 
-class AsyncExecutionRecordsResourceWithRawResponse:
-    def __init__(self, execution_records: AsyncExecutionRecordsResource) -> None:
-        self._execution_records = execution_records
+class AsyncRecordsResourceWithRawResponse:
+    def __init__(self, records: AsyncRecordsResource) -> None:
+        self._records = records
 
         self.create = async_to_raw_response_wrapper(
-            execution_records.create,
+            records.create,
         )
 
 
-class ExecutionRecordsResourceWithStreamingResponse:
-    def __init__(self, execution_records: ExecutionRecordsResource) -> None:
-        self._execution_records = execution_records
+class RecordsResourceWithStreamingResponse:
+    def __init__(self, records: RecordsResource) -> None:
+        self._records = records
 
         self.create = to_streamed_response_wrapper(
-            execution_records.create,
+            records.create,
         )
 
 
-class AsyncExecutionRecordsResourceWithStreamingResponse:
-    def __init__(self, execution_records: AsyncExecutionRecordsResource) -> None:
-        self._execution_records = execution_records
+class AsyncRecordsResourceWithStreamingResponse:
+    def __init__(self, records: AsyncRecordsResource) -> None:
+        self._records = records
 
         self.create = async_to_streamed_response_wrapper(
-            execution_records.create,
+            records.create,
         )
