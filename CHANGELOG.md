@@ -1,5 +1,31 @@
 # Changelog
 
+## 2.0.0-alpha.1 (2025-04-29)
+
+Full Changelog: [v2.0.0-alpha.0...v2.0.0-alpha.1](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.0...v2.0.0-alpha.1)
+
+### Features
+
+* **api:** api update ([5e473d6](https://github.com/scorecard-ai/scorecard-python/commit/5e473d64f8186a9d62810ac048678fc203ef20d8))
+* **api:** api update ([9a4652a](https://github.com/scorecard-ai/scorecard-python/commit/9a4652a759b7775fe66ec342f0caccc94f453f7a))
+* **api:** api update ([81984ae](https://github.com/scorecard-ai/scorecard-python/commit/81984ae3bf6525ee7c984fe0b3c8667c12fffae9))
+* **api:** api update ([1fce544](https://github.com/scorecard-ai/scorecard-python/commit/1fce5445bb6b25141f0ed1388e09c59697af68d5))
+* **api:** manual updates ([8657406](https://github.com/scorecard-ai/scorecard-python/commit/8657406d9146452ef54fb98f950768660bbc659c))
+* **api:** manual updates ([20e0920](https://github.com/scorecard-ai/scorecard-python/commit/20e0920ac5aab7e426f36da73106be316aa3a111))
+* **api:** manual updates ([4f586ff](https://github.com/scorecard-ai/scorecard-python/commit/4f586ff229a9c902d3ae89e7bcc3d0a123c2cfb2))
+
+
+### Bug Fixes
+
+* read from SCORECARD_API_KEY ([77e2b5b](https://github.com/scorecard-ai/scorecard-python/commit/77e2b5bbfa61e2f2444b8b0668a81e5fca259d41))
+* readme typo ([#27](https://github.com/scorecard-ai/scorecard-python/issues/27)) ([ad53388](https://github.com/scorecard-ai/scorecard-python/commit/ad53388f910b4d22defa62878e0989c68385587f))
+
+
+### Chores
+
+* update SDK settings ([41a425c](https://github.com/scorecard-ai/scorecard-python/commit/41a425c3cabd3f0c37fe6a2d47533fe91e8d9853))
+* update SDK settings ([69f0c97](https://github.com/scorecard-ai/scorecard-python/commit/69f0c9790a7587ac1244e52dace7caf6ef92e1b3))
+
 ## 2.0.0-alpha.0 (2025-04-25)
 
 Full Changelog: [v0.0.1-alpha.1...v2.0.0-alpha.0](https://github.com/scorecard-ai/scorecard-python/compare/v0.0.1-alpha.1...v2.0.0-alpha.0)
