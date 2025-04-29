@@ -25,7 +25,7 @@ class TestSystems:
     @parametrize
     def test_method_create(self, client: Scorecard) -> None:
         system = client.systems.create(
-            project_id="projectId",
+            project_id="314",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -50,7 +50,7 @@ class TestSystems:
     @parametrize
     def test_raw_response_create(self, client: Scorecard) -> None:
         response = client.systems.with_raw_response.create(
-            project_id="projectId",
+            project_id="314",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -79,7 +79,7 @@ class TestSystems:
     @parametrize
     def test_streaming_response_create(self, client: Scorecard) -> None:
         with client.systems.with_streaming_response.create(
-            project_id="projectId",
+            project_id="314",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -135,7 +135,7 @@ class TestSystems:
     @parametrize
     def test_method_update(self, client: Scorecard) -> None:
         system = client.systems.update(
-            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
         assert_matches_type(System, system, path=["response"])
 
@@ -143,7 +143,7 @@ class TestSystems:
     @parametrize
     def test_method_update_with_all_params(self, client: Scorecard) -> None:
         system = client.systems.update(
-            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="12345678-0a8b-4f66-b6f3-2ddcfa097257",
             config_schema={"foo": "bar"},
             description="Updated production chatbot powered by GPT-4 Turbo",
             input_schema={"foo": "bar"},
@@ -156,7 +156,7 @@ class TestSystems:
     @parametrize
     def test_raw_response_update(self, client: Scorecard) -> None:
         response = client.systems.with_raw_response.update(
-            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
 
         assert response.is_closed is True
@@ -168,7 +168,7 @@ class TestSystems:
     @parametrize
     def test_streaming_response_update(self, client: Scorecard) -> None:
         with client.systems.with_streaming_response.update(
-            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="12345678-0a8b-4f66-b6f3-2ddcfa097257",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -190,7 +190,7 @@ class TestSystems:
     @parametrize
     def test_method_list(self, client: Scorecard) -> None:
         system = client.systems.list(
-            project_id="projectId",
+            project_id="314",
         )
         assert_matches_type(SyncPaginatedResponse[System], system, path=["response"])
 
@@ -198,7 +198,7 @@ class TestSystems:
     @parametrize
     def test_method_list_with_all_params(self, client: Scorecard) -> None:
         system = client.systems.list(
-            project_id="projectId",
+            project_id="314",
             cursor="eyJvZmZzZXQiOjAsInBhZ2VJZCI6ImNvZGUifQ",
             limit=20,
         )
@@ -208,7 +208,7 @@ class TestSystems:
     @parametrize
     def test_raw_response_list(self, client: Scorecard) -> None:
         response = client.systems.with_raw_response.list(
-            project_id="projectId",
+            project_id="314",
         )
 
         assert response.is_closed is True
@@ -220,7 +220,7 @@ class TestSystems:
     @parametrize
     def test_streaming_response_list(self, client: Scorecard) -> None:
         with client.systems.with_streaming_response.list(
-            project_id="projectId",
+            project_id="314",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -242,7 +242,7 @@ class TestSystems:
     @parametrize
     def test_method_delete(self, client: Scorecard) -> None:
         system = client.systems.delete(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
         assert_matches_type(SystemDeleteResponse, system, path=["response"])
 
@@ -250,7 +250,7 @@ class TestSystems:
     @parametrize
     def test_raw_response_delete(self, client: Scorecard) -> None:
         response = client.systems.with_raw_response.delete(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
 
         assert response.is_closed is True
@@ -262,7 +262,7 @@ class TestSystems:
     @parametrize
     def test_streaming_response_delete(self, client: Scorecard) -> None:
         with client.systems.with_streaming_response.delete(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -284,7 +284,7 @@ class TestSystems:
     @parametrize
     def test_method_get(self, client: Scorecard) -> None:
         system = client.systems.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
         assert_matches_type(System, system, path=["response"])
 
@@ -292,7 +292,7 @@ class TestSystems:
     @parametrize
     def test_raw_response_get(self, client: Scorecard) -> None:
         response = client.systems.with_raw_response.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
 
         assert response.is_closed is True
@@ -304,7 +304,7 @@ class TestSystems:
     @parametrize
     def test_streaming_response_get(self, client: Scorecard) -> None:
         with client.systems.with_streaming_response.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -330,7 +330,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_method_create(self, async_client: AsyncScorecard) -> None:
         system = await async_client.systems.create(
-            project_id="projectId",
+            project_id="314",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -355,7 +355,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncScorecard) -> None:
         response = await async_client.systems.with_raw_response.create(
-            project_id="projectId",
+            project_id="314",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -384,7 +384,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncScorecard) -> None:
         async with async_client.systems.with_streaming_response.create(
-            project_id="projectId",
+            project_id="314",
             config_schema={
                 "type": "bar",
                 "properties": "bar",
@@ -440,7 +440,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_method_update(self, async_client: AsyncScorecard) -> None:
         system = await async_client.systems.update(
-            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
         assert_matches_type(System, system, path=["response"])
 
@@ -448,7 +448,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncScorecard) -> None:
         system = await async_client.systems.update(
-            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="12345678-0a8b-4f66-b6f3-2ddcfa097257",
             config_schema={"foo": "bar"},
             description="Updated production chatbot powered by GPT-4 Turbo",
             input_schema={"foo": "bar"},
@@ -461,7 +461,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncScorecard) -> None:
         response = await async_client.systems.with_raw_response.update(
-            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
 
         assert response.is_closed is True
@@ -473,7 +473,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncScorecard) -> None:
         async with async_client.systems.with_streaming_response.update(
-            system_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            system_id="12345678-0a8b-4f66-b6f3-2ddcfa097257",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -495,7 +495,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_method_list(self, async_client: AsyncScorecard) -> None:
         system = await async_client.systems.list(
-            project_id="projectId",
+            project_id="314",
         )
         assert_matches_type(AsyncPaginatedResponse[System], system, path=["response"])
 
@@ -503,7 +503,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncScorecard) -> None:
         system = await async_client.systems.list(
-            project_id="projectId",
+            project_id="314",
             cursor="eyJvZmZzZXQiOjAsInBhZ2VJZCI6ImNvZGUifQ",
             limit=20,
         )
@@ -513,7 +513,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncScorecard) -> None:
         response = await async_client.systems.with_raw_response.list(
-            project_id="projectId",
+            project_id="314",
         )
 
         assert response.is_closed is True
@@ -525,7 +525,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncScorecard) -> None:
         async with async_client.systems.with_streaming_response.list(
-            project_id="projectId",
+            project_id="314",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -547,7 +547,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_method_delete(self, async_client: AsyncScorecard) -> None:
         system = await async_client.systems.delete(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
         assert_matches_type(SystemDeleteResponse, system, path=["response"])
 
@@ -555,7 +555,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncScorecard) -> None:
         response = await async_client.systems.with_raw_response.delete(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
 
         assert response.is_closed is True
@@ -567,7 +567,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncScorecard) -> None:
         async with async_client.systems.with_streaming_response.delete(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -589,7 +589,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_method_get(self, async_client: AsyncScorecard) -> None:
         system = await async_client.systems.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
         assert_matches_type(System, system, path=["response"])
 
@@ -597,7 +597,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_raw_response_get(self, async_client: AsyncScorecard) -> None:
         response = await async_client.systems.with_raw_response.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         )
 
         assert response.is_closed is True
@@ -609,7 +609,7 @@ class TestAsyncSystems:
     @parametrize
     async def test_streaming_response_get(self, async_client: AsyncScorecard) -> None:
         async with async_client.systems.with_streaming_response.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            "12345678-0a8b-4f66-b6f3-2ddcfa097257",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

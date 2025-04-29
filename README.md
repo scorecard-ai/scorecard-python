@@ -34,7 +34,7 @@ client = Scorecard(
 )
 
 testset = client.testsets.create(
-    project_id="projectId",
+    project_id="314",
     description="Testset for long context Q&A chatbot.",
     field_mapping={
         "inputs": ["question"],
@@ -73,7 +73,7 @@ client = AsyncScorecard(
 
 async def main() -> None:
     testset = await client.testsets.create(
-        project_id="projectId",
+        project_id="314",
         description="Testset for long context Q&A chatbot.",
         field_mapping={
             "inputs": ["question"],
@@ -113,7 +113,7 @@ from scorecard_ai import Scorecard
 client = Scorecard()
 
 testset = client.testsets.create(
-    project_id="projectId",
+    project_id="314",
     description="Testset for long context Q&A chatbot.",
     field_mapping={
         "inputs": ["question"],
@@ -146,7 +146,7 @@ client = Scorecard()
 
 try:
     client.testsets.get(
-        "testsetId",
+        "246",
     )
 except scorecard_ai.APIConnectionError as e:
     print("The server could not be reached")
@@ -191,7 +191,7 @@ client = Scorecard(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).testsets.get(
-    "testsetId",
+    "246",
 )
 ```
 
@@ -216,7 +216,7 @@ client = Scorecard(
 
 # Override per-request:
 client.with_options(timeout=5.0).testsets.get(
-    "testsetId",
+    "246",
 )
 ```
 
@@ -259,7 +259,7 @@ from scorecard_ai import Scorecard
 
 client = Scorecard()
 response = client.testsets.with_raw_response.get(
-    "testsetId",
+    "246",
 )
 print(response.headers.get('X-My-Header'))
 
@@ -279,7 +279,7 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.testsets.with_streaming_response.get(
-    "testsetId",
+    "246",
 ) as response:
     print(response.headers.get("X-My-Header"))
 

@@ -21,7 +21,7 @@ class TestRuns:
     @parametrize
     def test_method_create(self, client: Scorecard) -> None:
         run = client.runs.create(
-            project_id="projectId",
+            project_id="314",
             metric_ids=["789", "101"],
             testset_id="123",
         )
@@ -31,7 +31,7 @@ class TestRuns:
     @parametrize
     def test_method_create_with_all_params(self, client: Scorecard) -> None:
         run = client.runs.create(
-            project_id="projectId",
+            project_id="314",
             metric_ids=["789", "101"],
             testset_id="123",
             system_config_id="456",
@@ -42,7 +42,7 @@ class TestRuns:
     @parametrize
     def test_raw_response_create(self, client: Scorecard) -> None:
         response = client.runs.with_raw_response.create(
-            project_id="projectId",
+            project_id="314",
             metric_ids=["789", "101"],
             testset_id="123",
         )
@@ -56,7 +56,7 @@ class TestRuns:
     @parametrize
     def test_streaming_response_create(self, client: Scorecard) -> None:
         with client.runs.with_streaming_response.create(
-            project_id="projectId",
+            project_id="314",
             metric_ids=["789", "101"],
             testset_id="123",
         ) as response:
@@ -82,7 +82,7 @@ class TestRuns:
     @parametrize
     def test_method_update(self, client: Scorecard) -> None:
         run = client.runs.update(
-            run_id="runId",
+            run_id="135",
             status="awaiting_scoring",
         )
         assert_matches_type(RunUpdateResponse, run, path=["response"])
@@ -91,7 +91,7 @@ class TestRuns:
     @parametrize
     def test_raw_response_update(self, client: Scorecard) -> None:
         response = client.runs.with_raw_response.update(
-            run_id="runId",
+            run_id="135",
             status="awaiting_scoring",
         )
 
@@ -104,7 +104,7 @@ class TestRuns:
     @parametrize
     def test_streaming_response_update(self, client: Scorecard) -> None:
         with client.runs.with_streaming_response.update(
-            run_id="runId",
+            run_id="135",
             status="awaiting_scoring",
         ) as response:
             assert not response.is_closed
@@ -132,7 +132,7 @@ class TestAsyncRuns:
     @parametrize
     async def test_method_create(self, async_client: AsyncScorecard) -> None:
         run = await async_client.runs.create(
-            project_id="projectId",
+            project_id="314",
             metric_ids=["789", "101"],
             testset_id="123",
         )
@@ -142,7 +142,7 @@ class TestAsyncRuns:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncScorecard) -> None:
         run = await async_client.runs.create(
-            project_id="projectId",
+            project_id="314",
             metric_ids=["789", "101"],
             testset_id="123",
             system_config_id="456",
@@ -153,7 +153,7 @@ class TestAsyncRuns:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncScorecard) -> None:
         response = await async_client.runs.with_raw_response.create(
-            project_id="projectId",
+            project_id="314",
             metric_ids=["789", "101"],
             testset_id="123",
         )
@@ -167,7 +167,7 @@ class TestAsyncRuns:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncScorecard) -> None:
         async with async_client.runs.with_streaming_response.create(
-            project_id="projectId",
+            project_id="314",
             metric_ids=["789", "101"],
             testset_id="123",
         ) as response:
@@ -193,7 +193,7 @@ class TestAsyncRuns:
     @parametrize
     async def test_method_update(self, async_client: AsyncScorecard) -> None:
         run = await async_client.runs.update(
-            run_id="runId",
+            run_id="135",
             status="awaiting_scoring",
         )
         assert_matches_type(RunUpdateResponse, run, path=["response"])
@@ -202,7 +202,7 @@ class TestAsyncRuns:
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncScorecard) -> None:
         response = await async_client.runs.with_raw_response.update(
-            run_id="runId",
+            run_id="135",
             status="awaiting_scoring",
         )
 
@@ -215,7 +215,7 @@ class TestAsyncRuns:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncScorecard) -> None:
         async with async_client.runs.with_streaming_response.update(
-            run_id="runId",
+            run_id="135",
             status="awaiting_scoring",
         ) as response:
             assert not response.is_closed
