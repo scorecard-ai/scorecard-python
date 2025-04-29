@@ -12,10 +12,10 @@ __all__ = ["SystemConfigCreateParams", "ValidationError"]
 
 class SystemConfigCreateParams(TypedDict, total=False):
     config: Required[Dict[str, object]]
-    """The configuration of the system"""
+    """The configuration of the system."""
 
     name: Required[str]
-    """The name of the system configuration"""
+    """The name of the system configuration."""
 
     validation_errors: Annotated[Iterable[ValidationError], PropertyInfo(alias="validationErrors")]
     """Validation errors found in the configuration.
@@ -27,7 +27,7 @@ class SystemConfigCreateParams(TypedDict, total=False):
 
 class ValidationError(TypedDict, total=False):
     message: Required[str]
-    """Human-readable error description"""
+    """Human-readable error description."""
 
     path: Required[str]
-    """JSON Pointer to the field with the validation error"""
+    """JSON Pointer to the field with the validation error."""

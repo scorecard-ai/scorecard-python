@@ -7,4 +7,4 @@ __all__ = ["SystemDeleteResponse"]
 
 class SystemDeleteResponse(BaseModel):
     success: bool
-    """Whether the deletion was successful"""
+    """Whether the deletion was successful."""

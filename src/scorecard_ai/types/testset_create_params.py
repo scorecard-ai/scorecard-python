@@ -12,27 +12,27 @@ __all__ = ["TestsetCreateParams", "FieldMapping"]
 
 class TestsetCreateParams(TypedDict, total=False):
     description: Required[str]
-    """The description of the testset"""
+    """The description of the Testset."""
 
     field_mapping: Required[Annotated[FieldMapping, PropertyInfo(alias="fieldMapping")]]
-    """Maps top-level keys of the testcase schema to their roles (input/label).
+    """Maps top-level keys of the Testcase schema to their roles (input/label).
 
     Unmapped fields are treated as metadata.
     """
 
     json_schema: Required[Annotated[Dict[str, object], PropertyInfo(alias="jsonSchema")]]
-    """The JSON schema for each testcase in the testset"""
+    """The JSON schema for each Testcase in the Testset."""
 
     name: Required[str]
-    """The name of the testset"""
+    """The name of the Testset."""
 
 
 class FieldMapping(TypedDict, total=False):
     inputs: Required[List[str]]
-    """Fields that represent inputs to the AI system"""
+    """Fields that represent inputs to the AI system."""
 
     labels: Required[List[str]]
-    """Fields that represent expected outputs/labels"""
+    """Fields that represent expected outputs/labels."""
 
     metadata: Required[List[str]]
-    """Fields that are not inputs or labels"""
+    """Fields that are not inputs or labels."""

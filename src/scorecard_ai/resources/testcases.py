@@ -61,10 +61,10 @@ class TestcasesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TestcaseCreateResponse:
         """
-        Create multiple testcases in the specified testset.
+        Create multiple Testcases in the specified Testset.
 
         Args:
-          items: Testcases to create (max 100)
+          items: Testcases to create (max 100).
 
           extra_headers: Send extra headers
 
@@ -98,10 +98,10 @@ class TestcasesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testcase:
         """
-        Replace the data of an existing testcase while keeping its ID.
+        Replace the data of an existing Testcase while keeping its ID.
 
         Args:
-          json_data: The JSON data of the testcase, which is validated against the testset's schema.
+          json_data: The JSON data of the Testcase, which is validated against the Testset's schema.
 
           extra_headers: Send extra headers
 
@@ -136,7 +136,7 @@ class TestcasesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> SyncPaginatedResponse[Testcase]:
         """
-        Retrieve a paginated list of testcases belonging to a testset.
+        Retrieve a paginated list of Testcases belonging to a Testset.
 
         Args:
           cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get
@@ -186,10 +186,10 @@ class TestcasesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TestcaseDeleteResponse:
         """
-        Delete multiple testcases by their IDs.
+        Delete multiple Testcases by their IDs.
 
         Args:
-          ids: IDs of testcases to delete
+          ids: IDs of Testcases to delete.
 
           extra_headers: Send extra headers
 
@@ -220,7 +220,7 @@ class TestcasesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testcase:
         """
-        Retrieve a specific testcase by ID.
+        Retrieve a specific Testcase by ID.
 
         Args:
           extra_headers: Send extra headers
@@ -275,10 +275,10 @@ class AsyncTestcasesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TestcaseCreateResponse:
         """
-        Create multiple testcases in the specified testset.
+        Create multiple Testcases in the specified Testset.
 
         Args:
-          items: Testcases to create (max 100)
+          items: Testcases to create (max 100).
 
           extra_headers: Send extra headers
 
@@ -312,10 +312,10 @@ class AsyncTestcasesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testcase:
         """
-        Replace the data of an existing testcase while keeping its ID.
+        Replace the data of an existing Testcase while keeping its ID.
 
         Args:
-          json_data: The JSON data of the testcase, which is validated against the testset's schema.
+          json_data: The JSON data of the Testcase, which is validated against the Testset's schema.
 
           extra_headers: Send extra headers
 
@@ -350,7 +350,7 @@ class AsyncTestcasesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AsyncPaginator[Testcase, AsyncPaginatedResponse[Testcase]]:
         """
-        Retrieve a paginated list of testcases belonging to a testset.
+        Retrieve a paginated list of Testcases belonging to a Testset.
 
         Args:
           cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get
@@ -400,10 +400,10 @@ class AsyncTestcasesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TestcaseDeleteResponse:
         """
-        Delete multiple testcases by their IDs.
+        Delete multiple Testcases by their IDs.
 
         Args:
-          ids: IDs of testcases to delete
+          ids: IDs of Testcases to delete.
 
           extra_headers: Send extra headers
 
@@ -434,7 +434,7 @@ class AsyncTestcasesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testcase:
         """
-        Retrieve a specific testcase by ID.
+        Retrieve a specific Testcase by ID.
 
         Args:
           extra_headers: Send extra headers

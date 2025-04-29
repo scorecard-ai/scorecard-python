@@ -60,14 +60,14 @@ class RunsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Run:
         """
-        Create a new run.
+        Create a new Run.
 
         Args:
-          metric_ids: The IDs of the metrics this Run is using
+          metric_ids: The IDs of the metrics this Run is using.
 
-          testset_id: The ID of the Testset this Run is testing
+          testset_id: The ID of the Testset this Run is testing.
 
-          system_config_id: The ID of the system configuration this Run is using
+          system_config_id: The ID of the system configuration this Run is using.
 
           extra_headers: Send extra headers
 
@@ -116,10 +116,10 @@ class RunsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> RunUpdateResponse:
         """
-        Update the status of a run.
+        Update the status of a Run.
 
         Args:
-          status: The status of the Run
+          status: The status of the Run.
 
           extra_headers: Send extra headers
 
@@ -176,14 +176,14 @@ class AsyncRunsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Run:
         """
-        Create a new run.
+        Create a new Run.
 
         Args:
-          metric_ids: The IDs of the metrics this Run is using
+          metric_ids: The IDs of the metrics this Run is using.
 
-          testset_id: The ID of the Testset this Run is testing
+          testset_id: The ID of the Testset this Run is testing.
 
-          system_config_id: The ID of the system configuration this Run is using
+          system_config_id: The ID of the system configuration this Run is using.
 
           extra_headers: Send extra headers
 
@@ -232,10 +232,10 @@ class AsyncRunsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> RunUpdateResponse:
         """
-        Update the status of a run.
+        Update the status of a Run.
 
         Args:
-          status: The status of the Run
+          status: The status of the Run.
 
           extra_headers: Send extra headers
 

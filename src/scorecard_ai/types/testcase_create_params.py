@@ -12,9 +12,9 @@ __all__ = ["TestcaseCreateParams", "Item"]
 
 class TestcaseCreateParams(TypedDict, total=False):
     items: Required[Iterable[Item]]
-    """Testcases to create (max 100)"""
+    """Testcases to create (max 100)."""
 
 
 class Item(TypedDict, total=False):
     json_data: Required[Annotated[Dict[str, object], PropertyInfo(alias="jsonData")]]
-    """The JSON data of the testcase, which is validated against the testset's schema."""
+    """The JSON data of the Testcase, which is validated against the Testset's schema."""

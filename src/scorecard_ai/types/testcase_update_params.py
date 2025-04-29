@@ -12,4 +12,4 @@ __all__ = ["TestcaseUpdateParams"]
 
 class TestcaseUpdateParams(TypedDict, total=False):
     json_data: Required[Annotated[Dict[str, object], PropertyInfo(alias="jsonData")]]
-    """The JSON data of the testcase, which is validated against the testset's schema."""
+    """The JSON data of the Testcase, which is validated against the Testset's schema."""

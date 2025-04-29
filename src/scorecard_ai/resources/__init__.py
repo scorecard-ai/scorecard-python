@@ -8,6 +8,14 @@ from .runs import (
     RunsResourceWithStreamingResponse,
     AsyncRunsResourceWithStreamingResponse,
 )
+from .records import (
+    RecordsResource,
+    AsyncRecordsResource,
+    RecordsResourceWithRawResponse,
+    AsyncRecordsResourceWithRawResponse,
+    RecordsResourceWithStreamingResponse,
+    AsyncRecordsResourceWithStreamingResponse,
+)
 from .systems import (
     SystemsResource,
     AsyncSystemsResource,
@@ -48,14 +56,6 @@ from .system_configs import (
     SystemConfigsResourceWithStreamingResponse,
     AsyncSystemConfigsResourceWithStreamingResponse,
 )
-from .execution_records import (
-    ExecutionRecordsResource,
-    AsyncExecutionRecordsResource,
-    ExecutionRecordsResourceWithRawResponse,
-    AsyncExecutionRecordsResourceWithRawResponse,
-    ExecutionRecordsResourceWithStreamingResponse,
-    AsyncExecutionRecordsResourceWithStreamingResponse,
-)
 
 __all__ = [
     "ProjectsResource",
@@ -82,12 +82,12 @@ __all__ = [
     "AsyncRunsResourceWithRawResponse",
     "RunsResourceWithStreamingResponse",
     "AsyncRunsResourceWithStreamingResponse",
-    "ExecutionRecordsResource",
-    "AsyncExecutionRecordsResource",
-    "ExecutionRecordsResourceWithRawResponse",
-    "AsyncExecutionRecordsResourceWithRawResponse",
-    "ExecutionRecordsResourceWithStreamingResponse",
-    "AsyncExecutionRecordsResourceWithStreamingResponse",
+    "RecordsResource",
+    "AsyncRecordsResource",
+    "RecordsResourceWithRawResponse",
+    "AsyncRecordsResourceWithRawResponse",
+    "RecordsResourceWithStreamingResponse",
+    "AsyncRecordsResourceWithStreamingResponse",
     "SystemsResource",
     "AsyncSystemsResource",
     "SystemsResourceWithRawResponse",

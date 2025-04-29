@@ -10,4 +10,4 @@ __all__ = ["TestcaseDeleteParams"]
 
 class TestcaseDeleteParams(TypedDict, total=False):
     ids: Required[List[str]]
-    """IDs of testcases to delete"""
+    """IDs of Testcases to delete."""

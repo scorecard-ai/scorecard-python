@@ -23,7 +23,7 @@ class TestRuns:
         run = client.runs.create(
             project_id="314",
             metric_ids=["789", "101"],
-            testset_id="123",
+            testset_id="246",
         )
         assert_matches_type(Run, run, path=["response"])
 
@@ -33,8 +33,8 @@ class TestRuns:
         run = client.runs.create(
             project_id="314",
             metric_ids=["789", "101"],
-            testset_id="123",
-            system_config_id="456",
+            testset_id="246",
+            system_config_id="87654321-4d3b-4ae4-8c7a-4b6e2a19ccf0",
         )
         assert_matches_type(Run, run, path=["response"])
 
@@ -44,7 +44,7 @@ class TestRuns:
         response = client.runs.with_raw_response.create(
             project_id="314",
             metric_ids=["789", "101"],
-            testset_id="123",
+            testset_id="246",
         )
 
         assert response.is_closed is True
@@ -58,7 +58,7 @@ class TestRuns:
         with client.runs.with_streaming_response.create(
             project_id="314",
             metric_ids=["789", "101"],
-            testset_id="123",
+            testset_id="246",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -75,7 +75,7 @@ class TestRuns:
             client.runs.with_raw_response.create(
                 project_id="",
                 metric_ids=["789", "101"],
-                testset_id="123",
+                testset_id="246",
             )
 
     @pytest.mark.skip()
@@ -134,7 +134,7 @@ class TestAsyncRuns:
         run = await async_client.runs.create(
             project_id="314",
             metric_ids=["789", "101"],
-            testset_id="123",
+            testset_id="246",
         )
         assert_matches_type(Run, run, path=["response"])
 
@@ -144,8 +144,8 @@ class TestAsyncRuns:
         run = await async_client.runs.create(
             project_id="314",
             metric_ids=["789", "101"],
-            testset_id="123",
-            system_config_id="456",
+            testset_id="246",
+            system_config_id="87654321-4d3b-4ae4-8c7a-4b6e2a19ccf0",
         )
         assert_matches_type(Run, run, path=["response"])
 
@@ -155,7 +155,7 @@ class TestAsyncRuns:
         response = await async_client.runs.with_raw_response.create(
             project_id="314",
             metric_ids=["789", "101"],
-            testset_id="123",
+            testset_id="246",
         )
 
         assert response.is_closed is True
@@ -169,7 +169,7 @@ class TestAsyncRuns:
         async with async_client.runs.with_streaming_response.create(
             project_id="314",
             metric_ids=["789", "101"],
-            testset_id="123",
+            testset_id="246",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -186,7 +186,7 @@ class TestAsyncRuns:
             await async_client.runs.with_raw_response.create(
                 project_id="",
                 metric_ids=["789", "101"],
-                testset_id="123",
+                testset_id="246",
             )
 
     @pytest.mark.skip()

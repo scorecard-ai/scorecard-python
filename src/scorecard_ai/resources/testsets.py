@@ -62,20 +62,20 @@ class TestsetsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testset:
-        """Create a new testset for a project.
+        """Create a new Testset for a Project.
 
-        The testset will be created in the project
+        The Testset will be created in the Project
         specified in the path.
 
         Args:
-          description: The description of the testset
+          description: The description of the Testset.
 
-          field_mapping: Maps top-level keys of the testcase schema to their roles (input/label).
+          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/label).
               Unmapped fields are treated as metadata.
 
-          json_schema: The JSON schema for each testcase in the testset
+          json_schema: The JSON schema for each Testcase in the Testset.
 
-          name: The name of the testset
+          name: The name of the Testset.
 
           extra_headers: Send extra headers
 
@@ -119,7 +119,7 @@ class TestsetsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testset:
-        """Update a testset.
+        """Update a Testset.
 
         Only the fields provided in the request body will be updated.
         If a field is provided, the new content will replace the existing content. If a
@@ -135,14 +135,14 @@ class TestsetsResource(SyncAPIResource):
           schema
 
         Args:
-          description: The description of the testset
+          description: The description of the Testset.
 
-          field_mapping: Maps top-level keys of the testcase schema to their roles (input/label).
+          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/label).
               Unmapped fields are treated as metadata.
 
-          json_schema: The JSON schema for each testcase in the testset
+          json_schema: The JSON schema for each Testcase in the Testset.
 
-          name: The name of the testset
+          name: The name of the Testset.
 
           extra_headers: Send extra headers
 
@@ -185,7 +185,7 @@ class TestsetsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> SyncPaginatedResponse[Testset]:
         """
-        Retrieve a paginated list of testsets belonging to a project.
+        Retrieve a paginated list of Testsets belonging to a Project.
 
         Args:
           cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get
@@ -235,7 +235,7 @@ class TestsetsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TestsetDeleteResponse:
         """
-        Delete testset
+        Delete Testset
 
         Args:
           extra_headers: Send extra headers
@@ -268,7 +268,7 @@ class TestsetsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testset:
         """
-        Get testset by ID
+        Get Testset by ID
 
         Args:
           extra_headers: Send extra headers
@@ -325,20 +325,20 @@ class AsyncTestsetsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testset:
-        """Create a new testset for a project.
+        """Create a new Testset for a Project.
 
-        The testset will be created in the project
+        The Testset will be created in the Project
         specified in the path.
 
         Args:
-          description: The description of the testset
+          description: The description of the Testset.
 
-          field_mapping: Maps top-level keys of the testcase schema to their roles (input/label).
+          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/label).
               Unmapped fields are treated as metadata.
 
-          json_schema: The JSON schema for each testcase in the testset
+          json_schema: The JSON schema for each Testcase in the Testset.
 
-          name: The name of the testset
+          name: The name of the Testset.
 
           extra_headers: Send extra headers
 
@@ -382,7 +382,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testset:
-        """Update a testset.
+        """Update a Testset.
 
         Only the fields provided in the request body will be updated.
         If a field is provided, the new content will replace the existing content. If a
@@ -398,14 +398,14 @@ class AsyncTestsetsResource(AsyncAPIResource):
           schema
 
         Args:
-          description: The description of the testset
+          description: The description of the Testset.
 
-          field_mapping: Maps top-level keys of the testcase schema to their roles (input/label).
+          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/label).
               Unmapped fields are treated as metadata.
 
-          json_schema: The JSON schema for each testcase in the testset
+          json_schema: The JSON schema for each Testcase in the Testset.
 
-          name: The name of the testset
+          name: The name of the Testset.
 
           extra_headers: Send extra headers
 
@@ -448,7 +448,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AsyncPaginator[Testset, AsyncPaginatedResponse[Testset]]:
         """
-        Retrieve a paginated list of testsets belonging to a project.
+        Retrieve a paginated list of Testsets belonging to a Project.
 
         Args:
           cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get
@@ -498,7 +498,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TestsetDeleteResponse:
         """
-        Delete testset
+        Delete Testset
 
         Args:
           extra_headers: Send extra headers
@@ -531,7 +531,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testset:
         """
-        Get testset by ID
+        Get Testset by ID
 
         Args:
           extra_headers: Send extra headers

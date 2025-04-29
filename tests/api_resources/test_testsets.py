@@ -120,7 +120,7 @@ class TestTestsets:
     def test_method_update_with_all_params(self, client: Scorecard) -> None:
         testset = client.testsets.update(
             testset_id="246",
-            description="Updated description for the Q&A testset.",
+            description="Updated description for the Q&A Testset.",
             field_mapping={
                 "inputs": ["string"],
                 "labels": ["string"],
@@ -404,7 +404,7 @@ class TestAsyncTestsets:
     async def test_method_update_with_all_params(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.update(
             testset_id="246",
-            description="Updated description for the Q&A testset.",
+            description="Updated description for the Q&A Testset.",
             field_mapping={
                 "inputs": ["string"],
                 "labels": ["string"],
