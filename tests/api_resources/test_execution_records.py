@@ -21,7 +21,7 @@ class TestExecutionRecords:
     @parametrize
     def test_method_create(self, client: Scorecard) -> None:
         execution_record = client.execution_records.create(
-            run_id="runId",
+            run_id="135",
             inputs={"question": "bar"},
             labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
@@ -32,7 +32,7 @@ class TestExecutionRecords:
     @parametrize
     def test_method_create_with_all_params(self, client: Scorecard) -> None:
         execution_record = client.execution_records.create(
-            run_id="runId",
+            run_id="135",
             inputs={"question": "bar"},
             labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
@@ -44,7 +44,7 @@ class TestExecutionRecords:
     @parametrize
     def test_raw_response_create(self, client: Scorecard) -> None:
         response = client.execution_records.with_raw_response.create(
-            run_id="runId",
+            run_id="135",
             inputs={"question": "bar"},
             labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
@@ -59,7 +59,7 @@ class TestExecutionRecords:
     @parametrize
     def test_streaming_response_create(self, client: Scorecard) -> None:
         with client.execution_records.with_streaming_response.create(
-            run_id="runId",
+            run_id="135",
             inputs={"question": "bar"},
             labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
@@ -91,7 +91,7 @@ class TestAsyncExecutionRecords:
     @parametrize
     async def test_method_create(self, async_client: AsyncScorecard) -> None:
         execution_record = await async_client.execution_records.create(
-            run_id="runId",
+            run_id="135",
             inputs={"question": "bar"},
             labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
@@ -102,7 +102,7 @@ class TestAsyncExecutionRecords:
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncScorecard) -> None:
         execution_record = await async_client.execution_records.create(
-            run_id="runId",
+            run_id="135",
             inputs={"question": "bar"},
             labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
@@ -114,7 +114,7 @@ class TestAsyncExecutionRecords:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncScorecard) -> None:
         response = await async_client.execution_records.with_raw_response.create(
-            run_id="runId",
+            run_id="135",
             inputs={"question": "bar"},
             labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
@@ -129,7 +129,7 @@ class TestAsyncExecutionRecords:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncScorecard) -> None:
         async with async_client.execution_records.with_streaming_response.create(
-            run_id="runId",
+            run_id="135",
             inputs={"question": "bar"},
             labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
