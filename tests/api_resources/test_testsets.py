@@ -25,7 +25,7 @@ class TestTestsets:
     @parametrize
     def test_method_create(self, client: Scorecard) -> None:
         testset = client.testsets.create(
-            project_id="projectId",
+            project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
                 "inputs": ["question"],
@@ -44,7 +44,7 @@ class TestTestsets:
     @parametrize
     def test_raw_response_create(self, client: Scorecard) -> None:
         response = client.testsets.with_raw_response.create(
-            project_id="projectId",
+            project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
                 "inputs": ["question"],
@@ -67,7 +67,7 @@ class TestTestsets:
     @parametrize
     def test_streaming_response_create(self, client: Scorecard) -> None:
         with client.testsets.with_streaming_response.create(
-            project_id="projectId",
+            project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
                 "inputs": ["question"],
@@ -111,7 +111,7 @@ class TestTestsets:
     @parametrize
     def test_method_update(self, client: Scorecard) -> None:
         testset = client.testsets.update(
-            testset_id="testsetId",
+            testset_id="246",
         )
         assert_matches_type(Testset, testset, path=["response"])
 
@@ -119,7 +119,7 @@ class TestTestsets:
     @parametrize
     def test_method_update_with_all_params(self, client: Scorecard) -> None:
         testset = client.testsets.update(
-            testset_id="testsetId",
+            testset_id="246",
             description="Updated description for the Q&A testset.",
             field_mapping={
                 "inputs": ["string"],
@@ -135,7 +135,7 @@ class TestTestsets:
     @parametrize
     def test_raw_response_update(self, client: Scorecard) -> None:
         response = client.testsets.with_raw_response.update(
-            testset_id="testsetId",
+            testset_id="246",
         )
 
         assert response.is_closed is True
@@ -147,7 +147,7 @@ class TestTestsets:
     @parametrize
     def test_streaming_response_update(self, client: Scorecard) -> None:
         with client.testsets.with_streaming_response.update(
-            testset_id="testsetId",
+            testset_id="246",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -169,7 +169,7 @@ class TestTestsets:
     @parametrize
     def test_method_list(self, client: Scorecard) -> None:
         testset = client.testsets.list(
-            project_id="projectId",
+            project_id="314",
         )
         assert_matches_type(SyncPaginatedResponse[Testset], testset, path=["response"])
 
@@ -177,7 +177,7 @@ class TestTestsets:
     @parametrize
     def test_method_list_with_all_params(self, client: Scorecard) -> None:
         testset = client.testsets.list(
-            project_id="projectId",
+            project_id="314",
             cursor="123",
             limit=20,
         )
@@ -187,7 +187,7 @@ class TestTestsets:
     @parametrize
     def test_raw_response_list(self, client: Scorecard) -> None:
         response = client.testsets.with_raw_response.list(
-            project_id="projectId",
+            project_id="314",
         )
 
         assert response.is_closed is True
@@ -199,7 +199,7 @@ class TestTestsets:
     @parametrize
     def test_streaming_response_list(self, client: Scorecard) -> None:
         with client.testsets.with_streaming_response.list(
-            project_id="projectId",
+            project_id="314",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -221,7 +221,7 @@ class TestTestsets:
     @parametrize
     def test_method_delete(self, client: Scorecard) -> None:
         testset = client.testsets.delete(
-            "testsetId",
+            "246",
         )
         assert_matches_type(TestsetDeleteResponse, testset, path=["response"])
 
@@ -229,7 +229,7 @@ class TestTestsets:
     @parametrize
     def test_raw_response_delete(self, client: Scorecard) -> None:
         response = client.testsets.with_raw_response.delete(
-            "testsetId",
+            "246",
         )
 
         assert response.is_closed is True
@@ -241,7 +241,7 @@ class TestTestsets:
     @parametrize
     def test_streaming_response_delete(self, client: Scorecard) -> None:
         with client.testsets.with_streaming_response.delete(
-            "testsetId",
+            "246",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -263,7 +263,7 @@ class TestTestsets:
     @parametrize
     def test_method_get(self, client: Scorecard) -> None:
         testset = client.testsets.get(
-            "testsetId",
+            "246",
         )
         assert_matches_type(Testset, testset, path=["response"])
 
@@ -271,7 +271,7 @@ class TestTestsets:
     @parametrize
     def test_raw_response_get(self, client: Scorecard) -> None:
         response = client.testsets.with_raw_response.get(
-            "testsetId",
+            "246",
         )
 
         assert response.is_closed is True
@@ -283,7 +283,7 @@ class TestTestsets:
     @parametrize
     def test_streaming_response_get(self, client: Scorecard) -> None:
         with client.testsets.with_streaming_response.get(
-            "testsetId",
+            "246",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -309,7 +309,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_method_create(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.create(
-            project_id="projectId",
+            project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
                 "inputs": ["question"],
@@ -328,7 +328,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testsets.with_raw_response.create(
-            project_id="projectId",
+            project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
                 "inputs": ["question"],
@@ -351,7 +351,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncScorecard) -> None:
         async with async_client.testsets.with_streaming_response.create(
-            project_id="projectId",
+            project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
                 "inputs": ["question"],
@@ -395,7 +395,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_method_update(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.update(
-            testset_id="testsetId",
+            testset_id="246",
         )
         assert_matches_type(Testset, testset, path=["response"])
 
@@ -403,7 +403,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.update(
-            testset_id="testsetId",
+            testset_id="246",
             description="Updated description for the Q&A testset.",
             field_mapping={
                 "inputs": ["string"],
@@ -419,7 +419,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testsets.with_raw_response.update(
-            testset_id="testsetId",
+            testset_id="246",
         )
 
         assert response.is_closed is True
@@ -431,7 +431,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncScorecard) -> None:
         async with async_client.testsets.with_streaming_response.update(
-            testset_id="testsetId",
+            testset_id="246",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -453,7 +453,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_method_list(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.list(
-            project_id="projectId",
+            project_id="314",
         )
         assert_matches_type(AsyncPaginatedResponse[Testset], testset, path=["response"])
 
@@ -461,7 +461,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.list(
-            project_id="projectId",
+            project_id="314",
             cursor="123",
             limit=20,
         )
@@ -471,7 +471,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testsets.with_raw_response.list(
-            project_id="projectId",
+            project_id="314",
         )
 
         assert response.is_closed is True
@@ -483,7 +483,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncScorecard) -> None:
         async with async_client.testsets.with_streaming_response.list(
-            project_id="projectId",
+            project_id="314",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -505,7 +505,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_method_delete(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.delete(
-            "testsetId",
+            "246",
         )
         assert_matches_type(TestsetDeleteResponse, testset, path=["response"])
 
@@ -513,7 +513,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testsets.with_raw_response.delete(
-            "testsetId",
+            "246",
         )
 
         assert response.is_closed is True
@@ -525,7 +525,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncScorecard) -> None:
         async with async_client.testsets.with_streaming_response.delete(
-            "testsetId",
+            "246",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -547,7 +547,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_method_get(self, async_client: AsyncScorecard) -> None:
         testset = await async_client.testsets.get(
-            "testsetId",
+            "246",
         )
         assert_matches_type(Testset, testset, path=["response"])
 
@@ -555,7 +555,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_raw_response_get(self, async_client: AsyncScorecard) -> None:
         response = await async_client.testsets.with_raw_response.get(
-            "testsetId",
+            "246",
         )
 
         assert response.is_closed is True
@@ -567,7 +567,7 @@ class TestAsyncTestsets:
     @parametrize
     async def test_streaming_response_get(self, async_client: AsyncScorecard) -> None:
         async with async_client.testsets.with_streaming_response.get(
-            "testsetId",
+            "246",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
