@@ -61,17 +61,17 @@ Methods:
 - <code title="post /projects/{projectId}/runs">client.runs.<a href="./src/scorecard_ai/resources/runs.py">create</a>(project_id, \*\*<a href="src/scorecard_ai/types/run_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/run.py">Run</a></code>
 - <code title="patch /runs/{runId}">client.runs.<a href="./src/scorecard_ai/resources/runs.py">update</a>(run_id, \*\*<a href="src/scorecard_ai/types/run_update_params.py">params</a>) -> <a href="./src/scorecard_ai/types/run_update_response.py">RunUpdateResponse</a></code>
 
-# ExecutionRecords
+# Records
 
 Types:
 
 ```python
-from scorecard_ai.types import ExecutionRecord
+from scorecard_ai.types import Record
 ```
 
 Methods:
 
-- <code title="post /runs/{runId}/executionrecords">client.execution_records.<a href="./src/scorecard_ai/resources/execution_records.py">create</a>(run_id, \*\*<a href="src/scorecard_ai/types/execution_record_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/execution_record.py">ExecutionRecord</a></code>
+- <code title="post /runs/{runId}/records">client.records.<a href="./src/scorecard_ai/resources/records.py">create</a>(run_id, \*\*<a href="src/scorecard_ai/types/record_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/record.py">Record</a></code>
 
 # Systems
 

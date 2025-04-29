@@ -79,15 +79,15 @@ class SystemsResource(SyncAPIResource):
         interface rather than implementation details.
 
         Args:
-          config_schema: The schema of the system's configuration
+          config_schema: The schema of the system's configuration.
 
-          description: The description of the system
+          description: The description of the system.
 
-          input_schema: The schema of the system's inputs
+          input_schema: The schema of the system's inputs.
 
-          name: The name of the system
+          name: The name of the system.
 
-          output_schema: The schema of the system's outputs
+          output_schema: The schema of the system's outputs.
 
           extra_headers: Send extra headers
 
@@ -149,15 +149,15 @@ class SystemsResource(SyncAPIResource):
           separation
 
         Args:
-          config_schema: The schema of the system's configuration
+          config_schema: The schema of the system's configuration.
 
-          description: The description of the system
+          description: The description of the system.
 
-          input_schema: The schema of the system's inputs
+          input_schema: The schema of the system's inputs.
 
-          name: The name of the system
+          name: The name of the system.
 
-          output_schema: The schema of the system's outputs
+          output_schema: The schema of the system's outputs.
 
           extra_headers: Send extra headers
 
@@ -363,15 +363,15 @@ class AsyncSystemsResource(AsyncAPIResource):
         interface rather than implementation details.
 
         Args:
-          config_schema: The schema of the system's configuration
+          config_schema: The schema of the system's configuration.
 
-          description: The description of the system
+          description: The description of the system.
 
-          input_schema: The schema of the system's inputs
+          input_schema: The schema of the system's inputs.
 
-          name: The name of the system
+          name: The name of the system.
 
-          output_schema: The schema of the system's outputs
+          output_schema: The schema of the system's outputs.
 
           extra_headers: Send extra headers
 
@@ -433,15 +433,15 @@ class AsyncSystemsResource(AsyncAPIResource):
           separation
 
         Args:
-          config_schema: The schema of the system's configuration
+          config_schema: The schema of the system's configuration.
 
-          description: The description of the system
+          description: The description of the system.
 
-          input_schema: The schema of the system's inputs
+          input_schema: The schema of the system's inputs.
 
-          name: The name of the system
+          name: The name of the system.
 
-          output_schema: The schema of the system's outputs
+          output_schema: The schema of the system's outputs.
 
           extra_headers: Send extra headers
 

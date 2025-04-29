@@ -9,7 +9,7 @@ __all__ = ["RunUpdateResponse"]
 
 class RunUpdateResponse(BaseModel):
     id: str
-    """The ID of the Run"""
+    """The ID of the Run."""
 
     status: Literal[
         "pending",
@@ -20,4 +20,4 @@ class RunUpdateResponse(BaseModel):
         "awaiting_human_scoring",
         "completed",
     ]
-    """The status of the Run"""
+    """The status of the Run."""

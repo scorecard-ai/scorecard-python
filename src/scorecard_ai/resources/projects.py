@@ -54,10 +54,10 @@ class ProjectsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> SyncPaginatedResponse[ProjectListResponse]:
-        """Retrieve a paginated list of all projects.
+        """Retrieve a paginated list of all Projects.
 
         Projects are ordered by creation
-        date, with oldest projects first.
+        date, with oldest Projects first.
 
         Args:
           cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get
@@ -126,10 +126,10 @@ class AsyncProjectsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> AsyncPaginator[ProjectListResponse, AsyncPaginatedResponse[ProjectListResponse]]:
-        """Retrieve a paginated list of all projects.
+        """Retrieve a paginated list of all Projects.
 
         Projects are ordered by creation
-        date, with oldest projects first.
+        date, with oldest Projects first.
 
         Args:
           cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get

@@ -7,21 +7,21 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["ExecutionRecordCreateParams"]
+__all__ = ["RecordCreateParams"]
 
 
-class ExecutionRecordCreateParams(TypedDict, total=False):
+class RecordCreateParams(TypedDict, total=False):
     inputs: Required[Dict[str, object]]
     """
     The actual inputs sent to the system, which should match the system's input
-    schema
+    schema.
     """
 
     labels: Required[Dict[str, object]]
-    """The expected outputs for the testcase"""
+    """The expected outputs for the Testcase."""
 
     outputs: Required[Dict[str, object]]
-    """The actual outputs from the system"""
+    """The actual outputs from the system."""
 
     testcase_id: Annotated[str, PropertyInfo(alias="testcaseId")]
-    """The ID of the testcase"""
+    """The ID of the Testcase."""

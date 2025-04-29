@@ -12,16 +12,16 @@ __all__ = ["SystemUpdateParams"]
 
 class SystemUpdateParams(TypedDict, total=False):
     config_schema: Annotated[Dict[str, object], PropertyInfo(alias="configSchema")]
-    """The schema of the system's configuration"""
+    """The schema of the system's configuration."""
 
     description: str
-    """The description of the system"""
+    """The description of the system."""
 
     input_schema: Annotated[Dict[str, object], PropertyInfo(alias="inputSchema")]
-    """The schema of the system's inputs"""
+    """The schema of the system's inputs."""
 
     name: str
-    """The name of the system"""
+    """The name of the system."""
 
     output_schema: Annotated[Dict[str, object], PropertyInfo(alias="outputSchema")]
-    """The schema of the system's outputs"""
+    """The schema of the system's outputs."""

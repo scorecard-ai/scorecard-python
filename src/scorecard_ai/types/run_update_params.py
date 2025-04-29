@@ -19,4 +19,4 @@ class RunUpdateParams(TypedDict, total=False):
             "completed",
         ]
     ]
-    """The status of the Run"""
+    """The status of the Run."""
