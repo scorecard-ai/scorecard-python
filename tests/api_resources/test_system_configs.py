@@ -18,7 +18,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestSystemConfigs:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_create(self, client: Scorecard) -> None:
         system_config = client.system_configs.create(
@@ -32,7 +31,6 @@ class TestSystemConfigs:
         )
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_create_with_all_params(self, client: Scorecard) -> None:
         system_config = client.system_configs.create(
@@ -52,7 +50,6 @@ class TestSystemConfigs:
         )
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_create(self, client: Scorecard) -> None:
         response = client.system_configs.with_raw_response.create(
@@ -70,7 +67,6 @@ class TestSystemConfigs:
         system_config = response.parse()
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_create(self, client: Scorecard) -> None:
         with client.system_configs.with_streaming_response.create(
@@ -90,7 +86,6 @@ class TestSystemConfigs:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_create(self, client: Scorecard) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_id` but received ''"):
@@ -104,7 +99,6 @@ class TestSystemConfigs:
                 name="Production (Low Temperature)",
             )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_list(self, client: Scorecard) -> None:
         system_config = client.system_configs.list(
@@ -112,7 +106,6 @@ class TestSystemConfigs:
         )
         assert_matches_type(SyncPaginatedResponse[SystemConfig], system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_list_with_all_params(self, client: Scorecard) -> None:
         system_config = client.system_configs.list(
@@ -122,7 +115,6 @@ class TestSystemConfigs:
         )
         assert_matches_type(SyncPaginatedResponse[SystemConfig], system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_list(self, client: Scorecard) -> None:
         response = client.system_configs.with_raw_response.list(
@@ -134,7 +126,6 @@ class TestSystemConfigs:
         system_config = response.parse()
         assert_matches_type(SyncPaginatedResponse[SystemConfig], system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_list(self, client: Scorecard) -> None:
         with client.system_configs.with_streaming_response.list(
@@ -148,7 +139,6 @@ class TestSystemConfigs:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_list(self, client: Scorecard) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_id` but received ''"):
@@ -156,7 +146,6 @@ class TestSystemConfigs:
                 system_id="",
             )
 
-    @pytest.mark.skip()
     @parametrize
     def test_method_get(self, client: Scorecard) -> None:
         system_config = client.system_configs.get(
@@ -165,7 +154,6 @@ class TestSystemConfigs:
         )
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_raw_response_get(self, client: Scorecard) -> None:
         response = client.system_configs.with_raw_response.get(
@@ -178,7 +166,6 @@ class TestSystemConfigs:
         system_config = response.parse()
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     def test_streaming_response_get(self, client: Scorecard) -> None:
         with client.system_configs.with_streaming_response.get(
@@ -193,7 +180,6 @@ class TestSystemConfigs:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     def test_path_params_get(self, client: Scorecard) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_id` but received ''"):
@@ -212,7 +198,6 @@ class TestSystemConfigs:
 class TestAsyncSystemConfigs:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_create(self, async_client: AsyncScorecard) -> None:
         system_config = await async_client.system_configs.create(
@@ -226,7 +211,6 @@ class TestAsyncSystemConfigs:
         )
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncScorecard) -> None:
         system_config = await async_client.system_configs.create(
@@ -246,7 +230,6 @@ class TestAsyncSystemConfigs:
         )
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncScorecard) -> None:
         response = await async_client.system_configs.with_raw_response.create(
@@ -264,7 +247,6 @@ class TestAsyncSystemConfigs:
         system_config = await response.parse()
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncScorecard) -> None:
         async with async_client.system_configs.with_streaming_response.create(
@@ -284,7 +266,6 @@ class TestAsyncSystemConfigs:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_create(self, async_client: AsyncScorecard) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_id` but received ''"):
@@ -298,7 +279,6 @@ class TestAsyncSystemConfigs:
                 name="Production (Low Temperature)",
             )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_list(self, async_client: AsyncScorecard) -> None:
         system_config = await async_client.system_configs.list(
@@ -306,7 +286,6 @@ class TestAsyncSystemConfigs:
         )
         assert_matches_type(AsyncPaginatedResponse[SystemConfig], system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncScorecard) -> None:
         system_config = await async_client.system_configs.list(
@@ -316,7 +295,6 @@ class TestAsyncSystemConfigs:
         )
         assert_matches_type(AsyncPaginatedResponse[SystemConfig], system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncScorecard) -> None:
         response = await async_client.system_configs.with_raw_response.list(
@@ -328,7 +306,6 @@ class TestAsyncSystemConfigs:
         system_config = await response.parse()
         assert_matches_type(AsyncPaginatedResponse[SystemConfig], system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncScorecard) -> None:
         async with async_client.system_configs.with_streaming_response.list(
@@ -342,7 +319,6 @@ class TestAsyncSystemConfigs:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_list(self, async_client: AsyncScorecard) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_id` but received ''"):
@@ -350,7 +326,6 @@ class TestAsyncSystemConfigs:
                 system_id="",
             )
 
-    @pytest.mark.skip()
     @parametrize
     async def test_method_get(self, async_client: AsyncScorecard) -> None:
         system_config = await async_client.system_configs.get(
@@ -359,7 +334,6 @@ class TestAsyncSystemConfigs:
         )
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_raw_response_get(self, async_client: AsyncScorecard) -> None:
         response = await async_client.system_configs.with_raw_response.get(
@@ -372,7 +346,6 @@ class TestAsyncSystemConfigs:
         system_config = await response.parse()
         assert_matches_type(SystemConfig, system_config, path=["response"])
 
-    @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_get(self, async_client: AsyncScorecard) -> None:
         async with async_client.system_configs.with_streaming_response.get(
@@ -387,7 +360,6 @@ class TestAsyncSystemConfigs:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     async def test_path_params_get(self, async_client: AsyncScorecard) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `system_id` but received ''"):
