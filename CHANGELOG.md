@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.0.0-alpha.2 (2025-05-03)
+
+Full Changelog: [v2.0.0-alpha.1...v2.0.0-alpha.2](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.1...v2.0.0-alpha.2)
+
+### Features
+
+* Add run_and_evaluate and async_run_and_evaluate helpers ([#3](https://github.com/scorecard-ai/scorecard-python/issues/3)) ([86a5a98](https://github.com/scorecard-ai/scorecard-python/commit/86a5a986d480a441803b2fed7be0c54d498cf280))
+* **api:** api update ([006296d](https://github.com/scorecard-ai/scorecard-python/commit/006296dbcb7d442f6d8388bace5ddb73a528b42d))
+* **api:** api update ([e4b2e8f](https://github.com/scorecard-ai/scorecard-python/commit/e4b2e8f61ad7b4e5885b379833003b03783c7381))
+
+
+### Chores
+
+* configure new SDK language ([4342e2a](https://github.com/scorecard-ai/scorecard-python/commit/4342e2a1e0f5ae92ec4310361e0205e0cb4d087d))
+
 ## 2.0.0-alpha.1 (2025-04-29)
 
 Full Changelog: [v2.0.0-alpha.0...v2.0.0-alpha.1](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.0...v2.0.0-alpha.1)
