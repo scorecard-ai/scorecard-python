@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.0-alpha.3 (2025-05-06)
+
+Full Changelog: [v2.0.0-alpha.2...v2.0.0-alpha.3](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.2...v2.0.0-alpha.3)
+
+### Features
+
+* **api:** api update ([c737926](https://github.com/scorecard-ai/scorecard-python/commit/c737926eb7498570facd77953d51d75a48609491))
+
 ## 2.0.0-alpha.2 (2025-05-03)
 
 Full Changelog: [v2.0.0-alpha.1...v2.0.0-alpha.2](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.1...v2.0.0-alpha.2)
