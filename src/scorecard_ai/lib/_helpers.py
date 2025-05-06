@@ -3,7 +3,7 @@ Helper functions for the Scorecard AI library.
 """
 
 import asyncio
-from typing import Any, List, Callable, Coroutine
+from typing import Any, Dict, List, Callable, Coroutine
 from typing_extensions import TypedDict
 
 from scorecard_ai import Scorecard, AsyncScorecard
@@ -28,7 +28,7 @@ def run_and_evaluate(
     project_id: str,
     testset_id: str,
     metric_ids: List[str],
-    system: Callable[[Any], Any],
+    system: Callable[[Dict[str, Any]], Dict[str, Any]],
 ) -> RunResponse:
     """
     Runs a system on a Testset and records the results in Scorecard.
@@ -44,7 +44,9 @@ def run_and_evaluate(
 
         system: The system to run on the Testset.
     """
-    run = client.runs.create(project_id=project_id, testset_id=testset_id, metric_ids=metric_ids)
+    run = client.runs.create(
+        project_id=project_id, testset_id=testset_id, metric_ids=metric_ids
+    )
 
     # Run each Testcase sequentially
     for testcase in client.testcases.list(run.testset_id):
@@ -88,7 +90,9 @@ async def async_run_and_evaluate(
 
         system: The system to run on the Testset.
     """
-    run = await client.runs.create(project_id=project_id, testset_id=testset_id, metric_ids=metric_ids)
+    run = await client.runs.create(
+        project_id=project_id, testset_id=testset_id, metric_ids=metric_ids
+    )
 
     def run_testcase(testcase: Testcase) -> Coroutine[Any, Any, Record]:
         model_response = system(testcase.inputs)
@@ -101,7 +105,12 @@ async def async_run_and_evaluate(
         )
 
     # Create a Record for each Testcase
-    await asyncio.gather(*[run_testcase(testcase) async for testcase in client.testcases.list(run.testset_id)])
+    await asyncio.gather(
+        *[
+            run_testcase(testcase)
+            async for testcase in client.testcases.list(run.testset_id)
+        ]
+    )
 
     # Mark the Run as done with execution and ready for scoring.
     await client.runs.update(run.id, status="awaiting_scoring")
