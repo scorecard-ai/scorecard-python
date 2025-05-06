@@ -36,7 +36,7 @@ from scorecard_ai._base_client import (
 from .utils import update_env
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
-bearer_token = "My Bearer Token"
+api_key = "My API Key"
 
 
 def _get_params(client: BaseClient[Any, Any]) -> dict[str, str]:
@@ -58,7 +58,7 @@ def _get_open_connections(client: Scorecard | AsyncScorecard) -> int:
 
 
 class TestScorecard:
-    client = Scorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+    client = Scorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -84,9 +84,9 @@ class TestScorecard:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(bearer_token="another My Bearer Token")
-        assert copied.bearer_token == "another My Bearer Token"
-        assert self.client.bearer_token == "My Bearer Token"
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -106,10 +106,7 @@ class TestScorecard:
 
     def test_copy_default_headers(self) -> None:
         client = Scorecard(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -143,7 +140,7 @@ class TestScorecard:
 
     def test_copy_default_query(self) -> None:
         client = Scorecard(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -268,7 +265,7 @@ class TestScorecard:
 
     def test_client_timeout_option(self) -> None:
         client = Scorecard(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -279,7 +276,7 @@ class TestScorecard:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
             client = Scorecard(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -289,7 +286,7 @@ class TestScorecard:
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
             client = Scorecard(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -299,7 +296,7 @@ class TestScorecard:
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = Scorecard(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -311,17 +308,14 @@ class TestScorecard:
             async with httpx.AsyncClient() as http_client:
                 Scorecard(
                     base_url=base_url,
-                    bearer_token=bearer_token,
+                    api_key=api_key,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = Scorecard(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -329,7 +323,7 @@ class TestScorecard:
 
         client2 = Scorecard(
             base_url=base_url,
-            bearer_token=bearer_token,
+            api_key=api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -341,21 +335,18 @@ class TestScorecard:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = Scorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Scorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(ScorecardError):
             with update_env(**{"SCORECARD_API_KEY": Omit()}):
-                client2 = Scorecard(base_url=base_url, bearer_token=None, _strict_response_validation=True)
+                client2 = Scorecard(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
         client = Scorecard(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_query={"query_param": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -555,9 +546,7 @@ class TestScorecard:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = Scorecard(
-            base_url="https://example.com/from_init", bearer_token=bearer_token, _strict_response_validation=True
-        )
+        client = Scorecard(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -566,30 +555,26 @@ class TestScorecard:
 
     def test_base_url_env(self) -> None:
         with update_env(SCORECARD_BASE_URL="http://localhost:5000/from/env"):
-            client = Scorecard(bearer_token=bearer_token, _strict_response_validation=True)
+            client = Scorecard(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
         with update_env(SCORECARD_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                Scorecard(bearer_token=bearer_token, _strict_response_validation=True, environment="production")
+                Scorecard(api_key=api_key, _strict_response_validation=True, environment="production")
 
             client = Scorecard(
-                base_url=None, bearer_token=bearer_token, _strict_response_validation=True, environment="production"
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
             )
             assert str(client.base_url).startswith("https://api2.scorecard.io/api/v2")
 
     @pytest.mark.parametrize(
         "client",
         [
+            Scorecard(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Scorecard(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-            ),
-            Scorecard(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -609,14 +594,10 @@ class TestScorecard:
     @pytest.mark.parametrize(
         "client",
         [
+            Scorecard(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Scorecard(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-            ),
-            Scorecard(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -636,14 +617,10 @@ class TestScorecard:
     @pytest.mark.parametrize(
         "client",
         [
+            Scorecard(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Scorecard(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-            ),
-            Scorecard(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -661,7 +638,7 @@ class TestScorecard:
         assert request.url == "https://myapi.com/foo"
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = Scorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Scorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -672,7 +649,7 @@ class TestScorecard:
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = Scorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Scorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -693,12 +670,7 @@ class TestScorecard:
 
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            Scorecard(
-                base_url=base_url,
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-                max_retries=cast(Any, None),
-            )
+            Scorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
 
     @pytest.mark.respx(base_url=base_url)
     def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
@@ -707,12 +679,12 @@ class TestScorecard:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = Scorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        strict_client = Scorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = Scorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
+        client = Scorecard(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -740,7 +712,7 @@ class TestScorecard:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = Scorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Scorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -850,7 +822,7 @@ class TestScorecard:
 
 
 class TestAsyncScorecard:
-    client = AsyncScorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+    client = AsyncScorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -878,9 +850,9 @@ class TestAsyncScorecard:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(bearer_token="another My Bearer Token")
-        assert copied.bearer_token == "another My Bearer Token"
-        assert self.client.bearer_token == "My Bearer Token"
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -900,10 +872,7 @@ class TestAsyncScorecard:
 
     def test_copy_default_headers(self) -> None:
         client = AsyncScorecard(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -937,7 +906,7 @@ class TestAsyncScorecard:
 
     def test_copy_default_query(self) -> None:
         client = AsyncScorecard(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -1062,7 +1031,7 @@ class TestAsyncScorecard:
 
     async def test_client_timeout_option(self) -> None:
         client = AsyncScorecard(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1073,7 +1042,7 @@ class TestAsyncScorecard:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
             client = AsyncScorecard(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1083,7 +1052,7 @@ class TestAsyncScorecard:
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
             client = AsyncScorecard(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1093,7 +1062,7 @@ class TestAsyncScorecard:
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = AsyncScorecard(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1105,17 +1074,14 @@ class TestAsyncScorecard:
             with httpx.Client() as http_client:
                 AsyncScorecard(
                     base_url=base_url,
-                    bearer_token=bearer_token,
+                    api_key=api_key,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = AsyncScorecard(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -1123,7 +1089,7 @@ class TestAsyncScorecard:
 
         client2 = AsyncScorecard(
             base_url=base_url,
-            bearer_token=bearer_token,
+            api_key=api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -1135,21 +1101,18 @@ class TestAsyncScorecard:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = AsyncScorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncScorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(ScorecardError):
             with update_env(**{"SCORECARD_API_KEY": Omit()}):
-                client2 = AsyncScorecard(base_url=base_url, bearer_token=None, _strict_response_validation=True)
+                client2 = AsyncScorecard(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
         client = AsyncScorecard(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_query={"query_param": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -1350,7 +1313,7 @@ class TestAsyncScorecard:
 
     def test_base_url_setter(self) -> None:
         client = AsyncScorecard(
-            base_url="https://example.com/from_init", bearer_token=bearer_token, _strict_response_validation=True
+            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
 
@@ -1360,16 +1323,16 @@ class TestAsyncScorecard:
 
     def test_base_url_env(self) -> None:
         with update_env(SCORECARD_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncScorecard(bearer_token=bearer_token, _strict_response_validation=True)
+            client = AsyncScorecard(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
         with update_env(SCORECARD_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                AsyncScorecard(bearer_token=bearer_token, _strict_response_validation=True, environment="production")
+                AsyncScorecard(api_key=api_key, _strict_response_validation=True, environment="production")
 
             client = AsyncScorecard(
-                base_url=None, bearer_token=bearer_token, _strict_response_validation=True, environment="production"
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
             )
             assert str(client.base_url).startswith("https://api2.scorecard.io/api/v2")
 
@@ -1377,13 +1340,11 @@ class TestAsyncScorecard:
         "client",
         [
             AsyncScorecard(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncScorecard(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1404,13 +1365,11 @@ class TestAsyncScorecard:
         "client",
         [
             AsyncScorecard(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncScorecard(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1431,13 +1390,11 @@ class TestAsyncScorecard:
         "client",
         [
             AsyncScorecard(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncScorecard(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1455,7 +1412,7 @@ class TestAsyncScorecard:
         assert request.url == "https://myapi.com/foo"
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncScorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncScorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -1467,7 +1424,7 @@ class TestAsyncScorecard:
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncScorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncScorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         async with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -1490,10 +1447,7 @@ class TestAsyncScorecard:
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             AsyncScorecard(
-                base_url=base_url,
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-                max_retries=cast(Any, None),
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
     @pytest.mark.respx(base_url=base_url)
@@ -1504,12 +1458,12 @@ class TestAsyncScorecard:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncScorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        strict_client = AsyncScorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncScorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
+        client = AsyncScorecard(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = await client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1538,7 +1492,7 @@ class TestAsyncScorecard:
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncScorecard(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncScorecard(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
