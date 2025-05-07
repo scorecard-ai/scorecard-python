@@ -9,12 +9,13 @@ from scorecard_ai.types import APIError
 Types:
 
 ```python
-from scorecard_ai.types import ProjectListResponse
+from scorecard_ai.types import Project
 ```
 
 Methods:
 
-- <code title="get /projects">client.projects.<a href="./src/scorecard_ai/resources/projects.py">list</a>(\*\*<a href="src/scorecard_ai/types/project_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/project_list_response.py">SyncPaginatedResponse[ProjectListResponse]</a></code>
+- <code title="post /projects">client.projects.<a href="./src/scorecard_ai/resources/projects.py">create</a>(\*\*<a href="src/scorecard_ai/types/project_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/project.py">Project</a></code>
+- <code title="get /projects">client.projects.<a href="./src/scorecard_ai/resources/projects.py">list</a>(\*\*<a href="src/scorecard_ai/types/project_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/project.py">SyncPaginatedResponse[Project]</a></code>
 
 # Testsets
 
