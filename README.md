@@ -35,17 +35,24 @@ client = Scorecard(
 
 testset = client.testsets.create(
     project_id="314",
+    name="Long Context Q&A",
     description="Testset for long context Q&A chatbot.",
     field_mapping={
         "inputs": ["question"],
         "labels": ["idealAnswer"],
-        "metadata": ["string"],
+        "metadata": [],
     },
     json_schema={
-        "type": "bar",
-        "properties": "bar",
+        "type": "object",
+        "properties": {
+            "question": {
+                "type": "string",
+            },
+            "idealAnswer": {
+                "type": "string",
+            },
+        },
     },
-    name="Long Context Q&A",
 )
 print(testset.id)
 ```
@@ -74,17 +81,24 @@ client = AsyncScorecard(
 async def main() -> None:
     testset = await client.testsets.create(
         project_id="314",
+        name="Long Context Q&A",
         description="Testset for long context Q&A chatbot.",
         field_mapping={
             "inputs": ["question"],
             "labels": ["idealAnswer"],
-            "metadata": ["string"],
+            "metadata": [],
         },
         json_schema={
-            "type": "bar",
-            "properties": "bar",
+            "type": "object",
+            "properties": {
+                "question": {
+                    "type": "string",
+                },
+                "idealAnswer": {
+                    "type": "string",
+                },
+            },
         },
-        name="Long Context Q&A",
     )
     print(testset.id)
 
@@ -114,17 +128,24 @@ client = Scorecard()
 
 testset = client.testsets.create(
     project_id="314",
+    name="Long Context Q&A",
     description="Testset for long context Q&A chatbot.",
     field_mapping={
         "inputs": ["question"],
         "labels": ["idealAnswer"],
-        "metadata": ["string"],
+        "metadata": [],
     },
     json_schema={
-        "type": "bar",
-        "properties": "bar",
+        "type": "object",
+        "properties": {
+            "question": {
+                "type": "string",
+            },
+            "idealAnswer": {
+                "type": "string",
+            },
+        },
     },
-    name="Long Context Q&A",
 )
 print(testset.field_mapping)
 ```
