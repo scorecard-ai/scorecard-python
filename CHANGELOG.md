@@ -1,5 +1,30 @@
 # Changelog
 
+## 2.0.0-alpha.4 (2025-05-10)
+
+Full Changelog: [v2.0.0-alpha.3...v2.0.0-alpha.4](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.3...v2.0.0-alpha.4)
+
+### Features
+
+* **api:** api update ([2bceebf](https://github.com/scorecard-ai/scorecard-python/commit/2bceebf71408effc2a8e296bbedccb08d9a5f139))
+
+
+### Bug Fixes
+
+* **package:** support direct resource imports ([466f46c](https://github.com/scorecard-ai/scorecard-python/commit/466f46c619f6436d25cf81955bee4a1fa34cddb6))
+
+
+### Chores
+
+* **internal:** avoid errors for isinstance checks on proxies ([d9af712](https://github.com/scorecard-ai/scorecard-python/commit/d9af712c49b829af32d760b2588654bdd2b12d75))
+* Update example to use apiKey ([e5982af](https://github.com/scorecard-ai/scorecard-python/commit/e5982afffc1b4eefd8bd3ab14f9db1ee1c657aee))
+
+
+### Documentation
+
+* **readme:** Fix example in README ([369739a](https://github.com/scorecard-ai/scorecard-python/commit/369739a595851ad455773726eec8d65aae13f597))
+* **readme:** Update documentation URL ([a196328](https://github.com/scorecard-ai/scorecard-python/commit/a196328649dd507c2a9c87a9c4346368a377f359))
+
 ## 2.0.0-alpha.3 (2025-05-06)
 
 Full Changelog: [v2.0.0-alpha.2...v2.0.0-alpha.3](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.2...v2.0.0-alpha.3)
