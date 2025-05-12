@@ -1,4 +1,4 @@
-configured_endpoints: 23
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/scorecard%2Fscorecard-eef937e84c29aa08f1a3337a7c9a28033cc629ecca918746ab1f94c2ae8101f5.yml
-openapi_spec_hash: 42aa3aa30a9ed8c1228b46e5a71d25db
-config_hash: 80101d32a0142f240054caf46d8cc48a
+configured_endpoints: 24
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/scorecard%2Fscorecard-4aea63a3e1ff43fbe8eb43f32d755f0cabf29ee469560c245db1275ce7918bc3.yml
+openapi_spec_hash: ae6a99590e2ff2f3d0d9242aae844ccd
+config_hash: 4c45cae65bb9c9427b8c92a1e33abfb4

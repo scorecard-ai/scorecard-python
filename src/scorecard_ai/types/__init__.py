@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from .run import Run as Run
+from .score import Score as Score
 from .record import Record as Record
 from .shared import APIError as APIError
 from .system import System as System
@@ -15,6 +16,7 @@ from .run_update_params import RunUpdateParams as RunUpdateParams
 from .system_list_params import SystemListParams as SystemListParams
 from .project_list_params import ProjectListParams as ProjectListParams
 from .run_update_response import RunUpdateResponse as RunUpdateResponse
+from .score_upsert_params import ScoreUpsertParams as ScoreUpsertParams
 from .testset_list_params import TestsetListParams as TestsetListParams
 from .record_create_params import RecordCreateParams as RecordCreateParams
 from .system_create_params import SystemCreateParams as SystemCreateParams
