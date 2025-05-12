@@ -8,6 +8,14 @@ from .runs import (
     RunsResourceWithStreamingResponse,
     AsyncRunsResourceWithStreamingResponse,
 )
+from .scores import (
+    ScoresResource,
+    AsyncScoresResource,
+    ScoresResourceWithRawResponse,
+    AsyncScoresResourceWithRawResponse,
+    ScoresResourceWithStreamingResponse,
+    AsyncScoresResourceWithStreamingResponse,
+)
 from .records import (
     RecordsResource,
     AsyncRecordsResource,
@@ -88,6 +96,12 @@ __all__ = [
     "AsyncRecordsResourceWithRawResponse",
     "RecordsResourceWithStreamingResponse",
     "AsyncRecordsResourceWithStreamingResponse",
+    "ScoresResource",
+    "AsyncScoresResource",
+    "ScoresResourceWithRawResponse",
+    "AsyncScoresResourceWithRawResponse",
+    "ScoresResourceWithStreamingResponse",
+    "AsyncScoresResourceWithStreamingResponse",
     "SystemsResource",
     "AsyncSystemsResource",
     "SystemsResourceWithRawResponse",
