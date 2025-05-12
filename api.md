@@ -74,6 +74,18 @@ Methods:
 
 - <code title="post /runs/{runId}/records">client.records.<a href="./src/scorecard_ai/resources/records.py">create</a>(run_id, \*\*<a href="src/scorecard_ai/types/record_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/record.py">Record</a></code>
 
+# Scores
+
+Types:
+
+```python
+from scorecard_ai.types import Score
+```
+
+Methods:
+
+- <code title="put /records/{recordId}/scores/{metricConfigId}">client.scores.<a href="./src/scorecard_ai/resources/scores.py">upsert</a>(metric_config_id, \*, record_id, \*\*<a href="src/scorecard_ai/types/score_upsert_params.py">params</a>) -> <a href="./src/scorecard_ai/types/score.py">Score</a></code>
+
 # Systems
 
 Types:
