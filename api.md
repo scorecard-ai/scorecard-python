@@ -54,13 +54,12 @@ Methods:
 Types:
 
 ```python
-from scorecard_ai.types import Run, RunUpdateResponse
+from scorecard_ai.types import Run
 ```
 
 Methods:
 
 - <code title="post /projects/{projectId}/runs">client.runs.<a href="./src/scorecard_ai/resources/runs.py">create</a>(project_id, \*\*<a href="src/scorecard_ai/types/run_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/run.py">Run</a></code>
-- <code title="patch /runs/{runId}">client.runs.<a href="./src/scorecard_ai/resources/runs.py">update</a>(run_id, \*\*<a href="src/scorecard_ai/types/run_update_params.py">params</a>) -> <a href="./src/scorecard_ai/types/run_update_response.py">RunUpdateResponse</a></code>
 
 # Records
 
