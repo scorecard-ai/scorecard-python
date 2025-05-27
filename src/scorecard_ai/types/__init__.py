@@ -12,10 +12,8 @@ from .testset import Testset as Testset
 from .testcase import Testcase as Testcase
 from .system_config import SystemConfig as SystemConfig
 from .run_create_params import RunCreateParams as RunCreateParams
-from .run_update_params import RunUpdateParams as RunUpdateParams
 from .system_list_params import SystemListParams as SystemListParams
 from .project_list_params import ProjectListParams as ProjectListParams
-from .run_update_response import RunUpdateResponse as RunUpdateResponse
 from .score_upsert_params import ScoreUpsertParams as ScoreUpsertParams
 from .testset_list_params import TestsetListParams as TestsetListParams
 from .record_create_params import RecordCreateParams as RecordCreateParams
