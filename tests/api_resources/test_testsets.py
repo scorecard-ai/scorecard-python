@@ -27,8 +27,8 @@ class TestTestsets:
             project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
+                "expected": ["idealAnswer"],
                 "inputs": ["question"],
-                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
             json_schema={
@@ -45,8 +45,8 @@ class TestTestsets:
             project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
+                "expected": ["idealAnswer"],
                 "inputs": ["question"],
-                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
             json_schema={
@@ -67,8 +67,8 @@ class TestTestsets:
             project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
+                "expected": ["idealAnswer"],
                 "inputs": ["question"],
-                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
             json_schema={
@@ -92,8 +92,8 @@ class TestTestsets:
                 project_id="",
                 description="Testset for long context Q&A chatbot.",
                 field_mapping={
+                    "expected": ["idealAnswer"],
                     "inputs": ["question"],
-                    "labels": ["idealAnswer"],
                     "metadata": ["string"],
                 },
                 json_schema={
@@ -116,8 +116,8 @@ class TestTestsets:
             testset_id="246",
             description="Updated description for the Q&A Testset.",
             field_mapping={
+                "expected": ["string"],
                 "inputs": ["string"],
-                "labels": ["string"],
                 "metadata": ["string"],
             },
             json_schema={"foo": "bar"},
@@ -289,8 +289,8 @@ class TestAsyncTestsets:
             project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
+                "expected": ["idealAnswer"],
                 "inputs": ["question"],
-                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
             json_schema={
@@ -307,8 +307,8 @@ class TestAsyncTestsets:
             project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
+                "expected": ["idealAnswer"],
                 "inputs": ["question"],
-                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
             json_schema={
@@ -329,8 +329,8 @@ class TestAsyncTestsets:
             project_id="314",
             description="Testset for long context Q&A chatbot.",
             field_mapping={
+                "expected": ["idealAnswer"],
                 "inputs": ["question"],
-                "labels": ["idealAnswer"],
                 "metadata": ["string"],
             },
             json_schema={
@@ -354,8 +354,8 @@ class TestAsyncTestsets:
                 project_id="",
                 description="Testset for long context Q&A chatbot.",
                 field_mapping={
+                    "expected": ["idealAnswer"],
                     "inputs": ["question"],
-                    "labels": ["idealAnswer"],
                     "metadata": ["string"],
                 },
                 json_schema={
@@ -378,8 +378,8 @@ class TestAsyncTestsets:
             testset_id="246",
             description="Updated description for the Q&A Testset.",
             field_mapping={
+                "expected": ["string"],
                 "inputs": ["string"],
-                "labels": ["string"],
                 "metadata": ["string"],
             },
             json_schema={"foo": "bar"},

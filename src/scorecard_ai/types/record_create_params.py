@@ -11,14 +11,14 @@ __all__ = ["RecordCreateParams"]
 
 
 class RecordCreateParams(TypedDict, total=False):
+    expected: Required[Dict[str, object]]
+    """The expected outputs for the Testcase."""
+
     inputs: Required[Dict[str, object]]
     """
     The actual inputs sent to the system, which should match the system's input
     schema.
     """
-
-    labels: Required[Dict[str, object]]
-    """The expected outputs for the Testcase."""
 
     outputs: Required[Dict[str, object]]
     """The actual outputs from the system."""
