@@ -22,6 +22,13 @@ class Testcase(BaseModel):
     id: str
     """The ID of the Testcase."""
 
+    expected: Dict[str, object]
+    """Derived from data based on the Testset's fieldMapping.
+
+    Contains all fields marked as expected outputs, including those with validation
+    errors.
+    """
+
     inputs: Dict[str, object]
     """Derived from data based on the Testset's fieldMapping.
 
@@ -30,12 +37,6 @@ class Testcase(BaseModel):
 
     json_data: Dict[str, object] = FieldInfo(alias="jsonData")
     """The JSON data of the Testcase, which is validated against the Testset's schema."""
-
-    labels: Dict[str, object]
-    """Derived from data based on the Testset's fieldMapping.
-
-    Contains all fields marked as labels, including those with validation errors.
-    """
 
     testset_id: str = FieldInfo(alias="testsetId")
     """The ID of the Testset this Testcase belongs to."""
