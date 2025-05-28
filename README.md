@@ -39,8 +39,8 @@ testset = client.testsets.create(
     description="Testset for long context Q&A chatbot.",
     field_mapping={
         "inputs": ["question"],
-        "labels": ["idealAnswer"],
-        "metadata": [],
+        "expected": ["idealAnswer"],
+        "metadata": ["string"],
     },
     json_schema={
         "type": "object",
@@ -85,8 +85,8 @@ async def main() -> None:
         description="Testset for long context Q&A chatbot.",
         field_mapping={
             "inputs": ["question"],
-            "labels": ["idealAnswer"],
-            "metadata": [],
+            "expected": ["idealAnswer"],
+            "metadata": ["string"],
         },
         json_schema={
             "type": "object",
@@ -132,8 +132,8 @@ testset = client.testsets.create(
     description="Testset for long context Q&A chatbot.",
     field_mapping={
         "inputs": ["question"],
-        "labels": ["idealAnswer"],
-        "metadata": [],
+        "expected": ["idealAnswer"],
+        "metadata": ["string"],
     },
     json_schema={
         "type": "object",

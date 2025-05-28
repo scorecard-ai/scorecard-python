@@ -47,8 +47,8 @@ class RecordsResource(SyncAPIResource):
         self,
         run_id: str,
         *,
+        expected: Dict[str, object],
         inputs: Dict[str, object],
-        labels: Dict[str, object],
         outputs: Dict[str, object],
         testcase_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -62,10 +62,10 @@ class RecordsResource(SyncAPIResource):
         Create a new Record in a Run.
 
         Args:
+          expected: The expected outputs for the Testcase.
+
           inputs: The actual inputs sent to the system, which should match the system's input
               schema.
-
-          labels: The expected outputs for the Testcase.
 
           outputs: The actual outputs from the system.
 
@@ -85,8 +85,8 @@ class RecordsResource(SyncAPIResource):
             f"/runs/{run_id}/records",
             body=maybe_transform(
                 {
+                    "expected": expected,
                     "inputs": inputs,
-                    "labels": labels,
                     "outputs": outputs,
                     "testcase_id": testcase_id,
                 },
@@ -123,8 +123,8 @@ class AsyncRecordsResource(AsyncAPIResource):
         self,
         run_id: str,
         *,
+        expected: Dict[str, object],
         inputs: Dict[str, object],
-        labels: Dict[str, object],
         outputs: Dict[str, object],
         testcase_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -138,10 +138,10 @@ class AsyncRecordsResource(AsyncAPIResource):
         Create a new Record in a Run.
 
         Args:
+          expected: The expected outputs for the Testcase.
+
           inputs: The actual inputs sent to the system, which should match the system's input
               schema.
-
-          labels: The expected outputs for the Testcase.
 
           outputs: The actual outputs from the system.
 
@@ -161,8 +161,8 @@ class AsyncRecordsResource(AsyncAPIResource):
             f"/runs/{run_id}/records",
             body=await async_maybe_transform(
                 {
+                    "expected": expected,
                     "inputs": inputs,
-                    "labels": labels,
                     "outputs": outputs,
                     "testcase_id": testcase_id,
                 },
