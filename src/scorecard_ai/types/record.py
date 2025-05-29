@@ -13,14 +13,14 @@ class Record(BaseModel):
     id: str
     """The ID of the Record."""
 
+    expected: Dict[str, object]
+    """The expected outputs for the Testcase."""
+
     inputs: Dict[str, object]
     """
     The actual inputs sent to the system, which should match the system's input
     schema.
     """
-
-    labels: Dict[str, object]
-    """The expected outputs for the Testcase."""
 
     outputs: Dict[str, object]
     """The actual outputs from the system."""

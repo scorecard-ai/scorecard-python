@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.0.0-alpha.5 (2025-05-29)
+
+Full Changelog: [v2.0.0-alpha.4...v2.0.0-alpha.5](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.4...v2.0.0-alpha.5)
+
+### Features
+
+* **api:** api update ([8444914](https://github.com/scorecard-ai/scorecard-python/commit/8444914f5195a57d3802da51038cfeb8c3373380))
+* **api:** api update ([7639408](https://github.com/scorecard-ai/scorecard-python/commit/76394084ab80d5b9275c55977ce8cf76eed9a1e4))
+* **api:** api update ([253902a](https://github.com/scorecard-ai/scorecard-python/commit/253902ae8a1d41521892f87eca3b5d31012fac1d))
+
+
+### Chores
+
+* **docs:** grammar improvements ([aee246f](https://github.com/scorecard-ai/scorecard-python/commit/aee246f6247dc5d9d76ee18ce66c8a784f9d92d1))
+* **internal:** codegen related update ([e236a2f](https://github.com/scorecard-ai/scorecard-python/commit/e236a2f4957145a2709002864f504b87799ae4ec))
+* **internal:** codegen related update ([2e7476d](https://github.com/scorecard-ai/scorecard-python/commit/2e7476d536ee31f073dbf0d2944bbe4dabb40b4a))
+
 ## 2.0.0-alpha.4 (2025-05-16)
 
 Full Changelog: [v2.0.0-alpha.3...v2.0.0-alpha.4](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.3...v2.0.0-alpha.4)

@@ -10,14 +10,14 @@ __all__ = ["Testset", "FieldMapping"]
 
 
 class FieldMapping(BaseModel):
+    expected: List[str]
+    """Fields that represent expected outputs."""
+
     inputs: List[str]
     """Fields that represent inputs to the AI system."""
 
-    labels: List[str]
-    """Fields that represent expected outputs/labels."""
-
     metadata: List[str]
-    """Fields that are not inputs or labels."""
+    """Fields that are not inputs or expected outputs."""
 
 
 class Testset(BaseModel):
@@ -29,9 +29,9 @@ class Testset(BaseModel):
     """The description of the Testset."""
 
     field_mapping: FieldMapping = FieldInfo(alias="fieldMapping")
-    """Maps top-level keys of the Testcase schema to their roles (input/label).
-
-    Unmapped fields are treated as metadata.
+    """
+    Maps top-level keys of the Testcase schema to their roles (input/expected
+    output). Unmapped fields are treated as metadata.
     """
 
     json_schema: Dict[str, object] = FieldInfo(alias="jsonSchema")
