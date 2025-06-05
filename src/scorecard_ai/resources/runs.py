@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Optional
 
 import httpx
 
@@ -48,8 +48,8 @@ class RunsResource(SyncAPIResource):
         project_id: str,
         *,
         metric_ids: List[str],
-        testset_id: str,
         system_config_id: str | NotGiven = NOT_GIVEN,
+        testset_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -63,9 +63,9 @@ class RunsResource(SyncAPIResource):
         Args:
           metric_ids: The IDs of the metrics this Run is using.
 
-          testset_id: The ID of the Testset this Run is testing.
-
           system_config_id: The ID of the system configuration this Run is using.
+
+          testset_id: The ID of the Testset this Run is testing.
 
           extra_headers: Send extra headers
 
@@ -82,8 +82,8 @@ class RunsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "metric_ids": metric_ids,
-                    "testset_id": testset_id,
                     "system_config_id": system_config_id,
+                    "testset_id": testset_id,
                 },
                 run_create_params.RunCreateParams,
             ),
@@ -119,8 +119,8 @@ class AsyncRunsResource(AsyncAPIResource):
         project_id: str,
         *,
         metric_ids: List[str],
-        testset_id: str,
         system_config_id: str | NotGiven = NOT_GIVEN,
+        testset_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -134,9 +134,9 @@ class AsyncRunsResource(AsyncAPIResource):
         Args:
           metric_ids: The IDs of the metrics this Run is using.
 
-          testset_id: The ID of the Testset this Run is testing.
-
           system_config_id: The ID of the system configuration this Run is using.
+
+          testset_id: The ID of the Testset this Run is testing.
 
           extra_headers: Send extra headers
 
@@ -153,8 +153,8 @@ class AsyncRunsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "metric_ids": metric_ids,
-                    "testset_id": testset_id,
                     "system_config_id": system_config_id,
+                    "testset_id": testset_id,
                 },
                 run_create_params.RunCreateParams,
             ),
