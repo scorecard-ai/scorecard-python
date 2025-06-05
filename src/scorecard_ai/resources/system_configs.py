@@ -168,7 +168,6 @@ class SystemConfigsResource(SyncAPIResource):
         self,
         system_config_id: str,
         *,
-        system_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -188,12 +187,10 @@ class SystemConfigsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not system_id:
-            raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         if not system_config_id:
             raise ValueError(f"Expected a non-empty value for `system_config_id` but received {system_config_id!r}")
         return self._get(
-            f"/systems/{system_id}/configs/{system_config_id}",
+            f"/systems/configs/{system_config_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -345,7 +342,6 @@ class AsyncSystemConfigsResource(AsyncAPIResource):
         self,
         system_config_id: str,
         *,
-        system_id: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -365,12 +361,10 @@ class AsyncSystemConfigsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not system_id:
-            raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         if not system_config_id:
             raise ValueError(f"Expected a non-empty value for `system_config_id` but received {system_config_id!r}")
         return await self._get(
-            f"/systems/{system_id}/configs/{system_config_id}",
+            f"/systems/configs/{system_config_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
