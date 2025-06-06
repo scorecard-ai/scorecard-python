@@ -70,8 +70,8 @@ class TestsetsResource(SyncAPIResource):
         Args:
           description: The description of the Testset.
 
-          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/label).
-              Unmapped fields are treated as metadata.
+          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/expected
+              output). Unmapped fields are treated as metadata.
 
           json_schema: The JSON schema for each Testcase in the Testset.
 
@@ -137,8 +137,8 @@ class TestsetsResource(SyncAPIResource):
         Args:
           description: The description of the Testset.
 
-          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/label).
-              Unmapped fields are treated as metadata.
+          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/expected
+              output). Unmapped fields are treated as metadata.
 
           json_schema: The JSON schema for each Testcase in the Testset.
 
@@ -333,8 +333,8 @@ class AsyncTestsetsResource(AsyncAPIResource):
         Args:
           description: The description of the Testset.
 
-          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/label).
-              Unmapped fields are treated as metadata.
+          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/expected
+              output). Unmapped fields are treated as metadata.
 
           json_schema: The JSON schema for each Testcase in the Testset.
 
@@ -400,8 +400,8 @@ class AsyncTestsetsResource(AsyncAPIResource):
         Args:
           description: The description of the Testset.
 
-          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/label).
-              Unmapped fields are treated as metadata.
+          field_mapping: Maps top-level keys of the Testcase schema to their roles (input/expected
+              output). Unmapped fields are treated as metadata.
 
           json_schema: The JSON schema for each Testcase in the Testset.
 

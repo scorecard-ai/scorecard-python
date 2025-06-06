@@ -21,8 +21,8 @@ class TestRecords:
     def test_method_create(self, client: Scorecard) -> None:
         record = client.records.create(
             run_id="135",
+            expected={"idealAnswer": "bar"},
             inputs={"question": "bar"},
-            labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
         )
         assert_matches_type(Record, record, path=["response"])
@@ -31,8 +31,8 @@ class TestRecords:
     def test_method_create_with_all_params(self, client: Scorecard) -> None:
         record = client.records.create(
             run_id="135",
+            expected={"idealAnswer": "bar"},
             inputs={"question": "bar"},
-            labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
             testcase_id="248",
         )
@@ -42,8 +42,8 @@ class TestRecords:
     def test_raw_response_create(self, client: Scorecard) -> None:
         response = client.records.with_raw_response.create(
             run_id="135",
+            expected={"idealAnswer": "bar"},
             inputs={"question": "bar"},
-            labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
         )
 
@@ -56,8 +56,8 @@ class TestRecords:
     def test_streaming_response_create(self, client: Scorecard) -> None:
         with client.records.with_streaming_response.create(
             run_id="135",
+            expected={"idealAnswer": "bar"},
             inputs={"question": "bar"},
-            labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
         ) as response:
             assert not response.is_closed
@@ -73,8 +73,8 @@ class TestRecords:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
             client.records.with_raw_response.create(
                 run_id="",
+                expected={"idealAnswer": "bar"},
                 inputs={"question": "bar"},
-                labels={"idealAnswer": "bar"},
                 outputs={"response": "bar"},
             )
 
@@ -86,8 +86,8 @@ class TestAsyncRecords:
     async def test_method_create(self, async_client: AsyncScorecard) -> None:
         record = await async_client.records.create(
             run_id="135",
+            expected={"idealAnswer": "bar"},
             inputs={"question": "bar"},
-            labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
         )
         assert_matches_type(Record, record, path=["response"])
@@ -96,8 +96,8 @@ class TestAsyncRecords:
     async def test_method_create_with_all_params(self, async_client: AsyncScorecard) -> None:
         record = await async_client.records.create(
             run_id="135",
+            expected={"idealAnswer": "bar"},
             inputs={"question": "bar"},
-            labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
             testcase_id="248",
         )
@@ -107,8 +107,8 @@ class TestAsyncRecords:
     async def test_raw_response_create(self, async_client: AsyncScorecard) -> None:
         response = await async_client.records.with_raw_response.create(
             run_id="135",
+            expected={"idealAnswer": "bar"},
             inputs={"question": "bar"},
-            labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
         )
 
@@ -121,8 +121,8 @@ class TestAsyncRecords:
     async def test_streaming_response_create(self, async_client: AsyncScorecard) -> None:
         async with async_client.records.with_streaming_response.create(
             run_id="135",
+            expected={"idealAnswer": "bar"},
             inputs={"question": "bar"},
-            labels={"idealAnswer": "bar"},
             outputs={"response": "bar"},
         ) as response:
             assert not response.is_closed
@@ -138,7 +138,7 @@ class TestAsyncRecords:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
             await async_client.records.with_raw_response.create(
                 run_id="",
+                expected={"idealAnswer": "bar"},
                 inputs={"question": "bar"},
-                labels={"idealAnswer": "bar"},
                 outputs={"response": "bar"},
             )

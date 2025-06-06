@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Optional
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
@@ -14,8 +14,8 @@ class RunCreateParams(TypedDict, total=False):
     metric_ids: Required[Annotated[List[str], PropertyInfo(alias="metricIds")]]
     """The IDs of the metrics this Run is using."""
 
-    testset_id: Required[Annotated[str, PropertyInfo(alias="testsetId")]]
-    """The ID of the Testset this Run is testing."""
-
     system_config_id: Annotated[str, PropertyInfo(alias="systemConfigId")]
     """The ID of the system configuration this Run is using."""
+
+    testset_id: Annotated[Optional[str], PropertyInfo(alias="testsetId")]
+    """The ID of the Testset this Run is testing."""

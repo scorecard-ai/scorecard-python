@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from typing import List
-from typing_extensions import Literal
+from typing import List, Optional
 
 import httpx
 
-from ..types import run_create_params, run_update_params
+from ..types import run_create_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -20,7 +19,6 @@ from .._response import (
 )
 from ..types.run import Run
 from .._base_client import make_request_options
-from ..types.run_update_response import RunUpdateResponse
 
 __all__ = ["RunsResource", "AsyncRunsResource"]
 
@@ -50,8 +48,8 @@ class RunsResource(SyncAPIResource):
         project_id: str,
         *,
         metric_ids: List[str],
-        testset_id: str,
         system_config_id: str | NotGiven = NOT_GIVEN,
+        testset_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -65,9 +63,9 @@ class RunsResource(SyncAPIResource):
         Args:
           metric_ids: The IDs of the metrics this Run is using.
 
-          testset_id: The ID of the Testset this Run is testing.
-
           system_config_id: The ID of the system configuration this Run is using.
+
+          testset_id: The ID of the Testset this Run is testing.
 
           extra_headers: Send extra headers
 
@@ -84,8 +82,8 @@ class RunsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "metric_ids": metric_ids,
-                    "testset_id": testset_id,
                     "system_config_id": system_config_id,
+                    "testset_id": testset_id,
                 },
                 run_create_params.RunCreateParams,
             ),
@@ -93,51 +91,6 @@ class RunsResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=Run,
-        )
-
-    def update(
-        self,
-        run_id: str,
-        *,
-        status: Literal[
-            "pending",
-            "awaiting_execution",
-            "running_execution",
-            "awaiting_scoring",
-            "running_scoring",
-            "awaiting_human_scoring",
-            "completed",
-        ],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> RunUpdateResponse:
-        """
-        Update the status of a Run.
-
-        Args:
-          status: The status of the Run.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not run_id:
-            raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
-        return self._patch(
-            f"/runs/{run_id}",
-            body=maybe_transform({"status": status}, run_update_params.RunUpdateParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=RunUpdateResponse,
         )
 
 
@@ -166,8 +119,8 @@ class AsyncRunsResource(AsyncAPIResource):
         project_id: str,
         *,
         metric_ids: List[str],
-        testset_id: str,
         system_config_id: str | NotGiven = NOT_GIVEN,
+        testset_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -181,9 +134,9 @@ class AsyncRunsResource(AsyncAPIResource):
         Args:
           metric_ids: The IDs of the metrics this Run is using.
 
-          testset_id: The ID of the Testset this Run is testing.
-
           system_config_id: The ID of the system configuration this Run is using.
+
+          testset_id: The ID of the Testset this Run is testing.
 
           extra_headers: Send extra headers
 
@@ -200,8 +153,8 @@ class AsyncRunsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "metric_ids": metric_ids,
-                    "testset_id": testset_id,
                     "system_config_id": system_config_id,
+                    "testset_id": testset_id,
                 },
                 run_create_params.RunCreateParams,
             ),
@@ -209,51 +162,6 @@ class AsyncRunsResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=Run,
-        )
-
-    async def update(
-        self,
-        run_id: str,
-        *,
-        status: Literal[
-            "pending",
-            "awaiting_execution",
-            "running_execution",
-            "awaiting_scoring",
-            "running_scoring",
-            "awaiting_human_scoring",
-            "completed",
-        ],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> RunUpdateResponse:
-        """
-        Update the status of a Run.
-
-        Args:
-          status: The status of the Run.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not run_id:
-            raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
-        return await self._patch(
-            f"/runs/{run_id}",
-            body=await async_maybe_transform({"status": status}, run_update_params.RunUpdateParams),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=RunUpdateResponse,
         )
 
 
@@ -264,9 +172,6 @@ class RunsResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             runs.create,
         )
-        self.update = to_raw_response_wrapper(
-            runs.update,
-        )
 
 
 class AsyncRunsResourceWithRawResponse:
@@ -275,9 +180,6 @@ class AsyncRunsResourceWithRawResponse:
 
         self.create = async_to_raw_response_wrapper(
             runs.create,
-        )
-        self.update = async_to_raw_response_wrapper(
-            runs.update,
         )
 
 
@@ -288,9 +190,6 @@ class RunsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             runs.create,
         )
-        self.update = to_streamed_response_wrapper(
-            runs.update,
-        )
 
 
 class AsyncRunsResourceWithStreamingResponse:
@@ -299,7 +198,4 @@ class AsyncRunsResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             runs.create,
-        )
-        self.update = async_to_streamed_response_wrapper(
-            runs.update,
         )

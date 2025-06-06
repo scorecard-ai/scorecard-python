@@ -55,12 +55,9 @@ def run_and_evaluate(
             run_id=run.id,
             testcase_id=testcase.id,
             inputs=testcase.inputs,
-            labels=testcase.labels,
+            expected=testcase.expected,
             outputs=model_response,
         )
-
-    # Mark the Run as done with execution and ready for scoring.
-    client.runs.update(run.id, status="awaiting_scoring")
 
     run_url = f"https://app.getscorecard.ai/projects/{project_id}/runs/grades/{run.id}"
 
@@ -100,7 +97,7 @@ async def async_run_and_evaluate(
             run_id=run.id,
             testcase_id=testcase.id,
             inputs=testcase.inputs,
-            labels=testcase.labels,
+            expected=testcase.expected,
             outputs=model_response,
         )
 
@@ -111,9 +108,6 @@ async def async_run_and_evaluate(
             async for testcase in client.testcases.list(run.testset_id)
         ]
     )
-
-    # Mark the Run as done with execution and ready for scoring.
-    await client.runs.update(run.id, status="awaiting_scoring")
 
     run_url = f"https://app.getscorecard.ai/projects/{project_id}/runs/grades/{run.id}"
     return RunResponse(id=run.id, url=run_url)

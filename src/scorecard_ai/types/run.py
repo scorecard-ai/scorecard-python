@@ -28,7 +28,7 @@ class Run(BaseModel):
     ]
     """The status of the Run."""
 
-    testset_id: str = FieldInfo(alias="testsetId")
+    testset_id: Optional[str] = FieldInfo(alias="testsetId", default=None)
     """The ID of the Testset this Run is testing."""
 
     system_config_id: Optional[str] = FieldInfo(alias="systemConfigId", default=None)

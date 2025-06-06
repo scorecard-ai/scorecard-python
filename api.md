@@ -54,13 +54,12 @@ Methods:
 Types:
 
 ```python
-from scorecard_ai.types import Run, RunUpdateResponse
+from scorecard_ai.types import Run
 ```
 
 Methods:
 
 - <code title="post /projects/{projectId}/runs">client.runs.<a href="./src/scorecard_ai/resources/runs.py">create</a>(project_id, \*\*<a href="src/scorecard_ai/types/run_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/run.py">Run</a></code>
-- <code title="patch /runs/{runId}">client.runs.<a href="./src/scorecard_ai/resources/runs.py">update</a>(run_id, \*\*<a href="src/scorecard_ai/types/run_update_params.py">params</a>) -> <a href="./src/scorecard_ai/types/run_update_response.py">RunUpdateResponse</a></code>
 
 # Records
 
@@ -114,4 +113,4 @@ Methods:
 
 - <code title="post /systems/{systemId}/configs">client.system_configs.<a href="./src/scorecard_ai/resources/system_configs.py">create</a>(system_id, \*\*<a href="src/scorecard_ai/types/system_config_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/system_config.py">SystemConfig</a></code>
 - <code title="get /systems/{systemId}/configs">client.system_configs.<a href="./src/scorecard_ai/resources/system_configs.py">list</a>(system_id, \*\*<a href="src/scorecard_ai/types/system_config_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/system_config.py">SyncPaginatedResponse[SystemConfig]</a></code>
-- <code title="get /systems/{systemId}/configs/{systemConfigId}">client.system_configs.<a href="./src/scorecard_ai/resources/system_configs.py">get</a>(system_config_id, \*, system_id) -> <a href="./src/scorecard_ai/types/system_config.py">SystemConfig</a></code>
+- <code title="get /systems/configs/{systemConfigId}">client.system_configs.<a href="./src/scorecard_ai/resources/system_configs.py">get</a>(system_config_id) -> <a href="./src/scorecard_ai/types/system_config.py">SystemConfig</a></code>
