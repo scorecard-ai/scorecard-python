@@ -48,8 +48,25 @@ ENVIRONMENTS: Dict[str, str] = {
     "local": "http://localhost:3000/api/v2",
 }
 
+class HasBaseAppURL():
+    """
+    This class is used to add the base app URL to the sync and async clients.
+    """
+    _base_url: httpx.URL
 
-class Scorecard(SyncAPIClient):
+    @property
+    def base_app_url(self) -> str:
+        """Returns the base URL for the Scorecard app."""
+        if str(self._base_url) == ENVIRONMENTS["production"]:
+            return "https://app.scorecard.io"
+        elif str(self._base_url) == ENVIRONMENTS["staging"]:
+            return "https://staging.app.getscorecard.ai"
+        elif str(self._base_url) == ENVIRONMENTS["local"]:
+            return "http://localhost:3002"
+        else:
+            return "https://staging.app.getscorecard.ai"
+
+class Scorecard(HasBaseAppURL, SyncAPIClient):
     projects: projects.ProjectsResource
     testsets: testsets.TestsetsResource
     testcases: testcases.TestcasesResource
@@ -257,7 +274,7 @@ class Scorecard(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncScorecard(AsyncAPIClient):
+class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
     projects: projects.AsyncProjectsResource
     testsets: testsets.AsyncTestsetsResource
     testcases: testcases.AsyncTestcasesResource
