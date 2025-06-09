@@ -1,5 +1,28 @@
 # Changelog
 
+## 2.0.0-alpha.5 (2025-06-09)
+
+Full Changelog: [v2.0.0-alpha.4...v2.0.0-alpha.5](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.4...v2.0.0-alpha.5)
+
+### Features
+
+* **api:** api update ([e927a6c](https://github.com/scorecard-ai/scorecard-python/commit/e927a6c84273c69b8d21beba277a5a801447d779))
+* **api:** api update ([324d17c](https://github.com/scorecard-ai/scorecard-python/commit/324d17c99d3913bbf8f8a0208ffba001bcf7d402))
+* **api:** api update ([8444914](https://github.com/scorecard-ai/scorecard-python/commit/8444914f5195a57d3802da51038cfeb8c3373380))
+* **api:** api update ([7639408](https://github.com/scorecard-ai/scorecard-python/commit/76394084ab80d5b9275c55977ce8cf76eed9a1e4))
+* **api:** api update ([253902a](https://github.com/scorecard-ai/scorecard-python/commit/253902ae8a1d41521892f87eca3b5d31012fac1d))
+* **api:** Simplify usage of run_and_evaluate ([f423a5a](https://github.com/scorecard-ai/scorecard-python/commit/f423a5aec1e54d6dd144fd11fbc34b0a1f168704))
+* **client:** add follow_redirects request option ([38c7bcf](https://github.com/scorecard-ai/scorecard-python/commit/38c7bcfb9ac52dfc5f38c7be259a6d924347a732))
+
+
+### Chores
+
+* **docs:** grammar improvements ([aee246f](https://github.com/scorecard-ai/scorecard-python/commit/aee246f6247dc5d9d76ee18ce66c8a784f9d92d1))
+* **docs:** remove reference to rye shell ([69ae784](https://github.com/scorecard-ai/scorecard-python/commit/69ae784503ad7bca43b4e7fb9ce3a667a584a67a))
+* **internal:** codegen related update ([0c76111](https://github.com/scorecard-ai/scorecard-python/commit/0c76111261cca794ede13ee53ccf0d5b41fd6ea0))
+* **internal:** codegen related update ([e236a2f](https://github.com/scorecard-ai/scorecard-python/commit/e236a2f4957145a2709002864f504b87799ae4ec))
+* **internal:** codegen related update ([2e7476d](https://github.com/scorecard-ai/scorecard-python/commit/2e7476d536ee31f073dbf0d2944bbe4dabb40b4a))
+
 ## 2.0.0-alpha.4 (2025-05-16)
 
 Full Changelog: [v2.0.0-alpha.3...v2.0.0-alpha.4](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.3...v2.0.0-alpha.4)
