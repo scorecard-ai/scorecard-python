@@ -1,5 +1,25 @@
 # Changelog
 
+## 2.0.0 (2025-06-10)
+
+Full Changelog: [v2.0.0-alpha.5...v2.0.0](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.5...v2.0.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** Add trials option to run_and_evaluate
+
+### Features
+
+* **api:** Add trials option to run_and_evaluate ([c8794c1](https://github.com/scorecard-ai/scorecard-python/commit/c8794c1cf84b2f2facde2254237184262e689833))
+* **api:** api update ([569ba09](https://github.com/scorecard-ai/scorecard-python/commit/569ba09f85d63ed35430897b77d85e689fe1e705))
+* **api:** api update ([3f7e7a1](https://github.com/scorecard-ai/scorecard-python/commit/3f7e7a12c47c60d3c42e9dd5f603cce85aa6e0bc))
+* **api:** api update ([811f551](https://github.com/scorecard-ai/scorecard-python/commit/811f551a9ca03fb61e44d6a02832eadbefab2e90))
+
+
+### Chores
+
+* **api:** Improve variant names in SDK for creating metrics ([4504014](https://github.com/scorecard-ai/scorecard-python/commit/450401401330863b016716adce6ea2a2b7344ad1))
+
 ## 2.0.0-alpha.5 (2025-06-09)
 
 Full Changelog: [v2.0.0-alpha.4...v2.0.0-alpha.5](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.4...v2.0.0-alpha.5)
