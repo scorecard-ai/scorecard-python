@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import runs, scores, records, projects, testsets, testcases
+from .resources import runs, scores, metrics, records, projects, testsets, testcases
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, ScorecardError
 from ._base_client import (
@@ -72,6 +72,7 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
     testsets: testsets.TestsetsResource
     testcases: testcases.TestcasesResource
     runs: runs.RunsResource
+    metrics: metrics.MetricsResource
     records: records.RecordsResource
     scores: scores.ScoresResource
     systems: systems.SystemsResource
@@ -160,6 +161,7 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
         self.testsets = testsets.TestsetsResource(self)
         self.testcases = testcases.TestcasesResource(self)
         self.runs = runs.RunsResource(self)
+        self.metrics = metrics.MetricsResource(self)
         self.records = records.RecordsResource(self)
         self.scores = scores.ScoresResource(self)
         self.systems = systems.SystemsResource(self)
@@ -278,6 +280,7 @@ class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
     testsets: testsets.AsyncTestsetsResource
     testcases: testcases.AsyncTestcasesResource
     runs: runs.AsyncRunsResource
+    metrics: metrics.AsyncMetricsResource
     records: records.AsyncRecordsResource
     scores: scores.AsyncScoresResource
     systems: systems.AsyncSystemsResource
@@ -366,6 +369,7 @@ class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
         self.testsets = testsets.AsyncTestsetsResource(self)
         self.testcases = testcases.AsyncTestcasesResource(self)
         self.runs = runs.AsyncRunsResource(self)
+        self.metrics = metrics.AsyncMetricsResource(self)
         self.records = records.AsyncRecordsResource(self)
         self.scores = scores.AsyncScoresResource(self)
         self.systems = systems.AsyncSystemsResource(self)
@@ -485,6 +489,7 @@ class ScorecardWithRawResponse:
         self.testsets = testsets.TestsetsResourceWithRawResponse(client.testsets)
         self.testcases = testcases.TestcasesResourceWithRawResponse(client.testcases)
         self.runs = runs.RunsResourceWithRawResponse(client.runs)
+        self.metrics = metrics.MetricsResourceWithRawResponse(client.metrics)
         self.records = records.RecordsResourceWithRawResponse(client.records)
         self.scores = scores.ScoresResourceWithRawResponse(client.scores)
         self.systems = systems.SystemsResourceWithRawResponse(client.systems)
@@ -496,6 +501,7 @@ class AsyncScorecardWithRawResponse:
         self.testsets = testsets.AsyncTestsetsResourceWithRawResponse(client.testsets)
         self.testcases = testcases.AsyncTestcasesResourceWithRawResponse(client.testcases)
         self.runs = runs.AsyncRunsResourceWithRawResponse(client.runs)
+        self.metrics = metrics.AsyncMetricsResourceWithRawResponse(client.metrics)
         self.records = records.AsyncRecordsResourceWithRawResponse(client.records)
         self.scores = scores.AsyncScoresResourceWithRawResponse(client.scores)
         self.systems = systems.AsyncSystemsResourceWithRawResponse(client.systems)
@@ -507,6 +513,7 @@ class ScorecardWithStreamedResponse:
         self.testsets = testsets.TestsetsResourceWithStreamingResponse(client.testsets)
         self.testcases = testcases.TestcasesResourceWithStreamingResponse(client.testcases)
         self.runs = runs.RunsResourceWithStreamingResponse(client.runs)
+        self.metrics = metrics.MetricsResourceWithStreamingResponse(client.metrics)
         self.records = records.RecordsResourceWithStreamingResponse(client.records)
         self.scores = scores.ScoresResourceWithStreamingResponse(client.scores)
         self.systems = systems.SystemsResourceWithStreamingResponse(client.systems)
@@ -518,6 +525,7 @@ class AsyncScorecardWithStreamedResponse:
         self.testsets = testsets.AsyncTestsetsResourceWithStreamingResponse(client.testsets)
         self.testcases = testcases.AsyncTestcasesResourceWithStreamingResponse(client.testcases)
         self.runs = runs.AsyncRunsResourceWithStreamingResponse(client.runs)
+        self.metrics = metrics.AsyncMetricsResourceWithStreamingResponse(client.metrics)
         self.records = records.AsyncRecordsResourceWithStreamingResponse(client.records)
         self.scores = scores.AsyncScoresResourceWithStreamingResponse(client.scores)
         self.systems = systems.AsyncSystemsResourceWithStreamingResponse(client.systems)

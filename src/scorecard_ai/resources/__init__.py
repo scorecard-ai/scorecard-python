@@ -16,6 +16,14 @@ from .scores import (
     ScoresResourceWithStreamingResponse,
     AsyncScoresResourceWithStreamingResponse,
 )
+from .metrics import (
+    MetricsResource,
+    AsyncMetricsResource,
+    MetricsResourceWithRawResponse,
+    AsyncMetricsResourceWithRawResponse,
+    MetricsResourceWithStreamingResponse,
+    AsyncMetricsResourceWithStreamingResponse,
+)
 from .records import (
     RecordsResource,
     AsyncRecordsResource,
@@ -82,6 +90,12 @@ __all__ = [
     "AsyncRunsResourceWithRawResponse",
     "RunsResourceWithStreamingResponse",
     "AsyncRunsResourceWithStreamingResponse",
+    "MetricsResource",
+    "AsyncMetricsResource",
+    "MetricsResourceWithRawResponse",
+    "AsyncMetricsResourceWithRawResponse",
+    "MetricsResourceWithStreamingResponse",
+    "AsyncMetricsResourceWithStreamingResponse",
     "RecordsResource",
     "AsyncRecordsResource",
     "RecordsResourceWithRawResponse",
