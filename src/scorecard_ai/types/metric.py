@@ -7,15 +7,26 @@ from pydantic import Field as FieldInfo
 
 from .._models import BaseModel
 
-__all__ = ["Metric", "UnionMember0", "UnionMember1", "UnionMember2", "UnionMember3", "UnionMember4", "UnionMember5"]
+__all__ = [
+    "Metric",
+    "AIIntMetric",
+    "HumanIntMetric",
+    "HeuristicIntMetric",
+    "AIBooleanMetric",
+    "HumanBooleanMetric",
+    "HeuristicBooleanMetric",
+]
 
 
-class UnionMember0(BaseModel):
+class AIIntMetric(BaseModel):
     id: str
     """The ID of the Metric."""
 
     description: Optional[str] = None
     """The description of the Metric."""
+
+    eval_model_name: str = FieldInfo(alias="evalModelName")
+    """The AI model to use for evaluation."""
 
     eval_type: Literal["ai"] = FieldInfo(alias="evalType")
     """AI-based evaluation type."""
@@ -23,13 +34,11 @@ class UnionMember0(BaseModel):
     guidelines: Optional[str] = None
     """Guidelines for AI evaluation on how to score the metric."""
 
-    api_model_name: str = FieldInfo(alias="modelName")
-    """The AI model to use for evaluation."""
-
     name: str
     """The name of the Metric."""
 
     output_type: Literal["int"] = FieldInfo(alias="outputType")
+    """Integer output type."""
 
     passing_threshold: int = FieldInfo(alias="passingThreshold")
     """The threshold for determining pass/fail from integer scores (1-5)."""
@@ -44,7 +53,7 @@ class UnionMember0(BaseModel):
     """The temperature for AI evaluation (0-2)."""
 
 
-class UnionMember1(BaseModel):
+class HumanIntMetric(BaseModel):
     id: str
     """The ID of the Metric."""
 
@@ -58,6 +67,7 @@ class UnionMember1(BaseModel):
     """The name of the Metric."""
 
     output_type: Literal["int"] = FieldInfo(alias="outputType")
+    """Integer output type."""
 
     passing_threshold: int = FieldInfo(alias="passingThreshold")
     """The threshold for determining pass/fail from integer scores (1-5)."""
@@ -66,7 +76,7 @@ class UnionMember1(BaseModel):
     """Guidelines for human evaluators."""
 
 
-class UnionMember2(BaseModel):
+class HeuristicIntMetric(BaseModel):
     id: str
     """The ID of the Metric."""
 
@@ -80,6 +90,7 @@ class UnionMember2(BaseModel):
     """The name of the Metric."""
 
     output_type: Literal["int"] = FieldInfo(alias="outputType")
+    """Integer output type."""
 
     passing_threshold: int = FieldInfo(alias="passingThreshold")
     """The threshold for determining pass/fail from integer scores (1-5)."""
@@ -88,12 +99,15 @@ class UnionMember2(BaseModel):
     """Optional guidelines for heuristic evaluation logic."""
 
 
-class UnionMember3(BaseModel):
+class AIBooleanMetric(BaseModel):
     id: str
     """The ID of the Metric."""
 
     description: Optional[str] = None
     """The description of the Metric."""
+
+    eval_model_name: str = FieldInfo(alias="evalModelName")
+    """The AI model to use for evaluation."""
 
     eval_type: Literal["ai"] = FieldInfo(alias="evalType")
     """AI-based evaluation type."""
@@ -101,13 +115,11 @@ class UnionMember3(BaseModel):
     guidelines: Optional[str] = None
     """Guidelines for AI evaluation on how to score the metric."""
 
-    api_model_name: str = FieldInfo(alias="modelName")
-    """The AI model to use for evaluation."""
-
     name: str
     """The name of the Metric."""
 
     output_type: Literal["boolean"] = FieldInfo(alias="outputType")
+    """Boolean output type."""
 
     prompt_template: str = FieldInfo(alias="promptTemplate")
     """The complete prompt template for AI evaluation.
@@ -119,7 +131,7 @@ class UnionMember3(BaseModel):
     """The temperature for AI evaluation (0-2)."""
 
 
-class UnionMember4(BaseModel):
+class HumanBooleanMetric(BaseModel):
     id: str
     """The ID of the Metric."""
 
@@ -133,12 +145,13 @@ class UnionMember4(BaseModel):
     """The name of the Metric."""
 
     output_type: Literal["boolean"] = FieldInfo(alias="outputType")
+    """Boolean output type."""
 
     guidelines: Optional[str] = None
     """Guidelines for human evaluators."""
 
 
-class UnionMember5(BaseModel):
+class HeuristicBooleanMetric(BaseModel):
     id: str
     """The ID of the Metric."""
 
@@ -152,9 +165,12 @@ class UnionMember5(BaseModel):
     """The name of the Metric."""
 
     output_type: Literal["boolean"] = FieldInfo(alias="outputType")
+    """Boolean output type."""
 
     guidelines: Optional[str] = None
     """Optional guidelines for heuristic evaluation logic."""
 
 
-Metric: TypeAlias = Union[UnionMember0, UnionMember1, UnionMember2, UnionMember3, UnionMember4, UnionMember5]
+Metric: TypeAlias = Union[
+    AIIntMetric, HumanIntMetric, HeuristicIntMetric, AIBooleanMetric, HumanBooleanMetric, HeuristicBooleanMetric
+]

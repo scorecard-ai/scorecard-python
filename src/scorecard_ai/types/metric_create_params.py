@@ -7,10 +7,18 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["MetricCreateParams", "Variant0", "Variant1", "Variant2", "Variant3", "Variant4", "Variant5"]
+__all__ = [
+    "MetricCreateParams",
+    "AIIntMetric",
+    "HumanIntMetric",
+    "HeuristicIntMetric",
+    "AIBooleanMetric",
+    "HumanBooleanMetric",
+    "HeuristicBooleanMetric",
+]
 
 
-class Variant0(TypedDict, total=False):
+class AIIntMetric(TypedDict, total=False):
     eval_type: Required[Annotated[Literal["ai"], PropertyInfo(alias="evalType")]]
     """AI-based evaluation type."""
 
@@ -18,6 +26,7 @@ class Variant0(TypedDict, total=False):
     """The name of the Metric."""
 
     output_type: Required[Annotated[Literal["int"], PropertyInfo(alias="outputType")]]
+    """Integer output type."""
 
     prompt_template: Required[Annotated[str, PropertyInfo(alias="promptTemplate")]]
     """The complete prompt template for AI evaluation.
@@ -28,11 +37,11 @@ class Variant0(TypedDict, total=False):
     description: Optional[str]
     """The description of the Metric."""
 
+    eval_model_name: Annotated[str, PropertyInfo(alias="evalModelName")]
+    """The AI model to use for evaluation."""
+
     guidelines: Optional[str]
     """Guidelines for AI evaluation on how to score the metric."""
-
-    model_name: Annotated[str, PropertyInfo(alias="modelName")]
-    """The AI model to use for evaluation."""
 
     passing_threshold: Annotated[int, PropertyInfo(alias="passingThreshold")]
     """The threshold for determining pass/fail from integer scores (1-5)."""
@@ -41,7 +50,7 @@ class Variant0(TypedDict, total=False):
     """The temperature for AI evaluation (0-2)."""
 
 
-class Variant1(TypedDict, total=False):
+class HumanIntMetric(TypedDict, total=False):
     eval_type: Required[Annotated[Literal["human"], PropertyInfo(alias="evalType")]]
     """Human-based evaluation type."""
 
@@ -49,6 +58,7 @@ class Variant1(TypedDict, total=False):
     """The name of the Metric."""
 
     output_type: Required[Annotated[Literal["int"], PropertyInfo(alias="outputType")]]
+    """Integer output type."""
 
     description: Optional[str]
     """The description of the Metric."""
@@ -60,7 +70,7 @@ class Variant1(TypedDict, total=False):
     """The threshold for determining pass/fail from integer scores (1-5)."""
 
 
-class Variant2(TypedDict, total=False):
+class HeuristicIntMetric(TypedDict, total=False):
     eval_type: Required[Annotated[Literal["heuristic"], PropertyInfo(alias="evalType")]]
     """Heuristic-based evaluation type."""
 
@@ -68,6 +78,7 @@ class Variant2(TypedDict, total=False):
     """The name of the Metric."""
 
     output_type: Required[Annotated[Literal["int"], PropertyInfo(alias="outputType")]]
+    """Integer output type."""
 
     description: Optional[str]
     """The description of the Metric."""
@@ -79,7 +90,7 @@ class Variant2(TypedDict, total=False):
     """The threshold for determining pass/fail from integer scores (1-5)."""
 
 
-class Variant3(TypedDict, total=False):
+class AIBooleanMetric(TypedDict, total=False):
     eval_type: Required[Annotated[Literal["ai"], PropertyInfo(alias="evalType")]]
     """AI-based evaluation type."""
 
@@ -87,6 +98,7 @@ class Variant3(TypedDict, total=False):
     """The name of the Metric."""
 
     output_type: Required[Annotated[Literal["boolean"], PropertyInfo(alias="outputType")]]
+    """Boolean output type."""
 
     prompt_template: Required[Annotated[str, PropertyInfo(alias="promptTemplate")]]
     """The complete prompt template for AI evaluation.
@@ -97,17 +109,17 @@ class Variant3(TypedDict, total=False):
     description: Optional[str]
     """The description of the Metric."""
 
+    eval_model_name: Annotated[str, PropertyInfo(alias="evalModelName")]
+    """The AI model to use for evaluation."""
+
     guidelines: Optional[str]
     """Guidelines for AI evaluation on how to score the metric."""
-
-    model_name: Annotated[str, PropertyInfo(alias="modelName")]
-    """The AI model to use for evaluation."""
 
     temperature: float
     """The temperature for AI evaluation (0-2)."""
 
 
-class Variant4(TypedDict, total=False):
+class HumanBooleanMetric(TypedDict, total=False):
     eval_type: Required[Annotated[Literal["human"], PropertyInfo(alias="evalType")]]
     """Human-based evaluation type."""
 
@@ -115,6 +127,7 @@ class Variant4(TypedDict, total=False):
     """The name of the Metric."""
 
     output_type: Required[Annotated[Literal["boolean"], PropertyInfo(alias="outputType")]]
+    """Boolean output type."""
 
     description: Optional[str]
     """The description of the Metric."""
@@ -123,7 +136,7 @@ class Variant4(TypedDict, total=False):
     """Guidelines for human evaluators."""
 
 
-class Variant5(TypedDict, total=False):
+class HeuristicBooleanMetric(TypedDict, total=False):
     eval_type: Required[Annotated[Literal["heuristic"], PropertyInfo(alias="evalType")]]
     """Heuristic-based evaluation type."""
 
@@ -131,6 +144,7 @@ class Variant5(TypedDict, total=False):
     """The name of the Metric."""
 
     output_type: Required[Annotated[Literal["boolean"], PropertyInfo(alias="outputType")]]
+    """Boolean output type."""
 
     description: Optional[str]
     """The description of the Metric."""
@@ -139,4 +153,6 @@ class Variant5(TypedDict, total=False):
     """Optional guidelines for heuristic evaluation logic."""
 
 
-MetricCreateParams: TypeAlias = Union[Variant0, Variant1, Variant2, Variant3, Variant4, Variant5]
+MetricCreateParams: TypeAlias = Union[
+    AIIntMetric, HumanIntMetric, HeuristicIntMetric, AIBooleanMetric, HumanBooleanMetric, HeuristicBooleanMetric
+]

@@ -37,8 +37,8 @@ class TestMetrics:
             output_type="int",
             prompt_template="promptTemplate",
             description="description",
+            eval_model_name="evalModelName",
             guidelines="guidelines",
-            model_name="modelName",
             passing_threshold=1,
             temperature=0,
         )
@@ -233,8 +233,8 @@ class TestMetrics:
             output_type="boolean",
             prompt_template="promptTemplate",
             description="description",
+            eval_model_name="evalModelName",
             guidelines="guidelines",
-            model_name="modelName",
             temperature=0,
         )
         assert_matches_type(Metric, metric, path=["response"])
@@ -430,8 +430,8 @@ class TestAsyncMetrics:
             output_type="int",
             prompt_template="promptTemplate",
             description="description",
+            eval_model_name="evalModelName",
             guidelines="guidelines",
-            model_name="modelName",
             passing_threshold=1,
             temperature=0,
         )
@@ -626,8 +626,8 @@ class TestAsyncMetrics:
             output_type="boolean",
             prompt_template="promptTemplate",
             description="description",
+            eval_model_name="evalModelName",
             guidelines="guidelines",
-            model_name="modelName",
             temperature=0,
         )
         assert_matches_type(Metric, metric, path=["response"])
