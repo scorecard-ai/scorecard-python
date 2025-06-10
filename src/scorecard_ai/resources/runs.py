@@ -48,7 +48,7 @@ class RunsResource(SyncAPIResource):
         project_id: str,
         *,
         metric_ids: List[str],
-        system_config_id: str | NotGiven = NOT_GIVEN,
+        system_version_id: str | NotGiven = NOT_GIVEN,
         testset_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -63,7 +63,7 @@ class RunsResource(SyncAPIResource):
         Args:
           metric_ids: The IDs of the metrics this Run is using.
 
-          system_config_id: The ID of the system configuration this Run is using.
+          system_version_id: The ID of the system version this Run is using.
 
           testset_id: The ID of the Testset this Run is testing.
 
@@ -82,7 +82,7 @@ class RunsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "metric_ids": metric_ids,
-                    "system_config_id": system_config_id,
+                    "system_version_id": system_version_id,
                     "testset_id": testset_id,
                 },
                 run_create_params.RunCreateParams,
@@ -119,7 +119,7 @@ class AsyncRunsResource(AsyncAPIResource):
         project_id: str,
         *,
         metric_ids: List[str],
-        system_config_id: str | NotGiven = NOT_GIVEN,
+        system_version_id: str | NotGiven = NOT_GIVEN,
         testset_id: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -134,7 +134,7 @@ class AsyncRunsResource(AsyncAPIResource):
         Args:
           metric_ids: The IDs of the metrics this Run is using.
 
-          system_config_id: The ID of the system configuration this Run is using.
+          system_version_id: The ID of the system version this Run is using.
 
           testset_id: The ID of the Testset this Run is testing.
 
@@ -153,7 +153,7 @@ class AsyncRunsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "metric_ids": metric_ids,
-                    "system_config_id": system_config_id,
+                    "system_version_id": system_version_id,
                     "testset_id": testset_id,
                 },
                 run_create_params.RunCreateParams,

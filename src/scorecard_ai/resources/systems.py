@@ -254,7 +254,7 @@ class SystemsResource(SyncAPIResource):
         """Delete a system definition by ID.
 
         This will not delete associated system
-        configurations.
+        versions.
 
         Args:
           extra_headers: Send extra headers
@@ -538,7 +538,7 @@ class AsyncSystemsResource(AsyncAPIResource):
         """Delete a system definition by ID.
 
         This will not delete associated system
-        configurations.
+        versions.
 
         Args:
           extra_headers: Send extra headers

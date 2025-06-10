@@ -56,14 +56,6 @@ from .testcases import (
     TestcasesResourceWithStreamingResponse,
     AsyncTestcasesResourceWithStreamingResponse,
 )
-from .system_configs import (
-    SystemConfigsResource,
-    AsyncSystemConfigsResource,
-    SystemConfigsResourceWithRawResponse,
-    AsyncSystemConfigsResourceWithRawResponse,
-    SystemConfigsResourceWithStreamingResponse,
-    AsyncSystemConfigsResourceWithStreamingResponse,
-)
 
 __all__ = [
     "ProjectsResource",
@@ -108,10 +100,4 @@ __all__ = [
     "AsyncSystemsResourceWithRawResponse",
     "SystemsResourceWithStreamingResponse",
     "AsyncSystemsResourceWithStreamingResponse",
-    "SystemConfigsResource",
-    "AsyncSystemConfigsResource",
-    "SystemConfigsResourceWithRawResponse",
-    "AsyncSystemConfigsResourceWithRawResponse",
-    "SystemConfigsResourceWithStreamingResponse",
-    "AsyncSystemConfigsResourceWithStreamingResponse",
 ]
