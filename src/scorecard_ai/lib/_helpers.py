@@ -13,7 +13,7 @@ from scorecard_ai import Scorecard, AsyncScorecard
 from scorecard_ai._types import NOT_GIVEN, NotGiven
 from scorecard_ai.types.record import Record
 from scorecard_ai.types.testcase import Testcase
-from scorecard_ai.types.system_config import SystemConfig
+from scorecard_ai.types.systems.system_version import SystemVersion
 
 SystemInput = Dict[str, Any]
 SystemOutput = Dict[str, Any]
@@ -75,8 +75,9 @@ def run_and_evaluate(
     metric_ids: List[str],
     testset_id: str | NotGiven = NOT_GIVEN,
     testcases: List[Testcase] | List[SimpleTestcase] | NotGiven = NOT_GIVEN,
-    system_config_id: str | NotGiven = NOT_GIVEN,
-    system: Callable[[SystemInput, SystemConfig | None], SystemOutput],
+    system_version_id: str | NotGiven = NOT_GIVEN,
+    system: Callable[[SystemInput, SystemVersion | None], SystemOutput],
+    trials: int = 1,
 ) -> RunResponse:
     """
     Runs the given `system` on the given test cases and records the results in a Scorecard Run.
@@ -94,10 +95,15 @@ def run_and_evaluate(
 
         testcases: The Testcases to run the system on, if `testset_id` is not provided.
 
-        system_config_id: The ID of the SystemConfig to use for the run.
+        system_version_id: The ID of the SystemVersion to use for the run.
 
         system: The system to run on the Testset.
+
+        trials: The number of times to run the system on each Testcase.
     """
+    if trials <= 0:
+        raise ValueError("trials must be positive")
+
     testcase_iter: Generator[_SimpleTestcaseWithId, None, None]
     if not isinstance(testcases, NotGiven) and not isinstance(testset_id, NotGiven):
         raise ValueError("testcases and testset_id cannot both be provided")
@@ -115,25 +121,26 @@ def run_and_evaluate(
         project_id=project_id,
         testset_id=testset_id,
         metric_ids=metric_ids,
-        system_config_id=system_config_id,
+        system_version_id=system_version_id,
     )
 
-    system_config: SystemConfig | None = (
-        client.system_configs.get(system_config_id)
-        if not isinstance(system_config_id, NotGiven)
+    system_version: SystemVersion | None = (
+        client.systems.versions.get(system_version_id)
+        if not isinstance(system_version_id, NotGiven)
         else None
     )
 
     # Run each Testcase sequentially
     for testcase in testcase_iter:
-        model_response = system(testcase["inputs"], system_config)
-        client.records.create(
-            run_id=run.id,
-            testcase_id=testcase["id"],
-            inputs=testcase["inputs"],
-            expected=testcase["expected"],
-            outputs=model_response,
-        )
+        for _ in range(trials):
+            model_response = system(testcase["inputs"], system_version)
+            client.records.create(
+                run_id=run.id,
+                testcase_id=testcase["id"],
+                inputs=testcase["inputs"],
+                expected=testcase["expected"],
+                outputs=model_response,
+            )
 
     return RunResponse(id=run.id, url=_get_run_url(client, project_id, run.id))
 
@@ -145,8 +152,9 @@ async def async_run_and_evaluate(
     metric_ids: List[str],
     testset_id: str | NotGiven = NOT_GIVEN,
     testcases: List[Testcase] | List[SimpleTestcase] | NotGiven = NOT_GIVEN,
-    system_config_id: str | NotGiven = NOT_GIVEN,
-    system: Callable[[SystemInput, SystemConfig | None], SystemOutput],
+    system_version_id: str | NotGiven = NOT_GIVEN,
+    system: Callable[[SystemInput, SystemVersion | None], SystemOutput],
+    trials: int = 1,
 ) -> RunResponse:
     """
     Runs a system on a Testset and records the results in Scorecard.
@@ -164,10 +172,15 @@ async def async_run_and_evaluate(
 
         testcases: The Testcases to run the system on, if `testset_id` is not provided.
 
-        system_config_id: The ID of the SystemConfig to use for the run.
+        system_version_id: The ID of the SystemVersion to use for the run.
 
         system: The system to run on the Testset.
+
+        trials: The number of times to run the system on each Testcase.
     """
+    if trials <= 0:
+        raise ValueError("trials must be positive")
+
     testcase_iter: (
         Generator[_SimpleTestcaseWithId, None, None]
         | AsyncGenerator[_SimpleTestcaseWithId, None]
@@ -188,19 +201,19 @@ async def async_run_and_evaluate(
         project_id=project_id,
         testset_id=testset_id,
         metric_ids=metric_ids,
-        system_config_id=system_config_id,
+        system_version_id=system_version_id,
     )
 
-    system_config: SystemConfig | None = (
-        await client.system_configs.get(system_config_id)
-        if not isinstance(system_config_id, NotGiven)
+    system_version: SystemVersion | None = (
+        await client.systems.versions.get(system_version_id)
+        if not isinstance(system_version_id, NotGiven)
         else None
     )
 
     def run_testcase(
         testcase: _SimpleTestcaseWithId,
     ) -> Coroutine[Any, Any, Record]:
-        model_response = system(testcase["inputs"], system_config)
+        model_response = system(testcase["inputs"], system_version)
         return client.records.create(
             run_id=run.id,
             testcase_id=testcase["id"],
@@ -212,9 +225,19 @@ async def async_run_and_evaluate(
     # Create a Record for each Testcase
     if isinstance(testcase_iter, AsyncGenerator):
         await asyncio.gather(
-            *[run_testcase(testcase) async for testcase in testcase_iter]
+            *[
+                run_testcase(testcase)
+                async for testcase in testcase_iter
+                for _ in range(trials)
+            ]
         )
     else:
-        await asyncio.gather(*[run_testcase(testcase) for testcase in testcase_iter])
+        await asyncio.gather(
+            *[
+                run_testcase(testcase)
+                for testcase in testcase_iter
+                for _ in range(trials)
+            ]
+        )
 
     return RunResponse(id=run.id, url=_get_run_url(client, project_id, run.id))
