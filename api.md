@@ -61,6 +61,18 @@ Methods:
 
 - <code title="post /projects/{projectId}/runs">client.runs.<a href="./src/scorecard_ai/resources/runs.py">create</a>(project_id, \*\*<a href="src/scorecard_ai/types/run_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/run.py">Run</a></code>
 
+# Metrics
+
+Types:
+
+```python
+from scorecard_ai.types import Metric
+```
+
+Methods:
+
+- <code title="post /projects/{projectId}/metrics">client.metrics.<a href="./src/scorecard_ai/resources/metrics.py">create</a>(project_id, \*\*<a href="src/scorecard_ai/types/metric_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/metric.py">Metric</a></code>
+
 # Records
 
 Types:
