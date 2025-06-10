@@ -30,7 +30,7 @@ class TestRuns:
         run = client.runs.create(
             project_id="314",
             metric_ids=["789", "101"],
-            system_config_id="87654321-4d3b-4ae4-8c7a-4b6e2a19ccf0",
+            system_version_id="87654321-4d3b-4ae4-8c7a-4b6e2a19ccf0",
             testset_id="246",
         )
         assert_matches_type(Run, run, path=["response"])
@@ -86,7 +86,7 @@ class TestAsyncRuns:
         run = await async_client.runs.create(
             project_id="314",
             metric_ids=["789", "101"],
-            system_config_id="87654321-4d3b-4ae4-8c7a-4b6e2a19ccf0",
+            system_version_id="87654321-4d3b-4ae4-8c7a-4b6e2a19ccf0",
             testset_id="246",
         )
         assert_matches_type(Run, run, path=["response"])

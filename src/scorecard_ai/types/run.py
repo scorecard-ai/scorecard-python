@@ -31,5 +31,5 @@ class Run(BaseModel):
     testset_id: Optional[str] = FieldInfo(alias="testsetId", default=None)
     """The ID of the Testset this Run is testing."""
 
-    system_config_id: Optional[str] = FieldInfo(alias="systemConfigId", default=None)
-    """The ID of the system configuration this Run is using."""
+    system_version_id: Optional[str] = FieldInfo(alias="systemVersionId", default=None)
+    """The ID of the system version this Run is using."""

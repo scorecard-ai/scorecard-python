@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import runs, scores, records, systems, projects, testsets, testcases, system_configs
+from .resources import runs, scores, records, systems, projects, testsets, testcases
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, ScorecardError
 from ._base_client import (
@@ -57,7 +57,6 @@ class Scorecard(SyncAPIClient):
     records: records.RecordsResource
     scores: scores.ScoresResource
     systems: systems.SystemsResource
-    system_configs: system_configs.SystemConfigsResource
     with_raw_response: ScorecardWithRawResponse
     with_streaming_response: ScorecardWithStreamedResponse
 
@@ -146,7 +145,6 @@ class Scorecard(SyncAPIClient):
         self.records = records.RecordsResource(self)
         self.scores = scores.ScoresResource(self)
         self.systems = systems.SystemsResource(self)
-        self.system_configs = system_configs.SystemConfigsResource(self)
         self.with_raw_response = ScorecardWithRawResponse(self)
         self.with_streaming_response = ScorecardWithStreamedResponse(self)
 
@@ -265,7 +263,6 @@ class AsyncScorecard(AsyncAPIClient):
     records: records.AsyncRecordsResource
     scores: scores.AsyncScoresResource
     systems: systems.AsyncSystemsResource
-    system_configs: system_configs.AsyncSystemConfigsResource
     with_raw_response: AsyncScorecardWithRawResponse
     with_streaming_response: AsyncScorecardWithStreamedResponse
 
@@ -354,7 +351,6 @@ class AsyncScorecard(AsyncAPIClient):
         self.records = records.AsyncRecordsResource(self)
         self.scores = scores.AsyncScoresResource(self)
         self.systems = systems.AsyncSystemsResource(self)
-        self.system_configs = system_configs.AsyncSystemConfigsResource(self)
         self.with_raw_response = AsyncScorecardWithRawResponse(self)
         self.with_streaming_response = AsyncScorecardWithStreamedResponse(self)
 
@@ -474,7 +470,6 @@ class ScorecardWithRawResponse:
         self.records = records.RecordsResourceWithRawResponse(client.records)
         self.scores = scores.ScoresResourceWithRawResponse(client.scores)
         self.systems = systems.SystemsResourceWithRawResponse(client.systems)
-        self.system_configs = system_configs.SystemConfigsResourceWithRawResponse(client.system_configs)
 
 
 class AsyncScorecardWithRawResponse:
@@ -486,7 +481,6 @@ class AsyncScorecardWithRawResponse:
         self.records = records.AsyncRecordsResourceWithRawResponse(client.records)
         self.scores = scores.AsyncScoresResourceWithRawResponse(client.scores)
         self.systems = systems.AsyncSystemsResourceWithRawResponse(client.systems)
-        self.system_configs = system_configs.AsyncSystemConfigsResourceWithRawResponse(client.system_configs)
 
 
 class ScorecardWithStreamedResponse:
@@ -498,7 +492,6 @@ class ScorecardWithStreamedResponse:
         self.records = records.RecordsResourceWithStreamingResponse(client.records)
         self.scores = scores.ScoresResourceWithStreamingResponse(client.scores)
         self.systems = systems.SystemsResourceWithStreamingResponse(client.systems)
-        self.system_configs = system_configs.SystemConfigsResourceWithStreamingResponse(client.system_configs)
 
 
 class AsyncScorecardWithStreamedResponse:
@@ -510,7 +503,6 @@ class AsyncScorecardWithStreamedResponse:
         self.records = records.AsyncRecordsResourceWithStreamingResponse(client.records)
         self.scores = scores.AsyncScoresResourceWithStreamingResponse(client.scores)
         self.systems = systems.AsyncSystemsResourceWithStreamingResponse(client.systems)
-        self.system_configs = system_configs.AsyncSystemConfigsResourceWithStreamingResponse(client.system_configs)
 
 
 Client = Scorecard
