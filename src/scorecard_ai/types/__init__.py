@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from .run import Run as Run
 from .score import Score as Score
+from .metric import Metric as Metric
 from .record import Record as Record
 from .shared import APIError as APIError
 from .system import System as System
@@ -15,6 +16,7 @@ from .system_list_params import SystemListParams as SystemListParams
 from .project_list_params import ProjectListParams as ProjectListParams
 from .score_upsert_params import ScoreUpsertParams as ScoreUpsertParams
 from .testset_list_params import TestsetListParams as TestsetListParams
+from .metric_create_params import MetricCreateParams as MetricCreateParams
 from .record_create_params import RecordCreateParams as RecordCreateParams
 from .system_create_params import SystemCreateParams as SystemCreateParams
 from .system_update_params import SystemUpdateParams as SystemUpdateParams
