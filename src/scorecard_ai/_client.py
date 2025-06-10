@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import runs, scores, records, systems, projects, testsets, testcases
+from .resources import runs, scores, records, projects, testsets, testcases
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, ScorecardError
 from ._base_client import (
@@ -29,6 +29,7 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.systems import systems
 
 __all__ = [
     "ENVIRONMENTS",

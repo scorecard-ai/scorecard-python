@@ -95,8 +95,22 @@ from scorecard_ai.types import System, SystemDeleteResponse
 
 Methods:
 
-- <code title="post /projects/{projectId}/systems">client.systems.<a href="./src/scorecard_ai/resources/systems.py">create</a>(project_id, \*\*<a href="src/scorecard_ai/types/system_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/system.py">System</a></code>
-- <code title="patch /systems/{systemId}">client.systems.<a href="./src/scorecard_ai/resources/systems.py">update</a>(system_id, \*\*<a href="src/scorecard_ai/types/system_update_params.py">params</a>) -> <a href="./src/scorecard_ai/types/system.py">System</a></code>
-- <code title="get /projects/{projectId}/systems">client.systems.<a href="./src/scorecard_ai/resources/systems.py">list</a>(project_id, \*\*<a href="src/scorecard_ai/types/system_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/system.py">SyncPaginatedResponse[System]</a></code>
-- <code title="delete /systems/{systemId}">client.systems.<a href="./src/scorecard_ai/resources/systems.py">delete</a>(system_id) -> <a href="./src/scorecard_ai/types/system_delete_response.py">SystemDeleteResponse</a></code>
-- <code title="get /systems/{systemId}">client.systems.<a href="./src/scorecard_ai/resources/systems.py">get</a>(system_id) -> <a href="./src/scorecard_ai/types/system.py">System</a></code>
+- <code title="post /projects/{projectId}/systems">client.systems.<a href="./src/scorecard_ai/resources/systems/systems.py">create</a>(project_id, \*\*<a href="src/scorecard_ai/types/system_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/system.py">System</a></code>
+- <code title="patch /systems/{systemId}">client.systems.<a href="./src/scorecard_ai/resources/systems/systems.py">update</a>(system_id, \*\*<a href="src/scorecard_ai/types/system_update_params.py">params</a>) -> <a href="./src/scorecard_ai/types/system.py">System</a></code>
+- <code title="get /projects/{projectId}/systems">client.systems.<a href="./src/scorecard_ai/resources/systems/systems.py">list</a>(project_id, \*\*<a href="src/scorecard_ai/types/system_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/system.py">SyncPaginatedResponse[System]</a></code>
+- <code title="delete /systems/{systemId}">client.systems.<a href="./src/scorecard_ai/resources/systems/systems.py">delete</a>(system_id) -> <a href="./src/scorecard_ai/types/system_delete_response.py">SystemDeleteResponse</a></code>
+- <code title="get /systems/{systemId}">client.systems.<a href="./src/scorecard_ai/resources/systems/systems.py">get</a>(system_id) -> <a href="./src/scorecard_ai/types/system.py">System</a></code>
+
+## Versions
+
+Types:
+
+```python
+from scorecard_ai.types.systems import SystemVersion
+```
+
+Methods:
+
+- <code title="post /systems/{systemId}/configs">client.systems.versions.<a href="./src/scorecard_ai/resources/systems/versions.py">create</a>(system_id, \*\*<a href="src/scorecard_ai/types/systems/version_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/systems/system_version.py">SystemVersion</a></code>
+- <code title="get /systems/{systemId}/configs">client.systems.versions.<a href="./src/scorecard_ai/resources/systems/versions.py">list</a>(system_id, \*\*<a href="src/scorecard_ai/types/systems/version_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/systems/system_version.py">SyncPaginatedResponse[SystemVersion]</a></code>
+- <code title="get /systems/configs/{systemVersionId}">client.systems.versions.<a href="./src/scorecard_ai/resources/systems/versions.py">get</a>(system_version_id) -> <a href="./src/scorecard_ai/types/systems/system_version.py">SystemVersion</a></code>
