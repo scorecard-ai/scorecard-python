@@ -10,7 +10,6 @@ from .system import System as System
 from .project import Project as Project
 from .testset import Testset as Testset
 from .testcase import Testcase as Testcase
-from .system_config import SystemConfig as SystemConfig
 from .run_create_params import RunCreateParams as RunCreateParams
 from .system_list_params import SystemListParams as SystemListParams
 from .project_list_params import ProjectListParams as ProjectListParams
@@ -30,5 +29,3 @@ from .testcase_update_params import TestcaseUpdateParams as TestcaseUpdateParams
 from .testset_delete_response import TestsetDeleteResponse as TestsetDeleteResponse
 from .testcase_create_response import TestcaseCreateResponse as TestcaseCreateResponse
 from .testcase_delete_response import TestcaseDeleteResponse as TestcaseDeleteResponse
-from .system_config_list_params import SystemConfigListParams as SystemConfigListParams
-from .system_config_create_params import SystemConfigCreateParams as SystemConfigCreateParams
