@@ -268,7 +268,7 @@ class TestsetsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testset:
         """
-        Get Testset by ID
+        Get Testset
 
         Args:
           extra_headers: Send extra headers
@@ -531,7 +531,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Testset:
         """
-        Get Testset by ID
+        Get Testset
 
         Args:
           extra_headers: Send extra headers
