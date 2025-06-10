@@ -6,26 +6,38 @@ from typing import Dict
 
 import httpx
 
-from ..types import system_list_params, system_create_params, system_update_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import maybe_transform, async_maybe_transform
-from .._compat import cached_property
-from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import (
+from ...types import system_list_params, system_create_params, system_update_params
+from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._utils import maybe_transform, async_maybe_transform
+from .versions import (
+    VersionsResource,
+    AsyncVersionsResource,
+    VersionsResourceWithRawResponse,
+    AsyncVersionsResourceWithRawResponse,
+    VersionsResourceWithStreamingResponse,
+    AsyncVersionsResourceWithStreamingResponse,
+)
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..pagination import SyncPaginatedResponse, AsyncPaginatedResponse
-from .._base_client import AsyncPaginator, make_request_options
-from ..types.system import System
-from ..types.system_delete_response import SystemDeleteResponse
+from ...pagination import SyncPaginatedResponse, AsyncPaginatedResponse
+from ..._base_client import AsyncPaginator, make_request_options
+from ...types.system import System
+from ...types.system_delete_response import SystemDeleteResponse
 
 __all__ = ["SystemsResource", "AsyncSystemsResource"]
 
 
 class SystemsResource(SyncAPIResource):
+    @cached_property
+    def versions(self) -> VersionsResource:
+        return VersionsResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> SystemsResourceWithRawResponse:
         """
@@ -310,6 +322,10 @@ class SystemsResource(SyncAPIResource):
 
 
 class AsyncSystemsResource(AsyncAPIResource):
+    @cached_property
+    def versions(self) -> AsyncVersionsResource:
+        return AsyncVersionsResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> AsyncSystemsResourceWithRawResponse:
         """
@@ -613,6 +629,10 @@ class SystemsResourceWithRawResponse:
             systems.get,
         )
 
+    @cached_property
+    def versions(self) -> VersionsResourceWithRawResponse:
+        return VersionsResourceWithRawResponse(self._systems.versions)
+
 
 class AsyncSystemsResourceWithRawResponse:
     def __init__(self, systems: AsyncSystemsResource) -> None:
@@ -633,6 +653,10 @@ class AsyncSystemsResourceWithRawResponse:
         self.get = async_to_raw_response_wrapper(
             systems.get,
         )
+
+    @cached_property
+    def versions(self) -> AsyncVersionsResourceWithRawResponse:
+        return AsyncVersionsResourceWithRawResponse(self._systems.versions)
 
 
 class SystemsResourceWithStreamingResponse:
@@ -655,6 +679,10 @@ class SystemsResourceWithStreamingResponse:
             systems.get,
         )
 
+    @cached_property
+    def versions(self) -> VersionsResourceWithStreamingResponse:
+        return VersionsResourceWithStreamingResponse(self._systems.versions)
+
 
 class AsyncSystemsResourceWithStreamingResponse:
     def __init__(self, systems: AsyncSystemsResource) -> None:
@@ -675,3 +703,7 @@ class AsyncSystemsResourceWithStreamingResponse:
         self.get = async_to_streamed_response_wrapper(
             systems.get,
         )
+
+    @cached_property
+    def versions(self) -> AsyncVersionsResourceWithStreamingResponse:
+        return AsyncVersionsResourceWithStreamingResponse(self._systems.versions)
