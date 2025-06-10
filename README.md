@@ -16,7 +16,7 @@ The REST API documentation can be found on [docs.scorecard.io](https://docs.scor
 
 ```sh
 # install from PyPI
-pip install --pre scorecard-ai
+pip install scorecard-ai
 ```
 
 ## Usage
