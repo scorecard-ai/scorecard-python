@@ -54,8 +54,8 @@ class MetricsResource(SyncAPIResource):
         output_type: Literal["int"],
         prompt_template: str,
         description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
         guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        model_name: str | NotGiven = NOT_GIVEN,
         passing_threshold: int | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -73,14 +73,16 @@ class MetricsResource(SyncAPIResource):
 
           name: The name of the Metric.
 
+          output_type: Integer output type.
+
           prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
               dynamic content.
 
           description: The description of the Metric.
 
-          guidelines: Guidelines for AI evaluation on how to score the metric.
+          eval_model_name: The AI model to use for evaluation.
 
-          model_name: The AI model to use for evaluation.
+          guidelines: Guidelines for AI evaluation on how to score the metric.
 
           passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
 
@@ -121,6 +123,8 @@ class MetricsResource(SyncAPIResource):
           eval_type: Human-based evaluation type.
 
           name: The name of the Metric.
+
+          output_type: Integer output type.
 
           description: The description of the Metric.
 
@@ -163,6 +167,8 @@ class MetricsResource(SyncAPIResource):
           eval_type: Heuristic-based evaluation type.
 
           name: The name of the Metric.
+
+          output_type: Integer output type.
 
           description: The description of the Metric.
 
@@ -190,8 +196,8 @@ class MetricsResource(SyncAPIResource):
         output_type: Literal["boolean"],
         prompt_template: str,
         description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
         guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        model_name: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -208,14 +214,16 @@ class MetricsResource(SyncAPIResource):
 
           name: The name of the Metric.
 
+          output_type: Boolean output type.
+
           prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
               dynamic content.
 
           description: The description of the Metric.
 
-          guidelines: Guidelines for AI evaluation on how to score the metric.
+          eval_model_name: The AI model to use for evaluation.
 
-          model_name: The AI model to use for evaluation.
+          guidelines: Guidelines for AI evaluation on how to score the metric.
 
           temperature: The temperature for AI evaluation (0-2).
 
@@ -253,6 +261,8 @@ class MetricsResource(SyncAPIResource):
           eval_type: Human-based evaluation type.
 
           name: The name of the Metric.
+
+          output_type: Boolean output type.
 
           description: The description of the Metric.
 
@@ -293,6 +303,8 @@ class MetricsResource(SyncAPIResource):
 
           name: The name of the Metric.
 
+          output_type: Boolean output type.
+
           description: The description of the Metric.
 
           guidelines: Optional guidelines for heuristic evaluation logic.
@@ -317,8 +329,8 @@ class MetricsResource(SyncAPIResource):
         output_type: Literal["int"] | Literal["boolean"],
         prompt_template: str | NotGiven = NOT_GIVEN,
         description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
         guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        model_name: str | NotGiven = NOT_GIVEN,
         passing_threshold: int | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -341,8 +353,8 @@ class MetricsResource(SyncAPIResource):
                         "output_type": output_type,
                         "prompt_template": prompt_template,
                         "description": description,
+                        "eval_model_name": eval_model_name,
                         "guidelines": guidelines,
-                        "model_name": model_name,
                         "passing_threshold": passing_threshold,
                         "temperature": temperature,
                     },
@@ -386,8 +398,8 @@ class AsyncMetricsResource(AsyncAPIResource):
         output_type: Literal["int"],
         prompt_template: str,
         description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
         guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        model_name: str | NotGiven = NOT_GIVEN,
         passing_threshold: int | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -405,14 +417,16 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           name: The name of the Metric.
 
+          output_type: Integer output type.
+
           prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
               dynamic content.
 
           description: The description of the Metric.
 
-          guidelines: Guidelines for AI evaluation on how to score the metric.
+          eval_model_name: The AI model to use for evaluation.
 
-          model_name: The AI model to use for evaluation.
+          guidelines: Guidelines for AI evaluation on how to score the metric.
 
           passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
 
@@ -453,6 +467,8 @@ class AsyncMetricsResource(AsyncAPIResource):
           eval_type: Human-based evaluation type.
 
           name: The name of the Metric.
+
+          output_type: Integer output type.
 
           description: The description of the Metric.
 
@@ -495,6 +511,8 @@ class AsyncMetricsResource(AsyncAPIResource):
           eval_type: Heuristic-based evaluation type.
 
           name: The name of the Metric.
+
+          output_type: Integer output type.
 
           description: The description of the Metric.
 
@@ -522,8 +540,8 @@ class AsyncMetricsResource(AsyncAPIResource):
         output_type: Literal["boolean"],
         prompt_template: str,
         description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
         guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        model_name: str | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -540,14 +558,16 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           name: The name of the Metric.
 
+          output_type: Boolean output type.
+
           prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
               dynamic content.
 
           description: The description of the Metric.
 
-          guidelines: Guidelines for AI evaluation on how to score the metric.
+          eval_model_name: The AI model to use for evaluation.
 
-          model_name: The AI model to use for evaluation.
+          guidelines: Guidelines for AI evaluation on how to score the metric.
 
           temperature: The temperature for AI evaluation (0-2).
 
@@ -585,6 +605,8 @@ class AsyncMetricsResource(AsyncAPIResource):
           eval_type: Human-based evaluation type.
 
           name: The name of the Metric.
+
+          output_type: Boolean output type.
 
           description: The description of the Metric.
 
@@ -625,6 +647,8 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           name: The name of the Metric.
 
+          output_type: Boolean output type.
+
           description: The description of the Metric.
 
           guidelines: Optional guidelines for heuristic evaluation logic.
@@ -649,8 +673,8 @@ class AsyncMetricsResource(AsyncAPIResource):
         output_type: Literal["int"] | Literal["boolean"],
         prompt_template: str | NotGiven = NOT_GIVEN,
         description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
         guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        model_name: str | NotGiven = NOT_GIVEN,
         passing_threshold: int | NotGiven = NOT_GIVEN,
         temperature: float | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -673,8 +697,8 @@ class AsyncMetricsResource(AsyncAPIResource):
                         "output_type": output_type,
                         "prompt_template": prompt_template,
                         "description": description,
+                        "eval_model_name": eval_model_name,
                         "guidelines": guidelines,
-                        "model_name": model_name,
                         "passing_threshold": passing_threshold,
                         "temperature": temperature,
                     },
