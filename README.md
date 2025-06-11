@@ -28,33 +28,15 @@ import os
 from scorecard_ai import Scorecard
 
 client = Scorecard(
-    api_key=os.environ.get("SCORECARD_API_KEY"),  # This is the default and can be omitted
-    # or 'production' | 'local'; defaults to "production".
-    environment="staging",
+    api_key=os.environ.get("SCORECARD_API_KEY"),
 )
 
-testset = client.testsets.create(
+run = client.runs.create(
     project_id="314",
-    name="Long Context Q&A",
-    description="Testset for long context Q&A chatbot.",
-    field_mapping={
-        "inputs": ["question"],
-        "expected": ["idealAnswer"],
-        "metadata": [],
-    },
-    json_schema={
-        "type": "object",
-        "properties": {
-            "question": {
-                "type": "string",
-            },
-            "idealAnswer": {
-                "type": "string",
-            },
-        },
-    },
+    metric_ids=["789", "101"],
+    testset_id="246",
 )
-print(testset.id)
+print(run.id)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -79,28 +61,12 @@ client = AsyncScorecard(
 
 
 async def main() -> None:
-    testset = await client.testsets.create(
+    run = await client.runs.create(
         project_id="314",
-        name="Long Context Q&A",
-        description="Testset for long context Q&A chatbot.",
-        field_mapping={
-            "inputs": ["question"],
-            "expected": ["idealAnswer"],
-            "metadata": [],
-        },
-        json_schema={
-            "type": "object",
-            "properties": {
-                "question": {
-                    "type": "string",
-                },
-                "idealAnswer": {
-                    "type": "string",
-                },
-            },
-        },
+        metric_ids=["789", "101"],
+        testset_id="246",
     )
-    print(testset.id)
+    print(run.id)
 
 
 asyncio.run(main())
@@ -116,6 +82,81 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 - Converting to a dictionary, `model.to_dict()`
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
+
+## Pagination
+
+List methods in the Scorecard API are paginated.
+
+This library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:
+
+```python
+from scorecard_ai import Scorecard
+
+client = Scorecard()
+
+all_testcases = []
+# Automatically fetches more pages as needed.
+for testcase in client.testcases.list(
+    testset_id="246",
+    limit=30,
+):
+    # Do something with testcase here
+    all_testcases.append(testcase)
+print(all_testcases)
+```
+
+Or, asynchronously:
+
+```python
+import asyncio
+from scorecard_ai import AsyncScorecard
+
+client = AsyncScorecard()
+
+
+async def main() -> None:
+    all_testcases = []
+    # Iterate through items across all pages, issuing requests as needed.
+    async for testcase in client.testcases.list(
+        testset_id="246",
+        limit=30,
+    ):
+        all_testcases.append(testcase)
+    print(all_testcases)
+
+
+asyncio.run(main())
+```
+
+Alternatively, you can use the `.has_next_page()`, `.next_page_info()`, or `.get_next_page()` methods for more granular control working with pages:
+
+```python
+first_page = await client.testcases.list(
+    testset_id="246",
+    limit=30,
+)
+if first_page.has_next_page():
+    print(f"will fetch next page using these details: {first_page.next_page_info()}")
+    next_page = await first_page.get_next_page()
+    print(f"number of items we just fetched: {len(next_page.data)}")
+
+# Remove `await` for non-async usage.
+```
+
+Or just work directly with the returned data:
+
+```python
+first_page = await client.testcases.list(
+    testset_id="246",
+    limit=30,
+)
+
+print(f"next page cursor: {first_page.next_cursor}")  # => "next page cursor: ..."
+for testcase in first_page.data:
+    print(testcase.id)
+
+# Remove `await` for non-async usage.
+```
 
 ## Nested params
 
@@ -167,7 +208,7 @@ client = Scorecard()
 
 try:
     client.testsets.get(
-        "246",
+        "314",
     )
 except scorecard_ai.APIConnectionError as e:
     print("The server could not be reached")
@@ -212,7 +253,7 @@ client = Scorecard(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).testsets.get(
-    "246",
+    "314",
 )
 ```
 
@@ -237,7 +278,7 @@ client = Scorecard(
 
 # Override per-request:
 client.with_options(timeout=5.0).testsets.get(
-    "246",
+    "314",
 )
 ```
 
@@ -280,7 +321,7 @@ from scorecard_ai import Scorecard
 
 client = Scorecard()
 response = client.testsets.with_raw_response.get(
-    "246",
+    "314",
 )
 print(response.headers.get('X-My-Header'))
 
@@ -300,7 +341,7 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.testsets.with_streaming_response.get(
-    "246",
+    "314",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
