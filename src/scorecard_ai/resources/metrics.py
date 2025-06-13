@@ -7,7 +7,7 @@ from typing_extensions import Literal, overload
 
 import httpx
 
-from ..types import metric_create_params
+from ..types import metric_create_params, metric_update_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -65,8 +65,10 @@ class MetricsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: AI-based evaluation type.
@@ -116,8 +118,10 @@ class MetricsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: Human-based evaluation type.
@@ -160,8 +164,10 @@ class MetricsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: Heuristic-based evaluation type.
@@ -206,8 +212,10 @@ class MetricsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: AI-based evaluation type.
@@ -254,8 +262,10 @@ class MetricsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: Human-based evaluation type.
@@ -295,8 +305,10 @@ class MetricsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: Heuristic-based evaluation type.
@@ -367,6 +379,347 @@ class MetricsResource(SyncAPIResource):
             ),
         )
 
+    @overload
+    def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["ai"],
+        output_type: Literal["int"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
+        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        passing_threshold: int | NotGiven = NOT_GIVEN,
+        prompt_template: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: AI-based evaluation type.
+
+          output_type: Integer output type.
+
+          description: The description of the Metric.
+
+          eval_model_name: The AI model to use for evaluation.
+
+          guidelines: Guidelines for AI evaluation on how to score the metric.
+
+          name: The name of the Metric.
+
+          passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
+
+          prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
+              dynamic content.
+
+          temperature: The temperature for AI evaluation (0-2).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["human"],
+        output_type: Literal["int"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        guidelines: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        passing_threshold: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Human-based evaluation type.
+
+          output_type: Integer output type.
+
+          description: The description of the Metric.
+
+          guidelines: Guidelines for human evaluators.
+
+          name: The name of the Metric.
+
+          passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["heuristic"],
+        output_type: Literal["int"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        guidelines: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        passing_threshold: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Heuristic-based evaluation type.
+
+          output_type: Integer output type.
+
+          description: The description of the Metric.
+
+          guidelines: Optional guidelines for heuristic evaluation logic.
+
+          name: The name of the Metric.
+
+          passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["ai"],
+        output_type: Literal["boolean"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
+        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        prompt_template: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: AI-based evaluation type.
+
+          output_type: Boolean output type.
+
+          description: The description of the Metric.
+
+          eval_model_name: The AI model to use for evaluation.
+
+          guidelines: Guidelines for AI evaluation on how to score the metric.
+
+          name: The name of the Metric.
+
+          prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
+              dynamic content.
+
+          temperature: The temperature for AI evaluation (0-2).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["human"],
+        output_type: Literal["boolean"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        guidelines: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Human-based evaluation type.
+
+          output_type: Boolean output type.
+
+          description: The description of the Metric.
+
+          guidelines: Guidelines for human evaluators.
+
+          name: The name of the Metric.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["heuristic"],
+        output_type: Literal["boolean"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        guidelines: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Heuristic-based evaluation type.
+
+          output_type: Boolean output type.
+
+          description: The description of the Metric.
+
+          guidelines: Optional guidelines for heuristic evaluation logic.
+
+          name: The name of the Metric.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["eval_type", "output_type"])
+    def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["ai"] | Literal["human"] | Literal["heuristic"],
+        output_type: Literal["int"] | Literal["boolean"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
+        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        passing_threshold: int | NotGiven = NOT_GIVEN,
+        prompt_template: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        if not metric_id:
+            raise ValueError(f"Expected a non-empty value for `metric_id` but received {metric_id!r}")
+        return cast(
+            Metric,
+            self._patch(
+                f"/metrics/{metric_id}",
+                body=maybe_transform(
+                    {
+                        "eval_type": eval_type,
+                        "output_type": output_type,
+                        "description": description,
+                        "eval_model_name": eval_model_name,
+                        "guidelines": guidelines,
+                        "name": name,
+                        "passing_threshold": passing_threshold,
+                        "prompt_template": prompt_template,
+                        "temperature": temperature,
+                    },
+                    metric_update_params.MetricUpdateParams,
+                ),
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(Any, Metric),  # Union types cannot be passed in as arguments in the type system
+            ),
+        )
+
 
 class AsyncMetricsResource(AsyncAPIResource):
     @cached_property
@@ -409,8 +762,10 @@ class AsyncMetricsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: AI-based evaluation type.
@@ -460,8 +815,10 @@ class AsyncMetricsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: Human-based evaluation type.
@@ -504,8 +861,10 @@ class AsyncMetricsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: Heuristic-based evaluation type.
@@ -550,8 +909,10 @@ class AsyncMetricsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: AI-based evaluation type.
@@ -598,8 +959,10 @@ class AsyncMetricsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: Human-based evaluation type.
@@ -639,8 +1002,10 @@ class AsyncMetricsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Metric:
-        """
-        Create a new Metric for evaluating system outputs.
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
 
         Args:
           eval_type: Heuristic-based evaluation type.
@@ -711,6 +1076,347 @@ class AsyncMetricsResource(AsyncAPIResource):
             ),
         )
 
+    @overload
+    async def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["ai"],
+        output_type: Literal["int"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
+        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        passing_threshold: int | NotGiven = NOT_GIVEN,
+        prompt_template: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: AI-based evaluation type.
+
+          output_type: Integer output type.
+
+          description: The description of the Metric.
+
+          eval_model_name: The AI model to use for evaluation.
+
+          guidelines: Guidelines for AI evaluation on how to score the metric.
+
+          name: The name of the Metric.
+
+          passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
+
+          prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
+              dynamic content.
+
+          temperature: The temperature for AI evaluation (0-2).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["human"],
+        output_type: Literal["int"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        guidelines: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        passing_threshold: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Human-based evaluation type.
+
+          output_type: Integer output type.
+
+          description: The description of the Metric.
+
+          guidelines: Guidelines for human evaluators.
+
+          name: The name of the Metric.
+
+          passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["heuristic"],
+        output_type: Literal["int"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        guidelines: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        passing_threshold: int | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Heuristic-based evaluation type.
+
+          output_type: Integer output type.
+
+          description: The description of the Metric.
+
+          guidelines: Optional guidelines for heuristic evaluation logic.
+
+          name: The name of the Metric.
+
+          passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["ai"],
+        output_type: Literal["boolean"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
+        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        prompt_template: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: AI-based evaluation type.
+
+          output_type: Boolean output type.
+
+          description: The description of the Metric.
+
+          eval_model_name: The AI model to use for evaluation.
+
+          guidelines: Guidelines for AI evaluation on how to score the metric.
+
+          name: The name of the Metric.
+
+          prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
+              dynamic content.
+
+          temperature: The temperature for AI evaluation (0-2).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["human"],
+        output_type: Literal["boolean"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        guidelines: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Human-based evaluation type.
+
+          output_type: Boolean output type.
+
+          description: The description of the Metric.
+
+          guidelines: Guidelines for human evaluators.
+
+          name: The name of the Metric.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["heuristic"],
+        output_type: Literal["boolean"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        guidelines: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Heuristic-based evaluation type.
+
+          output_type: Boolean output type.
+
+          description: The description of the Metric.
+
+          guidelines: Optional guidelines for heuristic evaluation logic.
+
+          name: The name of the Metric.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @required_args(["eval_type", "output_type"])
+    async def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["ai"] | Literal["human"] | Literal["heuristic"],
+        output_type: Literal["int"] | Literal["boolean"],
+        description: Optional[str] | NotGiven = NOT_GIVEN,
+        eval_model_name: str | NotGiven = NOT_GIVEN,
+        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        passing_threshold: int | NotGiven = NOT_GIVEN,
+        prompt_template: str | NotGiven = NOT_GIVEN,
+        temperature: float | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> Metric:
+        if not metric_id:
+            raise ValueError(f"Expected a non-empty value for `metric_id` but received {metric_id!r}")
+        return cast(
+            Metric,
+            await self._patch(
+                f"/metrics/{metric_id}",
+                body=await async_maybe_transform(
+                    {
+                        "eval_type": eval_type,
+                        "output_type": output_type,
+                        "description": description,
+                        "eval_model_name": eval_model_name,
+                        "guidelines": guidelines,
+                        "name": name,
+                        "passing_threshold": passing_threshold,
+                        "prompt_template": prompt_template,
+                        "temperature": temperature,
+                    },
+                    metric_update_params.MetricUpdateParams,
+                ),
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(Any, Metric),  # Union types cannot be passed in as arguments in the type system
+            ),
+        )
+
 
 class MetricsResourceWithRawResponse:
     def __init__(self, metrics: MetricsResource) -> None:
@@ -718,6 +1424,9 @@ class MetricsResourceWithRawResponse:
 
         self.create = to_raw_response_wrapper(
             metrics.create,
+        )
+        self.update = to_raw_response_wrapper(
+            metrics.update,
         )
 
 
@@ -728,6 +1437,9 @@ class AsyncMetricsResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             metrics.create,
         )
+        self.update = async_to_raw_response_wrapper(
+            metrics.update,
+        )
 
 
 class MetricsResourceWithStreamingResponse:
@@ -737,6 +1449,9 @@ class MetricsResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             metrics.create,
         )
+        self.update = to_streamed_response_wrapper(
+            metrics.update,
+        )
 
 
 class AsyncMetricsResourceWithStreamingResponse:
@@ -745,4 +1460,7 @@ class AsyncMetricsResourceWithStreamingResponse:
 
         self.create = async_to_streamed_response_wrapper(
             metrics.create,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            metrics.update,
         )
