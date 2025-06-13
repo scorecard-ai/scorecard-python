@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.1.0 (2025-06-13)
+
+Full Changelog: [v2.0.0...v2.1.0](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0...v2.1.0)
+
+### Features
+
+* **api:** api update ([170af0b](https://github.com/scorecard-ai/scorecard-python/commit/170af0b39abe5188424bd2bab0e186e85d4bb8db))
+* **api:** api update ([2481dd6](https://github.com/scorecard-ai/scorecard-python/commit/2481dd69294191e48c2911ace4ffebe753d35d01))
+* **sdk:** Support Clerk API Keys in SDK ([b38f23a](https://github.com/scorecard-ai/scorecard-python/commit/b38f23a81f934331b528c918ac30444385078f66))
+
+
+### Bug Fixes
+
+* **client:** correctly parse binary response | stream ([84e32e8](https://github.com/scorecard-ai/scorecard-python/commit/84e32e8614afbad852d68a036f09742c7d0bc2d4))
+
+
+### Chores
+
+* **auth:** Add backwards-compatibility for bearer token auth ([ab40bf9](https://github.com/scorecard-ai/scorecard-python/commit/ab40bf9ddaee277d982055bce569f79b08c1d3af))
+* **internal:** version bump ([cff1e89](https://github.com/scorecard-ai/scorecard-python/commit/cff1e8930895827c110116300a95e1419f71a161))
+* **tests:** run tests in parallel ([b88cd20](https://github.com/scorecard-ai/scorecard-python/commit/b88cd203c7022ebdc6f4d9c0859a0c1f9dad845f))
+
 ## 2.0.0 (2025-06-10)
 
 Full Changelog: [v2.0.0-alpha.5...v2.0.0](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0-alpha.5...v2.0.0)
