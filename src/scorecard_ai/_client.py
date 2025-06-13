@@ -119,6 +119,8 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
             raise ScorecardError(
                 "The api_key client option must be set either by passing api_key to the client or by setting the SCORECARD_API_KEY environment variable"
             )
+        # Support both API keys (which start with 'ak_') and legacy JWT bearer tokens
+        api_key = api_key if not api_key or api_key.startswith("ak_") else f"Bearer {api_key}"
         self.api_key = api_key
 
         self._environment = environment
