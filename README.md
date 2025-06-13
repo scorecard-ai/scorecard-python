@@ -208,7 +208,7 @@ client = Scorecard()
 
 try:
     client.testsets.get(
-        "314",
+        "246",
     )
 except scorecard_ai.APIConnectionError as e:
     print("The server could not be reached")
@@ -253,7 +253,7 @@ client = Scorecard(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).testsets.get(
-    "314",
+    "246",
 )
 ```
 
@@ -278,7 +278,7 @@ client = Scorecard(
 
 # Override per-request:
 client.with_options(timeout=5.0).testsets.get(
-    "314",
+    "246",
 )
 ```
 
@@ -321,7 +321,7 @@ from scorecard_ai import Scorecard
 
 client = Scorecard()
 response = client.testsets.with_raw_response.get(
-    "314",
+    "246",
 )
 print(response.headers.get('X-My-Header'))
 
@@ -341,7 +341,7 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.testsets.with_streaming_response.get(
-    "314",
+    "246",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
