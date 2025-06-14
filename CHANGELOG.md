@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.2.0 (2025-06-14)
+
+Full Changelog: [v2.1.0...v2.2.0](https://github.com/scorecard-ai/scorecard-python/compare/v2.1.0...v2.2.0)
+
+### Features
+
+* **api:** api update ([79af4fe](https://github.com/scorecard-ai/scorecard-python/commit/79af4fe2ff1e557f1d17f62edd94f795c287094a))
+
+
+### Chores
+
+* **internal:** codegen related update ([332a067](https://github.com/scorecard-ai/scorecard-python/commit/332a0679e89bb9c6f3df862c4c5a66d7b7ff7b8a))
+
 ## 2.1.0 (2025-06-13)
 
 Full Changelog: [v2.0.0...v2.1.0](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0...v2.1.0)
