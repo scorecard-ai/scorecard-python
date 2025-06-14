@@ -160,7 +160,7 @@ class Scorecard(SyncAPIClient):
     @override
     def auth_headers(self) -> dict[str, str]:
         api_key = self.api_key
-        return {"Authorization": api_key}
+        return {"Authorization": f"Bearer {api_key}"}
 
     @property
     @override
@@ -368,7 +368,7 @@ class AsyncScorecard(AsyncAPIClient):
     @override
     def auth_headers(self) -> dict[str, str]:
         api_key = self.api_key
-        return {"Authorization": api_key}
+        return {"Authorization": f"Bearer {api_key}"}
 
     @property
     @override
