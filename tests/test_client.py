@@ -24,7 +24,6 @@ from pydantic import ValidationError
 from scorecard_ai import Scorecard, AsyncScorecard, APIResponseValidationError
 from scorecard_ai._types import Omit
 from scorecard_ai._models import BaseModel, FinalRequestOptions
-from scorecard_ai._constants import RAW_RESPONSE_HEADER
 from scorecard_ai._exceptions import APIStatusError, ScorecardError, APITimeoutError, APIResponseValidationError
 from scorecard_ai._base_client import (
     DEFAULT_TIMEOUT,
@@ -723,26 +722,21 @@ class TestScorecard:
 
     @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: Scorecard) -> None:
         respx_mock.get("/testsets/246").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            self.client.get(
-                "/testsets/246", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
-            )
+            client.testsets.with_streaming_response.get("246").__enter__()
 
         assert _get_open_connections(self.client) == 0
 
     @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: Scorecard) -> None:
         respx_mock.get("/testsets/246").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            self.client.get(
-                "/testsets/246", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
-            )
-
+            client.testsets.with_streaming_response.get("246").__enter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -1552,26 +1546,25 @@ class TestAsyncScorecard:
 
     @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    async def test_retrying_timeout_errors_doesnt_leak(
+        self, respx_mock: MockRouter, async_client: AsyncScorecard
+    ) -> None:
         respx_mock.get("/testsets/246").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await self.client.get(
-                "/testsets/246", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
-            )
+            await async_client.testsets.with_streaming_response.get("246").__aenter__()
 
         assert _get_open_connections(self.client) == 0
 
     @mock.patch("scorecard_ai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    async def test_retrying_status_errors_doesnt_leak(
+        self, respx_mock: MockRouter, async_client: AsyncScorecard
+    ) -> None:
         respx_mock.get("/testsets/246").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await self.client.get(
-                "/testsets/246", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
-            )
-
+            await async_client.testsets.with_streaming_response.get("246").__aenter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
