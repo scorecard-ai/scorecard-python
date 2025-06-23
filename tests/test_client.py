@@ -37,7 +37,7 @@ from scorecard_ai._base_client import (
 from .utils import update_env
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
-api_key = "ak_My API Key"
+api_key = "My API Key"
 
 
 def _get_params(client: BaseClient[Any, Any]) -> dict[str, str]:
@@ -85,9 +85,9 @@ class TestScorecard:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(api_key="ak_another My API Key")
-        assert copied.api_key == "ak_another My API Key"
-        assert self.client.api_key == "ak_My API Key"
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -895,9 +895,9 @@ class TestAsyncScorecard:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(api_key="ak_another My API Key")
-        assert copied.api_key == "ak_another My API Key"
-        assert self.client.api_key == "ak_My API Key"
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
