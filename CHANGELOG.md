@@ -1,5 +1,36 @@
 # Changelog
 
+## 2.2.0 (2025-06-24)
+
+Full Changelog: [v2.1.0...v2.2.0](https://github.com/scorecard-ai/scorecard-python/compare/v2.1.0...v2.2.0)
+
+### Features
+
+* **api:** api update ([79af4fe](https://github.com/scorecard-ai/scorecard-python/commit/79af4fe2ff1e557f1d17f62edd94f795c287094a))
+* **client:** add support for aiohttp ([d6bd45d](https://github.com/scorecard-ai/scorecard-python/commit/d6bd45ddd2ee2f3270c76271631313e057061f3a))
+
+
+### Bug Fixes
+
+* **auth:** Use bearer auth for API keys ([617d233](https://github.com/scorecard-ai/scorecard-python/commit/617d2332d38c14b7cc7261d7256dcbf2c0edbde4))
+* **tests:** fix: tests which call HTTP endpoints directly with the example parameters ([c572597](https://github.com/scorecard-ai/scorecard-python/commit/c572597f078e962d88b5f48c2ea8af55f71e16be))
+
+
+### Chores
+
+* **ci:** enable for pull requests ([35500a1](https://github.com/scorecard-ai/scorecard-python/commit/35500a1eec0133f0cb70364f23e497bd75363550))
+* **internal:** codegen related update ([88e8b62](https://github.com/scorecard-ai/scorecard-python/commit/88e8b6284e8ae486f8eb4b303aa76c5d82db3807))
+* **internal:** codegen related update ([332a067](https://github.com/scorecard-ai/scorecard-python/commit/332a0679e89bb9c6f3df862c4c5a66d7b7ff7b8a))
+* **internal:** update conftest.py ([5b724c8](https://github.com/scorecard-ai/scorecard-python/commit/5b724c89f9ed7c747ce963370a6ac21f58ed6d26))
+* **readme:** update badges ([dc4ba78](https://github.com/scorecard-ai/scorecard-python/commit/dc4ba78a4f38b2e787e6846f4eb4d3b928d2da80))
+* **tests:** add tests for httpx client instantiation & proxies ([b636d85](https://github.com/scorecard-ai/scorecard-python/commit/b636d8561196355f6d845ca1c8a35f7f44ebe402))
+* **tests:** skip some failing tests on the latest python versions ([b12904b](https://github.com/scorecard-ai/scorecard-python/commit/b12904b4a565ac07fc334d7d54d04aeb619e2e77))
+
+
+### Documentation
+
+* **client:** fix httpx.Timeout documentation reference ([2e7310b](https://github.com/scorecard-ai/scorecard-python/commit/2e7310b1087e14191d1f7341cdfafcf527f383cf))
+
 ## 2.1.0 (2025-06-13)
 
 Full Changelog: [v2.0.0...v2.1.0](https://github.com/scorecard-ai/scorecard-python/compare/v2.0.0...v2.1.0)
