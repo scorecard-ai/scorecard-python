@@ -6,7 +6,7 @@ from typing import Dict
 
 import httpx
 
-from ...types import system_list_params, system_create_params, system_update_params
+from ...types import system_list_params, system_update_params, system_upsert_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import maybe_transform, async_maybe_transform
 from .versions import (
@@ -57,87 +57,13 @@ class SystemsResource(SyncAPIResource):
         """
         return SystemsResourceWithStreamingResponse(self)
 
-    def create(
-        self,
-        project_id: str,
-        *,
-        config_schema: Dict[str, object],
-        description: str,
-        input_schema: Dict[str, object],
-        name: str,
-        output_schema: Dict[str, object],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> System:
-        """
-        Create a new system definition that specifies the interface contracts for a
-        component you want to evaluate.
-
-        A system acts as a template that defines three key contracts through JSON
-        Schemas:
-
-        1. Input Schema: What data your system accepts (e.g., user queries, context
-           documents)
-        2. Output Schema: What data your system produces (e.g., responses, confidence
-           scores)
-        3. Config Schema: What parameters can be adjusted (e.g., model selection,
-           temperature)
-
-        This separation lets you evaluate any system as a black box, focusing on its
-        interface rather than implementation details.
-
-        Args:
-          config_schema: The schema of the system's configuration.
-
-          description: The description of the system.
-
-          input_schema: The schema of the system's inputs.
-
-          name: The name of the system.
-
-          output_schema: The schema of the system's outputs.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not project_id:
-            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
-        return self._post(
-            f"/projects/{project_id}/systems",
-            body=maybe_transform(
-                {
-                    "config_schema": config_schema,
-                    "description": description,
-                    "input_schema": input_schema,
-                    "name": name,
-                    "output_schema": output_schema,
-                },
-                system_create_params.SystemCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=System,
-        )
-
     def update(
         self,
         system_id: str,
         *,
-        config_schema: Dict[str, object] | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
-        input_schema: Dict[str, object] | NotGiven = NOT_GIVEN,
         name: str | NotGiven = NOT_GIVEN,
-        output_schema: Dict[str, object] | NotGiven = NOT_GIVEN,
+        production_version_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -145,31 +71,18 @@ class SystemsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> System:
-        """Update an existing system definition.
+        """Update an existing system.
 
-        Only the fields provided in the request
-        body will be updated. If a field is provided, the new content will replace the
-        existing content. If a field is not provided, the existing content will remain
-        unchanged.
-
-        When updating schemas:
-
-        - The system will accept your changes regardless of compatibility with existing
-          configurations
-        - Schema updates won't invalidate existing evaluations or configurations
-        - For significant redesigns, creating a new system definition provides a cleaner
-          separation
+        Only the fields provided in the request body will be
+        updated. If a field is provided, the new content will replace the existing
+        content. If a field is not provided, the existing content will remain unchanged.
 
         Args:
-          config_schema: The schema of the system's configuration.
-
           description: The description of the system.
 
-          input_schema: The schema of the system's inputs.
+          name: The name of the system. Unique within the project.
 
-          name: The name of the system.
-
-          output_schema: The schema of the system's outputs.
+          production_version_id: The ID of the production version of the system.
 
           extra_headers: Send extra headers
 
@@ -185,11 +98,9 @@ class SystemsResource(SyncAPIResource):
             f"/systems/{system_id}",
             body=maybe_transform(
                 {
-                    "config_schema": config_schema,
                     "description": description,
-                    "input_schema": input_schema,
                     "name": name,
-                    "output_schema": output_schema,
+                    "production_version_id": production_version_id,
                 },
                 system_update_params.SystemUpdateParams,
             ),
@@ -320,6 +231,59 @@ class SystemsResource(SyncAPIResource):
             cast_to=System,
         )
 
+    def upsert(
+        self,
+        project_id: str,
+        *,
+        config: Dict[str, object],
+        description: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> System:
+        """Create a new system.
+
+        If one with the same name in the project exists, it updates
+        it instead.
+
+        Args:
+          config: The configuration of the system.
+
+          description: The description of the system.
+
+          name: The name of the system. Should be unique within the project. Default is "Default
+              system"
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
+        return self._post(
+            f"/projects/{project_id}/systems",
+            body=maybe_transform(
+                {
+                    "config": config,
+                    "description": description,
+                    "name": name,
+                },
+                system_upsert_params.SystemUpsertParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=System,
+        )
+
 
 class AsyncSystemsResource(AsyncAPIResource):
     @cached_property
@@ -345,87 +309,13 @@ class AsyncSystemsResource(AsyncAPIResource):
         """
         return AsyncSystemsResourceWithStreamingResponse(self)
 
-    async def create(
-        self,
-        project_id: str,
-        *,
-        config_schema: Dict[str, object],
-        description: str,
-        input_schema: Dict[str, object],
-        name: str,
-        output_schema: Dict[str, object],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> System:
-        """
-        Create a new system definition that specifies the interface contracts for a
-        component you want to evaluate.
-
-        A system acts as a template that defines three key contracts through JSON
-        Schemas:
-
-        1. Input Schema: What data your system accepts (e.g., user queries, context
-           documents)
-        2. Output Schema: What data your system produces (e.g., responses, confidence
-           scores)
-        3. Config Schema: What parameters can be adjusted (e.g., model selection,
-           temperature)
-
-        This separation lets you evaluate any system as a black box, focusing on its
-        interface rather than implementation details.
-
-        Args:
-          config_schema: The schema of the system's configuration.
-
-          description: The description of the system.
-
-          input_schema: The schema of the system's inputs.
-
-          name: The name of the system.
-
-          output_schema: The schema of the system's outputs.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not project_id:
-            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
-        return await self._post(
-            f"/projects/{project_id}/systems",
-            body=await async_maybe_transform(
-                {
-                    "config_schema": config_schema,
-                    "description": description,
-                    "input_schema": input_schema,
-                    "name": name,
-                    "output_schema": output_schema,
-                },
-                system_create_params.SystemCreateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=System,
-        )
-
     async def update(
         self,
         system_id: str,
         *,
-        config_schema: Dict[str, object] | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
-        input_schema: Dict[str, object] | NotGiven = NOT_GIVEN,
         name: str | NotGiven = NOT_GIVEN,
-        output_schema: Dict[str, object] | NotGiven = NOT_GIVEN,
+        production_version_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -433,31 +323,18 @@ class AsyncSystemsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> System:
-        """Update an existing system definition.
+        """Update an existing system.
 
-        Only the fields provided in the request
-        body will be updated. If a field is provided, the new content will replace the
-        existing content. If a field is not provided, the existing content will remain
-        unchanged.
-
-        When updating schemas:
-
-        - The system will accept your changes regardless of compatibility with existing
-          configurations
-        - Schema updates won't invalidate existing evaluations or configurations
-        - For significant redesigns, creating a new system definition provides a cleaner
-          separation
+        Only the fields provided in the request body will be
+        updated. If a field is provided, the new content will replace the existing
+        content. If a field is not provided, the existing content will remain unchanged.
 
         Args:
-          config_schema: The schema of the system's configuration.
-
           description: The description of the system.
 
-          input_schema: The schema of the system's inputs.
+          name: The name of the system. Unique within the project.
 
-          name: The name of the system.
-
-          output_schema: The schema of the system's outputs.
+          production_version_id: The ID of the production version of the system.
 
           extra_headers: Send extra headers
 
@@ -473,11 +350,9 @@ class AsyncSystemsResource(AsyncAPIResource):
             f"/systems/{system_id}",
             body=await async_maybe_transform(
                 {
-                    "config_schema": config_schema,
                     "description": description,
-                    "input_schema": input_schema,
                     "name": name,
-                    "output_schema": output_schema,
+                    "production_version_id": production_version_id,
                 },
                 system_update_params.SystemUpdateParams,
             ),
@@ -608,14 +483,64 @@ class AsyncSystemsResource(AsyncAPIResource):
             cast_to=System,
         )
 
+    async def upsert(
+        self,
+        project_id: str,
+        *,
+        config: Dict[str, object],
+        description: str | NotGiven = NOT_GIVEN,
+        name: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> System:
+        """Create a new system.
+
+        If one with the same name in the project exists, it updates
+        it instead.
+
+        Args:
+          config: The configuration of the system.
+
+          description: The description of the system.
+
+          name: The name of the system. Should be unique within the project. Default is "Default
+              system"
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
+        return await self._post(
+            f"/projects/{project_id}/systems",
+            body=await async_maybe_transform(
+                {
+                    "config": config,
+                    "description": description,
+                    "name": name,
+                },
+                system_upsert_params.SystemUpsertParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=System,
+        )
+
 
 class SystemsResourceWithRawResponse:
     def __init__(self, systems: SystemsResource) -> None:
         self._systems = systems
 
-        self.create = to_raw_response_wrapper(
-            systems.create,
-        )
         self.update = to_raw_response_wrapper(
             systems.update,
         )
@@ -628,6 +553,9 @@ class SystemsResourceWithRawResponse:
         self.get = to_raw_response_wrapper(
             systems.get,
         )
+        self.upsert = to_raw_response_wrapper(
+            systems.upsert,
+        )
 
     @cached_property
     def versions(self) -> VersionsResourceWithRawResponse:
@@ -638,9 +566,6 @@ class AsyncSystemsResourceWithRawResponse:
     def __init__(self, systems: AsyncSystemsResource) -> None:
         self._systems = systems
 
-        self.create = async_to_raw_response_wrapper(
-            systems.create,
-        )
         self.update = async_to_raw_response_wrapper(
             systems.update,
         )
@@ -653,6 +578,9 @@ class AsyncSystemsResourceWithRawResponse:
         self.get = async_to_raw_response_wrapper(
             systems.get,
         )
+        self.upsert = async_to_raw_response_wrapper(
+            systems.upsert,
+        )
 
     @cached_property
     def versions(self) -> AsyncVersionsResourceWithRawResponse:
@@ -663,9 +591,6 @@ class SystemsResourceWithStreamingResponse:
     def __init__(self, systems: SystemsResource) -> None:
         self._systems = systems
 
-        self.create = to_streamed_response_wrapper(
-            systems.create,
-        )
         self.update = to_streamed_response_wrapper(
             systems.update,
         )
@@ -678,6 +603,9 @@ class SystemsResourceWithStreamingResponse:
         self.get = to_streamed_response_wrapper(
             systems.get,
         )
+        self.upsert = to_streamed_response_wrapper(
+            systems.upsert,
+        )
 
     @cached_property
     def versions(self) -> VersionsResourceWithStreamingResponse:
@@ -688,9 +616,6 @@ class AsyncSystemsResourceWithStreamingResponse:
     def __init__(self, systems: AsyncSystemsResource) -> None:
         self._systems = systems
 
-        self.create = async_to_streamed_response_wrapper(
-            systems.create,
-        )
         self.update = async_to_streamed_response_wrapper(
             systems.update,
         )
@@ -702,6 +627,9 @@ class AsyncSystemsResourceWithStreamingResponse:
         )
         self.get = async_to_streamed_response_wrapper(
             systems.get,
+        )
+        self.upsert = async_to_streamed_response_wrapper(
+            systems.upsert,
         )
 
     @cached_property

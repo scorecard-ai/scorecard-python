@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Dict
 from typing_extensions import Annotated, TypedDict
 
 from .._utils import PropertyInfo
@@ -11,17 +10,11 @@ __all__ = ["SystemUpdateParams"]
 
 
 class SystemUpdateParams(TypedDict, total=False):
-    config_schema: Annotated[Dict[str, object], PropertyInfo(alias="configSchema")]
-    """The schema of the system's configuration."""
-
     description: str
     """The description of the system."""
 
-    input_schema: Annotated[Dict[str, object], PropertyInfo(alias="inputSchema")]
-    """The schema of the system's inputs."""
-
     name: str
-    """The name of the system."""
+    """The name of the system. Unique within the project."""
 
-    output_schema: Annotated[Dict[str, object], PropertyInfo(alias="outputSchema")]
-    """The schema of the system's outputs."""
+    production_version_id: Annotated[str, PropertyInfo(alias="productionVersionId")]
+    """The ID of the production version of the system."""
