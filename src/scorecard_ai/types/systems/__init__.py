@@ -3,5 +3,4 @@
 from __future__ import annotations
 
 from .system_version import SystemVersion as SystemVersion
-from .version_list_params import VersionListParams as VersionListParams
-from .version_create_params import VersionCreateParams as VersionCreateParams
+from .version_upsert_params import VersionUpsertParams as VersionUpsertParams
