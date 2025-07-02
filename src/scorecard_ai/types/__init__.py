@@ -19,8 +19,8 @@ from .testset_list_params import TestsetListParams as TestsetListParams
 from .metric_create_params import MetricCreateParams as MetricCreateParams
 from .metric_update_params import MetricUpdateParams as MetricUpdateParams
 from .record_create_params import RecordCreateParams as RecordCreateParams
-from .system_create_params import SystemCreateParams as SystemCreateParams
 from .system_update_params import SystemUpdateParams as SystemUpdateParams
+from .system_upsert_params import SystemUpsertParams as SystemUpsertParams
 from .testcase_list_params import TestcaseListParams as TestcaseListParams
 from .project_create_params import ProjectCreateParams as ProjectCreateParams
 from .testset_create_params import TestsetCreateParams as TestsetCreateParams
