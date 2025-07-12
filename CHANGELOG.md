@@ -1,5 +1,36 @@
 # Changelog
 
+## 3.0.0 (2025-07-12)
+
+Full Changelog: [v2.2.0...v3.0.0](https://github.com/scorecard-ai/scorecard-python/compare/v2.2.0...v3.0.0)
+
+### ⚠ BREAKING CHANGES
+
+* **systems:** Make systems easier to use in the SDK
+
+### Features
+
+* **systems:** Make systems easier to use in the SDK ([0f026d6](https://github.com/scorecard-ai/scorecard-python/commit/0f026d686db7945c2874e29dbc72ba9c0b01a12e))
+
+
+### Bug Fixes
+
+* **ci:** correct conditional ([59f3204](https://github.com/scorecard-ai/scorecard-python/commit/59f320491f8496019b40747412aa8b45c7b1384a))
+* **ci:** release-doctor — report correct token name ([2ff8123](https://github.com/scorecard-ai/scorecard-python/commit/2ff8123d4950b3a283f7b220d1dcadd64717a0b2))
+* **client:** don't send Content-Type header on GET requests ([3563441](https://github.com/scorecard-ai/scorecard-python/commit/35634414ce120650ea80249a268ebd35ac73ced4))
+* **parsing:** correctly handle nested discriminated unions ([4cb4d6f](https://github.com/scorecard-ai/scorecard-python/commit/4cb4d6f3dc42b4fc8c2ae517e1c63c82cf2a3ec3))
+
+
+### Chores
+
+* **ci:** change upload type ([4a3022a](https://github.com/scorecard-ai/scorecard-python/commit/4a3022a467edb5f4864a4aee7bbbeca8e6c1d45b))
+* **ci:** only run for pushes and fork pull requests ([d3674a3](https://github.com/scorecard-ai/scorecard-python/commit/d3674a30ad0b7647ab8e69cf09df5e1e48c7f7ac))
+* **internal:** bump pinned h11 dep ([f412d95](https://github.com/scorecard-ai/scorecard-python/commit/f412d953611fd569f2e48c447a4ae3981b711a7b))
+* **internal:** codegen related update ([a46bb96](https://github.com/scorecard-ai/scorecard-python/commit/a46bb96dee38e9238ead066564d72459149c9e68))
+* **internal:** codegen related update ([2e2e4f0](https://github.com/scorecard-ai/scorecard-python/commit/2e2e4f0b2cd33c9d47ceece9eb7d986feef1fb0f))
+* **package:** mark python 3.13 as supported ([32a41c5](https://github.com/scorecard-ai/scorecard-python/commit/32a41c5605d848a6c3be35345281b455b66f674e))
+* **readme:** fix version rendering on pypi ([cc77b2d](https://github.com/scorecard-ai/scorecard-python/commit/cc77b2d36ec9e6f52da7716e46a27dffc57f984e))
+
 ## 2.2.0 (2025-06-24)
 
 Full Changelog: [v2.1.0...v2.2.0](https://github.com/scorecard-ai/scorecard-python/compare/v2.1.0...v2.2.0)
