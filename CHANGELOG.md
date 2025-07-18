@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.1.0 (2025-07-18)
+
+Full Changelog: [v3.0.0...v3.1.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.0.0...v3.1.0)
+
+### Features
+
+* clean up environment call outs ([da50a3a](https://github.com/scorecard-ai/scorecard-python/commit/da50a3a72f278d6a8c01d14fecc6adccb87b4512))
+
 ## 3.0.0 (2025-07-12)
 
 Full Changelog: [v2.2.0...v3.0.0](https://github.com/scorecard-ai/scorecard-python/compare/v2.2.0...v3.0.0)
