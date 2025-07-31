@@ -1,5 +1,25 @@
 # Changelog
 
+## 3.1.0 (2025-07-31)
+
+Full Changelog: [v3.0.0...v3.1.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.0.0...v3.1.0)
+
+### Features
+
+* clean up environment call outs ([da50a3a](https://github.com/scorecard-ai/scorecard-python/commit/da50a3a72f278d6a8c01d14fecc6adccb87b4512))
+* **client:** support file upload requests ([89bf1f3](https://github.com/scorecard-ai/scorecard-python/commit/89bf1f3a8d7e4e837c193bd2e86ec1c4924d1e02))
+
+
+### Bug Fixes
+
+* **parsing:** ignore empty metadata ([00a1102](https://github.com/scorecard-ai/scorecard-python/commit/00a1102b80f4cd313e49b47c5f85885f74e95578))
+* **parsing:** parse extra field types ([48a8a2f](https://github.com/scorecard-ai/scorecard-python/commit/48a8a2f178986cdca3bea5084e3e71f96a22073f))
+
+
+### Chores
+
+* **project:** add settings file for vscode ([398d1ec](https://github.com/scorecard-ai/scorecard-python/commit/398d1ecdec735a25cb862f5ab9b9696d9bccc5b5))
+
 ## 3.0.0 (2025-07-12)
 
 Full Changelog: [v2.2.0...v3.0.0](https://github.com/scorecard-ai/scorecard-python/compare/v2.2.0...v3.0.0)
