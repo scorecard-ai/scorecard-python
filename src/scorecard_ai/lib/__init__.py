@@ -3,6 +3,9 @@ from ._helpers import (
     async_run_and_evaluate as async_run_and_evaluate,
 )
 from ._multi_turn_simulation import (
+    StopCheck as StopCheck,
+    StopChecks as StopChecks,
     ChatMessage as ChatMessage,
+    ConversationInfo as ConversationInfo,
     multi_turn_simulation as multi_turn_simulation,
 )
