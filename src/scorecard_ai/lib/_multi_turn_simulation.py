@@ -92,7 +92,7 @@ class StopChecks:
     @staticmethod
     def content(stop_phrases: List[str]) -> StopCheck:
         """
-        End the simulation when a given substring appears anywhere in the conversation, case-insensitive.
+        End the simulation when a given substring appears in the conversation, case-insensitive.
 
         ```python
         # End the simulation when any stop words appear in the conversation
@@ -148,7 +148,7 @@ class StopChecks:
         return lambda info: any(criterion(info) for criterion in criteria)
 
 
-MAX_TURNS = 50
+MAX_TURNS = 100
 
 
 def _run_simulation(
@@ -173,11 +173,12 @@ def _run_simulation(
 
     start_time = time.time()
 
-    # This turn count is twice the number of turns (because it is system plus agent)
-    for turn_count in range(MAX_TURNS):
+    # A full turn consists of one system response and one agent response.
+    # The loop iterates up to MAX_TURNS half-turns to prevent infinite loops.
+    for turn_index in range(MAX_TURNS):
         conversation_info = ConversationInfo(
             messages=messages,
-            turn_count=turn_count // 2,
+            turn_count=turn_index // 2,
             is_system_turn=is_system_turn,
             time_elapsed=time.time() - start_time,
         )
@@ -275,7 +276,9 @@ def multi_turn_simulation(
     for testcase in client.testcases.list(testset_id):
         messages = _run_simulation(
             client,
-            initial_messages=initial_messages or [],
+            initial_messages=(
+                [] if isinstance(initial_messages, NotGiven) else initial_messages
+            ),
             system=system,
             start_with_system=start_with_system,
             sim_agent_version_id=system_version_id,
