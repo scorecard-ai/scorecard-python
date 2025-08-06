@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.2.1 (2025-08-06)
+
+Full Changelog: [v3.2.0...v3.2.1](https://github.com/scorecard-ai/scorecard-python/compare/v3.2.0...v3.2.1)
+
+### Bug Fixes
+
+* **simulation:** Allow initial_messages to be a callable ([96d8781](https://github.com/scorecard-ai/scorecard-python/commit/96d87816274ac17ca45fbea9bbcb0d1bb83ea30d))
+
+
+### Chores
+
+* **internal:** fix ruff target version ([c4585ae](https://github.com/scorecard-ai/scorecard-python/commit/c4585ae52d4e6f56cd888840c1f4e0945cd384aa))
+
 ## 3.2.0 (2025-08-06)
 
 Full Changelog: [v3.1.0...v3.2.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.1.0...v3.2.0)
