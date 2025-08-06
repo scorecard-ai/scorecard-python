@@ -47,7 +47,9 @@ class ConversationInfo(TypedDict):
     """
     turn_count: int
     """
-    Number of turns in the conversation. One turn is a system plus agent.
+    Number of turns in the conversation.
+    One turn is a system call plus simulated agent call.
+    Does not count the initial messages as turns.
     """
     is_system_turn: bool
     """
@@ -80,13 +82,15 @@ class StopChecks:
     @staticmethod
     def max_turns(max_turns: int) -> StopCheck:
         """
-        End the simulation after a given number of turns.
+        End the simulation after a given number of turns, not including any initial messages.
 
         ```python
         # Stop after 5 turns
         stop_check = StopChecks.max_turns(5)
         ```
         """
+        if max_turns <= 0:
+            raise ValueError("max_turns must be positive")
         return lambda info: info["turn_count"] >= max_turns
 
     @staticmethod
@@ -174,18 +178,21 @@ def _run_simulation(
     start_time = time.time()
 
     # A full turn consists of one system response and one agent response.
-    # The loop iterates up to MAX_TURNS half-turns to prevent infinite loops.
+    # The loop iterates up to MAX_TURNS half-turns to prevent infinite conversation loops.
     for turn_index in range(MAX_TURNS):
-        conversation_info = ConversationInfo(
-            messages=messages,
-            turn_count=turn_index // 2,
-            is_system_turn=is_system_turn,
-            time_elapsed=time.time() - start_time,
-        )
-
-        if stop_check(conversation_info):
-            # End the simulation early
+        stop_check_start_time = time.time()
+        if stop_check(
+            ConversationInfo(
+                messages=list(messages),
+                turn_count=turn_index // 2,
+                is_system_turn=is_system_turn,
+                time_elapsed=stop_check_start_time - start_time,
+            )
+        ):
+            # End the simulation
             break
+        # Do not count the time spent in the stop check towards the simulation's time
+        start_time += time.time() - stop_check_start_time
 
         if is_system_turn:
             # Call the system function
@@ -224,7 +231,9 @@ def multi_turn_simulation(
     testset_id: str,
     sim_agent_id: str,
     system: Callable[[List[ChatMessage], SystemInput], Iterable[str | ChatMessage]],
-    initial_messages: NotGivenOr[List[ChatMessage]] = NOT_GIVEN,
+    initial_messages: NotGivenOr[
+        List[ChatMessage] | Callable[[SystemInput], List[ChatMessage]]
+    ] = NOT_GIVEN,
     start_with_system: NotGivenOr[bool] = NOT_GIVEN,
     stop_check: StopCheck = DEFAULT_STOP_CHECK,
 ) -> RunResponse:
@@ -248,8 +257,9 @@ def multi_turn_simulation(
             more assistant/tool messages to append when it is the system's turn.
             The second argument is the Testcase's inputs.
 
-        initial_messages: Optional ChatMessages that seed every conversation
-            before simulation begins.
+        initial_messages: ChatMessages that seed a conversation
+            before simulation begins. If a callable, it will be called with the
+            Testcase's inputs to get the initial messages.
 
         start_with_system: If provided, forces each conversation to start with
             the system's turn (`True`) or with the simulated agent (`False`).
@@ -274,11 +284,17 @@ def multi_turn_simulation(
 
     # Run each Testcase sequentially
     for testcase in client.testcases.list(testset_id):
+        starting_messages: list[ChatMessage]
+        if isinstance(initial_messages, NotGiven):
+            starting_messages = []
+        elif callable(initial_messages):
+            starting_messages = initial_messages(testcase.inputs)
+        else:
+            starting_messages = initial_messages
+
         messages = _run_simulation(
             client,
-            initial_messages=(
-                [] if isinstance(initial_messages, NotGiven) else initial_messages
-            ),
+            initial_messages=starting_messages,
             system=system,
             start_with_system=start_with_system,
             sim_agent_version_id=system_version_id,
