@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.2.0 (2025-08-06)
+
+Full Changelog: [v3.1.0...v3.2.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.1.0...v3.2.0)
+
+### Features
+
+* Add multi-turn simulation helper ([ea2f8eb](https://github.com/scorecard-ai/scorecard-python/commit/ea2f8eb15496dfa2ee3c1b8f11bf8df97714a7ca))
+* Allow stopping the conversation with custom stop checks ([a4a836e](https://github.com/scorecard-ai/scorecard-python/commit/a4a836e8b9633a48f2c5e597c0f003544fef7d75))
+
+
+### Bug Fixes
+
+* Handle unspecified initial_messages in multi_turn_simulation ([403af47](https://github.com/scorecard-ai/scorecard-python/commit/403af47c1f70b36feded94c23aeb312fd308118e))
+
 ## 3.1.0 (2025-07-31)
 
 Full Changelog: [v3.0.0...v3.1.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.0.0...v3.1.0)
