@@ -5,14 +5,19 @@ Multi-turn simulation.
 from __future__ import annotations
 
 import time
-from typing import List, Literal, Callable, TypedDict
+from typing import Dict, List, Tuple, Literal, Callable, TypedDict
 from collections.abc import Iterable
 
 import httpx
 
 from scorecard_ai import Scorecard
 from scorecard_ai._types import NOT_GIVEN, NotGiven, NotGivenOr
-from scorecard_ai.lib._helpers import RunResponse, SystemInput, _get_run_url
+from scorecard_ai.lib._helpers import (
+    RunResponse,
+    SystemInput,
+    SystemOutput,
+    _get_run_url,
+)
 from scorecard_ai.types.testcase import Testcase
 
 
@@ -159,15 +164,20 @@ def _run_simulation(
     client: Scorecard,
     *,
     initial_messages: List[ChatMessage],
-    system: Callable[[List[ChatMessage], SystemInput], Iterable[str | ChatMessage]],
+    system: Callable[
+        [List[ChatMessage], SystemInput],
+        List[str | ChatMessage] | Tuple[List[str | ChatMessage], SystemOutput],
+    ],
     start_with_system: NotGivenOr[bool],
     sim_agent_version_id: str,
     testcase: Testcase,
     stop_check: StopCheck,
-) -> List[ChatMessage]:
+) -> Tuple[List[ChatMessage], Dict[str, SystemOutput]]:
     """
     Runs a single simulation for a Scorecard Testcase.
     """
+    other_output: Dict[str, SystemOutput] = {}
+
     messages = list(initial_messages)
     is_system_turn: bool
     if isinstance(start_with_system, NotGiven):
@@ -196,7 +206,14 @@ def _run_simulation(
 
         if is_system_turn:
             # Call the system function
-            for system_response in system(messages, testcase.inputs):
+            system_result = system(messages, testcase.inputs)
+            system_responses: List[str | ChatMessage]
+            if isinstance(system_result, tuple):
+                system_responses = system_result[0]
+                other_output[f"turn_{turn_index // 2}"] = system_result[1]
+            else:
+                system_responses = system_result
+            for system_response in system_responses:
                 if isinstance(system_response, str):
                     messages.append(
                         ChatMessage(role="assistant", content=system_response)
@@ -217,7 +234,7 @@ def _run_simulation(
             messages.extend(response.json()["messages"])
         is_system_turn = not is_system_turn
 
-    return messages
+    return messages, other_output
 
 
 DEFAULT_STOP_CHECK = StopChecks.max_turns(5)
@@ -230,7 +247,10 @@ def multi_turn_simulation(
     metric_ids: List[str],
     testset_id: str,
     sim_agent_id: str,
-    system: Callable[[List[ChatMessage], SystemInput], Iterable[str | ChatMessage]],
+    system: Callable[
+        [List[ChatMessage], SystemInput],
+        List[str | ChatMessage] | Tuple[List[str | ChatMessage], SystemOutput],
+    ],
     initial_messages: NotGivenOr[
         List[ChatMessage] | Callable[[SystemInput], List[ChatMessage]]
     ] = NOT_GIVEN,
@@ -292,7 +312,7 @@ def multi_turn_simulation(
         else:
             starting_messages = initial_messages
 
-        messages = _run_simulation(
+        messages, other_output = _run_simulation(
             client,
             initial_messages=starting_messages,
             system=system,
@@ -306,7 +326,7 @@ def multi_turn_simulation(
             testcase_id=testcase.id,
             inputs=testcase.inputs,
             expected=testcase.expected,
-            outputs={"messages": messages},
+            outputs={"messages": messages, **other_output},
         )
 
     return RunResponse(
