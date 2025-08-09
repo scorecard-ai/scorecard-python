@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.2.2 (2025-08-09)
+
+Full Changelog: [v3.2.1...v3.2.2](https://github.com/scorecard-ai/scorecard-python/compare/v3.2.1...v3.2.2)
+
+### Chores
+
+* **internal:** update comment in script ([0d65747](https://github.com/scorecard-ai/scorecard-python/commit/0d657475b0da00b35efb4e1812b0dbf6d91dfd5a))
+* update @stainless-api/prism-cli to v5.15.0 ([345ac7a](https://github.com/scorecard-ai/scorecard-python/commit/345ac7a7c89a36f1b440dfaf35295d1bf73817e1))
+
 ## 3.2.1 (2025-08-06)
 
 Full Changelog: [v3.2.0...v3.2.1](https://github.com/scorecard-ai/scorecard-python/compare/v3.2.0...v3.2.1)
