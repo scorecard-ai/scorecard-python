@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import Dict
 from typing_extensions import Required, Annotated, TypedDict
 
+from .._types import SequenceNotStr
 from .._utils import PropertyInfo
 
 __all__ = ["TestsetUpdateParams", "FieldMapping"]
@@ -28,11 +29,11 @@ class TestsetUpdateParams(TypedDict, total=False):
 
 
 class FieldMapping(TypedDict, total=False):
-    expected: Required[List[str]]
+    expected: Required[SequenceNotStr[str]]
     """Fields that represent expected outputs."""
 
-    inputs: Required[List[str]]
+    inputs: Required[SequenceNotStr[str]]
     """Fields that represent inputs to the AI system."""
 
-    metadata: Required[List[str]]
+    metadata: Required[SequenceNotStr[str]]
     """Fields that are not inputs or expected outputs."""
