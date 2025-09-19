@@ -7,7 +7,7 @@ from typing import Dict
 import httpx
 
 from ..types import testset_list_params, testset_create_params, testset_update_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -60,7 +60,7 @@ class TestsetsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Testset:
         """Create a new Testset for a Project.
 
@@ -108,16 +108,16 @@ class TestsetsResource(SyncAPIResource):
         self,
         testset_id: str,
         *,
-        description: str | NotGiven = NOT_GIVEN,
-        field_mapping: testset_update_params.FieldMapping | NotGiven = NOT_GIVEN,
-        json_schema: Dict[str, object] | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        field_mapping: testset_update_params.FieldMapping | Omit = omit,
+        json_schema: Dict[str, object] | Omit = omit,
+        name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Testset:
         """Update a Testset.
 
@@ -175,14 +175,14 @@ class TestsetsResource(SyncAPIResource):
         self,
         project_id: str,
         *,
-        cursor: str | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncPaginatedResponse[Testset]:
         """
         Retrieve a paginated list of Testsets belonging to a Project.
@@ -232,7 +232,7 @@ class TestsetsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TestsetDeleteResponse:
         """
         Delete Testset
@@ -265,7 +265,7 @@ class TestsetsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Testset:
         """
         Get Testset
@@ -323,7 +323,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Testset:
         """Create a new Testset for a Project.
 
@@ -371,16 +371,16 @@ class AsyncTestsetsResource(AsyncAPIResource):
         self,
         testset_id: str,
         *,
-        description: str | NotGiven = NOT_GIVEN,
-        field_mapping: testset_update_params.FieldMapping | NotGiven = NOT_GIVEN,
-        json_schema: Dict[str, object] | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        field_mapping: testset_update_params.FieldMapping | Omit = omit,
+        json_schema: Dict[str, object] | Omit = omit,
+        name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Testset:
         """Update a Testset.
 
@@ -438,14 +438,14 @@ class AsyncTestsetsResource(AsyncAPIResource):
         self,
         project_id: str,
         *,
-        cursor: str | NotGiven = NOT_GIVEN,
-        limit: int | NotGiven = NOT_GIVEN,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[Testset, AsyncPaginatedResponse[Testset]]:
         """
         Retrieve a paginated list of Testsets belonging to a Project.
@@ -495,7 +495,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TestsetDeleteResponse:
         """
         Delete Testset
@@ -528,7 +528,7 @@ class AsyncTestsetsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Testset:
         """
         Get Testset
