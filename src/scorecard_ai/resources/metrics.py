@@ -8,7 +8,7 @@ from typing_extensions import Literal, overload
 import httpx
 
 from ..types import metric_create_params, metric_update_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -53,17 +53,17 @@ class MetricsResource(SyncAPIResource):
         name: str,
         output_type: Literal["int"],
         prompt_template: str,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        passing_threshold: int | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -108,15 +108,15 @@ class MetricsResource(SyncAPIResource):
         eval_type: Literal["human"],
         name: str,
         output_type: Literal["int"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -154,15 +154,15 @@ class MetricsResource(SyncAPIResource):
         eval_type: Literal["heuristic"],
         name: str,
         output_type: Literal["int"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -201,16 +201,16 @@ class MetricsResource(SyncAPIResource):
         name: str,
         output_type: Literal["boolean"],
         prompt_template: str,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -253,14 +253,14 @@ class MetricsResource(SyncAPIResource):
         eval_type: Literal["human"],
         name: str,
         output_type: Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -296,14 +296,14 @@ class MetricsResource(SyncAPIResource):
         eval_type: Literal["heuristic"],
         name: str,
         output_type: Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -339,18 +339,18 @@ class MetricsResource(SyncAPIResource):
         eval_type: Literal["ai"] | Literal["human"] | Literal["heuristic"],
         name: str,
         output_type: Literal["int"] | Literal["boolean"],
-        prompt_template: str | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        prompt_template: str | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | str | Omit = omit,
+        passing_threshold: int | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
@@ -386,19 +386,19 @@ class MetricsResource(SyncAPIResource):
         *,
         eval_type: Literal["ai"],
         output_type: Literal["int"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
-        prompt_template: str | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
+        prompt_template: str | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -443,16 +443,16 @@ class MetricsResource(SyncAPIResource):
         *,
         eval_type: Literal["human"],
         output_type: Literal["int"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -490,16 +490,16 @@ class MetricsResource(SyncAPIResource):
         *,
         eval_type: Literal["heuristic"],
         output_type: Literal["int"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -537,18 +537,18 @@ class MetricsResource(SyncAPIResource):
         *,
         eval_type: Literal["ai"],
         output_type: Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        prompt_template: str | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        name: str | Omit = omit,
+        prompt_template: str | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -591,15 +591,15 @@ class MetricsResource(SyncAPIResource):
         *,
         eval_type: Literal["human"],
         output_type: Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -635,15 +635,15 @@ class MetricsResource(SyncAPIResource):
         *,
         eval_type: Literal["heuristic"],
         output_type: Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -679,19 +679,19 @@ class MetricsResource(SyncAPIResource):
         *,
         eval_type: Literal["ai"] | Literal["human"] | Literal["heuristic"],
         output_type: Literal["int"] | Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | str | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
-        prompt_template: str | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | str | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
+        prompt_template: str | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         if not metric_id:
             raise ValueError(f"Expected a non-empty value for `metric_id` but received {metric_id!r}")
@@ -750,17 +750,17 @@ class AsyncMetricsResource(AsyncAPIResource):
         name: str,
         output_type: Literal["int"],
         prompt_template: str,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        passing_threshold: int | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -805,15 +805,15 @@ class AsyncMetricsResource(AsyncAPIResource):
         eval_type: Literal["human"],
         name: str,
         output_type: Literal["int"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -851,15 +851,15 @@ class AsyncMetricsResource(AsyncAPIResource):
         eval_type: Literal["heuristic"],
         name: str,
         output_type: Literal["int"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -898,16 +898,16 @@ class AsyncMetricsResource(AsyncAPIResource):
         name: str,
         output_type: Literal["boolean"],
         prompt_template: str,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -950,14 +950,14 @@ class AsyncMetricsResource(AsyncAPIResource):
         eval_type: Literal["human"],
         name: str,
         output_type: Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -993,14 +993,14 @@ class AsyncMetricsResource(AsyncAPIResource):
         eval_type: Literal["heuristic"],
         name: str,
         output_type: Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Create a new Metric for evaluating system outputs.
 
@@ -1036,18 +1036,18 @@ class AsyncMetricsResource(AsyncAPIResource):
         eval_type: Literal["ai"] | Literal["human"] | Literal["heuristic"],
         name: str,
         output_type: Literal["int"] | Literal["boolean"],
-        prompt_template: str | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        prompt_template: str | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | str | Omit = omit,
+        passing_threshold: int | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
@@ -1083,19 +1083,19 @@ class AsyncMetricsResource(AsyncAPIResource):
         *,
         eval_type: Literal["ai"],
         output_type: Literal["int"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
-        prompt_template: str | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
+        prompt_template: str | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -1140,16 +1140,16 @@ class AsyncMetricsResource(AsyncAPIResource):
         *,
         eval_type: Literal["human"],
         output_type: Literal["int"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -1187,16 +1187,16 @@ class AsyncMetricsResource(AsyncAPIResource):
         *,
         eval_type: Literal["heuristic"],
         output_type: Literal["int"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -1234,18 +1234,18 @@ class AsyncMetricsResource(AsyncAPIResource):
         *,
         eval_type: Literal["ai"],
         output_type: Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        prompt_template: str | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        name: str | Omit = omit,
+        prompt_template: str | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -1288,15 +1288,15 @@ class AsyncMetricsResource(AsyncAPIResource):
         *,
         eval_type: Literal["human"],
         output_type: Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -1332,15 +1332,15 @@ class AsyncMetricsResource(AsyncAPIResource):
         *,
         eval_type: Literal["heuristic"],
         output_type: Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        guidelines: str | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         """Update an existing Metric.
 
@@ -1376,19 +1376,19 @@ class AsyncMetricsResource(AsyncAPIResource):
         *,
         eval_type: Literal["ai"] | Literal["human"] | Literal["heuristic"],
         output_type: Literal["int"] | Literal["boolean"],
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        eval_model_name: str | NotGiven = NOT_GIVEN,
-        guidelines: Optional[str] | str | NotGiven = NOT_GIVEN,
-        name: str | NotGiven = NOT_GIVEN,
-        passing_threshold: int | NotGiven = NOT_GIVEN,
-        prompt_template: str | NotGiven = NOT_GIVEN,
-        temperature: float | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | str | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: int | Omit = omit,
+        prompt_template: str | Omit = omit,
+        temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Metric:
         if not metric_id:
             raise ValueError(f"Expected a non-empty value for `metric_id` but received {metric_id!r}")
