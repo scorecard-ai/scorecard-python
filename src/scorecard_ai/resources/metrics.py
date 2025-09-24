@@ -199,6 +199,154 @@ class MetricsResource(SyncAPIResource):
         *,
         eval_type: Literal["ai"],
         name: str,
+        output_type: Literal["float"],
+        prompt_template: str,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        temperature: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
+
+        Args:
+          eval_type: AI-based evaluation type.
+
+          name: The name of the Metric.
+
+          output_type: Float output type (0-1).
+
+          prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
+              dynamic content.
+
+          description: The description of the Metric.
+
+          eval_model_name: The AI model to use for evaluation.
+
+          guidelines: Guidelines for AI evaluation on how to score the metric.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          temperature: The temperature for AI evaluation (0-2).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        project_id: str,
+        *,
+        eval_type: Literal["human"],
+        name: str,
+        output_type: Literal["float"],
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
+
+        Args:
+          eval_type: Human-based evaluation type.
+
+          name: The name of the Metric.
+
+          output_type: Float output type (0-1).
+
+          description: The description of the Metric.
+
+          guidelines: Guidelines for human evaluators.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        project_id: str,
+        *,
+        eval_type: Literal["heuristic"],
+        name: str,
+        output_type: Literal["float"],
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
+
+        Args:
+          eval_type: Heuristic-based evaluation type.
+
+          name: The name of the Metric.
+
+          output_type: Float output type (0-1).
+
+          description: The description of the Metric.
+
+          guidelines: Optional guidelines for heuristic evaluation logic.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def create(
+        self,
+        project_id: str,
+        *,
+        eval_type: Literal["ai"],
+        name: str,
         output_type: Literal["boolean"],
         prompt_template: str,
         description: Optional[str] | Omit = omit,
@@ -338,12 +486,12 @@ class MetricsResource(SyncAPIResource):
         *,
         eval_type: Literal["ai"] | Literal["human"] | Literal["heuristic"],
         name: str,
-        output_type: Literal["int"] | Literal["boolean"],
+        output_type: Literal["int"] | Literal["float"] | Literal["boolean"],
         prompt_template: str | Omit = omit,
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
         guidelines: Optional[str] | str | Omit = omit,
-        passing_threshold: int | Omit = omit,
+        passing_threshold: int | float | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -536,6 +684,157 @@ class MetricsResource(SyncAPIResource):
         metric_id: str,
         *,
         eval_type: Literal["ai"],
+        output_type: Literal["float"],
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        prompt_template: str | Omit = omit,
+        temperature: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: AI-based evaluation type.
+
+          output_type: Float output type (0-1).
+
+          description: The description of the Metric.
+
+          eval_model_name: The AI model to use for evaluation.
+
+          guidelines: Guidelines for AI evaluation on how to score the metric.
+
+          name: The name of the Metric.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
+              dynamic content.
+
+          temperature: The temperature for AI evaluation (0-2).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["human"],
+        output_type: Literal["float"],
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Human-based evaluation type.
+
+          output_type: Float output type (0-1).
+
+          description: The description of the Metric.
+
+          guidelines: Guidelines for human evaluators.
+
+          name: The name of the Metric.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["heuristic"],
+        output_type: Literal["float"],
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Heuristic-based evaluation type.
+
+          output_type: Float output type (0-1).
+
+          description: The description of the Metric.
+
+          guidelines: Optional guidelines for heuristic evaluation logic.
+
+          name: The name of the Metric.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["ai"],
         output_type: Literal["boolean"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
@@ -678,12 +977,12 @@ class MetricsResource(SyncAPIResource):
         metric_id: str,
         *,
         eval_type: Literal["ai"] | Literal["human"] | Literal["heuristic"],
-        output_type: Literal["int"] | Literal["boolean"],
+        output_type: Literal["int"] | Literal["float"] | Literal["boolean"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
         guidelines: Optional[str] | str | Omit = omit,
         name: str | Omit = omit,
-        passing_threshold: int | Omit = omit,
+        passing_threshold: int | float | Omit = omit,
         prompt_template: str | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -896,6 +1195,154 @@ class AsyncMetricsResource(AsyncAPIResource):
         *,
         eval_type: Literal["ai"],
         name: str,
+        output_type: Literal["float"],
+        prompt_template: str,
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        temperature: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
+
+        Args:
+          eval_type: AI-based evaluation type.
+
+          name: The name of the Metric.
+
+          output_type: Float output type (0-1).
+
+          prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
+              dynamic content.
+
+          description: The description of the Metric.
+
+          eval_model_name: The AI model to use for evaluation.
+
+          guidelines: Guidelines for AI evaluation on how to score the metric.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          temperature: The temperature for AI evaluation (0-2).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        project_id: str,
+        *,
+        eval_type: Literal["human"],
+        name: str,
+        output_type: Literal["float"],
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
+
+        Args:
+          eval_type: Human-based evaluation type.
+
+          name: The name of the Metric.
+
+          output_type: Float output type (0-1).
+
+          description: The description of the Metric.
+
+          guidelines: Guidelines for human evaluators.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        project_id: str,
+        *,
+        eval_type: Literal["heuristic"],
+        name: str,
+        output_type: Literal["float"],
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Create a new Metric for evaluating system outputs.
+
+        The structure of a metric
+        depends on the evalType and outputType of the metric.
+
+        Args:
+          eval_type: Heuristic-based evaluation type.
+
+          name: The name of the Metric.
+
+          output_type: Float output type (0-1).
+
+          description: The description of the Metric.
+
+          guidelines: Optional guidelines for heuristic evaluation logic.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def create(
+        self,
+        project_id: str,
+        *,
+        eval_type: Literal["ai"],
+        name: str,
         output_type: Literal["boolean"],
         prompt_template: str,
         description: Optional[str] | Omit = omit,
@@ -1035,12 +1482,12 @@ class AsyncMetricsResource(AsyncAPIResource):
         *,
         eval_type: Literal["ai"] | Literal["human"] | Literal["heuristic"],
         name: str,
-        output_type: Literal["int"] | Literal["boolean"],
+        output_type: Literal["int"] | Literal["float"] | Literal["boolean"],
         prompt_template: str | Omit = omit,
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
         guidelines: Optional[str] | str | Omit = omit,
-        passing_threshold: int | Omit = omit,
+        passing_threshold: int | float | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1233,6 +1680,157 @@ class AsyncMetricsResource(AsyncAPIResource):
         metric_id: str,
         *,
         eval_type: Literal["ai"],
+        output_type: Literal["float"],
+        description: Optional[str] | Omit = omit,
+        eval_model_name: str | Omit = omit,
+        guidelines: Optional[str] | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        prompt_template: str | Omit = omit,
+        temperature: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: AI-based evaluation type.
+
+          output_type: Float output type (0-1).
+
+          description: The description of the Metric.
+
+          eval_model_name: The AI model to use for evaluation.
+
+          guidelines: Guidelines for AI evaluation on how to score the metric.
+
+          name: The name of the Metric.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
+              dynamic content.
+
+          temperature: The temperature for AI evaluation (0-2).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["human"],
+        output_type: Literal["float"],
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Human-based evaluation type.
+
+          output_type: Float output type (0-1).
+
+          description: The description of the Metric.
+
+          guidelines: Guidelines for human evaluators.
+
+          name: The name of the Metric.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["heuristic"],
+        output_type: Literal["float"],
+        description: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
+        name: str | Omit = omit,
+        passing_threshold: float | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """Update an existing Metric.
+
+        You must specify the evalType and outputType of the
+        metric. The structure of a metric depends on the evalType and outputType of the
+        metric.
+
+        Args:
+          eval_type: Heuristic-based evaluation type.
+
+          output_type: Float output type (0-1).
+
+          description: The description of the Metric.
+
+          guidelines: Optional guidelines for heuristic evaluation logic.
+
+          name: The name of the Metric.
+
+          passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        ...
+
+    @overload
+    async def update(
+        self,
+        metric_id: str,
+        *,
+        eval_type: Literal["ai"],
         output_type: Literal["boolean"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
@@ -1375,12 +1973,12 @@ class AsyncMetricsResource(AsyncAPIResource):
         metric_id: str,
         *,
         eval_type: Literal["ai"] | Literal["human"] | Literal["heuristic"],
-        output_type: Literal["int"] | Literal["boolean"],
+        output_type: Literal["int"] | Literal["float"] | Literal["boolean"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
         guidelines: Optional[str] | str | Omit = omit,
         name: str | Omit = omit,
-        passing_threshold: int | Omit = omit,
+        passing_threshold: int | float | Omit = omit,
         prompt_template: str | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
