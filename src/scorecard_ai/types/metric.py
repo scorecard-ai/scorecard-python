@@ -12,6 +12,9 @@ __all__ = [
     "AIIntMetric",
     "HumanIntMetric",
     "HeuristicIntMetric",
+    "AIFloatMetric",
+    "HumanFloatMetric",
+    "HeuristicFloatMetric",
     "AIBooleanMetric",
     "HumanBooleanMetric",
     "HeuristicBooleanMetric",
@@ -99,6 +102,87 @@ class HeuristicIntMetric(BaseModel):
     """Optional guidelines for heuristic evaluation logic."""
 
 
+class AIFloatMetric(BaseModel):
+    id: str
+    """The ID of the Metric."""
+
+    description: Optional[str] = None
+    """The description of the Metric."""
+
+    eval_model_name: str = FieldInfo(alias="evalModelName")
+    """The AI model to use for evaluation."""
+
+    eval_type: Literal["ai"] = FieldInfo(alias="evalType")
+    """AI-based evaluation type."""
+
+    guidelines: Optional[str] = None
+    """Guidelines for AI evaluation on how to score the metric."""
+
+    name: str
+    """The name of the Metric."""
+
+    output_type: Literal["float"] = FieldInfo(alias="outputType")
+    """Float output type (0-1)."""
+
+    passing_threshold: float = FieldInfo(alias="passingThreshold")
+    """Threshold for determining pass/fail from float scores (0.0-1.0)."""
+
+    prompt_template: str = FieldInfo(alias="promptTemplate")
+    """The complete prompt template for AI evaluation.
+
+    Should include placeholders for dynamic content.
+    """
+
+    temperature: float
+    """The temperature for AI evaluation (0-2)."""
+
+
+class HumanFloatMetric(BaseModel):
+    id: str
+    """The ID of the Metric."""
+
+    description: Optional[str] = None
+    """The description of the Metric."""
+
+    eval_type: Literal["human"] = FieldInfo(alias="evalType")
+    """Human-based evaluation type."""
+
+    name: str
+    """The name of the Metric."""
+
+    output_type: Literal["float"] = FieldInfo(alias="outputType")
+    """Float output type (0-1)."""
+
+    passing_threshold: float = FieldInfo(alias="passingThreshold")
+    """Threshold for determining pass/fail from float scores (0.0-1.0)."""
+
+    guidelines: Optional[str] = None
+    """Guidelines for human evaluators."""
+
+
+class HeuristicFloatMetric(BaseModel):
+    id: str
+    """The ID of the Metric."""
+
+    description: Optional[str] = None
+    """The description of the Metric."""
+
+    eval_type: Literal["heuristic"] = FieldInfo(alias="evalType")
+    """Heuristic-based evaluation type."""
+
+    name: str
+    """The name of the Metric."""
+
+    output_type: Literal["float"] = FieldInfo(alias="outputType")
+    """Float output type (0-1)."""
+
+    passing_threshold: float = FieldInfo(alias="passingThreshold")
+    """Threshold for determining pass/fail from float scores (0.0-1.0)."""
+
+    guidelines: Optional[str] = None
+    """Optional guidelines for heuristic evaluation logic."""
+
+
 class AIBooleanMetric(BaseModel):
     id: str
     """The ID of the Metric."""
@@ -172,5 +256,13 @@ class HeuristicBooleanMetric(BaseModel):
 
 
 Metric: TypeAlias = Union[
-    AIIntMetric, HumanIntMetric, HeuristicIntMetric, AIBooleanMetric, HumanBooleanMetric, HeuristicBooleanMetric
+    AIIntMetric,
+    HumanIntMetric,
+    HeuristicIntMetric,
+    AIFloatMetric,
+    HumanFloatMetric,
+    HeuristicFloatMetric,
+    AIBooleanMetric,
+    HumanBooleanMetric,
+    HeuristicBooleanMetric,
 ]
