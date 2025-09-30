@@ -11,6 +11,7 @@ from .system import System as System
 from .project import Project as Project
 from .testset import Testset as Testset
 from .testcase import Testcase as Testcase
+from .run_list_params import RunListParams as RunListParams
 from .run_create_params import RunCreateParams as RunCreateParams
 from .system_list_params import SystemListParams as SystemListParams
 from .project_list_params import ProjectListParams as ProjectListParams
