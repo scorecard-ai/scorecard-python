@@ -60,6 +60,8 @@ from scorecard_ai.types import Run
 Methods:
 
 - <code title="post /projects/{projectId}/runs">client.runs.<a href="./src/scorecard_ai/resources/runs.py">create</a>(project_id, \*\*<a href="src/scorecard_ai/types/run_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/run.py">Run</a></code>
+- <code title="get /projects/{projectId}/runs">client.runs.<a href="./src/scorecard_ai/resources/runs.py">list</a>(project_id, \*\*<a href="src/scorecard_ai/types/run_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/run.py">SyncPaginatedResponse[Run]</a></code>
+- <code title="get /runs/{runId}">client.runs.<a href="./src/scorecard_ai/resources/runs.py">get</a>(run_id) -> <a href="./src/scorecard_ai/types/run.py">Run</a></code>
 
 # Metrics
 
