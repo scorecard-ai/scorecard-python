@@ -13,6 +13,7 @@ from .testset import Testset as Testset
 from .testcase import Testcase as Testcase
 from .run_list_params import RunListParams as RunListParams
 from .run_create_params import RunCreateParams as RunCreateParams
+from .metric_list_params import MetricListParams as MetricListParams
 from .system_list_params import SystemListParams as SystemListParams
 from .project_list_params import ProjectListParams as ProjectListParams
 from .score_upsert_params import ScoreUpsertParams as ScoreUpsertParams

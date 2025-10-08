@@ -43,7 +43,7 @@ class AIIntMetric(TypedDict, total=False):
     eval_model_name: Annotated[str, PropertyInfo(alias="evalModelName")]
     """The AI model to use for evaluation."""
 
-    guidelines: Optional[str]
+    guidelines: str
     """Guidelines for AI evaluation on how to score the metric."""
 
     passing_threshold: Annotated[int, PropertyInfo(alias="passingThreshold")]
@@ -87,7 +87,7 @@ class HeuristicIntMetric(TypedDict, total=False):
     """The description of the Metric."""
 
     guidelines: str
-    """Optional guidelines for heuristic evaluation logic."""
+    """Guidelines for heuristic evaluation logic."""
 
     passing_threshold: Annotated[int, PropertyInfo(alias="passingThreshold")]
     """The threshold for determining pass/fail from integer scores (1-5)."""
@@ -115,7 +115,7 @@ class AIFloatMetric(TypedDict, total=False):
     eval_model_name: Annotated[str, PropertyInfo(alias="evalModelName")]
     """The AI model to use for evaluation."""
 
-    guidelines: Optional[str]
+    guidelines: str
     """Guidelines for AI evaluation on how to score the metric."""
 
     passing_threshold: Annotated[float, PropertyInfo(alias="passingThreshold")]
@@ -159,7 +159,7 @@ class HeuristicFloatMetric(TypedDict, total=False):
     """The description of the Metric."""
 
     guidelines: str
-    """Optional guidelines for heuristic evaluation logic."""
+    """Guidelines for heuristic evaluation logic."""
 
     passing_threshold: Annotated[float, PropertyInfo(alias="passingThreshold")]
     """Threshold for determining pass/fail from float scores (0.0-1.0)."""
@@ -187,7 +187,7 @@ class AIBooleanMetric(TypedDict, total=False):
     eval_model_name: Annotated[str, PropertyInfo(alias="evalModelName")]
     """The AI model to use for evaluation."""
 
-    guidelines: Optional[str]
+    guidelines: str
     """Guidelines for AI evaluation on how to score the metric."""
 
     temperature: float
@@ -225,7 +225,7 @@ class HeuristicBooleanMetric(TypedDict, total=False):
     """The description of the Metric."""
 
     guidelines: str
-    """Optional guidelines for heuristic evaluation logic."""
+    """Guidelines for heuristic evaluation logic."""
 
 
 MetricCreateParams: TypeAlias = Union[

@@ -7,7 +7,7 @@ from typing_extensions import Literal, overload
 
 import httpx
 
-from ..types import metric_create_params, metric_update_params
+from ..types import metric_list_params, metric_create_params, metric_update_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -18,7 +18,8 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
+from ..pagination import SyncPaginatedResponse, AsyncPaginatedResponse
+from .._base_client import AsyncPaginator, make_request_options
 from ..types.metric import Metric
 
 __all__ = ["MetricsResource", "AsyncMetricsResource"]
@@ -55,7 +56,7 @@ class MetricsResource(SyncAPIResource):
         prompt_template: str,
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         passing_threshold: int | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -178,7 +179,7 @@ class MetricsResource(SyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
 
@@ -203,7 +204,7 @@ class MetricsResource(SyncAPIResource):
         prompt_template: str,
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         passing_threshold: float | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -326,7 +327,7 @@ class MetricsResource(SyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
 
@@ -351,7 +352,7 @@ class MetricsResource(SyncAPIResource):
         prompt_template: str,
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -467,7 +468,7 @@ class MetricsResource(SyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           extra_headers: Send extra headers
 
@@ -490,7 +491,7 @@ class MetricsResource(SyncAPIResource):
         prompt_template: str | Omit = omit,
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | str | Omit = omit,
+        guidelines: str | Omit = omit,
         passing_threshold: int | float | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -536,7 +537,7 @@ class MetricsResource(SyncAPIResource):
         output_type: Literal["int"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         name: str | Omit = omit,
         passing_threshold: int | Omit = omit,
         prompt_template: str | Omit = omit,
@@ -662,7 +663,7 @@ class MetricsResource(SyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           name: The name of the Metric.
 
@@ -687,7 +688,7 @@ class MetricsResource(SyncAPIResource):
         output_type: Literal["float"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         name: str | Omit = omit,
         passing_threshold: float | Omit = omit,
         prompt_template: str | Omit = omit,
@@ -813,7 +814,7 @@ class MetricsResource(SyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           name: The name of the Metric.
 
@@ -838,7 +839,7 @@ class MetricsResource(SyncAPIResource):
         output_type: Literal["boolean"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         name: str | Omit = omit,
         prompt_template: str | Omit = omit,
         temperature: float | Omit = omit,
@@ -957,7 +958,7 @@ class MetricsResource(SyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           name: The name of the Metric.
 
@@ -980,7 +981,7 @@ class MetricsResource(SyncAPIResource):
         output_type: Literal["int"] | Literal["float"] | Literal["boolean"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | str | Omit = omit,
+        guidelines: str | Omit = omit,
         name: str | Omit = omit,
         passing_threshold: int | float | Omit = omit,
         prompt_template: str | Omit = omit,
@@ -1012,6 +1013,96 @@ class MetricsResource(SyncAPIResource):
                     },
                     metric_update_params.MetricUpdateParams,
                 ),
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(Any, Metric),  # Union types cannot be passed in as arguments in the type system
+            ),
+        )
+
+    def list(
+        self,
+        project_id: str,
+        *,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SyncPaginatedResponse[Metric]:
+        """List Metrics configured for the specified Project.
+
+        Metrics are returned in
+        reverse chronological order.
+
+        Args:
+          cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get
+              the next page of results.
+
+          limit: Maximum number of items to return (1-100). Use with `cursor` for pagination
+              through large sets.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
+        return self._get_api_list(
+            f"/projects/{project_id}/metrics",
+            page=SyncPaginatedResponse[Metric],
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "limit": limit,
+                    },
+                    metric_list_params.MetricListParams,
+                ),
+            ),
+            model=cast(Any, Metric),  # Union types cannot be passed in as arguments in the type system
+        )
+
+    def get(
+        self,
+        metric_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """
+        Retrieve a specific Metric by ID.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not metric_id:
+            raise ValueError(f"Expected a non-empty value for `metric_id` but received {metric_id!r}")
+        return cast(
+            Metric,
+            self._get(
+                f"/metrics/{metric_id}",
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
@@ -1051,7 +1142,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         prompt_template: str,
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         passing_threshold: int | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1174,7 +1265,7 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
 
@@ -1199,7 +1290,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         prompt_template: str,
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         passing_threshold: float | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1322,7 +1413,7 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
 
@@ -1347,7 +1438,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         prompt_template: str,
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -1463,7 +1554,7 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           extra_headers: Send extra headers
 
@@ -1486,7 +1577,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         prompt_template: str | Omit = omit,
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | str | Omit = omit,
+        guidelines: str | Omit = omit,
         passing_threshold: int | float | Omit = omit,
         temperature: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1532,7 +1623,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         output_type: Literal["int"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         name: str | Omit = omit,
         passing_threshold: int | Omit = omit,
         prompt_template: str | Omit = omit,
@@ -1658,7 +1749,7 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           name: The name of the Metric.
 
@@ -1683,7 +1774,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         output_type: Literal["float"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         name: str | Omit = omit,
         passing_threshold: float | Omit = omit,
         prompt_template: str | Omit = omit,
@@ -1809,7 +1900,7 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           name: The name of the Metric.
 
@@ -1834,7 +1925,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         output_type: Literal["boolean"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | Omit = omit,
+        guidelines: str | Omit = omit,
         name: str | Omit = omit,
         prompt_template: str | Omit = omit,
         temperature: float | Omit = omit,
@@ -1953,7 +2044,7 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           description: The description of the Metric.
 
-          guidelines: Optional guidelines for heuristic evaluation logic.
+          guidelines: Guidelines for heuristic evaluation logic.
 
           name: The name of the Metric.
 
@@ -1976,7 +2067,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         output_type: Literal["int"] | Literal["float"] | Literal["boolean"],
         description: Optional[str] | Omit = omit,
         eval_model_name: str | Omit = omit,
-        guidelines: Optional[str] | str | Omit = omit,
+        guidelines: str | Omit = omit,
         name: str | Omit = omit,
         passing_threshold: int | float | Omit = omit,
         prompt_template: str | Omit = omit,
@@ -2015,6 +2106,96 @@ class AsyncMetricsResource(AsyncAPIResource):
             ),
         )
 
+    def list(
+        self,
+        project_id: str,
+        *,
+        cursor: str | Omit = omit,
+        limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> AsyncPaginator[Metric, AsyncPaginatedResponse[Metric]]:
+        """List Metrics configured for the specified Project.
+
+        Metrics are returned in
+        reverse chronological order.
+
+        Args:
+          cursor: Cursor for pagination. Pass the `nextCursor` from the previous response to get
+              the next page of results.
+
+          limit: Maximum number of items to return (1-100). Use with `cursor` for pagination
+              through large sets.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not project_id:
+            raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
+        return self._get_api_list(
+            f"/projects/{project_id}/metrics",
+            page=AsyncPaginatedResponse[Metric],
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "cursor": cursor,
+                        "limit": limit,
+                    },
+                    metric_list_params.MetricListParams,
+                ),
+            ),
+            model=cast(Any, Metric),  # Union types cannot be passed in as arguments in the type system
+        )
+
+    async def get(
+        self,
+        metric_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Metric:
+        """
+        Retrieve a specific Metric by ID.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not metric_id:
+            raise ValueError(f"Expected a non-empty value for `metric_id` but received {metric_id!r}")
+        return cast(
+            Metric,
+            await self._get(
+                f"/metrics/{metric_id}",
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(Any, Metric),  # Union types cannot be passed in as arguments in the type system
+            ),
+        )
+
 
 class MetricsResourceWithRawResponse:
     def __init__(self, metrics: MetricsResource) -> None:
@@ -2025,6 +2206,12 @@ class MetricsResourceWithRawResponse:
         )
         self.update = to_raw_response_wrapper(
             metrics.update,
+        )
+        self.list = to_raw_response_wrapper(
+            metrics.list,
+        )
+        self.get = to_raw_response_wrapper(
+            metrics.get,
         )
 
 
@@ -2038,6 +2225,12 @@ class AsyncMetricsResourceWithRawResponse:
         self.update = async_to_raw_response_wrapper(
             metrics.update,
         )
+        self.list = async_to_raw_response_wrapper(
+            metrics.list,
+        )
+        self.get = async_to_raw_response_wrapper(
+            metrics.get,
+        )
 
 
 class MetricsResourceWithStreamingResponse:
@@ -2050,6 +2243,12 @@ class MetricsResourceWithStreamingResponse:
         self.update = to_streamed_response_wrapper(
             metrics.update,
         )
+        self.list = to_streamed_response_wrapper(
+            metrics.list,
+        )
+        self.get = to_streamed_response_wrapper(
+            metrics.get,
+        )
 
 
 class AsyncMetricsResourceWithStreamingResponse:
@@ -2061,4 +2260,10 @@ class AsyncMetricsResourceWithStreamingResponse:
         )
         self.update = async_to_streamed_response_wrapper(
             metrics.update,
+        )
+        self.list = async_to_streamed_response_wrapper(
+            metrics.list,
+        )
+        self.get = async_to_streamed_response_wrapper(
+            metrics.get,
         )
