@@ -34,7 +34,7 @@ class AIIntMetric(BaseModel):
     eval_type: Literal["ai"] = FieldInfo(alias="evalType")
     """AI-based evaluation type."""
 
-    guidelines: Optional[str] = None
+    guidelines: str
     """Guidelines for AI evaluation on how to score the metric."""
 
     name: str
@@ -66,6 +66,9 @@ class HumanIntMetric(BaseModel):
     eval_type: Literal["human"] = FieldInfo(alias="evalType")
     """Human-based evaluation type."""
 
+    guidelines: str
+    """Guidelines for human evaluators."""
+
     name: str
     """The name of the Metric."""
 
@@ -74,9 +77,6 @@ class HumanIntMetric(BaseModel):
 
     passing_threshold: int = FieldInfo(alias="passingThreshold")
     """The threshold for determining pass/fail from integer scores (1-5)."""
-
-    guidelines: Optional[str] = None
-    """Guidelines for human evaluators."""
 
 
 class HeuristicIntMetric(BaseModel):
@@ -89,6 +89,9 @@ class HeuristicIntMetric(BaseModel):
     eval_type: Literal["heuristic"] = FieldInfo(alias="evalType")
     """Heuristic-based evaluation type."""
 
+    guidelines: str
+    """Guidelines for heuristic evaluation logic."""
+
     name: str
     """The name of the Metric."""
 
@@ -97,9 +100,6 @@ class HeuristicIntMetric(BaseModel):
 
     passing_threshold: int = FieldInfo(alias="passingThreshold")
     """The threshold for determining pass/fail from integer scores (1-5)."""
-
-    guidelines: Optional[str] = None
-    """Optional guidelines for heuristic evaluation logic."""
 
 
 class AIFloatMetric(BaseModel):
@@ -115,7 +115,7 @@ class AIFloatMetric(BaseModel):
     eval_type: Literal["ai"] = FieldInfo(alias="evalType")
     """AI-based evaluation type."""
 
-    guidelines: Optional[str] = None
+    guidelines: str
     """Guidelines for AI evaluation on how to score the metric."""
 
     name: str
@@ -147,6 +147,9 @@ class HumanFloatMetric(BaseModel):
     eval_type: Literal["human"] = FieldInfo(alias="evalType")
     """Human-based evaluation type."""
 
+    guidelines: str
+    """Guidelines for human evaluators."""
+
     name: str
     """The name of the Metric."""
 
@@ -155,9 +158,6 @@ class HumanFloatMetric(BaseModel):
 
     passing_threshold: float = FieldInfo(alias="passingThreshold")
     """Threshold for determining pass/fail from float scores (0.0-1.0)."""
-
-    guidelines: Optional[str] = None
-    """Guidelines for human evaluators."""
 
 
 class HeuristicFloatMetric(BaseModel):
@@ -170,6 +170,9 @@ class HeuristicFloatMetric(BaseModel):
     eval_type: Literal["heuristic"] = FieldInfo(alias="evalType")
     """Heuristic-based evaluation type."""
 
+    guidelines: str
+    """Guidelines for heuristic evaluation logic."""
+
     name: str
     """The name of the Metric."""
 
@@ -178,9 +181,6 @@ class HeuristicFloatMetric(BaseModel):
 
     passing_threshold: float = FieldInfo(alias="passingThreshold")
     """Threshold for determining pass/fail from float scores (0.0-1.0)."""
-
-    guidelines: Optional[str] = None
-    """Optional guidelines for heuristic evaluation logic."""
 
 
 class AIBooleanMetric(BaseModel):
@@ -196,7 +196,7 @@ class AIBooleanMetric(BaseModel):
     eval_type: Literal["ai"] = FieldInfo(alias="evalType")
     """AI-based evaluation type."""
 
-    guidelines: Optional[str] = None
+    guidelines: str
     """Guidelines for AI evaluation on how to score the metric."""
 
     name: str
@@ -225,14 +225,14 @@ class HumanBooleanMetric(BaseModel):
     eval_type: Literal["human"] = FieldInfo(alias="evalType")
     """Human-based evaluation type."""
 
+    guidelines: str
+    """Guidelines for human evaluators."""
+
     name: str
     """The name of the Metric."""
 
     output_type: Literal["boolean"] = FieldInfo(alias="outputType")
     """Boolean output type."""
-
-    guidelines: Optional[str] = None
-    """Guidelines for human evaluators."""
 
 
 class HeuristicBooleanMetric(BaseModel):
@@ -245,14 +245,14 @@ class HeuristicBooleanMetric(BaseModel):
     eval_type: Literal["heuristic"] = FieldInfo(alias="evalType")
     """Heuristic-based evaluation type."""
 
+    guidelines: str
+    """Guidelines for heuristic evaluation logic."""
+
     name: str
     """The name of the Metric."""
 
     output_type: Literal["boolean"] = FieldInfo(alias="outputType")
     """Boolean output type."""
-
-    guidelines: Optional[str] = None
-    """Optional guidelines for heuristic evaluation logic."""
 
 
 Metric: TypeAlias = Union[

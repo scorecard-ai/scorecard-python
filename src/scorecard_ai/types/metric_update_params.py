@@ -34,7 +34,7 @@ class AIIntMetric(TypedDict, total=False):
     eval_model_name: Annotated[str, PropertyInfo(alias="evalModelName")]
     """The AI model to use for evaluation."""
 
-    guidelines: Optional[str]
+    guidelines: str
     """Guidelines for AI evaluation on how to score the metric."""
 
     name: str
@@ -84,7 +84,7 @@ class HeuristicIntMetric(TypedDict, total=False):
     """The description of the Metric."""
 
     guidelines: str
-    """Optional guidelines for heuristic evaluation logic."""
+    """Guidelines for heuristic evaluation logic."""
 
     name: str
     """The name of the Metric."""
@@ -106,7 +106,7 @@ class AIFloatMetric(TypedDict, total=False):
     eval_model_name: Annotated[str, PropertyInfo(alias="evalModelName")]
     """The AI model to use for evaluation."""
 
-    guidelines: Optional[str]
+    guidelines: str
     """Guidelines for AI evaluation on how to score the metric."""
 
     name: str
@@ -156,7 +156,7 @@ class HeuristicFloatMetric(TypedDict, total=False):
     """The description of the Metric."""
 
     guidelines: str
-    """Optional guidelines for heuristic evaluation logic."""
+    """Guidelines for heuristic evaluation logic."""
 
     name: str
     """The name of the Metric."""
@@ -178,7 +178,7 @@ class AIBooleanMetric(TypedDict, total=False):
     eval_model_name: Annotated[str, PropertyInfo(alias="evalModelName")]
     """The AI model to use for evaluation."""
 
-    guidelines: Optional[str]
+    guidelines: str
     """Guidelines for AI evaluation on how to score the metric."""
 
     name: str
@@ -222,7 +222,7 @@ class HeuristicBooleanMetric(TypedDict, total=False):
     """The description of the Metric."""
 
     guidelines: str
-    """Optional guidelines for heuristic evaluation logic."""
+    """Guidelines for heuristic evaluation logic."""
 
     name: str
     """The name of the Metric."""
