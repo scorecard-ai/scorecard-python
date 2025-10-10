@@ -5,18 +5,26 @@ Helper functions for the Scorecard AI library.
 from __future__ import annotations
 
 import asyncio
-from typing import Any, Dict, List, Callable, Coroutine
+from typing import Any, Dict, List, TypeVar, Callable, Coroutine
 from collections.abc import Generator, AsyncGenerator
 from typing_extensions import TypedDict
 
 from scorecard_ai import Scorecard, AsyncScorecard
-from scorecard_ai._types import NOT_GIVEN, NotGiven
+from scorecard_ai._types import NOT_GIVEN, Omit, NotGiven, omit
 from scorecard_ai.types.record import Record
 from scorecard_ai.types.testcase import Testcase
 from scorecard_ai.types.systems.system_version import SystemVersion
 
 SystemInput = Dict[str, Any]
 SystemOutput = Dict[str, Any]
+_T = TypeVar("_T")
+
+
+def _omit_if_not_given(value: _T | NotGiven) -> _T | Omit:
+    """
+    Converts NotGiven sentinel to Omit sentinel for API calls.
+    """
+    return omit if isinstance(value, NotGiven) else value
 
 
 class SimpleTestcase(TypedDict):
@@ -50,9 +58,7 @@ def _transform_testcase(testcase: Testcase | SimpleTestcase) -> _SimpleTestcaseW
         )
 
 
-def _get_run_url(
-    scorecard: Scorecard | AsyncScorecard, project_id: str, run_id: str
-) -> str:
+def _get_run_url(scorecard: Scorecard | AsyncScorecard, project_id: str, run_id: str) -> str:
     return f"{scorecard.base_app_url}/projects/{project_id}/runs/{run_id}"
 
 
@@ -110,24 +116,19 @@ def run_and_evaluate(
     elif not isinstance(testcases, NotGiven):
         testcase_iter = (_transform_testcase(testcase) for testcase in testcases)
     elif not isinstance(testset_id, NotGiven):
-        testcase_iter = (
-            _transform_testcase(testcase)
-            for testcase in client.testcases.list(testset_id)
-        )
+        testcase_iter = (_transform_testcase(testcase) for testcase in client.testcases.list(testset_id))
     else:
         raise ValueError("testcases or testset_id must be provided")
 
     run = client.runs.create(
         project_id=project_id,
-        testset_id=testset_id,
+        testset_id=_omit_if_not_given(testset_id),
         metric_ids=metric_ids,
-        system_version_id=system_version_id,
+        system_version_id=_omit_if_not_given(system_version_id),
     )
 
     system_version: SystemVersion | None = (
-        client.systems.versions.get(system_version_id)
-        if not isinstance(system_version_id, NotGiven)
-        else None
+        client.systems.versions.get(system_version_id) if not isinstance(system_version_id, NotGiven) else None
     )
 
     # Run each Testcase sequentially
@@ -136,7 +137,7 @@ def run_and_evaluate(
             model_response = system(testcase["inputs"], system_version)
             client.records.create(
                 run_id=run.id,
-                testcase_id=testcase["id"],
+                testcase_id=_omit_if_not_given(testcase["id"]),
                 inputs=testcase["inputs"],
                 expected=testcase["expected"],
                 outputs=model_response,
@@ -181,33 +182,25 @@ async def async_run_and_evaluate(
     if trials <= 0:
         raise ValueError("trials must be positive")
 
-    testcase_iter: (
-        Generator[_SimpleTestcaseWithId, None, None]
-        | AsyncGenerator[_SimpleTestcaseWithId, None]
-    )
+    testcase_iter: Generator[_SimpleTestcaseWithId, None, None] | AsyncGenerator[_SimpleTestcaseWithId, None]
     if not isinstance(testcases, NotGiven) and not isinstance(testset_id, NotGiven):
         raise ValueError("testcases and testset_id cannot both be provided")
     elif not isinstance(testcases, NotGiven):
         testcase_iter = (_transform_testcase(testcase) for testcase in testcases)
     elif not isinstance(testset_id, NotGiven):
-        testcase_iter = (
-            _transform_testcase(testcase)
-            async for testcase in client.testcases.list(testset_id)
-        )
+        testcase_iter = (_transform_testcase(testcase) async for testcase in client.testcases.list(testset_id))
     else:
         raise ValueError("testcases or testset_id must be provided")
 
     run = await client.runs.create(
         project_id=project_id,
-        testset_id=testset_id,
+        testset_id=_omit_if_not_given(testset_id),
         metric_ids=metric_ids,
-        system_version_id=system_version_id,
+        system_version_id=_omit_if_not_given(system_version_id),
     )
 
     system_version: SystemVersion | None = (
-        await client.systems.versions.get(system_version_id)
-        if not isinstance(system_version_id, NotGiven)
-        else None
+        await client.systems.versions.get(system_version_id) if not isinstance(system_version_id, NotGiven) else None
     )
 
     def run_testcase(
@@ -216,7 +209,7 @@ async def async_run_and_evaluate(
         model_response = system(testcase["inputs"], system_version)
         return client.records.create(
             run_id=run.id,
-            testcase_id=testcase["id"],
+            testcase_id=_omit_if_not_given(testcase["id"]),
             inputs=testcase["inputs"],
             expected=testcase["expected"],
             outputs=model_response,
@@ -224,20 +217,8 @@ async def async_run_and_evaluate(
 
     # Create a Record for each Testcase
     if isinstance(testcase_iter, AsyncGenerator):
-        await asyncio.gather(
-            *[
-                run_testcase(testcase)
-                async for testcase in testcase_iter
-                for _ in range(trials)
-            ]
-        )
+        await asyncio.gather(*[run_testcase(testcase) async for testcase in testcase_iter for _ in range(trials)])
     else:
-        await asyncio.gather(
-            *[
-                run_testcase(testcase)
-                for testcase in testcase_iter
-                for _ in range(trials)
-            ]
-        )
+        await asyncio.gather(*[run_testcase(testcase) for testcase in testcase_iter for _ in range(trials)])
 
     return RunResponse(id=run.id, url=_get_run_url(client, project_id, run.id))

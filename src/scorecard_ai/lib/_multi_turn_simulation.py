@@ -11,7 +11,7 @@ from collections.abc import Iterable
 import httpx
 
 from scorecard_ai import Scorecard
-from scorecard_ai._types import NOT_GIVEN, NotGiven, NotGivenOr
+from scorecard_ai._types import NOT_GIVEN, NotGiven
 from scorecard_ai.lib._helpers import RunResponse, SystemInput, _get_run_url
 from scorecard_ai.types.testcase import Testcase
 
@@ -105,8 +105,7 @@ class StopChecks:
         """
         phrases = set(phrase.lower() for phrase in stop_phrases)
         return lambda info: any(
-            any(phrase in message["content"].lower() for phrase in phrases)
-            for message in info["messages"]
+            any(phrase in message["content"].lower() for phrase in phrases) for message in info["messages"]
         )
 
     @staticmethod
@@ -128,10 +127,12 @@ class StopChecks:
 
         ```python
         # Stop after at least 5 turns and 20 seconds (whichever comes later)
-        stop_check = StopChecks.all([
-            StopChecks.max_turns(5),
-            StopChecks.max_time(20),
-        ])
+        stop_check = StopChecks.all(
+            [
+                StopChecks.max_turns(5),
+                StopChecks.max_time(20),
+            ]
+        )
         ```
         """
         return lambda info: all(criterion(info) for criterion in criteria)
@@ -143,10 +144,12 @@ class StopChecks:
 
         ```python
         # Stop after 5 turns or 20 seconds (whichever comes first)
-        stop_check = StopChecks.any([
-            StopChecks.max_turns(5),
-            StopChecks.max_time(10),
-        ])
+        stop_check = StopChecks.any(
+            [
+                StopChecks.max_turns(5),
+                StopChecks.max_time(10),
+            ]
+        )
         ```
         """
         return lambda info: any(criterion(info) for criterion in criteria)
@@ -160,7 +163,7 @@ def _run_simulation(
     *,
     initial_messages: List[ChatMessage],
     system: Callable[[List[ChatMessage], SystemInput], Iterable[str | ChatMessage]],
-    start_with_system: NotGivenOr[bool],
+    start_with_system: bool | NotGiven,
     sim_agent_version_id: str,
     testcase: Testcase,
     stop_check: StopCheck,
@@ -198,9 +201,7 @@ def _run_simulation(
             # Call the system function
             for system_response in system(messages, testcase.inputs):
                 if isinstance(system_response, str):
-                    messages.append(
-                        ChatMessage(role="assistant", content=system_response)
-                    )
+                    messages.append(ChatMessage(role="assistant", content=system_response))
                 else:
                     messages.append(system_response)
         else:
@@ -231,10 +232,8 @@ def multi_turn_simulation(
     testset_id: str,
     sim_agent_id: str,
     system: Callable[[List[ChatMessage], SystemInput], Iterable[str | ChatMessage]],
-    initial_messages: NotGivenOr[
-        List[ChatMessage] | Callable[[SystemInput], List[ChatMessage]]
-    ] = NOT_GIVEN,
-    start_with_system: NotGivenOr[bool] = NOT_GIVEN,
+    initial_messages: (List[ChatMessage] | Callable[[SystemInput], List[ChatMessage]] | NotGiven) = NOT_GIVEN,
+    start_with_system: bool | NotGiven = NOT_GIVEN,
     stop_check: StopCheck = DEFAULT_STOP_CHECK,
 ) -> RunResponse:
     """
