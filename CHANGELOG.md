@@ -1,5 +1,42 @@
 # Changelog
 
+## 3.3.0 (2025-10-18)
+
+Full Changelog: [v3.2.1...v3.3.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.2.1...v3.3.0)
+
+### Features
+
+* **api:** api update ([619342f](https://github.com/scorecard-ai/scorecard-python/commit/619342f3fe0b9950bad0e7ccd4775752cab81667))
+* **api:** api update ([659c61f](https://github.com/scorecard-ai/scorecard-python/commit/659c61ffb43886da647326a42f47fde807c3a070))
+* **api:** api update ([5d3b449](https://github.com/scorecard-ai/scorecard-python/commit/5d3b4499b0136f594d88b5f566094b64c0f42f94))
+* **api:** api update ([e952932](https://github.com/scorecard-ai/scorecard-python/commit/e95293281726af21db5e9d803e35ec82fa837cdc))
+* improve future compat with pydantic v3 ([c19bb04](https://github.com/scorecard-ai/scorecard-python/commit/c19bb04f7af6490fd5a5f2f349ab3bfaf5bc0c5f))
+* **types:** replace List[str] with SequenceNotStr in params ([98903f5](https://github.com/scorecard-ai/scorecard-python/commit/98903f5a8b58fc96cfd95920eb6022b4f82a5268))
+
+
+### Bug Fixes
+
+* avoid newer type syntax ([6d137a3](https://github.com/scorecard-ai/scorecard-python/commit/6d137a355cbb71c15b3a84d3211722fbd1057dbf))
+* **types:** add missing types to method arguments ([6f6fb94](https://github.com/scorecard-ai/scorecard-python/commit/6f6fb9453f7fec6ca6cdafe0b140cc85047c681b))
+
+
+### Chores
+
+* bump `httpx-aiohttp` version to 0.1.9 ([edcf290](https://github.com/scorecard-ai/scorecard-python/commit/edcf290b79916558cf35dbbf778639e10bb3b3ab))
+* do not install brew dependencies in ./scripts/bootstrap by default ([7fd26a7](https://github.com/scorecard-ai/scorecard-python/commit/7fd26a7256a3539e0974a160347ce7b47219543a))
+* Fix types in helper functions ([916268e](https://github.com/scorecard-ai/scorecard-python/commit/916268e1c017bfe3d8a301ff12fcb07d9fe01eea))
+* **internal:** add Sequence related utils ([eca421b](https://github.com/scorecard-ai/scorecard-python/commit/eca421b64f61b52189d3335602ca0498d3efd544))
+* **internal:** change ci workflow machines ([5db60cd](https://github.com/scorecard-ai/scorecard-python/commit/5db60cddc16188a8ea8512d88bd24ffcaf3bc2e8))
+* **internal:** detect missing future annotations with ruff ([cc6f494](https://github.com/scorecard-ai/scorecard-python/commit/cc6f494bb101c57df9d071600c2ca774b1baeeec))
+* **internal:** move mypy configurations to `pyproject.toml` file ([d010781](https://github.com/scorecard-ai/scorecard-python/commit/d0107815913bd48a463c5e4a885eee6af333d184))
+* **internal:** update comment in script ([0d65747](https://github.com/scorecard-ai/scorecard-python/commit/0d657475b0da00b35efb4e1812b0dbf6d91dfd5a))
+* **internal:** update pydantic dependency ([932d192](https://github.com/scorecard-ai/scorecard-python/commit/932d192d7c49e92c46495376cd166f1b534ce5f2))
+* **internal:** update pyright exclude list ([fb450c7](https://github.com/scorecard-ai/scorecard-python/commit/fb450c747f6c3d46406cfa32b1086e3898676bc9))
+* **tests:** simplify `get_platform` test ([030c06a](https://github.com/scorecard-ai/scorecard-python/commit/030c06af412a4c1e08fbfc46cc2fe8662879a529))
+* **types:** change optional parameter type from NotGiven to Omit ([ad1edcb](https://github.com/scorecard-ai/scorecard-python/commit/ad1edcbab5ce88c3e618249c0a3ec3379466bd85))
+* update @stainless-api/prism-cli to v5.15.0 ([345ac7a](https://github.com/scorecard-ai/scorecard-python/commit/345ac7a7c89a36f1b440dfaf35295d1bf73817e1))
+* update github action ([f458891](https://github.com/scorecard-ai/scorecard-python/commit/f458891ba6d2ea465f8ae5e7dfc753c15d92a0ea))
+
 ## 3.2.1 (2025-08-06)
 
 Full Changelog: [v3.2.0...v3.2.1](https://github.com/scorecard-ai/scorecard-python/compare/v3.2.0...v3.2.1)
