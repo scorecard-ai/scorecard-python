@@ -21,6 +21,7 @@ from ..pagination import SyncPaginatedResponse, AsyncPaginatedResponse
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.record import Record
 from ..types.record_list_response import RecordListResponse
+from ..types.record_delete_response import RecordDeleteResponse
 
 __all__ = ["RecordsResource", "AsyncRecordsResource"]
 
@@ -153,6 +154,39 @@ class RecordsResource(SyncAPIResource):
             model=RecordListResponse,
         )
 
+    def delete(
+        self,
+        record_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> RecordDeleteResponse:
+        """
+        Delete a specific Record by ID.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not record_id:
+            raise ValueError(f"Expected a non-empty value for `record_id` but received {record_id!r}")
+        return self._delete(
+            f"/records/{record_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=RecordDeleteResponse,
+        )
+
 
 class AsyncRecordsResource(AsyncAPIResource):
     @cached_property
@@ -282,6 +316,39 @@ class AsyncRecordsResource(AsyncAPIResource):
             model=RecordListResponse,
         )
 
+    async def delete(
+        self,
+        record_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> RecordDeleteResponse:
+        """
+        Delete a specific Record by ID.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not record_id:
+            raise ValueError(f"Expected a non-empty value for `record_id` but received {record_id!r}")
+        return await self._delete(
+            f"/records/{record_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=RecordDeleteResponse,
+        )
+
 
 class RecordsResourceWithRawResponse:
     def __init__(self, records: RecordsResource) -> None:
@@ -292,6 +359,9 @@ class RecordsResourceWithRawResponse:
         )
         self.list = to_raw_response_wrapper(
             records.list,
+        )
+        self.delete = to_raw_response_wrapper(
+            records.delete,
         )
 
 
@@ -305,6 +375,9 @@ class AsyncRecordsResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             records.list,
         )
+        self.delete = async_to_raw_response_wrapper(
+            records.delete,
+        )
 
 
 class RecordsResourceWithStreamingResponse:
@@ -317,6 +390,9 @@ class RecordsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             records.list,
         )
+        self.delete = to_streamed_response_wrapper(
+            records.delete,
+        )
 
 
 class AsyncRecordsResourceWithStreamingResponse:
@@ -328,4 +404,7 @@ class AsyncRecordsResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             records.list,
+        )
+        self.delete = async_to_streamed_response_wrapper(
+            records.delete,
         )

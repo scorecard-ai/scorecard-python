@@ -9,7 +9,11 @@ import pytest
 
 from tests.utils import assert_matches_type
 from scorecard_ai import Scorecard, AsyncScorecard
-from scorecard_ai.types import Record, RecordListResponse
+from scorecard_ai.types import (
+    Record,
+    RecordListResponse,
+    RecordDeleteResponse,
+)
 from scorecard_ai.pagination import SyncPaginatedResponse, AsyncPaginatedResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -126,6 +130,44 @@ class TestRecords:
                 run_id="",
             )
 
+    @parametrize
+    def test_method_delete(self, client: Scorecard) -> None:
+        record = client.records.delete(
+            "777",
+        )
+        assert_matches_type(RecordDeleteResponse, record, path=["response"])
+
+    @parametrize
+    def test_raw_response_delete(self, client: Scorecard) -> None:
+        response = client.records.with_raw_response.delete(
+            "777",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        record = response.parse()
+        assert_matches_type(RecordDeleteResponse, record, path=["response"])
+
+    @parametrize
+    def test_streaming_response_delete(self, client: Scorecard) -> None:
+        with client.records.with_streaming_response.delete(
+            "777",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            record = response.parse()
+            assert_matches_type(RecordDeleteResponse, record, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_delete(self, client: Scorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `record_id` but received ''"):
+            client.records.with_raw_response.delete(
+                "",
+            )
+
 
 class TestAsyncRecords:
     parametrize = pytest.mark.parametrize(
@@ -238,4 +280,42 @@ class TestAsyncRecords:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
             await async_client.records.with_raw_response.list(
                 run_id="",
+            )
+
+    @parametrize
+    async def test_method_delete(self, async_client: AsyncScorecard) -> None:
+        record = await async_client.records.delete(
+            "777",
+        )
+        assert_matches_type(RecordDeleteResponse, record, path=["response"])
+
+    @parametrize
+    async def test_raw_response_delete(self, async_client: AsyncScorecard) -> None:
+        response = await async_client.records.with_raw_response.delete(
+            "777",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        record = await response.parse()
+        assert_matches_type(RecordDeleteResponse, record, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_delete(self, async_client: AsyncScorecard) -> None:
+        async with async_client.records.with_streaming_response.delete(
+            "777",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            record = await response.parse()
+            assert_matches_type(RecordDeleteResponse, record, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_delete(self, async_client: AsyncScorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `record_id` but received ''"):
+            await async_client.records.with_raw_response.delete(
+                "",
             )
