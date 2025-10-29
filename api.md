@@ -83,13 +83,14 @@ Methods:
 Types:
 
 ```python
-from scorecard_ai.types import Record, RecordListResponse
+from scorecard_ai.types import Record, RecordListResponse, RecordDeleteResponse
 ```
 
 Methods:
 
 - <code title="post /runs/{runId}/records">client.records.<a href="./src/scorecard_ai/resources/records.py">create</a>(run_id, \*\*<a href="src/scorecard_ai/types/record_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/record.py">Record</a></code>
 - <code title="get /runs/{runId}/records">client.records.<a href="./src/scorecard_ai/resources/records.py">list</a>(run_id, \*\*<a href="src/scorecard_ai/types/record_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/record_list_response.py">SyncPaginatedResponse[RecordListResponse]</a></code>
+- <code title="delete /records/{recordId}">client.records.<a href="./src/scorecard_ai/resources/records.py">delete</a>(record_id) -> <a href="./src/scorecard_ai/types/record_delete_response.py">RecordDeleteResponse</a></code>
 
 # Scores
 
