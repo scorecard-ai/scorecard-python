@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.4.0 (2025-10-30)
+
+Full Changelog: [v3.3.0...v3.4.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.3.0...v3.4.0)
+
+### Features
+
+* **api:** api update ([6197746](https://github.com/scorecard-ai/scorecard-python/commit/6197746cf1feea96bd9bc3d066c4b70e710ffe6f))
+
+
+### Bug Fixes
+
+* **client:** close streams without requiring full consumption ([0139877](https://github.com/scorecard-ai/scorecard-python/commit/013987733bc1f040544da47376be8837fdce6d1e))
+
 ## 3.3.0 (2025-10-18)
 
 Full Changelog: [v3.2.1...v3.3.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.2.1...v3.3.0)
