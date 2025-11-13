@@ -68,7 +68,7 @@ Methods:
 Types:
 
 ```python
-from scorecard_ai.types import Metric
+from scorecard_ai.types import Metric, MetricDeleteResponse
 ```
 
 Methods:
@@ -76,6 +76,7 @@ Methods:
 - <code title="post /projects/{projectId}/metrics">client.metrics.<a href="./src/scorecard_ai/resources/metrics.py">create</a>(project_id, \*\*<a href="src/scorecard_ai/types/metric_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/metric.py">Metric</a></code>
 - <code title="patch /metrics/{metricId}">client.metrics.<a href="./src/scorecard_ai/resources/metrics.py">update</a>(metric_id, \*\*<a href="src/scorecard_ai/types/metric_update_params.py">params</a>) -> <a href="./src/scorecard_ai/types/metric.py">Metric</a></code>
 - <code title="get /projects/{projectId}/metrics">client.metrics.<a href="./src/scorecard_ai/resources/metrics.py">list</a>(project_id, \*\*<a href="src/scorecard_ai/types/metric_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/metric.py">SyncPaginatedResponse[Metric]</a></code>
+- <code title="delete /metrics/{metricId}">client.metrics.<a href="./src/scorecard_ai/resources/metrics.py">delete</a>(metric_id) -> <a href="./src/scorecard_ai/types/metric_delete_response.py">MetricDeleteResponse</a></code>
 - <code title="get /metrics/{metricId}">client.metrics.<a href="./src/scorecard_ai/resources/metrics.py">get</a>(metric_id) -> <a href="./src/scorecard_ai/types/metric.py">Metric</a></code>
 
 # Records
