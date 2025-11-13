@@ -29,6 +29,7 @@ from .testcase_list_params import TestcaseListParams as TestcaseListParams
 from .project_create_params import ProjectCreateParams as ProjectCreateParams
 from .testset_create_params import TestsetCreateParams as TestsetCreateParams
 from .testset_update_params import TestsetUpdateParams as TestsetUpdateParams
+from .metric_delete_response import MetricDeleteResponse as MetricDeleteResponse
 from .record_delete_response import RecordDeleteResponse as RecordDeleteResponse
 from .system_delete_response import SystemDeleteResponse as SystemDeleteResponse
 from .testcase_create_params import TestcaseCreateParams as TestcaseCreateParams
