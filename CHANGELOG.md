@@ -1,5 +1,27 @@
 # Changelog
 
+## 3.5.0 (2025-11-22)
+
+Full Changelog: [v3.4.0...v3.5.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.4.0...v3.5.0)
+
+### Features
+
+* **api:** api update ([d89b4f8](https://github.com/scorecard-ai/scorecard-python/commit/d89b4f80606dad1852a05f357cfe029d16e8f746))
+
+
+### Bug Fixes
+
+* compat with Python 3.14 ([67369fc](https://github.com/scorecard-ai/scorecard-python/commit/67369fc5d8db97f9a71a2ddb964cbb3bf9c33c79))
+* **compat:** update signatures of `model_dump` and `model_dump_json` for Pydantic v1 ([6bca5ea](https://github.com/scorecard-ai/scorecard-python/commit/6bca5eaf1447b3c4c8f19b5cc7da105a840d28ef))
+
+
+### Chores
+
+* add Python 3.14 classifier and testing ([79e4d7b](https://github.com/scorecard-ai/scorecard-python/commit/79e4d7bdfc4cc10e7e88253a241ecd97580897bf))
+* **internal/tests:** avoid race condition with implicit client cleanup ([8458c77](https://github.com/scorecard-ai/scorecard-python/commit/8458c77f9fa9754c35b0acab2378cfad2717d2d7))
+* **internal:** grammar fix (it's -&gt; its) ([2ef4347](https://github.com/scorecard-ai/scorecard-python/commit/2ef43471730d342560f781e4a2315d2d86611d02))
+* **package:** drop Python 3.8 support ([1641026](https://github.com/scorecard-ai/scorecard-python/commit/1641026dc60e62e84cbf4d42808029221d790cf4))
+
 ## 3.4.0 (2025-10-30)
 
 Full Changelog: [v3.3.0...v3.4.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.3.0...v3.4.0)
