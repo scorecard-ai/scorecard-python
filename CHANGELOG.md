@@ -1,5 +1,20 @@
 # Changelog
 
+## 3.5.1 (2025-12-03)
+
+Full Changelog: [v3.5.0...v3.5.1](https://github.com/scorecard-ai/scorecard-python/compare/v3.5.0...v3.5.1)
+
+### Bug Fixes
+
+* ensure streams are always closed ([4c5fd3c](https://github.com/scorecard-ai/scorecard-python/commit/4c5fd3c69f1281504a5e8eb7247362e1d676256d))
+
+
+### Chores
+
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([68d4195](https://github.com/scorecard-ai/scorecard-python/commit/68d4195da9521fe19d56915ce6505964b7914239))
+* **docs:** use environment variables for authentication in code snippets ([b63402c](https://github.com/scorecard-ai/scorecard-python/commit/b63402cbb6ae227e83a0461485d086926be1cc10))
+* update lockfile ([e098aad](https://github.com/scorecard-ai/scorecard-python/commit/e098aad5e32132b7905ddd67b491d6fcf692c9b1))
+
 ## 3.5.0 (2025-11-22)
 
 Full Changelog: [v3.4.0...v3.5.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.4.0...v3.5.0)
