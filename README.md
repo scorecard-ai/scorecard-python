@@ -89,6 +89,7 @@ pip install scorecard-ai[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from scorecard_ai import DefaultAioHttpClient
 from scorecard_ai import AsyncScorecard
@@ -96,7 +97,7 @@ from scorecard_ai import AsyncScorecard
 
 async def main() -> None:
     async with AsyncScorecard(
-        api_key="My API Key",
+        api_key=os.environ.get("SCORECARD_API_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         run = await client.runs.create(
