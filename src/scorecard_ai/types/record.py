@@ -10,6 +10,8 @@ __all__ = ["Record"]
 
 
 class Record(BaseModel):
+    """A record of a system execution in the Scorecard system."""
+
     id: str
     """The ID of the Record."""
 
