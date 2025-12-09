@@ -19,6 +19,12 @@ class ValidationError(BaseModel):
 
 class Testcase(BaseModel):
     __test__ = False
+    """A test case in the Scorecard system.
+
+    Contains JSON data that is validated against the schema defined by its Testset.
+    The `inputs` and `expected` fields are derived from the `data` field based on the Testset's `fieldMapping`, and include all mapped fields, including those with validation errors.
+    Testcases are stored regardless of validation results, with any validation errors included in the `validationErrors` field.
+    """
     id: str
     """The ID of the Testcase."""
 

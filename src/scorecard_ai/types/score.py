@@ -18,6 +18,11 @@ class ValidationError(BaseModel):
 
 
 class Score(BaseModel):
+    """A Score represents the evaluation of a Record against a specific MetricConfig.
+
+    The actual `score` is stored as flexible JSON. While any JSON is accepted, it is expected to conform to the output schema defined by the MetricConfig. Any discrepancies will be noted in the `validationErrors` field, but the Score will still be stored.
+    """
+
     metric_config_id: str = FieldInfo(alias="metricConfigId")
     """The ID of the MetricConfig this Score is for."""
 

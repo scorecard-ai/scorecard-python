@@ -29,6 +29,10 @@ class TestsetCreateParams(TypedDict, total=False):
 
 
 class FieldMapping(TypedDict, total=False):
+    """
+    Maps top-level keys of the Testcase schema to their roles (input/expected output). Unmapped fields are treated as metadata.
+    """
+
     expected: Required[SequenceNotStr[str]]
     """Fields that represent expected outputs."""
 
