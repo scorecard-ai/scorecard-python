@@ -8,6 +8,8 @@ __all__ = ["Project"]
 
 
 class Project(BaseModel):
+    """A Project in the Scorecard system."""
+
     id: str
     """The ID of the Project."""
 
