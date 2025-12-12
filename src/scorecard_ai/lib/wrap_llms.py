@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import os
 import json
+import inspect
+import threading
 from typing import TYPE_CHECKING, Any, Optional
 
 from opentelemetry import trace
@@ -122,12 +124,14 @@ class CompositeProcessor:
 _global_provider: Optional[TracerProvider] = None
 _global_tracer: Optional[trace.Tracer] = None
 _composite_processor: Optional[CompositeProcessor] = None
+_provider_lock = threading.Lock()
 
 
 def _init_provider(config: WrapConfig) -> Optional[str]:
     """
     Initialize OpenTelemetry provider for LLM SDK wrappers.
     Returns the project_id if provided.
+    Thread-safe initialization using double-checked locking pattern.
     """
     global _global_provider, _global_tracer, _composite_processor  # noqa: PLW0603
 
@@ -142,21 +146,26 @@ def _init_provider(config: WrapConfig) -> Optional[str]:
     project_id = config.get("project_id") or os.getenv("SCORECARD_PROJECT_ID")
     max_export_batch_size = config.get("max_export_batch_size") or 1
 
-    # Create the global provider once (enables span nesting)
+    # Double-checked locking pattern for thread-safe initialization
     if _global_provider is None:
-        _composite_processor = CompositeProcessor()
+        with _provider_lock:
+            # Check again inside the lock in case another thread just initialized it
+            if _global_provider is None:
+                _composite_processor = CompositeProcessor()
 
-        resource = Resource(attributes={"service.name": service_name})
+                resource = Resource(attributes={"service.name": service_name})
 
-        _global_provider = TracerProvider(resource=resource)
-        _global_provider.add_span_processor(_composite_processor)  # type: ignore
+                _global_provider = TracerProvider(resource=resource)
+                _global_provider.add_span_processor(_composite_processor)  # type: ignore
 
-        trace.set_tracer_provider(_global_provider)
-        _global_tracer = trace.get_tracer("scorecard-llm")
+                trace.set_tracer_provider(_global_provider)
+                _global_tracer = trace.get_tracer("scorecard-llm")
 
     # Add an exporter for this specific apiKey+endpoint (if not already added)
-    if _composite_processor is not None:
-        _composite_processor.add_processor(api_key, endpoint, max_export_batch_size)
+    # This also needs to be thread-safe
+    with _provider_lock:
+        if _composite_processor is not None:
+            _composite_processor.add_processor(api_key, endpoint, max_export_batch_size)
 
     return project_id
 
@@ -210,12 +219,13 @@ def _handle_anthropic_response(span: trace.Span, result: Any, params: dict[str, 
         }
     )
 
-    if result.content and len(result.content) > 0:
-        first_content = result.content[0]
-        if hasattr(first_content, "text"):
+    if result.content:
+        # Collect text from all text blocks (Anthropic can return multiple content blocks)
+        completion_texts = [c.text for c in result.content if hasattr(c, "text")]
+        if completion_texts:
             span.set_attribute(
                 "gen_ai.completion.choices",
-                json.dumps([{"message": {"role": "assistant", "content": first_content.text}}]),
+                json.dumps([{"message": {"role": "assistant", "content": "\n".join(completion_texts)}}]),
             )
 
 
@@ -264,8 +274,60 @@ class _NestedWrapper:
         return attr
 
     def _wrap_create(self, original_method: Any) -> Any:
-        """Wrap the 'create' method with tracing."""
+        """Wrap the 'create' method with tracing, supporting both sync and async."""
 
+        # Check if the method is async
+        if inspect.iscoroutinefunction(original_method):
+
+            async def async_traced_create(*args: Any, **kwargs: Any) -> Any:
+                if self._tracer is None:
+                    raise ScorecardError("Failed to initialize tracer")
+
+                # Start span in current active context (enables nesting)
+                with self._tracer.start_as_current_span(f"{self._provider}.request") as span:
+                    # Set request attributes (common to both providers)
+                    span.set_attributes(
+                        {
+                            "gen_ai.system": self._provider,
+                            "gen_ai.request.model": kwargs.get("model", "unknown"),
+                            "gen_ai.operation.name": "chat",
+                        }
+                    )
+
+                    # Store projectId as span attribute - our custom exporter will inject it
+                    # into ResourceAttributes before export (where the backend expects it)
+                    if self._project_id:
+                        span.set_attribute("scorecard.project_id", self._project_id)
+
+                    # Optional parameters
+                    if "temperature" in kwargs:
+                        span.set_attribute("gen_ai.request.temperature", kwargs["temperature"])
+                    if "max_tokens" in kwargs:
+                        span.set_attribute("gen_ai.request.max_tokens", kwargs["max_tokens"])
+                    if "top_p" in kwargs:
+                        span.set_attribute("gen_ai.request.top_p", kwargs["top_p"])
+
+                    # Set prompt messages
+                    if "messages" in kwargs:
+                        span.set_attribute("gen_ai.prompt.messages", json.dumps(kwargs["messages"]))
+
+                    try:
+                        result = await original_method(*args, **kwargs)
+
+                        # Set response attributes (provider-specific)
+                        if self._provider == "openai":
+                            _handle_openai_response(span, result, kwargs)
+                        elif self._provider == "anthropic":
+                            _handle_anthropic_response(span, result, kwargs)
+
+                        return result
+                    except Exception as e:
+                        span.record_exception(e)
+                        raise
+
+            return async_traced_create
+
+        # Sync wrapper
         def traced_create(*args: Any, **kwargs: Any) -> Any:
             if self._tracer is None:
                 raise ScorecardError("Failed to initialize tracer")
