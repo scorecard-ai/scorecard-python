@@ -6,10 +6,12 @@ import os
 import json
 import inspect
 import threading
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Optional, Sequence
+from typing_extensions import override
 
 from opentelemetry import trace
-from opentelemetry.sdk.trace import ReadableSpan, TracerProvider
+from opentelemetry.context import Context
+from opentelemetry.sdk.trace import Span, ReadableSpan, SpanProcessor, TracerProvider
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace.export import SpanExporter, SpanExportResult, BatchSpanProcessor
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
@@ -61,7 +63,8 @@ class ScorecardExporter(SpanExporter):
     def __init__(self, endpoint: str, headers: dict[str, str]):
         self._otlp_exporter = OTLPSpanExporter(endpoint=endpoint, headers=headers)
 
-    def export(self, spans: Any) -> SpanExportResult:  # type: ignore
+    @override
+    def export(self, spans: Sequence[ReadableSpan]) -> SpanExportResult:
         """Export spans after injecting projectId into resource."""
         modified_spans: list[Any] = []
         for span in spans:
@@ -74,18 +77,19 @@ class ScorecardExporter(SpanExporter):
                     project_resource = Resource(attributes={"scorecard.project_id": project_id})
                     new_resource = span.resource.merge(project_resource)
                     # Wrap the span with modified resource
-                    span = _SpanWrapper(span, new_resource)
+                    span = _SpanWrapper(span, new_resource)  # type: ignore[assignment]
 
             modified_spans.append(span)
 
         return self._otlp_exporter.export(modified_spans)  # type: ignore
 
-    def shutdown(self) -> None:  # type: ignore[override]
+    @override
+    def shutdown(self) -> None:
         """Shutdown the exporter."""
         self._otlp_exporter.shutdown()  # type: ignore
 
 
-class CompositeProcessor:
+class CompositeProcessor(SpanProcessor):
     """Composite processor that manages multiple batch processors."""
 
     def __init__(self) -> None:
@@ -101,21 +105,25 @@ class CompositeProcessor:
         processor = BatchSpanProcessor(exporter, max_export_batch_size=max_export_batch_size)
         self._processors[key] = processor
 
-    def on_start(self, span: trace.Span, parent_context: Any) -> None:
+    @override
+    def on_start(self, span: Span, parent_context: Optional[Context] = None) -> None:
         """Forward on_start to all processors."""
         for processor in self._processors.values():
-            processor.on_start(span, parent_context)  # type: ignore
+            processor.on_start(span, parent_context)
 
+    @override
     def on_end(self, span: ReadableSpan) -> None:
         """Forward on_end to all processors."""
         for processor in self._processors.values():
             processor.on_end(span)
 
+    @override
     def shutdown(self) -> None:
         """Shutdown all processors."""
         for processor in self._processors.values():
             processor.shutdown()  # type: ignore[no-untyped-call]
 
+    @override
     def force_flush(self, timeout_millis: int = 30000) -> bool:
         """Force flush all processors."""
         return all(processor.force_flush(timeout_millis) for processor in self._processors.values())
@@ -156,7 +164,7 @@ def _init_provider(config: WrapConfig) -> Optional[str]:
                 resource = Resource(attributes={"service.name": service_name})
 
                 _global_provider = TracerProvider(resource=resource)
-                _global_provider.add_span_processor(_composite_processor)  # type: ignore
+                _global_provider.add_span_processor(_composite_processor)
 
                 trace.set_tracer_provider(_global_provider)
                 _global_tracer = trace.get_tracer("scorecard-llm")
@@ -276,6 +284,34 @@ class _NestedWrapper:
     def _wrap_create(self, original_method: Any) -> Any:
         """Wrap the 'create' method with tracing, supporting both sync and async."""
 
+        def _populate_span_attributes(span: trace.Span, kwargs: dict[str, Any]) -> None:
+            """Helper to set common span attributes."""
+            # Set request attributes (common to both providers)
+            span.set_attributes(
+                {
+                    "gen_ai.system": self._provider,
+                    "gen_ai.request.model": kwargs.get("model", "unknown"),
+                    "gen_ai.operation.name": "chat",
+                }
+            )
+
+            # Store projectId as span attribute - our custom exporter will inject it
+            # into ResourceAttributes before export (where the backend expects it)
+            if self._project_id:
+                span.set_attribute("scorecard.project_id", self._project_id)
+
+            # Optional parameters
+            if "temperature" in kwargs:
+                span.set_attribute("gen_ai.request.temperature", kwargs["temperature"])
+            if "max_tokens" in kwargs:
+                span.set_attribute("gen_ai.request.max_tokens", kwargs["max_tokens"])
+            if "top_p" in kwargs:
+                span.set_attribute("gen_ai.request.top_p", kwargs["top_p"])
+
+            # Set prompt messages
+            if "messages" in kwargs:
+                span.set_attribute("gen_ai.prompt.messages", json.dumps(kwargs["messages"]))
+
         # Check if the method is async
         if inspect.iscoroutinefunction(original_method):
 
@@ -285,31 +321,7 @@ class _NestedWrapper:
 
                 # Start span in current active context (enables nesting)
                 with self._tracer.start_as_current_span(f"{self._provider}.request") as span:
-                    # Set request attributes (common to both providers)
-                    span.set_attributes(
-                        {
-                            "gen_ai.system": self._provider,
-                            "gen_ai.request.model": kwargs.get("model", "unknown"),
-                            "gen_ai.operation.name": "chat",
-                        }
-                    )
-
-                    # Store projectId as span attribute - our custom exporter will inject it
-                    # into ResourceAttributes before export (where the backend expects it)
-                    if self._project_id:
-                        span.set_attribute("scorecard.project_id", self._project_id)
-
-                    # Optional parameters
-                    if "temperature" in kwargs:
-                        span.set_attribute("gen_ai.request.temperature", kwargs["temperature"])
-                    if "max_tokens" in kwargs:
-                        span.set_attribute("gen_ai.request.max_tokens", kwargs["max_tokens"])
-                    if "top_p" in kwargs:
-                        span.set_attribute("gen_ai.request.top_p", kwargs["top_p"])
-
-                    # Set prompt messages
-                    if "messages" in kwargs:
-                        span.set_attribute("gen_ai.prompt.messages", json.dumps(kwargs["messages"]))
+                    _populate_span_attributes(span, kwargs)
 
                     try:
                         result = await original_method(*args, **kwargs)
@@ -334,31 +346,7 @@ class _NestedWrapper:
 
             # Start span in current active context (enables nesting)
             with self._tracer.start_as_current_span(f"{self._provider}.request") as span:
-                # Set request attributes (common to both providers)
-                span.set_attributes(
-                    {
-                        "gen_ai.system": self._provider,
-                        "gen_ai.request.model": kwargs.get("model", "unknown"),
-                        "gen_ai.operation.name": "chat",
-                    }
-                )
-
-                # Store projectId as span attribute - our custom exporter will inject it
-                # into ResourceAttributes before export (where the backend expects it)
-                if self._project_id:
-                    span.set_attribute("scorecard.project_id", self._project_id)
-
-                # Optional parameters
-                if "temperature" in kwargs:
-                    span.set_attribute("gen_ai.request.temperature", kwargs["temperature"])
-                if "max_tokens" in kwargs:
-                    span.set_attribute("gen_ai.request.max_tokens", kwargs["max_tokens"])
-                if "top_p" in kwargs:
-                    span.set_attribute("gen_ai.request.top_p", kwargs["top_p"])
-
-                # Set prompt messages
-                if "messages" in kwargs:
-                    span.set_attribute("gen_ai.prompt.messages", json.dumps(kwargs["messages"]))
+                _populate_span_attributes(span, kwargs)
 
                 try:
                     result = original_method(*args, **kwargs)
