@@ -9,6 +9,11 @@ from ._multi_turn_simulation import (
     ConversationInfo,
     multi_turn_simulation,
 )
+from .wrap_llms import (
+    wrap,
+    wrap_openai,
+    wrap_anthropic,
+)
 
 __all__ = [
     "run_and_evaluate",
@@ -18,4 +23,7 @@ __all__ = [
     "ChatMessage",
     "ConversationInfo",
     "multi_turn_simulation",
+    "wrap",
+    "wrap_openai",
+    "wrap_anthropic",
 ]
