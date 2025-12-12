@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 
-import json
 import os
-from typing import Any, Optional, TYPE_CHECKING
+import json
+from typing import TYPE_CHECKING, Any, Optional
 
 from opentelemetry import trace
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk.trace import ReadableSpan, TracerProvider
 from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace.export import SpanExporter, SpanExportResult, BatchSpanProcessor
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 
 from .._exceptions import ScorecardError
 
@@ -32,17 +32,104 @@ if TYPE_CHECKING:
         endpoint: Optional[str]
         """OTLP endpoint. Defaults to "https://tracing.scorecard.io/otel/v1/traces"."""
 
+        max_export_batch_size: Optional[int]
+        """Maximum batch size of spans to be exported. Defaults to 1."""
+
+
+class _SpanWrapper:
+    """Wrapper that returns a modified resource for a span."""
+
+    def __init__(self, span: ReadableSpan, new_resource: Resource):
+        self._span = span
+        self._resource = new_resource
+
+    @property
+    def resource(self) -> Resource:
+        """Return the modified resource."""
+        return self._resource
+
+    def __getattr__(self, name: str) -> Any:
+        """Delegate all other attributes to the wrapped span."""
+        return getattr(self._span, name)
+
+
+class ScorecardExporter(SpanExporter):
+    """Custom exporter that injects projectId from span attributes into ResourceAttributes."""
+
+    def __init__(self, endpoint: str, headers: dict[str, str]):
+        self._otlp_exporter = OTLPSpanExporter(endpoint=endpoint, headers=headers)
+
+    def export(self, spans: Any) -> SpanExportResult:  # type: ignore
+        """Export spans after injecting projectId into resource."""
+        modified_spans: list[Any] = []
+        for span in spans:
+            if span.attributes is not None:
+                project_id = span.attributes.get("scorecard.project_id")
+
+                if project_id and isinstance(project_id, str):
+                    # Merge projectId into the resource
+                    # Use Resource() directly to avoid resource detectors during shutdown
+                    project_resource = Resource(attributes={"scorecard.project_id": project_id})
+                    new_resource = span.resource.merge(project_resource)
+                    # Wrap the span with modified resource
+                    span = _SpanWrapper(span, new_resource)
+
+            modified_spans.append(span)
+
+        return self._otlp_exporter.export(modified_spans)  # type: ignore
+
+    def shutdown(self) -> None:  # type: ignore[override]
+        """Shutdown the exporter."""
+        self._otlp_exporter.shutdown()  # type: ignore
+
+
+class CompositeProcessor:
+    """Composite processor that manages multiple batch processors."""
+
+    def __init__(self) -> None:
+        self._processors: dict[str, BatchSpanProcessor] = {}
+
+    def add_processor(self, api_key: str, endpoint: str, max_export_batch_size: int) -> None:
+        """Add a processor for the given API key and endpoint."""
+        key = f"{api_key}:{endpoint}"
+        if key in self._processors:
+            return
+
+        exporter = ScorecardExporter(endpoint=endpoint, headers={"Authorization": f"Bearer {api_key}"})
+        processor = BatchSpanProcessor(exporter, max_export_batch_size=max_export_batch_size)
+        self._processors[key] = processor
+
+    def on_start(self, span: trace.Span, parent_context: Any) -> None:
+        """Forward on_start to all processors."""
+        for processor in self._processors.values():
+            processor.on_start(span, parent_context)  # type: ignore
+
+    def on_end(self, span: ReadableSpan) -> None:
+        """Forward on_end to all processors."""
+        for processor in self._processors.values():
+            processor.on_end(span)
+
+    def shutdown(self) -> None:
+        """Shutdown all processors."""
+        for processor in self._processors.values():
+            processor.shutdown()  # type: ignore[no-untyped-call]
+
+    def force_flush(self, timeout_millis: int = 30000) -> bool:
+        """Force flush all processors."""
+        return all(processor.force_flush(timeout_millis) for processor in self._processors.values())
+
 
 _global_provider: Optional[TracerProvider] = None
 _global_tracer: Optional[trace.Tracer] = None
+_composite_processor: Optional[CompositeProcessor] = None
 
 
-def _init_provider(config: WrapConfig) -> None:
-    """Initialize OpenTelemetry provider for LLM SDK wrappers."""
-    global _global_provider, _global_tracer
-
-    if _global_provider is not None:
-        return
+def _init_provider(config: WrapConfig) -> Optional[str]:
+    """
+    Initialize OpenTelemetry provider for LLM SDK wrappers.
+    Returns the project_id if provided.
+    """
+    global _global_provider, _global_tracer, _composite_processor  # noqa: PLW0603
 
     api_key = config.get("api_key") or os.getenv("SCORECARD_API_KEY")
     if not api_key:
@@ -50,28 +137,28 @@ def _init_provider(config: WrapConfig) -> None:
             "Scorecard API key is required. Set SCORECARD_API_KEY environment variable or pass api_key in config."
         )
 
-    endpoint = config.get("endpoint", "https://tracing.scorecard.io/otel/v1/traces")
-    service_name = config.get("service_name", "llm-app")
+    endpoint = config.get("endpoint") or "https://tracing.scorecard.io/otel/v1/traces"
+    service_name = config.get("service_name") or "llm-app"
     project_id = config.get("project_id") or os.getenv("SCORECARD_PROJECT_ID")
+    max_export_batch_size = config.get("max_export_batch_size") or 1
 
-    exporter = OTLPSpanExporter(
-        endpoint=endpoint,
-        headers={"Authorization": f"Bearer {api_key}"},
-    )
+    # Create the global provider once (enables span nesting)
+    if _global_provider is None:
+        _composite_processor = CompositeProcessor()
 
-    resource_attrs = {"service.name": service_name}
-    if project_id:
-        resource_attrs["scorecard.project_id"] = project_id
+        resource = Resource(attributes={"service.name": service_name})
 
-    resource = Resource.create(resource_attrs)
+        _global_provider = TracerProvider(resource=resource)
+        _global_provider.add_span_processor(_composite_processor)  # type: ignore
 
-    _global_provider = TracerProvider(resource=resource)
-    _global_provider.add_span_processor(
-        BatchSpanProcessor(exporter, max_export_batch_size=1)  # Export immediately
-    )
+        trace.set_tracer_provider(_global_provider)
+        _global_tracer = trace.get_tracer("scorecard-llm")
 
-    trace.set_tracer_provider(_global_provider)
-    _global_tracer = trace.get_tracer("scorecard-llm")
+    # Add an exporter for this specific apiKey+endpoint (if not already added)
+    if _composite_processor is not None:
+        _composite_processor.add_processor(api_key, endpoint, max_export_batch_size)
+
+    return project_id
 
 
 def _detect_provider(client: Any) -> str:
@@ -84,9 +171,7 @@ def _detect_provider(client: Any) -> str:
     if hasattr(client, "messages"):
         return "anthropic"
 
-    raise ScorecardError(
-        "Unable to detect LLM provider. Client must be an OpenAI or Anthropic SDK instance."
-    )
+    raise ScorecardError("Unable to detect LLM provider. Client must be an OpenAI or Anthropic SDK instance.")
 
 
 def _handle_openai_response(span: trace.Span, result: Any, params: dict[str, Any]) -> None:
@@ -95,13 +180,9 @@ def _handle_openai_response(span: trace.Span, result: Any, params: dict[str, Any
         {
             "gen_ai.response.id": getattr(result, "id", "unknown"),
             "gen_ai.response.model": getattr(result, "model", params.get("model", "unknown")),
-            "gen_ai.response.finish_reason": (
-                result.choices[0].finish_reason if result.choices else "unknown"
-            ),
+            "gen_ai.response.finish_reason": (result.choices[0].finish_reason if result.choices else "unknown"),
             "gen_ai.usage.prompt_tokens": getattr(result.usage, "prompt_tokens", 0) if result.usage else 0,
-            "gen_ai.usage.completion_tokens": (
-                getattr(result.usage, "completion_tokens", 0) if result.usage else 0
-            ),
+            "gen_ai.usage.completion_tokens": (getattr(result.usage, "completion_tokens", 0) if result.usage else 0),
             "gen_ai.usage.total_tokens": getattr(result.usage, "total_tokens", 0) if result.usage else 0,
         }
     )
@@ -141,10 +222,11 @@ def _handle_anthropic_response(span: trace.Span, result: Any, params: dict[str, 
 class _LLMClientWrapper:
     """Wrapper class that adds tracing to LLM SDK clients."""
 
-    def __init__(self, client: Any, config: WrapConfig, provider: str):
+    def __init__(self, client: Any, config: WrapConfig, provider: str, project_id: Optional[str]):
         self._client = client
         self._config = config
         self._provider = provider
+        self._project_id = project_id
         self._tracer = _global_tracer
 
     def __getattr__(self, name: str) -> Any:
@@ -153,7 +235,7 @@ class _LLMClientWrapper:
 
         # If it's an object (like 'chat' or 'messages'), wrap it recursively
         if hasattr(attr, "__dict__") and not callable(attr):
-            return _NestedWrapper(attr, self._tracer, self._provider)
+            return _NestedWrapper(attr, self._tracer, self._provider, self._project_id)
 
         return attr
 
@@ -161,10 +243,11 @@ class _LLMClientWrapper:
 class _NestedWrapper:
     """Wrapper for nested objects like client.chat.completions."""
 
-    def __init__(self, obj: Any, tracer: Optional[trace.Tracer], provider: str):
+    def __init__(self, obj: Any, tracer: Optional[trace.Tracer], provider: str, project_id: Optional[str]):
         self._obj = obj
         self._tracer = tracer
         self._provider = provider
+        self._project_id = project_id
 
     def __getattr__(self, name: str) -> Any:
         """Delegate attribute access to wrapped object."""
@@ -176,7 +259,7 @@ class _NestedWrapper:
 
         # Recursively wrap nested objects
         if hasattr(attr, "__dict__") and not callable(attr):
-            return _NestedWrapper(attr, self._tracer, self._provider)
+            return _NestedWrapper(attr, self._tracer, self._provider, self._project_id)
 
         return attr
 
@@ -197,6 +280,11 @@ class _NestedWrapper:
                         "gen_ai.operation.name": "chat",
                     }
                 )
+
+                # Store projectId as span attribute - our custom exporter will inject it
+                # into ResourceAttributes before export (where the backend expects it)
+                if self._project_id:
+                    span.set_attribute("scorecard.project_id", self._project_id)
 
                 # Optional parameters
                 if "temperature" in kwargs:
@@ -262,14 +350,14 @@ def wrap(client: Any, config: Optional[WrapConfig] = None) -> Any:
     if config is None:
         config = {}
 
-    _init_provider(config)
+    project_id = _init_provider(config)
 
     if _global_tracer is None:
         raise ScorecardError("Failed to initialize tracer")
 
     provider = _detect_provider(client)
 
-    return _LLMClientWrapper(client, config, provider)
+    return _LLMClientWrapper(client, config, provider, project_id)
 
 
 # Backwards compatibility aliases

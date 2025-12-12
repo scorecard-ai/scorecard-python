@@ -1,17 +1,15 @@
 """Example of LLM call nested within a custom span."""
 
 import os
+
+from openai import OpenAI  # type: ignore[import-not-found]
 from opentelemetry import trace
+
 from scorecard_ai import wrap
-from openai import OpenAI
 
 # Wrap the client
 openai = wrap(
     OpenAI(api_key=os.getenv("OPENAI_API_KEY")),
-    {
-        "api_key": os.getenv("SCORECARD_API_KEY"),
-        "project_id": "987",
-    },
 )
 
 
@@ -36,7 +34,7 @@ def process_user_request(user_id: str, question: str) -> str:
         return answer
 
 
-def main():
+def main() -> None:
     """Run the basic nesting example."""
     answer = process_user_request("user-123", "What is the capital of France?")
     print("Answer:", answer)

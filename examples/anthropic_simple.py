@@ -1,20 +1,18 @@
 """Simple example of wrapping Anthropic SDK with Scorecard tracing."""
 
 import os
+
+from anthropic import Anthropic  # type: ignore[import-not-found]
+
 from scorecard_ai import wrap
-from anthropic import Anthropic
 
 # Wrap the Anthropic client
 claude = wrap(
     Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY")),
-    {
-        "api_key": os.getenv("SCORECARD_API_KEY"),
-        "project_id": "987",
-    },
 )
 
 
-def main():
+def main() -> None:
     """Run a simple Anthropic completion with automatic tracing."""
     response = claude.messages.create(
         model="claude-3-haiku-20240307",

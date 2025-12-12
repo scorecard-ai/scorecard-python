@@ -1,20 +1,18 @@
 """Simple example of wrapping OpenAI SDK with Scorecard tracing."""
 
 import os
+
+from openai import OpenAI  # type: ignore[import-not-found]
+
 from scorecard_ai import wrap
-from openai import OpenAI
 
 # Wrap the OpenAI client
 openai = wrap(
     OpenAI(api_key=os.getenv("OPENAI_API_KEY")),
-    {
-        "api_key": os.getenv("SCORECARD_API_KEY"),
-        "project_id": "987",
-    },
 )
 
 
-def main():
+def main() -> None:
     """Run a simple OpenAI completion with automatic tracing."""
     response = openai.chat.completions.create(
         model="gpt-4",
