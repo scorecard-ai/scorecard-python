@@ -31,6 +31,9 @@ attrs==25.3.0
 certifi==2023.7.22
     # via httpcore
     # via httpx
+    # via requests
+charset-normalizer==3.4.4
+    # via requests
 colorlog==6.7.0
     # via nox
 dirty-equals==0.6.0
@@ -48,6 +51,8 @@ filelock==3.12.4
 frozenlist==1.6.2
     # via aiohttp
     # via aiosignal
+googleapis-common-protos==1.72.0
+    # via opentelemetry-exporter-otlp-proto-http
 h11==0.16.0
     # via httpcore
 httpcore==1.0.9
@@ -61,8 +66,10 @@ httpx-aiohttp==0.1.9
 idna==3.4
     # via anyio
     # via httpx
+    # via requests
     # via yarl
 importlib-metadata==7.0.0
+    # via opentelemetry-api
 iniconfig==2.0.0
     # via pytest
 markdown-it-py==3.0.0
@@ -78,6 +85,23 @@ mypy-extensions==1.0.0
 nodeenv==1.8.0
     # via pyright
 nox==2023.4.22
+opentelemetry-api==1.39.1
+    # via opentelemetry-exporter-otlp-proto-http
+    # via opentelemetry-sdk
+    # via opentelemetry-semantic-conventions
+    # via scorecard-ai
+opentelemetry-exporter-otlp-proto-common==1.39.1
+    # via opentelemetry-exporter-otlp-proto-http
+opentelemetry-exporter-otlp-proto-http==1.39.1
+    # via scorecard-ai
+opentelemetry-proto==1.39.1
+    # via opentelemetry-exporter-otlp-proto-common
+    # via opentelemetry-exporter-otlp-proto-http
+opentelemetry-sdk==1.39.1
+    # via opentelemetry-exporter-otlp-proto-http
+    # via scorecard-ai
+opentelemetry-semantic-conventions==0.60b1
+    # via opentelemetry-sdk
 packaging==23.2
     # via nox
     # via pytest
@@ -88,6 +112,9 @@ pluggy==1.5.0
 propcache==0.3.1
     # via aiohttp
     # via yarl
+protobuf==6.33.2
+    # via googleapis-common-protos
+    # via opentelemetry-proto
 pydantic==2.11.9
     # via scorecard-ai
 pydantic-core==2.33.2
@@ -104,6 +131,8 @@ python-dateutil==2.8.2
     # via time-machine
 pytz==2023.3.post1
     # via dirty-equals
+requests==2.32.5
+    # via opentelemetry-exporter-otlp-proto-http
 respx==0.22.0
 rich==13.7.1
 ruff==0.9.4
@@ -122,6 +151,10 @@ typing-extensions==4.12.2
     # via anyio
     # via multidict
     # via mypy
+    # via opentelemetry-api
+    # via opentelemetry-exporter-otlp-proto-http
+    # via opentelemetry-sdk
+    # via opentelemetry-semantic-conventions
     # via pydantic
     # via pydantic-core
     # via pyright
@@ -129,6 +162,8 @@ typing-extensions==4.12.2
     # via typing-inspection
 typing-inspection==0.4.1
     # via pydantic
+urllib3==2.6.2
+    # via requests
 virtualenv==20.24.5
     # via nox
 yarl==1.20.0
