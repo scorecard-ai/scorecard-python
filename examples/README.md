@@ -7,7 +7,13 @@ Simple wrappers for OpenAI and Anthropic SDKs that automatically send traces to 
 ### Installation
 
 ```bash
-pip install scorecard-ai openai anthropic
+pip install -r requirements.txt
+```
+
+Or install packages individually:
+
+```bash
+pip install scorecard-ai[otel] openai anthropic
 ```
 
 ### Usage
@@ -22,8 +28,9 @@ import os
 openai = wrap(
     OpenAI(api_key=os.getenv("OPENAI_API_KEY")),
     {
+        # Scorecard configuration
         "api_key": os.getenv("SCORECARD_API_KEY"),
-        "project_id": "987"
+        "project_id": os.getenv("SCORECARD_PROJECT_ID")
     }
 )
 
@@ -44,14 +51,15 @@ import os
 claude = wrap(
     Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY")),
     {
+        # Scorecard configuration
         "api_key": os.getenv("SCORECARD_API_KEY"),
-        "project_id": "987"
+        "project_id": os.getenv("SCORECARD_PROJECT_ID")
     }
 )
 
 # Use normally - traces are automatically sent to Scorecard
 response = claude.messages.create(
-    model="claude-3-haiku-20240307",
+    model="claude-3-5-haiku-20241022",
     max_tokens=500,
     messages=[{"role": "user", "content": "Hello!"}]
 )
@@ -72,7 +80,7 @@ with tracer.start_as_current_span("my-workflow") as span:
     response = openai.chat.completions.create(...)
 ```
 
-See `basic_nesting.py` and `nested_traces.py` for complete examples.
+See [`basic_nesting.py`](./basic_nesting.py) and [`nested_traces.py`](./nested_traces.py) for complete examples.
 
 ### Configuration
 
@@ -92,6 +100,7 @@ Both wrappers accept the same config:
 export OPENAI_API_KEY="sk-..."
 export ANTHROPIC_API_KEY="sk-ant-..."
 export SCORECARD_API_KEY="ak_..."
+export SCORECARD_PROJECT_ID="123"
 
 # Run examples
 python openai_simple.py

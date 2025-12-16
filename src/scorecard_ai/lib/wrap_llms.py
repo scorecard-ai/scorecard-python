@@ -6,7 +6,7 @@ import os
 import json
 import inspect
 import threading
-from typing import TYPE_CHECKING, Any, Optional, Sequence
+from typing import TYPE_CHECKING, Any, TypeVar, Optional, Sequence
 from typing_extensions import override
 
 from opentelemetry import trace
@@ -40,7 +40,10 @@ if TYPE_CHECKING:
         """Maximum batch size of spans to be exported. Defaults to 1."""
 
 
-class _SpanWrapper:
+_ClientT = TypeVar("_ClientT")
+
+
+class _SpanWrapper(ReadableSpan):
     """Wrapper that returns a modified resource for a span."""
 
     def __init__(self, span: ReadableSpan, new_resource: Resource):
@@ -48,6 +51,7 @@ class _SpanWrapper:
         self._resource = new_resource
 
     @property
+    @override
     def resource(self) -> Resource:
         """Return the modified resource."""
         return self._resource
@@ -55,6 +59,14 @@ class _SpanWrapper:
     def __getattr__(self, name: str) -> Any:
         """Delegate all other attributes to the wrapped span."""
         return getattr(self._span, name)
+
+    @override
+    def __setattr__(self, name: str, value: Any) -> None:
+        """Delegate attribute setting to the wrapped span, except for internal attributes."""
+        if name in ("_span", "_resource"):
+            object.__setattr__(self, name, value)
+        else:
+            setattr(self._span, name, value)
 
 
 class ScorecardExporter(SpanExporter):
@@ -66,22 +78,23 @@ class ScorecardExporter(SpanExporter):
     @override
     def export(self, spans: Sequence[ReadableSpan]) -> SpanExportResult:
         """Export spans after injecting projectId into resource."""
-        modified_spans: list[Any] = []
+        modified_spans: list[ReadableSpan] = []
         for span in spans:
+            result_span: ReadableSpan = span
             if span.attributes is not None:
                 project_id = span.attributes.get("scorecard.project_id")
 
-                if project_id and isinstance(project_id, str):
+                if project_id:
                     # Merge projectId into the resource
                     # Use Resource() directly to avoid resource detectors during shutdown
                     project_resource = Resource(attributes={"scorecard.project_id": project_id})
                     new_resource = span.resource.merge(project_resource)
                     # Wrap the span with modified resource
-                    span = _SpanWrapper(span, new_resource)  # type: ignore[assignment]
+                    result_span = _SpanWrapper(span, new_resource)
 
-            modified_spans.append(span)
+            modified_spans.append(result_span)
 
-        return self._otlp_exporter.export(modified_spans)  # type: ignore
+        return self._otlp_exporter.export(modified_spans)
 
     @override
     def shutdown(self) -> None:
@@ -365,7 +378,7 @@ class _NestedWrapper:
         return traced_create
 
 
-def wrap(client: Any, config: Optional[WrapConfig] = None) -> Any:
+def wrap(client: _ClientT, config: Optional[WrapConfig] = None) -> _ClientT:  # type: ignore[return-value]
     """
     Wrap any LLM SDK (OpenAI or Anthropic) to automatically trace all API calls.
 
@@ -407,7 +420,7 @@ def wrap(client: Any, config: Optional[WrapConfig] = None) -> Any:
 
     provider = _detect_provider(client)
 
-    return _LLMClientWrapper(client, config, provider, project_id)
+    return _LLMClientWrapper(client, config, provider, project_id)  # type: ignore[return-value]  # pyright: ignore[reportReturnType]
 
 
 # Backwards compatibility aliases

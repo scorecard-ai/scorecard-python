@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import os
 
-from openai import OpenAI  # type: ignore[import-not-found]
-from anthropic import Anthropic  # type: ignore[import-not-found]
+from openai import OpenAI
+from anthropic import Anthropic
 from opentelemetry import trace
 
 from scorecard_ai import wrap
@@ -41,7 +41,7 @@ def analyze_with_multiple_llms(user_query: str) -> dict[str, str]:
                 max_tokens=200,
             )
 
-            gpt_analysis = gpt_response.choices[0].message.content if gpt_response.choices else ""
+            gpt_analysis = gpt_response.choices[0].message.content or "" if gpt_response.choices else ""
 
         print(f"GPT Analysis: {gpt_analysis}")
 
@@ -50,7 +50,7 @@ def analyze_with_multiple_llms(user_query: str) -> dict[str, str]:
             claude_span.set_attribute("llm.provider", "anthropic")
 
             claude_response = claude.messages.create(
-                model="claude-3-haiku-20240307",
+                model="claude-3-5-haiku-20241022",
                 max_tokens=200,
                 messages=[
                     {

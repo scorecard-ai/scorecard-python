@@ -2,7 +2,7 @@
 
 import os
 
-from openai import OpenAI  # type: ignore[import-not-found]
+from openai import OpenAI
 
 from scorecard_ai import wrap
 

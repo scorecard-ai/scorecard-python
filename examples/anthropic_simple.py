@@ -2,7 +2,7 @@
 
 import os
 
-from anthropic import Anthropic  # type: ignore[import-not-found]
+from anthropic import Anthropic
 
 from scorecard_ai import wrap
 
@@ -15,7 +15,7 @@ claude = wrap(
 def main() -> None:
     """Run a simple Anthropic completion with automatic tracing."""
     response = claude.messages.create(
-        model="claude-3-haiku-20240307",
+        model="claude-3-5-haiku-20241022",
         max_tokens=500,
         messages=[{"role": "user", "content": "What is the capital of France?"}],
     )

@@ -2,7 +2,7 @@
 
 import os
 
-from openai import OpenAI  # type: ignore[import-not-found]
+from openai import OpenAI
 from opentelemetry import trace
 
 from scorecard_ai import wrap
@@ -28,7 +28,7 @@ def process_user_request(user_id: str, question: str) -> str:
             max_tokens=100,
         )
 
-        answer = response.choices[0].message.content if response.choices else ""
+        answer = response.choices[0].message.content or "" if response.choices else ""
         span.set_attribute("answer.length", len(answer))
 
         return answer

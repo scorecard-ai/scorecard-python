@@ -14,9 +14,6 @@ dependencies = [
     "anyio>=3.5.0, <5",
     "distro>=1.7.0, <2",
     "sniffio",
-    "opentelemetry-api>=1.20.0",
-    "opentelemetry-sdk>=1.20.0",
-    "opentelemetry-exporter-otlp-proto-http>=1.20.0",
 ]
 requires-python = ">= 3.9"
 classifiers = [
@@ -43,6 +40,11 @@ Repository = "https://github.com/scorecard-ai/scorecard-python"
 
 [project.optional-dependencies]
 aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
+otel = [
+    "opentelemetry-api>=1.39.1",
+    "opentelemetry-sdk>=1.39.1",
+    "opentelemetry-exporter-otlp-proto-http>=1.39.1",
+]
 
 [tool.rye]
 managed = true
@@ -60,6 +62,8 @@ dev-dependencies = [
     "importlib-metadata>=6.7.0",
     "rich>=13.7.1",
     "pytest-xdist>=3.6.1",
+    "openai>=2.13.0",
+    "anthropic>=0.75.0",
 ]
 
 [tool.rye.scripts]
