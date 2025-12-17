@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Dict, Mapping, cast
+from typing import TYPE_CHECKING, Any, Dict, Mapping, cast
 from typing_extensions import Self, Literal, override
 
 import httpx
@@ -20,8 +20,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import runs, scores, metrics, records, projects, testsets, testcases
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, ScorecardError
 from ._base_client import (
@@ -29,7 +29,17 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.systems import systems
+
+if TYPE_CHECKING:
+    from .resources import runs, scores, metrics, records, systems, projects, testsets, testcases
+    from .resources.runs import RunsResource, AsyncRunsResource
+    from .resources.scores import ScoresResource, AsyncScoresResource
+    from .resources.metrics import MetricsResource, AsyncMetricsResource
+    from .resources.records import RecordsResource, AsyncRecordsResource
+    from .resources.projects import ProjectsResource, AsyncProjectsResource
+    from .resources.testsets import TestsetsResource, AsyncTestsetsResource
+    from .resources.testcases import TestcasesResource, AsyncTestcasesResource
+    from .resources.systems.systems import SystemsResource, AsyncSystemsResource
 
 __all__ = [
     "ENVIRONMENTS",
@@ -51,17 +61,6 @@ ENVIRONMENTS: Dict[str, str] = {
 
 
 class Scorecard(SyncAPIClient):
-    projects: projects.ProjectsResource
-    testsets: testsets.TestsetsResource
-    testcases: testcases.TestcasesResource
-    runs: runs.RunsResource
-    metrics: metrics.MetricsResource
-    records: records.RecordsResource
-    scores: scores.ScoresResource
-    systems: systems.SystemsResource
-    with_raw_response: ScorecardWithRawResponse
-    with_streaming_response: ScorecardWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -140,16 +139,61 @@ class Scorecard(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.projects = projects.ProjectsResource(self)
-        self.testsets = testsets.TestsetsResource(self)
-        self.testcases = testcases.TestcasesResource(self)
-        self.runs = runs.RunsResource(self)
-        self.metrics = metrics.MetricsResource(self)
-        self.records = records.RecordsResource(self)
-        self.scores = scores.ScoresResource(self)
-        self.systems = systems.SystemsResource(self)
-        self.with_raw_response = ScorecardWithRawResponse(self)
-        self.with_streaming_response = ScorecardWithStreamedResponse(self)
+    @cached_property
+    def projects(self) -> ProjectsResource:
+        from .resources.projects import ProjectsResource
+
+        return ProjectsResource(self)
+
+    @cached_property
+    def testsets(self) -> TestsetsResource:
+        from .resources.testsets import TestsetsResource
+
+        return TestsetsResource(self)
+
+    @cached_property
+    def testcases(self) -> TestcasesResource:
+        from .resources.testcases import TestcasesResource
+
+        return TestcasesResource(self)
+
+    @cached_property
+    def runs(self) -> RunsResource:
+        from .resources.runs import RunsResource
+
+        return RunsResource(self)
+
+    @cached_property
+    def metrics(self) -> MetricsResource:
+        from .resources.metrics import MetricsResource
+
+        return MetricsResource(self)
+
+    @cached_property
+    def records(self) -> RecordsResource:
+        from .resources.records import RecordsResource
+
+        return RecordsResource(self)
+
+    @cached_property
+    def scores(self) -> ScoresResource:
+        from .resources.scores import ScoresResource
+
+        return ScoresResource(self)
+
+    @cached_property
+    def systems(self) -> SystemsResource:
+        from .resources.systems import SystemsResource
+
+        return SystemsResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> ScorecardWithRawResponse:
+        return ScorecardWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> ScorecardWithStreamedResponse:
+        return ScorecardWithStreamedResponse(self)
 
     @property
     @override
@@ -259,17 +303,6 @@ class Scorecard(SyncAPIClient):
 
 
 class AsyncScorecard(AsyncAPIClient):
-    projects: projects.AsyncProjectsResource
-    testsets: testsets.AsyncTestsetsResource
-    testcases: testcases.AsyncTestcasesResource
-    runs: runs.AsyncRunsResource
-    metrics: metrics.AsyncMetricsResource
-    records: records.AsyncRecordsResource
-    scores: scores.AsyncScoresResource
-    systems: systems.AsyncSystemsResource
-    with_raw_response: AsyncScorecardWithRawResponse
-    with_streaming_response: AsyncScorecardWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -348,16 +381,61 @@ class AsyncScorecard(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.projects = projects.AsyncProjectsResource(self)
-        self.testsets = testsets.AsyncTestsetsResource(self)
-        self.testcases = testcases.AsyncTestcasesResource(self)
-        self.runs = runs.AsyncRunsResource(self)
-        self.metrics = metrics.AsyncMetricsResource(self)
-        self.records = records.AsyncRecordsResource(self)
-        self.scores = scores.AsyncScoresResource(self)
-        self.systems = systems.AsyncSystemsResource(self)
-        self.with_raw_response = AsyncScorecardWithRawResponse(self)
-        self.with_streaming_response = AsyncScorecardWithStreamedResponse(self)
+    @cached_property
+    def projects(self) -> AsyncProjectsResource:
+        from .resources.projects import AsyncProjectsResource
+
+        return AsyncProjectsResource(self)
+
+    @cached_property
+    def testsets(self) -> AsyncTestsetsResource:
+        from .resources.testsets import AsyncTestsetsResource
+
+        return AsyncTestsetsResource(self)
+
+    @cached_property
+    def testcases(self) -> AsyncTestcasesResource:
+        from .resources.testcases import AsyncTestcasesResource
+
+        return AsyncTestcasesResource(self)
+
+    @cached_property
+    def runs(self) -> AsyncRunsResource:
+        from .resources.runs import AsyncRunsResource
+
+        return AsyncRunsResource(self)
+
+    @cached_property
+    def metrics(self) -> AsyncMetricsResource:
+        from .resources.metrics import AsyncMetricsResource
+
+        return AsyncMetricsResource(self)
+
+    @cached_property
+    def records(self) -> AsyncRecordsResource:
+        from .resources.records import AsyncRecordsResource
+
+        return AsyncRecordsResource(self)
+
+    @cached_property
+    def scores(self) -> AsyncScoresResource:
+        from .resources.scores import AsyncScoresResource
+
+        return AsyncScoresResource(self)
+
+    @cached_property
+    def systems(self) -> AsyncSystemsResource:
+        from .resources.systems import AsyncSystemsResource
+
+        return AsyncSystemsResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncScorecardWithRawResponse:
+        return AsyncScorecardWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncScorecardWithStreamedResponse:
+        return AsyncScorecardWithStreamedResponse(self)
 
     @property
     @override
@@ -467,51 +545,223 @@ class AsyncScorecard(AsyncAPIClient):
 
 
 class ScorecardWithRawResponse:
+    _client: Scorecard
+
     def __init__(self, client: Scorecard) -> None:
-        self.projects = projects.ProjectsResourceWithRawResponse(client.projects)
-        self.testsets = testsets.TestsetsResourceWithRawResponse(client.testsets)
-        self.testcases = testcases.TestcasesResourceWithRawResponse(client.testcases)
-        self.runs = runs.RunsResourceWithRawResponse(client.runs)
-        self.metrics = metrics.MetricsResourceWithRawResponse(client.metrics)
-        self.records = records.RecordsResourceWithRawResponse(client.records)
-        self.scores = scores.ScoresResourceWithRawResponse(client.scores)
-        self.systems = systems.SystemsResourceWithRawResponse(client.systems)
+        self._client = client
+
+    @cached_property
+    def projects(self) -> projects.ProjectsResourceWithRawResponse:
+        from .resources.projects import ProjectsResourceWithRawResponse
+
+        return ProjectsResourceWithRawResponse(self._client.projects)
+
+    @cached_property
+    def testsets(self) -> testsets.TestsetsResourceWithRawResponse:
+        from .resources.testsets import TestsetsResourceWithRawResponse
+
+        return TestsetsResourceWithRawResponse(self._client.testsets)
+
+    @cached_property
+    def testcases(self) -> testcases.TestcasesResourceWithRawResponse:
+        from .resources.testcases import TestcasesResourceWithRawResponse
+
+        return TestcasesResourceWithRawResponse(self._client.testcases)
+
+    @cached_property
+    def runs(self) -> runs.RunsResourceWithRawResponse:
+        from .resources.runs import RunsResourceWithRawResponse
+
+        return RunsResourceWithRawResponse(self._client.runs)
+
+    @cached_property
+    def metrics(self) -> metrics.MetricsResourceWithRawResponse:
+        from .resources.metrics import MetricsResourceWithRawResponse
+
+        return MetricsResourceWithRawResponse(self._client.metrics)
+
+    @cached_property
+    def records(self) -> records.RecordsResourceWithRawResponse:
+        from .resources.records import RecordsResourceWithRawResponse
+
+        return RecordsResourceWithRawResponse(self._client.records)
+
+    @cached_property
+    def scores(self) -> scores.ScoresResourceWithRawResponse:
+        from .resources.scores import ScoresResourceWithRawResponse
+
+        return ScoresResourceWithRawResponse(self._client.scores)
+
+    @cached_property
+    def systems(self) -> systems.SystemsResourceWithRawResponse:
+        from .resources.systems import SystemsResourceWithRawResponse
+
+        return SystemsResourceWithRawResponse(self._client.systems)
 
 
 class AsyncScorecardWithRawResponse:
+    _client: AsyncScorecard
+
     def __init__(self, client: AsyncScorecard) -> None:
-        self.projects = projects.AsyncProjectsResourceWithRawResponse(client.projects)
-        self.testsets = testsets.AsyncTestsetsResourceWithRawResponse(client.testsets)
-        self.testcases = testcases.AsyncTestcasesResourceWithRawResponse(client.testcases)
-        self.runs = runs.AsyncRunsResourceWithRawResponse(client.runs)
-        self.metrics = metrics.AsyncMetricsResourceWithRawResponse(client.metrics)
-        self.records = records.AsyncRecordsResourceWithRawResponse(client.records)
-        self.scores = scores.AsyncScoresResourceWithRawResponse(client.scores)
-        self.systems = systems.AsyncSystemsResourceWithRawResponse(client.systems)
+        self._client = client
+
+    @cached_property
+    def projects(self) -> projects.AsyncProjectsResourceWithRawResponse:
+        from .resources.projects import AsyncProjectsResourceWithRawResponse
+
+        return AsyncProjectsResourceWithRawResponse(self._client.projects)
+
+    @cached_property
+    def testsets(self) -> testsets.AsyncTestsetsResourceWithRawResponse:
+        from .resources.testsets import AsyncTestsetsResourceWithRawResponse
+
+        return AsyncTestsetsResourceWithRawResponse(self._client.testsets)
+
+    @cached_property
+    def testcases(self) -> testcases.AsyncTestcasesResourceWithRawResponse:
+        from .resources.testcases import AsyncTestcasesResourceWithRawResponse
+
+        return AsyncTestcasesResourceWithRawResponse(self._client.testcases)
+
+    @cached_property
+    def runs(self) -> runs.AsyncRunsResourceWithRawResponse:
+        from .resources.runs import AsyncRunsResourceWithRawResponse
+
+        return AsyncRunsResourceWithRawResponse(self._client.runs)
+
+    @cached_property
+    def metrics(self) -> metrics.AsyncMetricsResourceWithRawResponse:
+        from .resources.metrics import AsyncMetricsResourceWithRawResponse
+
+        return AsyncMetricsResourceWithRawResponse(self._client.metrics)
+
+    @cached_property
+    def records(self) -> records.AsyncRecordsResourceWithRawResponse:
+        from .resources.records import AsyncRecordsResourceWithRawResponse
+
+        return AsyncRecordsResourceWithRawResponse(self._client.records)
+
+    @cached_property
+    def scores(self) -> scores.AsyncScoresResourceWithRawResponse:
+        from .resources.scores import AsyncScoresResourceWithRawResponse
+
+        return AsyncScoresResourceWithRawResponse(self._client.scores)
+
+    @cached_property
+    def systems(self) -> systems.AsyncSystemsResourceWithRawResponse:
+        from .resources.systems import AsyncSystemsResourceWithRawResponse
+
+        return AsyncSystemsResourceWithRawResponse(self._client.systems)
 
 
 class ScorecardWithStreamedResponse:
+    _client: Scorecard
+
     def __init__(self, client: Scorecard) -> None:
-        self.projects = projects.ProjectsResourceWithStreamingResponse(client.projects)
-        self.testsets = testsets.TestsetsResourceWithStreamingResponse(client.testsets)
-        self.testcases = testcases.TestcasesResourceWithStreamingResponse(client.testcases)
-        self.runs = runs.RunsResourceWithStreamingResponse(client.runs)
-        self.metrics = metrics.MetricsResourceWithStreamingResponse(client.metrics)
-        self.records = records.RecordsResourceWithStreamingResponse(client.records)
-        self.scores = scores.ScoresResourceWithStreamingResponse(client.scores)
-        self.systems = systems.SystemsResourceWithStreamingResponse(client.systems)
+        self._client = client
+
+    @cached_property
+    def projects(self) -> projects.ProjectsResourceWithStreamingResponse:
+        from .resources.projects import ProjectsResourceWithStreamingResponse
+
+        return ProjectsResourceWithStreamingResponse(self._client.projects)
+
+    @cached_property
+    def testsets(self) -> testsets.TestsetsResourceWithStreamingResponse:
+        from .resources.testsets import TestsetsResourceWithStreamingResponse
+
+        return TestsetsResourceWithStreamingResponse(self._client.testsets)
+
+    @cached_property
+    def testcases(self) -> testcases.TestcasesResourceWithStreamingResponse:
+        from .resources.testcases import TestcasesResourceWithStreamingResponse
+
+        return TestcasesResourceWithStreamingResponse(self._client.testcases)
+
+    @cached_property
+    def runs(self) -> runs.RunsResourceWithStreamingResponse:
+        from .resources.runs import RunsResourceWithStreamingResponse
+
+        return RunsResourceWithStreamingResponse(self._client.runs)
+
+    @cached_property
+    def metrics(self) -> metrics.MetricsResourceWithStreamingResponse:
+        from .resources.metrics import MetricsResourceWithStreamingResponse
+
+        return MetricsResourceWithStreamingResponse(self._client.metrics)
+
+    @cached_property
+    def records(self) -> records.RecordsResourceWithStreamingResponse:
+        from .resources.records import RecordsResourceWithStreamingResponse
+
+        return RecordsResourceWithStreamingResponse(self._client.records)
+
+    @cached_property
+    def scores(self) -> scores.ScoresResourceWithStreamingResponse:
+        from .resources.scores import ScoresResourceWithStreamingResponse
+
+        return ScoresResourceWithStreamingResponse(self._client.scores)
+
+    @cached_property
+    def systems(self) -> systems.SystemsResourceWithStreamingResponse:
+        from .resources.systems import SystemsResourceWithStreamingResponse
+
+        return SystemsResourceWithStreamingResponse(self._client.systems)
 
 
 class AsyncScorecardWithStreamedResponse:
+    _client: AsyncScorecard
+
     def __init__(self, client: AsyncScorecard) -> None:
-        self.projects = projects.AsyncProjectsResourceWithStreamingResponse(client.projects)
-        self.testsets = testsets.AsyncTestsetsResourceWithStreamingResponse(client.testsets)
-        self.testcases = testcases.AsyncTestcasesResourceWithStreamingResponse(client.testcases)
-        self.runs = runs.AsyncRunsResourceWithStreamingResponse(client.runs)
-        self.metrics = metrics.AsyncMetricsResourceWithStreamingResponse(client.metrics)
-        self.records = records.AsyncRecordsResourceWithStreamingResponse(client.records)
-        self.scores = scores.AsyncScoresResourceWithStreamingResponse(client.scores)
-        self.systems = systems.AsyncSystemsResourceWithStreamingResponse(client.systems)
+        self._client = client
+
+    @cached_property
+    def projects(self) -> projects.AsyncProjectsResourceWithStreamingResponse:
+        from .resources.projects import AsyncProjectsResourceWithStreamingResponse
+
+        return AsyncProjectsResourceWithStreamingResponse(self._client.projects)
+
+    @cached_property
+    def testsets(self) -> testsets.AsyncTestsetsResourceWithStreamingResponse:
+        from .resources.testsets import AsyncTestsetsResourceWithStreamingResponse
+
+        return AsyncTestsetsResourceWithStreamingResponse(self._client.testsets)
+
+    @cached_property
+    def testcases(self) -> testcases.AsyncTestcasesResourceWithStreamingResponse:
+        from .resources.testcases import AsyncTestcasesResourceWithStreamingResponse
+
+        return AsyncTestcasesResourceWithStreamingResponse(self._client.testcases)
+
+    @cached_property
+    def runs(self) -> runs.AsyncRunsResourceWithStreamingResponse:
+        from .resources.runs import AsyncRunsResourceWithStreamingResponse
+
+        return AsyncRunsResourceWithStreamingResponse(self._client.runs)
+
+    @cached_property
+    def metrics(self) -> metrics.AsyncMetricsResourceWithStreamingResponse:
+        from .resources.metrics import AsyncMetricsResourceWithStreamingResponse
+
+        return AsyncMetricsResourceWithStreamingResponse(self._client.metrics)
+
+    @cached_property
+    def records(self) -> records.AsyncRecordsResourceWithStreamingResponse:
+        from .resources.records import AsyncRecordsResourceWithStreamingResponse
+
+        return AsyncRecordsResourceWithStreamingResponse(self._client.records)
+
+    @cached_property
+    def scores(self) -> scores.AsyncScoresResourceWithStreamingResponse:
+        from .resources.scores import AsyncScoresResourceWithStreamingResponse
+
+        return AsyncScoresResourceWithStreamingResponse(self._client.scores)
+
+    @cached_property
+    def systems(self) -> systems.AsyncSystemsResourceWithStreamingResponse:
+        from .resources.systems import AsyncSystemsResourceWithStreamingResponse
+
+        return AsyncSystemsResourceWithStreamingResponse(self._client.systems)
 
 
 Client = Scorecard
