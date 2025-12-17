@@ -18,7 +18,7 @@ def main() -> None:
 
     # Create a streaming request
     with claude.messages.stream(
-        model="claude-3-5-sonnet-20241022",
+        model="claude-3-5-haiku-20241022",
         messages=[
             {"role": "user", "content": "Write a short poem about Python programming."},
         ],
