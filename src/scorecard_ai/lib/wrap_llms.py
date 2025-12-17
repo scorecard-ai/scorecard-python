@@ -47,26 +47,26 @@ class _SpanWrapper(ReadableSpan):
     """Wrapper that returns a modified resource for a span."""
 
     def __init__(self, span: ReadableSpan, new_resource: Resource):
-        self._span = span
-        self._resource = new_resource
+        self.__span = span
+        self.__resource = new_resource
 
     @property
     @override
     def resource(self) -> Resource:
         """Return the modified resource."""
-        return self._resource
+        return self.__resource
 
     def __getattr__(self, name: str) -> Any:
         """Delegate all other attributes to the wrapped span."""
-        return getattr(self._span, name)
+        return getattr(self.__span, name)
 
     @override
     def __setattr__(self, name: str, value: Any) -> None:
         """Delegate attribute setting to the wrapped span, except for internal attributes."""
-        if name in ("_span", "_resource"):
+        if name in ("_SpanWrapper__span", "_SpanWrapper__resource"):
             object.__setattr__(self, name, value)
         else:
-            setattr(self._span, name, value)
+            setattr(self.__span, name, value)
 
 
 class ScorecardExporter(SpanExporter):
@@ -77,18 +77,19 @@ class ScorecardExporter(SpanExporter):
 
     @override
     def export(self, spans: Sequence[ReadableSpan]) -> SpanExportResult:
-        """Export spans after injecting projectId into resource."""
+        """Export spans after injecting scorecard.* attributes into resource."""
         modified_spans: list[ReadableSpan] = []
         for span in spans:
             result_span: ReadableSpan = span
             if span.attributes is not None:
-                project_id = span.attributes.get("scorecard.project_id")
+                # Collect all scorecard.* attributes from span attributes
+                scorecard_attrs = {key: value for key, value in span.attributes.items() if key.startswith("scorecard.")}
 
-                if project_id:
-                    # Merge projectId into the resource
+                if scorecard_attrs:
+                    # Merge all scorecard.* attributes into the resource
                     # Use Resource() directly to avoid resource detectors during shutdown
-                    project_resource = Resource(attributes={"scorecard.project_id": project_id})
-                    new_resource = span.resource.merge(project_resource)
+                    scorecard_resource = Resource(attributes=scorecard_attrs)
+                    new_resource = span.resource.merge(scorecard_resource)
                     # Wrap the span with modified resource
                     result_span = _SpanWrapper(span, new_resource)
 
@@ -106,40 +107,40 @@ class CompositeProcessor(SpanProcessor):
     """Composite processor that manages multiple batch processors."""
 
     def __init__(self) -> None:
-        self._processors: dict[str, BatchSpanProcessor] = {}
+        self.__processors: dict[str, BatchSpanProcessor] = {}
 
     def add_processor(self, api_key: str, endpoint: str, max_export_batch_size: int) -> None:
         """Add a processor for the given API key and endpoint."""
         key = f"{api_key}:{endpoint}"
-        if key in self._processors:
+        if key in self.__processors:
             return
 
         exporter = ScorecardExporter(endpoint=endpoint, headers={"Authorization": f"Bearer {api_key}"})
         processor = BatchSpanProcessor(exporter, max_export_batch_size=max_export_batch_size)
-        self._processors[key] = processor
+        self.__processors[key] = processor
 
     @override
     def on_start(self, span: Span, parent_context: Optional[Context] = None) -> None:
         """Forward on_start to all processors."""
-        for processor in self._processors.values():
+        for processor in self.__processors.values():
             processor.on_start(span, parent_context)
 
     @override
     def on_end(self, span: ReadableSpan) -> None:
         """Forward on_end to all processors."""
-        for processor in self._processors.values():
+        for processor in self.__processors.values():
             processor.on_end(span)
 
     @override
     def shutdown(self) -> None:
         """Shutdown all processors."""
-        for processor in self._processors.values():
+        for processor in self.__processors.values():
             processor.shutdown()  # type: ignore[no-untyped-call]
 
     @override
     def force_flush(self, timeout_millis: int = 30000) -> bool:
         """Force flush all processors."""
-        return all(processor.force_flush(timeout_millis) for processor in self._processors.values())
+        return all(processor.force_flush(timeout_millis) for processor in self.__processors.values())
 
 
 _global_provider: Optional[TracerProvider] = None
@@ -210,7 +211,9 @@ def _handle_openai_response(span: trace.Span, result: Any, params: dict[str, Any
         {
             "gen_ai.response.id": getattr(result, "id", "unknown"),
             "gen_ai.response.model": getattr(result, "model", params.get("model", "unknown")),
-            "gen_ai.response.finish_reason": (result.choices[0].finish_reason if result.choices else "unknown"),
+            "gen_ai.response.finish_reason": (result.choices[0].finish_reason or "unknown")
+            if result.choices
+            else "unknown",
             "gen_ai.usage.prompt_tokens": getattr(result.usage, "prompt_tokens", 0) if result.usage else 0,
             "gen_ai.usage.completion_tokens": (getattr(result.usage, "completion_tokens", 0) if result.usage else 0),
             "gen_ai.usage.total_tokens": getattr(result.usage, "total_tokens", 0) if result.usage else 0,
@@ -233,7 +236,7 @@ def _handle_anthropic_response(span: trace.Span, result: Any, params: dict[str, 
         {
             "gen_ai.response.id": getattr(result, "id", "unknown"),
             "gen_ai.response.model": getattr(result, "model", params.get("model", "unknown")),
-            "gen_ai.response.finish_reason": getattr(result, "stop_reason", "unknown"),
+            "gen_ai.response.finish_reason": getattr(result, "stop_reason", None) or "unknown",
             "gen_ai.usage.prompt_tokens": input_tokens,
             "gen_ai.usage.completion_tokens": output_tokens,
             "gen_ai.usage.total_tokens": input_tokens + output_tokens,
@@ -248,6 +251,258 @@ def _handle_anthropic_response(span: trace.Span, result: Any, params: dict[str, 
                 "gen_ai.completion.choices",
                 json.dumps([{"message": {"role": "assistant", "content": "\n".join(completion_texts)}}]),
             )
+
+
+class _StreamWrapper:
+    """Wrapper for synchronous streams that collects metadata and ends span when consumed."""
+
+    def __init__(self, stream: Any, span: trace.Span, provider: str, params: dict[str, Any]):
+        self.__stream = stream
+        self.__span = span
+        self.__provider = provider
+        self.__params = params
+        self.__content_parts: list[str] = []
+        self.__finish_reason: Optional[str] = None
+        self.__usage_data: dict[str, int] = {}
+        self.__response_id: Optional[str] = None
+        self.__model: Optional[str] = None
+
+    def __iter__(self) -> Any:
+        """Make the wrapper iterable."""
+        return self
+
+    def __next__(self) -> Any:
+        """Get the next chunk from the stream and accumulate metadata."""
+        try:
+            chunk = next(self.__stream)
+            self.__process_chunk(chunk)
+            return chunk
+        except StopIteration:
+            # Stream is exhausted, finalize span
+            self.__finalize_span()
+            raise
+
+    def __enter__(self) -> Any:
+        """Support context manager protocol."""
+        return self
+
+    def __exit__(self, *args: Any) -> None:
+        """Ensure span is ended when context exits."""
+        if not self.__span.is_recording():
+            return
+        self.__finalize_span()
+
+    def __process_chunk(self, chunk: Any) -> None:
+        """Process a chunk and extract metadata."""
+        # OpenAI streaming format
+        if self.__provider == "openai" and hasattr(chunk, "choices"):
+            if not self.__response_id and hasattr(chunk, "id"):
+                self.__response_id = chunk.id
+            if not self.__model and hasattr(chunk, "model"):
+                self.__model = chunk.model
+
+            if chunk.choices:
+                choice = chunk.choices[0]
+                if hasattr(choice, "delta") and hasattr(choice.delta, "content") and choice.delta.content:
+                    self.__content_parts.append(choice.delta.content)
+                if hasattr(choice, "finish_reason") and choice.finish_reason:
+                    self.__finish_reason = choice.finish_reason
+
+            # OpenAI includes usage in the last chunk with stream_options
+            if hasattr(chunk, "usage") and chunk.usage:
+                self.__usage_data = {
+                    "prompt_tokens": getattr(chunk.usage, "prompt_tokens", 0),
+                    "completion_tokens": getattr(chunk.usage, "completion_tokens", 0),
+                    "total_tokens": getattr(chunk.usage, "total_tokens", 0),
+                }
+
+        # Anthropic streaming format
+        elif self.__provider == "anthropic":
+            if hasattr(chunk, "type"):
+                if chunk.type == "message_start" and hasattr(chunk, "message"):
+                    self.__response_id = getattr(chunk.message, "id", None)
+                    self.__model = getattr(chunk.message, "model", None)
+                elif chunk.type == "content_block_delta" and hasattr(chunk, "delta"):
+                    if hasattr(chunk.delta, "text"):
+                        self.__content_parts.append(chunk.delta.text)
+                elif chunk.type == "message_delta" and hasattr(chunk, "delta"):
+                    if hasattr(chunk.delta, "stop_reason"):
+                        self.__finish_reason = chunk.delta.stop_reason
+                    if hasattr(chunk, "usage"):
+                        self.__usage_data["output_tokens"] = getattr(chunk.usage, "output_tokens", 0)
+                elif chunk.type == "message_start" and hasattr(chunk, "message") and hasattr(chunk.message, "usage"):
+                    self.__usage_data["input_tokens"] = getattr(chunk.message.usage, "input_tokens", 0)
+
+    def __finalize_span(self) -> None:
+        """Set final attributes on span and end it."""
+        if not self.__span.is_recording():
+            return
+
+        # Set response attributes
+        self.__span.set_attributes(
+            {
+                "gen_ai.response.id": self.__response_id or "unknown",
+                "gen_ai.response.model": self.__model or self.__params.get("model", "unknown"),
+                "gen_ai.response.finish_reason": self.__finish_reason or "unknown",
+            }
+        )
+
+        # Set usage data
+        if self.__usage_data:
+            if self.__provider == "openai":
+                self.__span.set_attributes(
+                    {
+                        "gen_ai.usage.prompt_tokens": self.__usage_data.get("prompt_tokens", 0),
+                        "gen_ai.usage.completion_tokens": self.__usage_data.get("completion_tokens", 0),
+                        "gen_ai.usage.total_tokens": self.__usage_data.get("total_tokens", 0),
+                    }
+                )
+            elif self.__provider == "anthropic":
+                input_tokens = self.__usage_data.get("input_tokens", 0)
+                output_tokens = self.__usage_data.get("output_tokens", 0)
+                self.__span.set_attributes(
+                    {
+                        "gen_ai.usage.prompt_tokens": input_tokens,
+                        "gen_ai.usage.completion_tokens": output_tokens,
+                        "gen_ai.usage.total_tokens": input_tokens + output_tokens,
+                    }
+                )
+
+        # Set completion content if any was collected
+        if self.__content_parts:
+            content = "".join(self.__content_parts)
+            self.__span.set_attribute(
+                "gen_ai.completion.choices",
+                json.dumps([{"message": {"role": "assistant", "content": content}}]),
+            )
+
+        self.__span.end()
+
+
+class _AsyncStreamWrapper:
+    """Wrapper for asynchronous streams that collects metadata and ends span when consumed."""
+
+    def __init__(self, stream: Any, span: trace.Span, provider: str, params: dict[str, Any]):
+        self.__stream = stream
+        self.__span = span
+        self.__provider = provider
+        self.__params = params
+        self.__content_parts: list[str] = []
+        self.__finish_reason: Optional[str] = None
+        self.__usage_data: dict[str, int] = {}
+        self.__response_id: Optional[str] = None
+        self.__model: Optional[str] = None
+
+    def __aiter__(self) -> Any:
+        """Make the wrapper async iterable."""
+        return self
+
+    async def __anext__(self) -> Any:
+        """Get the next chunk from the async stream and accumulate metadata."""
+        try:
+            chunk = await self.__stream.__anext__()
+            self.__process_chunk(chunk)
+            return chunk
+        except StopAsyncIteration:
+            # Stream is exhausted, finalize span
+            self.__finalize_span()
+            raise
+
+    async def __aenter__(self) -> Any:
+        """Support async context manager protocol."""
+        return self
+
+    async def __aexit__(self, *args: Any) -> None:
+        """Ensure span is ended when context exits."""
+        if not self.__span.is_recording():
+            return
+        self.__finalize_span()
+
+    def __process_chunk(self, chunk: Any) -> None:
+        """Process a chunk and extract metadata."""
+        # OpenAI streaming format
+        if self.__provider == "openai" and hasattr(chunk, "choices"):
+            if not self.__response_id and hasattr(chunk, "id"):
+                self.__response_id = chunk.id
+            if not self.__model and hasattr(chunk, "model"):
+                self.__model = chunk.model
+
+            if chunk.choices:
+                choice = chunk.choices[0]
+                if hasattr(choice, "delta") and hasattr(choice.delta, "content") and choice.delta.content:
+                    self.__content_parts.append(choice.delta.content)
+                if hasattr(choice, "finish_reason") and choice.finish_reason:
+                    self.__finish_reason = choice.finish_reason
+
+            # OpenAI includes usage in the last chunk with stream_options
+            if hasattr(chunk, "usage") and chunk.usage:
+                self.__usage_data = {
+                    "prompt_tokens": getattr(chunk.usage, "prompt_tokens", 0),
+                    "completion_tokens": getattr(chunk.usage, "completion_tokens", 0),
+                    "total_tokens": getattr(chunk.usage, "total_tokens", 0),
+                }
+
+        # Anthropic streaming format
+        elif self.__provider == "anthropic":
+            if hasattr(chunk, "type"):
+                if chunk.type == "message_start" and hasattr(chunk, "message"):
+                    self.__response_id = getattr(chunk.message, "id", None)
+                    self.__model = getattr(chunk.message, "model", None)
+                elif chunk.type == "content_block_delta" and hasattr(chunk, "delta"):
+                    if hasattr(chunk.delta, "text"):
+                        self.__content_parts.append(chunk.delta.text)
+                elif chunk.type == "message_delta" and hasattr(chunk, "delta"):
+                    if hasattr(chunk.delta, "stop_reason"):
+                        self.__finish_reason = chunk.delta.stop_reason
+                    if hasattr(chunk, "usage"):
+                        self.__usage_data["output_tokens"] = getattr(chunk.usage, "output_tokens", 0)
+                elif chunk.type == "message_start" and hasattr(chunk, "message") and hasattr(chunk.message, "usage"):
+                    self.__usage_data["input_tokens"] = getattr(chunk.message.usage, "input_tokens", 0)
+
+    def __finalize_span(self) -> None:
+        """Set final attributes on span and end it."""
+        if not self.__span.is_recording():
+            return
+
+        # Set response attributes
+        self.__span.set_attributes(
+            {
+                "gen_ai.response.id": self.__response_id or "unknown",
+                "gen_ai.response.model": self.__model or self.__params.get("model", "unknown"),
+                "gen_ai.response.finish_reason": self.__finish_reason or "unknown",
+            }
+        )
+
+        # Set usage data
+        if self.__usage_data:
+            if self.__provider == "openai":
+                self.__span.set_attributes(
+                    {
+                        "gen_ai.usage.prompt_tokens": self.__usage_data.get("prompt_tokens", 0),
+                        "gen_ai.usage.completion_tokens": self.__usage_data.get("completion_tokens", 0),
+                        "gen_ai.usage.total_tokens": self.__usage_data.get("total_tokens", 0),
+                    }
+                )
+            elif self.__provider == "anthropic":
+                input_tokens = self.__usage_data.get("input_tokens", 0)
+                output_tokens = self.__usage_data.get("output_tokens", 0)
+                self.__span.set_attributes(
+                    {
+                        "gen_ai.usage.prompt_tokens": input_tokens,
+                        "gen_ai.usage.completion_tokens": output_tokens,
+                        "gen_ai.usage.total_tokens": input_tokens + output_tokens,
+                    }
+                )
+
+        # Set completion content if any was collected
+        if self.__content_parts:
+            content = "".join(self.__content_parts)
+            self.__span.set_attribute(
+                "gen_ai.completion.choices",
+                json.dumps([{"message": {"role": "assistant", "content": content}}]),
+            )
+
+        self.__span.end()
 
 
 class _LLMClientWrapper:
@@ -332,12 +587,71 @@ class _NestedWrapper:
                 if self._tracer is None:
                     raise ScorecardError("Failed to initialize tracer")
 
-                # Start span in current active context (enables nesting)
+                # Check if streaming is enabled
+                is_streaming = kwargs.get("stream", False)
+
+                if is_streaming:
+                    # For streaming, start span manually (not with context manager)
+                    span = self._tracer.start_span(f"{self._provider}.request")
+                    _populate_span_attributes(span, kwargs)
+
+                    try:
+                        stream = await original_method(*args, **kwargs)
+                        # Wrap the stream so it can finalize the span when consumed
+                        return _AsyncStreamWrapper(stream, span, self._provider, kwargs)
+                    except Exception as e:
+                        span.record_exception(e)
+                        span.end()
+                        raise
+                else:
+                    # Non-streaming: use context manager as before
+                    with self._tracer.start_as_current_span(f"{self._provider}.request") as span:
+                        _populate_span_attributes(span, kwargs)
+
+                        try:
+                            result = await original_method(*args, **kwargs)
+
+                            # Set response attributes (provider-specific)
+                            if self._provider == "openai":
+                                _handle_openai_response(span, result, kwargs)
+                            elif self._provider == "anthropic":
+                                _handle_anthropic_response(span, result, kwargs)
+
+                            return result
+                        except Exception as e:
+                            span.record_exception(e)
+                            raise
+
+            return async_traced_create
+
+        # Sync wrapper
+        def traced_create(*args: Any, **kwargs: Any) -> Any:
+            if self._tracer is None:
+                raise ScorecardError("Failed to initialize tracer")
+
+            # Check if streaming is enabled
+            is_streaming = kwargs.get("stream", False)
+
+            if is_streaming:
+                # For streaming, start span manually (not with context manager)
+                span = self._tracer.start_span(f"{self._provider}.request")
+                _populate_span_attributes(span, kwargs)
+
+                try:
+                    stream = original_method(*args, **kwargs)
+                    # Wrap the stream so it can finalize the span when consumed
+                    return _StreamWrapper(stream, span, self._provider, kwargs)
+                except Exception as e:
+                    span.record_exception(e)
+                    span.end()
+                    raise
+            else:
+                # Non-streaming: use context manager as before
                 with self._tracer.start_as_current_span(f"{self._provider}.request") as span:
                     _populate_span_attributes(span, kwargs)
 
                     try:
-                        result = await original_method(*args, **kwargs)
+                        result = original_method(*args, **kwargs)
 
                         # Set response attributes (provider-specific)
                         if self._provider == "openai":
@@ -349,31 +663,6 @@ class _NestedWrapper:
                     except Exception as e:
                         span.record_exception(e)
                         raise
-
-            return async_traced_create
-
-        # Sync wrapper
-        def traced_create(*args: Any, **kwargs: Any) -> Any:
-            if self._tracer is None:
-                raise ScorecardError("Failed to initialize tracer")
-
-            # Start span in current active context (enables nesting)
-            with self._tracer.start_as_current_span(f"{self._provider}.request") as span:
-                _populate_span_attributes(span, kwargs)
-
-                try:
-                    result = original_method(*args, **kwargs)
-
-                    # Set response attributes (provider-specific)
-                    if self._provider == "openai":
-                        _handle_openai_response(span, result, kwargs)
-                    elif self._provider == "anthropic":
-                        _handle_anthropic_response(span, result, kwargs)
-
-                    return result
-                except Exception as e:
-                    span.record_exception(e)
-                    raise
 
         return traced_create
 

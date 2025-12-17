@@ -24,7 +24,7 @@ def main() -> None:
         max_tokens=500,
     )
 
-    print("Response:", response.choices[0].message.content if response.choices else "No response")
+    print("Response:", response.choices[0].message.content or "" if response.choices else "No response")
 
 
 if __name__ == "__main__":

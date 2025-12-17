@@ -65,6 +65,39 @@ response = claude.messages.create(
 )
 ```
 
+### Streaming Support
+
+The wrapper fully supports streaming responses from both OpenAI and Anthropic:
+
+```python
+# OpenAI streaming
+stream = openai.chat.completions.create(
+    model="gpt-4",
+    messages=[{"role": "user", "content": "Tell me a story"}],
+    stream=True,
+    stream_options={"include_usage": True}  # Include token usage in stream
+)
+
+for chunk in stream:
+    if chunk.choices and chunk.choices[0].delta.content:
+        print(chunk.choices[0].delta.content, end="", flush=True)
+```
+
+```python
+# Anthropic streaming with context manager
+with claude.messages.stream(
+    model="claude-3-5-sonnet-20241022",
+    messages=[{"role": "user", "content": "Tell me a story"}],
+    max_tokens=200
+) as stream:
+    for text in stream.text_stream:
+        print(text, end="", flush=True)
+```
+
+The wrapper accumulates metadata (tokens, finish reason, content) as the stream is consumed and automatically closes the trace when the stream completes.
+
+See [`openai_streaming.py`](./openai_streaming.py) and [`anthropic_streaming.py`](./anthropic_streaming.py) for complete examples.
+
 ### Nested Traces
 
 The wrapper automatically respects OpenTelemetry context, so LLM calls will be nested as children of any active spans:
@@ -80,7 +113,7 @@ with tracer.start_as_current_span("my-workflow") as span:
     response = openai.chat.completions.create(...)
 ```
 
-See [`basic_nesting.py`](./basic_nesting.py) and [`nested_traces.py`](./nested_traces.py) for complete examples.
+See [`nested_simple.py`](./nested_simple.py) and [`nested_advanced.py`](./nested_advanced.py) for complete examples.
 
 ### Configuration
 
@@ -105,8 +138,10 @@ export SCORECARD_PROJECT_ID="123"
 # Run examples
 python openai_simple.py
 python anthropic_simple.py
-python basic_nesting.py
-python nested_traces.py
+python openai_streaming.py
+python anthropic_streaming.py
+python nested_simple.py
+python nested_advanced.py
 ```
 
 ### What Gets Traced
@@ -117,5 +152,6 @@ The wrappers automatically capture:
 - Response model, finish reason, tokens used
 - Completion text
 - Errors and exceptions
+- Streaming responses (accumulated as stream is consumed)
 
 All traces include GenAI semantic conventions compatible with the Scorecard backend.
