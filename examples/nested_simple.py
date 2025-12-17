@@ -28,7 +28,9 @@ def process_user_request(user_id: str, question: str) -> str:
             max_tokens=100,
         )
 
-        answer = response.choices[0].message.content or "" if response.choices else ""
+        answer = ""
+        if response.choices and response.choices[0].message:
+            answer = response.choices[0].message.content or ""
         span.set_attribute("answer.length", len(answer))
 
         return answer

@@ -41,7 +41,9 @@ def analyze_with_multiple_llms(user_query: str) -> dict[str, str]:
                 max_tokens=200,
             )
 
-            gpt_analysis = gpt_response.choices[0].message.content or "" if gpt_response.choices else ""
+            gpt_analysis = ""
+            if gpt_response.choices and gpt_response.choices[0].message:
+                gpt_analysis = gpt_response.choices[0].message.content or ""
 
         print(f"GPT Analysis: {gpt_analysis}")
 

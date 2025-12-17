@@ -292,6 +292,10 @@ class _StreamWrapper:
             return
         self.__finalize_span()
 
+    def __del__(self) -> None:
+        """Finalize span upon garbage collection as a fallback."""
+        self.__finalize_span()
+
     def __process_chunk(self, chunk: Any) -> None:
         """Process a chunk and extract metadata."""
         # OpenAI streaming format
@@ -416,6 +420,10 @@ class _AsyncStreamWrapper:
         """Ensure span is ended when context exits."""
         if not self.__span.is_recording():
             return
+        self.__finalize_span()
+
+    def __del__(self) -> None:
+        """Finalize span upon garbage collection as a fallback."""
         self.__finalize_span()
 
     def __process_chunk(self, chunk: Any) -> None:
