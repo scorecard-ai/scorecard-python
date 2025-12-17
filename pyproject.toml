@@ -40,6 +40,11 @@ Repository = "https://github.com/scorecard-ai/scorecard-python"
 
 [project.optional-dependencies]
 aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
+otel = [
+    "opentelemetry-api>=1.39.1",
+    "opentelemetry-sdk>=1.39.1",
+    "opentelemetry-exporter-otlp-proto-http>=1.39.1",
+]
 
 [tool.rye]
 managed = true
@@ -148,6 +153,7 @@ exclude = [
     ".venv",
     ".nox",
     ".git",
+    "examples",
 ]
 
 reportImplicitOverride = true
@@ -166,7 +172,8 @@ show_error_codes = true
 #
 # We also exclude our `tests` as mypy doesn't always infer
 # types correctly and Pyright will still catch any type errors.
-exclude = ['src/scorecard_ai/_files.py', '_dev/.*.py', 'tests/.*']
+# Examples are excluded as they depend on optional dependencies.
+exclude = ['src/scorecard_ai/_files.py', '_dev/.*.py', 'tests/.*', 'examples/.*']
 
 strict_equality = true
 implicit_reexport = true
