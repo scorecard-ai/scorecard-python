@@ -39,6 +39,7 @@ from ._exceptions import (
 )
 from ._base_client import DefaultHttpxClient, DefaultAioHttpClient, DefaultAsyncHttpxClient
 from ._utils._logs import setup_logging as _setup_logging
+from .lib.wrap_llms import wrap, wrap_openai, wrap_anthropic
 
 __all__ = [
     "types",
@@ -83,6 +84,9 @@ __all__ = [
     "DefaultHttpxClient",
     "DefaultAsyncHttpxClient",
     "DefaultAioHttpClient",
+    "wrap",
+    "wrap_openai",
+    "wrap_anthropic",
 ]
 
 if not _t.TYPE_CHECKING:

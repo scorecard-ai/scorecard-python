@@ -1,0 +1,8 @@
+# Requirements for Scorecard Python examples
+
+# Core Scorecard SDK with OpenTelemetry support
+scorecard-ai[otel]>=3.6.0
+
+# LLM providers for examples
+openai>=2.12.0
+anthropic>=0.75.0
