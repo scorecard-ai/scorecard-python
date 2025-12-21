@@ -11,6 +11,14 @@ __all__ = ["System", "Version"]
 
 
 class Version(BaseModel):
+    """A SystemVersion defines the specific settings for a System Under Test.
+
+    System versions contain parameter values that determine system behavior during evaluation.
+    They are immutable snapshots - once created, they never change.
+
+    When running evaluations, you reference a specific systemVersionId to establish which system version to test.
+    """
+
     id: str
     """The ID of the system version."""
 
@@ -19,6 +27,12 @@ class Version(BaseModel):
 
 
 class System(BaseModel):
+    """A System Under Test (SUT).
+
+    Systems are templates - to run evaluations, pair them with a SystemVersion that provides specific
+    parameter values.
+    """
+
     id: str
     """The ID of the system."""
 

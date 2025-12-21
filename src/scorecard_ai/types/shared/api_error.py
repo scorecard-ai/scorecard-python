@@ -8,6 +8,8 @@ __all__ = ["APIError"]
 
 
 class APIError(BaseModel):
+    """An API error."""
+
     code: str
 
     details: Dict[str, object]

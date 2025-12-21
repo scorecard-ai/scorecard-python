@@ -9,5 +9,7 @@ __all__ = ["RecordListResponse"]
 
 
 class RecordListResponse(Record):
+    """A record with all its associated scores."""
+
     scores: List[Score]
     """All scores associated with this record."""

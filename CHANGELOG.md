@@ -1,5 +1,31 @@
 # Changelog
 
+## 3.6.0 (2025-12-21)
+
+Full Changelog: [v3.5.0...v3.6.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.5.0...v3.6.0)
+
+### Features
+
+* Add telemetry wrappers around Anthropic and OpenAI SDKs ([#26](https://github.com/scorecard-ai/scorecard-python/issues/26)) ([ed9c8ef](https://github.com/scorecard-ai/scorecard-python/commit/ed9c8ef6cf77d4ebb1527a2b120b7621da6bb390))
+
+
+### Bug Fixes
+
+* ensure streams are always closed ([4c5fd3c](https://github.com/scorecard-ai/scorecard-python/commit/4c5fd3c69f1281504a5e8eb7247362e1d676256d))
+* **types:** allow pyright to infer TypedDict types within SequenceNotStr ([196cfaf](https://github.com/scorecard-ai/scorecard-python/commit/196cfaff6d77e549897059cc9d6de4bf7c4223bd))
+* use async_to_httpx_files in patch method ([144f401](https://github.com/scorecard-ai/scorecard-python/commit/144f4012bdb9ed7bc3cf7aba1322dc7325ab2e11))
+
+
+### Chores
+
+* add missing docstrings ([5482beb](https://github.com/scorecard-ai/scorecard-python/commit/5482bebbbe23b3035637a2c7d699f7a67822eff0))
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([68d4195](https://github.com/scorecard-ai/scorecard-python/commit/68d4195da9521fe19d56915ce6505964b7914239))
+* **docs:** use environment variables for authentication in code snippets ([b63402c](https://github.com/scorecard-ai/scorecard-python/commit/b63402cbb6ae227e83a0461485d086926be1cc10))
+* **internal:** add `--fix` argument to lint script ([3fa3895](https://github.com/scorecard-ai/scorecard-python/commit/3fa3895fdfc3dda7712657b28cec1fbff554e51e))
+* **internal:** add missing files argument to base client ([5e9f032](https://github.com/scorecard-ai/scorecard-python/commit/5e9f03250d3cb81a5861c783d36cad5298efc686))
+* speedup initial import ([11876d7](https://github.com/scorecard-ai/scorecard-python/commit/11876d71767578d09ba182527679147619b715d8))
+* update lockfile ([e098aad](https://github.com/scorecard-ai/scorecard-python/commit/e098aad5e32132b7905ddd67b491d6fcf692c9b1))
+
 ## 3.5.0 (2025-11-22)
 
 Full Changelog: [v3.4.0...v3.5.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.4.0...v3.5.0)

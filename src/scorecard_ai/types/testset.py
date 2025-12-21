@@ -10,6 +10,10 @@ __all__ = ["Testset", "FieldMapping"]
 
 
 class FieldMapping(BaseModel):
+    """
+    Maps top-level keys of the Testcase schema to their roles (input/expected output). Unmapped fields are treated as metadata.
+    """
+
     expected: List[str]
     """Fields that represent expected outputs."""
 
@@ -22,6 +26,24 @@ class FieldMapping(BaseModel):
 
 class Testset(BaseModel):
     __test__ = False
+    """
+    A collection of Testcases that share the same schema.
+    Each Testset defines the structure of its Testcases through a JSON schema.
+    The `fieldMapping` object maps top-level keys of the Testcase schema to their roles (input/expected output).
+    Fields not mentioned in the `fieldMapping` during creation or update are treated as metadata.
+
+    ## JSON Schema validation constraints supported:
+
+    - **Required fields** - Fields listed in the schema's `required` array must be present in Testcases.
+    - **Type validation** - Values must match the specified type (string, number, boolean, null, integer, object, array).
+    - **Enum validation** - Values must be one of the options specified in the `enum` array.
+    - **Object property validation** - Properties of objects must conform to their defined schemas.
+    - **Array item validation** - Items in arrays must conform to the `items` schema.
+    - **Logical composition** - Values must conform to at least one schema in the `anyOf` array.
+
+    Testcases that fail validation will still be stored, but will include `validationErrors` detailing the issues.
+    Extra fields in the Testcase data that are not in the schema will be stored but are ignored during validation.
+    """
     id: str
     """The ID of the Testset."""
 

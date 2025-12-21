@@ -22,6 +22,8 @@ __all__ = [
 
 
 class AIIntMetric(BaseModel):
+    """A Metric with AI evaluation and integer output."""
+
     id: str
     """The ID of the Metric."""
 
@@ -57,6 +59,8 @@ class AIIntMetric(BaseModel):
 
 
 class HumanIntMetric(BaseModel):
+    """A Metric with human evaluation and integer output."""
+
     id: str
     """The ID of the Metric."""
 
@@ -80,6 +84,8 @@ class HumanIntMetric(BaseModel):
 
 
 class HeuristicIntMetric(BaseModel):
+    """A Metric with heuristic evaluation and integer output."""
+
     id: str
     """The ID of the Metric."""
 
@@ -103,6 +109,8 @@ class HeuristicIntMetric(BaseModel):
 
 
 class AIFloatMetric(BaseModel):
+    """A Metric with AI evaluation and float output."""
+
     id: str
     """The ID of the Metric."""
 
@@ -138,6 +146,8 @@ class AIFloatMetric(BaseModel):
 
 
 class HumanFloatMetric(BaseModel):
+    """A Metric with human evaluation and float output."""
+
     id: str
     """The ID of the Metric."""
 
@@ -161,6 +171,8 @@ class HumanFloatMetric(BaseModel):
 
 
 class HeuristicFloatMetric(BaseModel):
+    """A Metric with heuristic evaluation and float output."""
+
     id: str
     """The ID of the Metric."""
 
@@ -184,6 +196,8 @@ class HeuristicFloatMetric(BaseModel):
 
 
 class AIBooleanMetric(BaseModel):
+    """A Metric with AI evaluation and boolean output."""
+
     id: str
     """The ID of the Metric."""
 
@@ -216,6 +230,8 @@ class AIBooleanMetric(BaseModel):
 
 
 class HumanBooleanMetric(BaseModel):
+    """A Metric with human evaluation and boolean output."""
+
     id: str
     """The ID of the Metric."""
 
@@ -236,6 +252,8 @@ class HumanBooleanMetric(BaseModel):
 
 
 class HeuristicBooleanMetric(BaseModel):
+    """A Metric with heuristic evaluation and boolean output."""
+
     id: str
     """The ID of the Metric."""
 

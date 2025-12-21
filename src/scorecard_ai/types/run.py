@@ -11,6 +11,8 @@ __all__ = ["Run"]
 
 
 class Run(BaseModel):
+    """A Run in the Scorecard system."""
+
     id: str
     """The ID of the Run."""
 
