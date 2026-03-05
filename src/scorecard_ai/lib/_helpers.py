@@ -5,6 +5,7 @@ Helper functions for the Scorecard AI library.
 from __future__ import annotations
 
 import asyncio
+import uuid
 from typing import Any, Dict, List, TypeVar, Callable, Coroutine
 from collections.abc import Generator, AsyncGenerator
 from typing_extensions import TypedDict
@@ -18,6 +19,15 @@ from scorecard_ai.types.systems.system_version import SystemVersion
 SystemInput = Dict[str, Any]
 SystemOutput = Dict[str, Any]
 _T = TypeVar("_T")
+
+
+class SystemOptions(TypedDict):
+    """Options passed to the system function for each testcase execution."""
+
+    otel_link_id: str
+    """A unique ID for linking this execution with its OpenTelemetry trace.
+    Set this as an attribute on your OTel span (e.g. ``scorecard.otel_link_id``)
+    to deduplicate SDK records with trace-created records."""
 
 
 def _omit_if_not_given(value: _T | NotGiven) -> _T | Omit:
@@ -82,7 +92,7 @@ def run_and_evaluate(
     testset_id: str | NotGiven = NOT_GIVEN,
     testcases: List[Testcase] | List[SimpleTestcase] | NotGiven = NOT_GIVEN,
     system_version_id: str | NotGiven = NOT_GIVEN,
-    system: Callable[[SystemInput, SystemVersion | None], SystemOutput],
+    system: Callable[[SystemInput, SystemVersion | None, SystemOptions], SystemOutput],
     trials: int = 1,
 ) -> RunResponse:
     """
@@ -103,7 +113,8 @@ def run_and_evaluate(
 
         system_version_id: The ID of the SystemVersion to use for the run.
 
-        system: The system to run on the Testset.
+        system: The system to run on the Testset. Receives the testcase input, system version (or None),
+            and a SystemOptions dict containing ``otel_link_id`` for trace deduplication.
 
         trials: The number of times to run the system on each Testcase.
     """
@@ -134,13 +145,16 @@ def run_and_evaluate(
     # Run each Testcase sequentially
     for testcase in testcase_iter:
         for _ in range(trials):
-            model_response = system(testcase["inputs"], system_version)
+            otel_link_id = str(uuid.uuid4())
+            options = SystemOptions(otel_link_id=otel_link_id)
+            model_response = system(testcase["inputs"], system_version, options)
             client.records.create(
                 run_id=run.id,
                 testcase_id=_omit_if_not_given(testcase["id"]),
                 inputs=testcase["inputs"],
                 expected=testcase["expected"],
                 outputs=model_response,
+                extra_body={"otelLinkId": otel_link_id},
             )
 
     return RunResponse(id=run.id, url=_get_run_url(client, project_id, run.id))
@@ -154,7 +168,7 @@ async def async_run_and_evaluate(
     testset_id: str | NotGiven = NOT_GIVEN,
     testcases: List[Testcase] | List[SimpleTestcase] | NotGiven = NOT_GIVEN,
     system_version_id: str | NotGiven = NOT_GIVEN,
-    system: Callable[[SystemInput, SystemVersion | None], SystemOutput],
+    system: Callable[[SystemInput, SystemVersion | None, SystemOptions], SystemOutput],
     trials: int = 1,
 ) -> RunResponse:
     """
@@ -175,7 +189,8 @@ async def async_run_and_evaluate(
 
         system_version_id: The ID of the SystemVersion to use for the run.
 
-        system: The system to run on the Testset.
+        system: The system to run on the Testset. Receives the testcase input, system version (or None),
+            and a SystemOptions dict containing ``otel_link_id`` for trace deduplication.
 
         trials: The number of times to run the system on each Testcase.
     """
@@ -206,13 +221,16 @@ async def async_run_and_evaluate(
     def run_testcase(
         testcase: _SimpleTestcaseWithId,
     ) -> Coroutine[Any, Any, Record]:
-        model_response = system(testcase["inputs"], system_version)
+        otel_link_id = str(uuid.uuid4())
+        options = SystemOptions(otel_link_id=otel_link_id)
+        model_response = system(testcase["inputs"], system_version, options)
         return client.records.create(
             run_id=run.id,
             testcase_id=_omit_if_not_given(testcase["id"]),
             inputs=testcase["inputs"],
             expected=testcase["expected"],
             outputs=model_response,
+            extra_body={"otelLinkId": otel_link_id},
         )
 
     # Create a Record for each Testcase

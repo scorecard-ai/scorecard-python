@@ -1,6 +1,7 @@
 from ._helpers import (
     run_and_evaluate,
     async_run_and_evaluate,
+    SystemOptions,
 )
 from .wrap_llms import (
     wrap,
@@ -18,6 +19,7 @@ from ._multi_turn_simulation import (
 __all__ = [
     "run_and_evaluate",
     "async_run_and_evaluate",
+    "SystemOptions",
     "StopCheck",
     "StopChecks",
     "ChatMessage",
