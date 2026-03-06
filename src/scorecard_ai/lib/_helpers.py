@@ -4,12 +4,11 @@ Helper functions for the Scorecard AI library.
 
 from __future__ import annotations
 
+import uuid
 import asyncio
 import inspect
-import uuid
-from collections.abc import AsyncGenerator, Generator
-from typing import Any, Callable, Coroutine, Dict, List, TypeVar
-
+from typing import Any, Dict, List, TypeVar, Callable, Coroutine
+from collections.abc import Generator, AsyncGenerator
 from typing_extensions import TypedDict
 
 from scorecard_ai import Scorecard, AsyncScorecard
