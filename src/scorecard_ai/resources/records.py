@@ -53,6 +53,7 @@ class RecordsResource(SyncAPIResource):
         expected: Dict[str, object],
         inputs: Dict[str, object],
         outputs: Dict[str, object],
+        otel_link_id: str | Omit = omit,
         testcase_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -71,6 +72,9 @@ class RecordsResource(SyncAPIResource):
               schema.
 
           outputs: The actual outputs from the system.
+
+          otel_link_id: Optional ID for linking this record with an OpenTelemetry trace. Used for
+              deduplication.
 
           testcase_id: The ID of the Testcase.
 
@@ -91,6 +95,7 @@ class RecordsResource(SyncAPIResource):
                     "expected": expected,
                     "inputs": inputs,
                     "outputs": outputs,
+                    "otel_link_id": otel_link_id,
                     "testcase_id": testcase_id,
                 },
                 record_create_params.RecordCreateParams,
@@ -215,6 +220,7 @@ class AsyncRecordsResource(AsyncAPIResource):
         expected: Dict[str, object],
         inputs: Dict[str, object],
         outputs: Dict[str, object],
+        otel_link_id: str | Omit = omit,
         testcase_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -233,6 +239,9 @@ class AsyncRecordsResource(AsyncAPIResource):
               schema.
 
           outputs: The actual outputs from the system.
+
+          otel_link_id: Optional ID for linking this record with an OpenTelemetry trace. Used for
+              deduplication.
 
           testcase_id: The ID of the Testcase.
 
@@ -253,6 +262,7 @@ class AsyncRecordsResource(AsyncAPIResource):
                     "expected": expected,
                     "inputs": inputs,
                     "outputs": outputs,
+                    "otel_link_id": otel_link_id,
                     "testcase_id": testcase_id,
                 },
                 record_create_params.RecordCreateParams,
