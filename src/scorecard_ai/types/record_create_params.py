@@ -23,5 +23,11 @@ class RecordCreateParams(TypedDict, total=False):
     outputs: Required[Dict[str, object]]
     """The actual outputs from the system."""
 
+    otel_link_id: Annotated[str, PropertyInfo(alias="otelLinkId")]
+    """Optional ID for linking this record with an OpenTelemetry trace.
+
+    Used for deduplication.
+    """
+
     testcase_id: Annotated[str, PropertyInfo(alias="testcaseId")]
     """The ID of the Testcase."""

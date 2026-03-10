@@ -39,6 +39,7 @@ class TestRecords:
             expected={"idealAnswer": "bar"},
             inputs={"question": "bar"},
             outputs={"response": "bar"},
+            otel_link_id="otelLinkId",
             testcase_id="248",
         )
         assert_matches_type(Record, record, path=["response"])
@@ -191,6 +192,7 @@ class TestAsyncRecords:
             expected={"idealAnswer": "bar"},
             inputs={"question": "bar"},
             outputs={"response": "bar"},
+            otel_link_id="otelLinkId",
             testcase_id="248",
         )
         assert_matches_type(Record, record, path=["response"])
