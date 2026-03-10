@@ -1,5 +1,50 @@
 # Changelog
 
+## 3.7.0 (2026-03-10)
+
+Full Changelog: [v3.6.0...v3.7.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.6.0...v3.7.0)
+
+### ⚠ BREAKING CHANGES
+
+* system function signature now includes a SystemOptions parameter as the third argument containing { otel_link_id: str }.
+
+### Features
+
+* add otel_link_id for SDK/trace record deduplication ([#28](https://github.com/scorecard-ai/scorecard-python/issues/28)) ([f511399](https://github.com/scorecard-ai/scorecard-python/commit/f511399c26478f34eb2dcc69f6610b619ae3d9f9))
+* add otel_link_id support for SDK/trace record deduplication ([50150ca](https://github.com/scorecard-ai/scorecard-python/commit/50150ca5714be18b591b03bb548e03fdcb563250))
+* **api:** api update ([8807bde](https://github.com/scorecard-ai/scorecard-python/commit/8807bde543118b9da2c39db6fff24d4e3c5c16dc))
+* **client:** add custom JSON encoder for extended type support ([6308171](https://github.com/scorecard-ai/scorecard-python/commit/6308171c800729a237389958bfe43dd1da991d4a))
+* **client:** add support for binary request streaming ([dedc776](https://github.com/scorecard-ai/scorecard-python/commit/dedc77644cc4ce2a623500b59650a5038822eb13))
+
+
+### Bug Fixes
+
+* **docs:** fix mcp installation instructions for remote servers ([fbe8bce](https://github.com/scorecard-ai/scorecard-python/commit/fbe8bce2abdaa8bf86152952ea88df00816fdc85))
+* make SystemOptions a non-breaking optional parameter ([7ce95ac](https://github.com/scorecard-ai/scorecard-python/commit/7ce95ac229fa7bc096a464f6ec3890bb0896a00a))
+* resolve import sorting lint errors ([75cebe4](https://github.com/scorecard-ai/scorecard-python/commit/75cebe4e1bd449956ed9673f9360e91a99e1404f))
+* use length-sorted imports per ruff config ([85214df](https://github.com/scorecard-ai/scorecard-python/commit/85214df2eb37d75727b4c8aacc2cd5c493d8858f))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([1529947](https://github.com/scorecard-ai/scorecard-python/commit/1529947c11c6482c3dab3b2dea821261e9249f40))
+* **ci:** upgrade `actions/github-script` ([9ac3a1a](https://github.com/scorecard-ai/scorecard-python/commit/9ac3a1ac8a676311ae17da030a6f034bff4b7bb0))
+* format all `api.md` files ([d1f94d0](https://github.com/scorecard-ai/scorecard-python/commit/d1f94d0b8e7a56c5af0f35a00e7d96d5165f22f4))
+* **internal:** add request options to SSE classes ([4f455ba](https://github.com/scorecard-ai/scorecard-python/commit/4f455ba412d4f8334f2c216dd57016761d1bfaf7))
+* **internal:** bump dependencies ([18a346b](https://github.com/scorecard-ai/scorecard-python/commit/18a346b2a29fe45183e39135325767000ffd8606))
+* **internal:** codegen related update ([ac5ea7c](https://github.com/scorecard-ai/scorecard-python/commit/ac5ea7ca21d911f658ceb313bb7d79c8f61e4af5))
+* **internal:** fix lint error on Python 3.14 ([04b3ad1](https://github.com/scorecard-ai/scorecard-python/commit/04b3ad148a599989518735c681c22b8fc4ac0f36))
+* **internal:** make `test_proxy_environment_variables` more resilient ([e438dc1](https://github.com/scorecard-ai/scorecard-python/commit/e438dc1c46340e76df6d7143fc57531104d4dc44))
+* **internal:** make `test_proxy_environment_variables` more resilient to env ([9624b3c](https://github.com/scorecard-ai/scorecard-python/commit/9624b3c2e20e5258263ce26b1b70b04d2220c711))
+* **internal:** update `actions/checkout` version ([2c0cb07](https://github.com/scorecard-ai/scorecard-python/commit/2c0cb077047e7ddb567a197ecd54b22933937c38))
+* **test:** do not count install time for mock server timeout ([08b509f](https://github.com/scorecard-ai/scorecard-python/commit/08b509f5f4338b929ad1375de30442c46c264b56))
+* update mock server docs ([e8e3b58](https://github.com/scorecard-ai/scorecard-python/commit/e8e3b58624fa35ac16d40568ff73947c9f4fe4c9))
+
+
+### Documentation
+
+* prominently feature MCP server setup in root SDK readmes ([274c2d8](https://github.com/scorecard-ai/scorecard-python/commit/274c2d8cf582187a55129671ba50b89360399f59))
+
 ## 3.6.0 (2025-12-21)
 
 Full Changelog: [v3.5.0...v3.6.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.5.0...v3.6.0)
