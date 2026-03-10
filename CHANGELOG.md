@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.8.0 (2026-03-10)
+
+Full Changelog: [v3.7.0...v3.8.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.7.0...v3.8.0)
+
+### Features
+
+* **api:** api update ([4d66da2](https://github.com/scorecard-ai/scorecard-python/commit/4d66da28832c634c8dc3fb0c78a1bb101db0f62b))
+
 ## 3.7.0 (2026-03-10)
 
 Full Changelog: [v3.6.0...v3.7.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.6.0...v3.7.0)
