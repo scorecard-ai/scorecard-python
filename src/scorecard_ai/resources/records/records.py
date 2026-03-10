@@ -6,27 +6,39 @@ from typing import Dict
 
 import httpx
 
-from ..types import record_list_params, record_create_params
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
-from .._compat import cached_property
-from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import (
+from ...types import record_list_params, record_create_params
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._utils import maybe_transform, async_maybe_transform
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..pagination import SyncPaginatedResponse, AsyncPaginatedResponse
-from .._base_client import AsyncPaginator, make_request_options
-from ..types.record import Record
-from ..types.record_list_response import RecordListResponse
-from ..types.record_delete_response import RecordDeleteResponse
+from .annotations import (
+    AnnotationsResource,
+    AsyncAnnotationsResource,
+    AnnotationsResourceWithRawResponse,
+    AsyncAnnotationsResourceWithRawResponse,
+    AnnotationsResourceWithStreamingResponse,
+    AsyncAnnotationsResourceWithStreamingResponse,
+)
+from ...pagination import SyncPaginatedResponse, AsyncPaginatedResponse
+from ..._base_client import AsyncPaginator, make_request_options
+from ...types.record import Record
+from ...types.record_list_response import RecordListResponse
+from ...types.record_delete_response import RecordDeleteResponse
 
 __all__ = ["RecordsResource", "AsyncRecordsResource"]
 
 
 class RecordsResource(SyncAPIResource):
+    @cached_property
+    def annotations(self) -> AnnotationsResource:
+        return AnnotationsResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> RecordsResourceWithRawResponse:
         """
@@ -194,6 +206,10 @@ class RecordsResource(SyncAPIResource):
 
 
 class AsyncRecordsResource(AsyncAPIResource):
+    @cached_property
+    def annotations(self) -> AsyncAnnotationsResource:
+        return AsyncAnnotationsResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> AsyncRecordsResourceWithRawResponse:
         """
@@ -374,6 +390,10 @@ class RecordsResourceWithRawResponse:
             records.delete,
         )
 
+    @cached_property
+    def annotations(self) -> AnnotationsResourceWithRawResponse:
+        return AnnotationsResourceWithRawResponse(self._records.annotations)
+
 
 class AsyncRecordsResourceWithRawResponse:
     def __init__(self, records: AsyncRecordsResource) -> None:
@@ -388,6 +408,10 @@ class AsyncRecordsResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             records.delete,
         )
+
+    @cached_property
+    def annotations(self) -> AsyncAnnotationsResourceWithRawResponse:
+        return AsyncAnnotationsResourceWithRawResponse(self._records.annotations)
 
 
 class RecordsResourceWithStreamingResponse:
@@ -404,6 +428,10 @@ class RecordsResourceWithStreamingResponse:
             records.delete,
         )
 
+    @cached_property
+    def annotations(self) -> AnnotationsResourceWithStreamingResponse:
+        return AnnotationsResourceWithStreamingResponse(self._records.annotations)
+
 
 class AsyncRecordsResourceWithStreamingResponse:
     def __init__(self, records: AsyncRecordsResource) -> None:
@@ -418,3 +446,7 @@ class AsyncRecordsResourceWithStreamingResponse:
         self.delete = async_to_streamed_response_wrapper(
             records.delete,
         )
+
+    @cached_property
+    def annotations(self) -> AsyncAnnotationsResourceWithStreamingResponse:
+        return AsyncAnnotationsResourceWithStreamingResponse(self._records.annotations)

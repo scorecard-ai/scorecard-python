@@ -35,10 +35,10 @@ if TYPE_CHECKING:
     from .resources.runs import RunsResource, AsyncRunsResource
     from .resources.scores import ScoresResource, AsyncScoresResource
     from .resources.metrics import MetricsResource, AsyncMetricsResource
-    from .resources.records import RecordsResource, AsyncRecordsResource
     from .resources.projects import ProjectsResource, AsyncProjectsResource
     from .resources.testsets import TestsetsResource, AsyncTestsetsResource
     from .resources.testcases import TestcasesResource, AsyncTestcasesResource
+    from .resources.records.records import RecordsResource, AsyncRecordsResource
     from .resources.systems.systems import SystemsResource, AsyncSystemsResource
 
 __all__ = [
