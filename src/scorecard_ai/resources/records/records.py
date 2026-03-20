@@ -8,7 +8,7 @@ import httpx
 
 from ...types import record_list_params, record_create_params
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -101,7 +101,7 @@ class RecordsResource(SyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return self._post(
-            f"/runs/{run_id}/records",
+            path_template("/runs/{run_id}/records", run_id=run_id),
             body=maybe_transform(
                 {
                     "expected": expected,
@@ -153,7 +153,7 @@ class RecordsResource(SyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return self._get_api_list(
-            f"/runs/{run_id}/records",
+            path_template("/runs/{run_id}/records", run_id=run_id),
             page=SyncPaginatedResponse[RecordListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -197,7 +197,7 @@ class RecordsResource(SyncAPIResource):
         if not record_id:
             raise ValueError(f"Expected a non-empty value for `record_id` but received {record_id!r}")
         return self._delete(
-            f"/records/{record_id}",
+            path_template("/records/{record_id}", record_id=record_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -272,7 +272,7 @@ class AsyncRecordsResource(AsyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return await self._post(
-            f"/runs/{run_id}/records",
+            path_template("/runs/{run_id}/records", run_id=run_id),
             body=await async_maybe_transform(
                 {
                     "expected": expected,
@@ -324,7 +324,7 @@ class AsyncRecordsResource(AsyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return self._get_api_list(
-            f"/runs/{run_id}/records",
+            path_template("/runs/{run_id}/records", run_id=run_id),
             page=AsyncPaginatedResponse[RecordListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -368,7 +368,7 @@ class AsyncRecordsResource(AsyncAPIResource):
         if not record_id:
             raise ValueError(f"Expected a non-empty value for `record_id` but received {record_id!r}")
         return await self._delete(
-            f"/records/{record_id}",
+            path_template("/records/{record_id}", record_id=record_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

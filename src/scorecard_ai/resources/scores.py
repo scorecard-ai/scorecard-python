@@ -8,7 +8,7 @@ import httpx
 
 from ..types import score_upsert_params
 from .._types import Body, Query, Headers, NotGiven, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -82,7 +82,9 @@ class ScoresResource(SyncAPIResource):
         if not metric_config_id:
             raise ValueError(f"Expected a non-empty value for `metric_config_id` but received {metric_config_id!r}")
         return self._put(
-            f"/records/{record_id}/scores/{metric_config_id}",
+            path_template(
+                "/records/{record_id}/scores/{metric_config_id}", record_id=record_id, metric_config_id=metric_config_id
+            ),
             body=maybe_transform({"score": score}, score_upsert_params.ScoreUpsertParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -150,7 +152,9 @@ class AsyncScoresResource(AsyncAPIResource):
         if not metric_config_id:
             raise ValueError(f"Expected a non-empty value for `metric_config_id` but received {metric_config_id!r}")
         return await self._put(
-            f"/records/{record_id}/scores/{metric_config_id}",
+            path_template(
+                "/records/{record_id}/scores/{metric_config_id}", record_id=record_id, metric_config_id=metric_config_id
+            ),
             body=await async_maybe_transform({"score": score}, score_upsert_params.ScoreUpsertParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout

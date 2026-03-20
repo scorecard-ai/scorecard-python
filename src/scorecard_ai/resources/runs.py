@@ -8,7 +8,7 @@ import httpx
 
 from ..types import run_list_params, run_create_params
 from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -79,7 +79,7 @@ class RunsResource(SyncAPIResource):
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return self._post(
-            f"/projects/{project_id}/runs",
+            path_template("/projects/{project_id}/runs", project_id=project_id),
             body=maybe_transform(
                 {
                     "metric_ids": metric_ids,
@@ -130,7 +130,7 @@ class RunsResource(SyncAPIResource):
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return self._get_api_list(
-            f"/projects/{project_id}/runs",
+            path_template("/projects/{project_id}/runs", project_id=project_id),
             page=SyncPaginatedResponse[Run],
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -174,7 +174,7 @@ class RunsResource(SyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return self._get(
-            f"/runs/{run_id}",
+            path_template("/runs/{run_id}", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -237,7 +237,7 @@ class AsyncRunsResource(AsyncAPIResource):
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return await self._post(
-            f"/projects/{project_id}/runs",
+            path_template("/projects/{project_id}/runs", project_id=project_id),
             body=await async_maybe_transform(
                 {
                     "metric_ids": metric_ids,
@@ -288,7 +288,7 @@ class AsyncRunsResource(AsyncAPIResource):
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return self._get_api_list(
-            f"/projects/{project_id}/runs",
+            path_template("/projects/{project_id}/runs", project_id=project_id),
             page=AsyncPaginatedResponse[Run],
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -332,7 +332,7 @@ class AsyncRunsResource(AsyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return await self._get(
-            f"/runs/{run_id}",
+            path_template("/runs/{run_id}", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

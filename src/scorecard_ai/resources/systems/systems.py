@@ -8,7 +8,7 @@ import httpx
 
 from ...types import system_list_params, system_update_params, system_upsert_params
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from .versions import (
     VersionsResource,
     AsyncVersionsResource,
@@ -95,7 +95,7 @@ class SystemsResource(SyncAPIResource):
         if not system_id:
             raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         return self._patch(
-            f"/systems/{system_id}",
+            path_template("/systems/{system_id}", system_id=system_id),
             body=maybe_transform(
                 {
                     "description": description,
@@ -145,7 +145,7 @@ class SystemsResource(SyncAPIResource):
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return self._get_api_list(
-            f"/projects/{project_id}/systems",
+            path_template("/projects/{project_id}/systems", project_id=project_id),
             page=SyncPaginatedResponse[System],
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -191,7 +191,7 @@ class SystemsResource(SyncAPIResource):
         if not system_id:
             raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         return self._delete(
-            f"/systems/{system_id}",
+            path_template("/systems/{system_id}", system_id=system_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -224,7 +224,7 @@ class SystemsResource(SyncAPIResource):
         if not system_id:
             raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         return self._get(
-            f"/systems/{system_id}",
+            path_template("/systems/{system_id}", system_id=system_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -269,7 +269,7 @@ class SystemsResource(SyncAPIResource):
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return self._post(
-            f"/projects/{project_id}/systems",
+            path_template("/projects/{project_id}/systems", project_id=project_id),
             body=maybe_transform(
                 {
                     "config": config,
@@ -347,7 +347,7 @@ class AsyncSystemsResource(AsyncAPIResource):
         if not system_id:
             raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         return await self._patch(
-            f"/systems/{system_id}",
+            path_template("/systems/{system_id}", system_id=system_id),
             body=await async_maybe_transform(
                 {
                     "description": description,
@@ -397,7 +397,7 @@ class AsyncSystemsResource(AsyncAPIResource):
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return self._get_api_list(
-            f"/projects/{project_id}/systems",
+            path_template("/projects/{project_id}/systems", project_id=project_id),
             page=AsyncPaginatedResponse[System],
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -443,7 +443,7 @@ class AsyncSystemsResource(AsyncAPIResource):
         if not system_id:
             raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         return await self._delete(
-            f"/systems/{system_id}",
+            path_template("/systems/{system_id}", system_id=system_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -476,7 +476,7 @@ class AsyncSystemsResource(AsyncAPIResource):
         if not system_id:
             raise ValueError(f"Expected a non-empty value for `system_id` but received {system_id!r}")
         return await self._get(
-            f"/systems/{system_id}",
+            path_template("/systems/{system_id}", system_id=system_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -521,7 +521,7 @@ class AsyncSystemsResource(AsyncAPIResource):
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return await self._post(
-            f"/projects/{project_id}/systems",
+            path_template("/projects/{project_id}/systems", project_id=project_id),
             body=await async_maybe_transform(
                 {
                     "config": config,

@@ -9,7 +9,7 @@ import httpx
 
 from ..types import metric_list_params, metric_create_params, metric_update_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import required_args, maybe_transform, async_maybe_transform
+from .._utils import path_template, required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -507,7 +507,7 @@ class MetricsResource(SyncAPIResource):
         return cast(
             Metric,
             self._post(
-                f"/projects/{project_id}/metrics",
+                path_template("/projects/{project_id}/metrics", project_id=project_id),
                 body=maybe_transform(
                     {
                         "eval_type": eval_type,
@@ -999,7 +999,7 @@ class MetricsResource(SyncAPIResource):
         return cast(
             Metric,
             self._patch(
-                f"/metrics/{metric_id}",
+                path_template("/metrics/{metric_id}", metric_id=metric_id),
                 body=maybe_transform(
                     {
                         "eval_type": eval_type,
@@ -1057,7 +1057,7 @@ class MetricsResource(SyncAPIResource):
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return self._get_api_list(
-            f"/projects/{project_id}/metrics",
+            path_template("/projects/{project_id}/metrics", project_id=project_id),
             page=SyncPaginatedResponse[Metric],
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -1103,7 +1103,7 @@ class MetricsResource(SyncAPIResource):
         if not metric_id:
             raise ValueError(f"Expected a non-empty value for `metric_id` but received {metric_id!r}")
         return self._delete(
-            f"/metrics/{metric_id}",
+            path_template("/metrics/{metric_id}", metric_id=metric_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -1138,7 +1138,7 @@ class MetricsResource(SyncAPIResource):
         return cast(
             Metric,
             self._get(
-                f"/metrics/{metric_id}",
+                path_template("/metrics/{metric_id}", metric_id=metric_id),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
@@ -1628,7 +1628,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         return cast(
             Metric,
             await self._post(
-                f"/projects/{project_id}/metrics",
+                path_template("/projects/{project_id}/metrics", project_id=project_id),
                 body=await async_maybe_transform(
                     {
                         "eval_type": eval_type,
@@ -2120,7 +2120,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         return cast(
             Metric,
             await self._patch(
-                f"/metrics/{metric_id}",
+                path_template("/metrics/{metric_id}", metric_id=metric_id),
                 body=await async_maybe_transform(
                     {
                         "eval_type": eval_type,
@@ -2178,7 +2178,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         if not project_id:
             raise ValueError(f"Expected a non-empty value for `project_id` but received {project_id!r}")
         return self._get_api_list(
-            f"/projects/{project_id}/metrics",
+            path_template("/projects/{project_id}/metrics", project_id=project_id),
             page=AsyncPaginatedResponse[Metric],
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -2224,7 +2224,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         if not metric_id:
             raise ValueError(f"Expected a non-empty value for `metric_id` but received {metric_id!r}")
         return await self._delete(
-            f"/metrics/{metric_id}",
+            path_template("/metrics/{metric_id}", metric_id=metric_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -2259,7 +2259,7 @@ class AsyncMetricsResource(AsyncAPIResource):
         return cast(
             Metric,
             await self._get(
-                f"/metrics/{metric_id}",
+                path_template("/metrics/{metric_id}", metric_id=metric_id),
                 options=make_request_options(
                     extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
                 ),
