@@ -97,6 +97,7 @@ class TestRecords:
             run_id="135",
             cursor="123",
             limit=20,
+            tags=["x"],
         )
         assert_matches_type(SyncPaginatedResponse[RecordListResponse], record, path=["response"])
 
@@ -250,6 +251,7 @@ class TestAsyncRecords:
             run_id="135",
             cursor="123",
             limit=20,
+            tags=["x"],
         )
         assert_matches_type(AsyncPaginatedResponse[RecordListResponse], record, path=["response"])
 

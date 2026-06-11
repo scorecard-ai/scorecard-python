@@ -105,6 +105,20 @@ Methods:
 
 - <code title="get /records/{recordId}/annotations">client.records.annotations.<a href="./src/scorecard_ai/resources/records/annotations.py">list</a>(record_id) -> <a href="./src/scorecard_ai/types/records/annotation_list_response.py">AnnotationListResponse</a></code>
 
+## Tags
+
+Types:
+
+```python
+from scorecard_ai.types.records import RecordTag, TagListResponse, TagDeleteResponse
+```
+
+Methods:
+
+- <code title="post /records/{recordId}/tags">client.records.tags.<a href="./src/scorecard_ai/resources/records/tags.py">create</a>(record_id, \*\*<a href="src/scorecard_ai/types/records/tag_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/records/record_tag.py">RecordTag</a></code>
+- <code title="get /records/{recordId}/tags">client.records.tags.<a href="./src/scorecard_ai/resources/records/tags.py">list</a>(record_id) -> <a href="./src/scorecard_ai/types/records/tag_list_response.py">TagListResponse</a></code>
+- <code title="delete /records/{recordId}/tags/{text}">client.records.tags.<a href="./src/scorecard_ai/resources/records/tags.py">delete</a>(text, \*, record_id) -> <a href="./src/scorecard_ai/types/records/tag_delete_response.py">TagDeleteResponse</a></code>
+
 # Scores
 
 Types:

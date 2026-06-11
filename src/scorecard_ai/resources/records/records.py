@@ -6,8 +6,16 @@ from typing import Dict
 
 import httpx
 
+from .tags import (
+    TagsResource,
+    AsyncTagsResource,
+    TagsResourceWithRawResponse,
+    AsyncTagsResourceWithRawResponse,
+    TagsResourceWithStreamingResponse,
+    AsyncTagsResourceWithStreamingResponse,
+)
 from ...types import record_list_params, record_create_params
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -38,6 +46,10 @@ class RecordsResource(SyncAPIResource):
     @cached_property
     def annotations(self) -> AnnotationsResource:
         return AnnotationsResource(self._client)
+
+    @cached_property
+    def tags(self) -> TagsResource:
+        return TagsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> RecordsResourceWithRawResponse:
@@ -124,6 +136,7 @@ class RecordsResource(SyncAPIResource):
         *,
         cursor: str | Omit = omit,
         limit: int | Omit = omit,
+        tags: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -141,6 +154,9 @@ class RecordsResource(SyncAPIResource):
 
           limit: Maximum number of items to return (1-100). Use with `cursor` for pagination
               through large sets.
+
+          tags: Filter to records carrying every listed tag (repeatable, AND semantics). E.g.
+              `?tags=urgent&tags=regression`.
 
           extra_headers: Send extra headers
 
@@ -164,6 +180,7 @@ class RecordsResource(SyncAPIResource):
                     {
                         "cursor": cursor,
                         "limit": limit,
+                        "tags": tags,
                     },
                     record_list_params.RecordListParams,
                 ),
@@ -209,6 +226,10 @@ class AsyncRecordsResource(AsyncAPIResource):
     @cached_property
     def annotations(self) -> AsyncAnnotationsResource:
         return AsyncAnnotationsResource(self._client)
+
+    @cached_property
+    def tags(self) -> AsyncTagsResource:
+        return AsyncTagsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncRecordsResourceWithRawResponse:
@@ -295,6 +316,7 @@ class AsyncRecordsResource(AsyncAPIResource):
         *,
         cursor: str | Omit = omit,
         limit: int | Omit = omit,
+        tags: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -312,6 +334,9 @@ class AsyncRecordsResource(AsyncAPIResource):
 
           limit: Maximum number of items to return (1-100). Use with `cursor` for pagination
               through large sets.
+
+          tags: Filter to records carrying every listed tag (repeatable, AND semantics). E.g.
+              `?tags=urgent&tags=regression`.
 
           extra_headers: Send extra headers
 
@@ -335,6 +360,7 @@ class AsyncRecordsResource(AsyncAPIResource):
                     {
                         "cursor": cursor,
                         "limit": limit,
+                        "tags": tags,
                     },
                     record_list_params.RecordListParams,
                 ),
@@ -394,6 +420,10 @@ class RecordsResourceWithRawResponse:
     def annotations(self) -> AnnotationsResourceWithRawResponse:
         return AnnotationsResourceWithRawResponse(self._records.annotations)
 
+    @cached_property
+    def tags(self) -> TagsResourceWithRawResponse:
+        return TagsResourceWithRawResponse(self._records.tags)
+
 
 class AsyncRecordsResourceWithRawResponse:
     def __init__(self, records: AsyncRecordsResource) -> None:
@@ -412,6 +442,10 @@ class AsyncRecordsResourceWithRawResponse:
     @cached_property
     def annotations(self) -> AsyncAnnotationsResourceWithRawResponse:
         return AsyncAnnotationsResourceWithRawResponse(self._records.annotations)
+
+    @cached_property
+    def tags(self) -> AsyncTagsResourceWithRawResponse:
+        return AsyncTagsResourceWithRawResponse(self._records.tags)
 
 
 class RecordsResourceWithStreamingResponse:
@@ -432,6 +466,10 @@ class RecordsResourceWithStreamingResponse:
     def annotations(self) -> AnnotationsResourceWithStreamingResponse:
         return AnnotationsResourceWithStreamingResponse(self._records.annotations)
 
+    @cached_property
+    def tags(self) -> TagsResourceWithStreamingResponse:
+        return TagsResourceWithStreamingResponse(self._records.tags)
+
 
 class AsyncRecordsResourceWithStreamingResponse:
     def __init__(self, records: AsyncRecordsResource) -> None:
@@ -450,3 +488,7 @@ class AsyncRecordsResourceWithStreamingResponse:
     @cached_property
     def annotations(self) -> AsyncAnnotationsResourceWithStreamingResponse:
         return AsyncAnnotationsResourceWithStreamingResponse(self._records.annotations)
+
+    @cached_property
+    def tags(self) -> AsyncTagsResourceWithStreamingResponse:
+        return AsyncTagsResourceWithStreamingResponse(self._records.tags)
