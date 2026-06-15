@@ -1,5 +1,34 @@
 # Changelog
 
+## 3.8.0 (2026-06-15)
+
+Full Changelog: [v3.7.0...v3.8.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.7.0...v3.8.0)
+
+### Features
+
+* **api:** api update ([6b8260e](https://github.com/scorecard-ai/scorecard-python/commit/6b8260ef890f6a9a2ba40e6a6f2852da3e4fdae6))
+
+
+### Bug Fixes
+
+* **deps:** bump minimum typing-extensions version ([a0d5899](https://github.com/scorecard-ai/scorecard-python/commit/a0d5899b03b52b6b2d574e307f9addb524401215))
+* **pydantic:** do not pass `by_alias` unless set ([e147c5b](https://github.com/scorecard-ai/scorecard-python/commit/e147c5b01c64ae4fac56ca99c0cc828e0458d12e))
+* sanitize endpoint path params ([858c181](https://github.com/scorecard-ai/scorecard-python/commit/858c181593d211c158ce0e64ad29da7604f434af))
+* **tracing:** make OpenTelemetry an optional runtime dependency ([9b49055](https://github.com/scorecard-ai/scorecard-python/commit/9b49055d68184866c77ffd2990229e5eee2282e1))
+* **tracing:** make OpenTelemetry an optional runtime dependency ([#30](https://github.com/scorecard-ai/scorecard-python/issues/30)) ([59e3de8](https://github.com/scorecard-ai/scorecard-python/commit/59e3de88f4434e5e1d5c79e9c7e7c08bd4f9b77a))
+
+
+### Chores
+
+* **internal:** tweak CI branches ([c160bc6](https://github.com/scorecard-ai/scorecard-python/commit/c160bc6a246d32c3740ecd72d26c495df7565794))
+* **tests:** bump steady to v0.19.4 ([c9b61c5](https://github.com/scorecard-ai/scorecard-python/commit/c9b61c5ce1c79a295cf1273e043a0db02414d275))
+* **tests:** bump steady to v0.19.5 ([1c2a369](https://github.com/scorecard-ai/scorecard-python/commit/1c2a3699137b9529332ccce628470d916996f762))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([492c594](https://github.com/scorecard-ai/scorecard-python/commit/492c594b28d657bb6453b51f6a8ee1ead8c97d44))
+
 ## 3.7.0 (2026-03-10)
 
 Full Changelog: [v3.6.0...v3.7.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.6.0...v3.7.0)
