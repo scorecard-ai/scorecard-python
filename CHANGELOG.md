@@ -1,5 +1,57 @@
 # Changelog
 
+## 3.8.0 (2026-07-03)
+
+Full Changelog: [v3.7.0...v3.8.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.7.0...v3.8.0)
+
+### Features
+
+* **api:** api update ([2947c19](https://github.com/scorecard-ai/scorecard-python/commit/2947c19722adb7206c05451400c6f469dc8def1d))
+* **api:** api update ([42f2eac](https://github.com/scorecard-ai/scorecard-python/commit/42f2eac8d4435eb10743d5a176273d00bf1588c5))
+* **api:** api update ([6b8260e](https://github.com/scorecard-ai/scorecard-python/commit/6b8260ef890f6a9a2ba40e6a6f2852da3e4fdae6))
+* **internal/types:** support eagerly validating pydantic iterators ([e049c9b](https://github.com/scorecard-ai/scorecard-python/commit/e049c9b0535fece0fb14ec7a935c652a161fab91))
+* **internal:** implement indices array format for query and form serialization ([c8d44a8](https://github.com/scorecard-ai/scorecard-python/commit/c8d44a8da8777d447fa2ea818ba11238cd0f9929))
+* support setting headers via env ([3b9d7bc](https://github.com/scorecard-ai/scorecard-python/commit/3b9d7bc24b27ea4a72e43a4a2649f735e28090eb))
+
+
+### Bug Fixes
+
+* **client:** add missing f-string prefix in file type error message ([c9398ca](https://github.com/scorecard-ai/scorecard-python/commit/c9398ca9ebec55b4fb5d544a7daf9332f134b766))
+* **client:** preserve hardcoded query params when merging with user params ([0c53940](https://github.com/scorecard-ai/scorecard-python/commit/0c53940f7c34f6e276b564729f3055c9ae5860ba))
+* **deps:** bump minimum typing-extensions version ([a0d5899](https://github.com/scorecard-ai/scorecard-python/commit/a0d5899b03b52b6b2d574e307f9addb524401215))
+* ensure file data are only sent as 1 parameter ([c6e8103](https://github.com/scorecard-ai/scorecard-python/commit/c6e8103771dd99e19d40677b80a13b6b20c424c1))
+* **pydantic:** do not pass `by_alias` unless set ([e147c5b](https://github.com/scorecard-ai/scorecard-python/commit/e147c5b01c64ae4fac56ca99c0cc828e0458d12e))
+* sanitize endpoint path params ([858c181](https://github.com/scorecard-ai/scorecard-python/commit/858c181593d211c158ce0e64ad29da7604f434af))
+* **tracing:** make OpenTelemetry an optional runtime dependency ([9b49055](https://github.com/scorecard-ai/scorecard-python/commit/9b49055d68184866c77ffd2990229e5eee2282e1))
+* **tracing:** make OpenTelemetry an optional runtime dependency ([#30](https://github.com/scorecard-ai/scorecard-python/issues/30)) ([59e3de8](https://github.com/scorecard-ai/scorecard-python/commit/59e3de88f4434e5e1d5c79e9c7e7c08bd4f9b77a))
+* use correct field name format for multipart file arrays ([72a7d6f](https://github.com/scorecard-ai/scorecard-python/commit/72a7d6fae2d5b9067bc7f3e3299def8b8aa4624b))
+
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([1f9da4f](https://github.com/scorecard-ai/scorecard-python/commit/1f9da4f9ae07eb63f31994b309e80accecac0c35))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([99da318](https://github.com/scorecard-ai/scorecard-python/commit/99da318b59f636f14093c4b3344d5b4aa550b86f))
+* **internal:** more robust bootstrap script ([5641b5e](https://github.com/scorecard-ai/scorecard-python/commit/5641b5e72ac256a628c6b50f4b1dbe49f748db83))
+* **internal:** reformat pyproject.toml ([e03e0df](https://github.com/scorecard-ai/scorecard-python/commit/e03e0dfda781ed08a1069231f97906289dba8f9c))
+* **internal:** tweak CI branches ([c160bc6](https://github.com/scorecard-ai/scorecard-python/commit/c160bc6a246d32c3740ecd72d26c495df7565794))
+* **internal:** update gitignore ([1281fa0](https://github.com/scorecard-ai/scorecard-python/commit/1281fa08916692ad0a351753e48aa755f66254bc))
+* **tests:** bump steady to v0.19.4 ([c9b61c5](https://github.com/scorecard-ai/scorecard-python/commit/c9b61c5ce1c79a295cf1273e043a0db02414d275))
+* **tests:** bump steady to v0.19.5 ([1c2a369](https://github.com/scorecard-ai/scorecard-python/commit/1c2a3699137b9529332ccce628470d916996f762))
+* **tests:** bump steady to v0.19.6 ([8ea27b1](https://github.com/scorecard-ai/scorecard-python/commit/8ea27b18471c46faf4b00d01d70fd700b43020b8))
+* **tests:** bump steady to v0.19.7 ([f3168b4](https://github.com/scorecard-ai/scorecard-python/commit/f3168b41abb890eb2c5424cc2439a2682a477577))
+* **tests:** bump steady to v0.20.1 ([f41e615](https://github.com/scorecard-ai/scorecard-python/commit/f41e615183d1d382b667c5088991d1d9f72217bf))
+* **tests:** bump steady to v0.20.2 ([5bff9a4](https://github.com/scorecard-ai/scorecard-python/commit/5bff9a41d5736c3202af50f27c88ca1b692cb29f))
+* **tests:** bump steady to v0.22.1 ([03f2d5c](https://github.com/scorecard-ai/scorecard-python/commit/03f2d5cd92909da56d03f663a237751bb1d3d128))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([492c594](https://github.com/scorecard-ai/scorecard-python/commit/492c594b28d657bb6453b51f6a8ee1ead8c97d44))
+
 ## 3.7.0 (2026-03-10)
 
 Full Changelog: [v3.6.0...v3.7.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.6.0...v3.7.0)
