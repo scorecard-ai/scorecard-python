@@ -54,8 +54,11 @@ class AIIntMetric(BaseModel):
     Should include placeholders for dynamic content.
     """
 
-    temperature: float
-    """The temperature for AI evaluation (0-2)."""
+    temperature: Optional[float] = None
+    """The temperature for AI evaluation (0-2).
+
+    Omit to use the model provider's default.
+    """
 
 
 class HumanIntMetric(BaseModel):
@@ -141,8 +144,11 @@ class AIFloatMetric(BaseModel):
     Should include placeholders for dynamic content.
     """
 
-    temperature: float
-    """The temperature for AI evaluation (0-2)."""
+    temperature: Optional[float] = None
+    """The temperature for AI evaluation (0-2).
+
+    Omit to use the model provider's default.
+    """
 
 
 class HumanFloatMetric(BaseModel):
@@ -225,8 +231,11 @@ class AIBooleanMetric(BaseModel):
     Should include placeholders for dynamic content.
     """
 
-    temperature: float
-    """The temperature for AI evaluation (0-2)."""
+    temperature: Optional[float] = None
+    """The temperature for AI evaluation (0-2).
+
+    Omit to use the model provider's default.
+    """
 
 
 class HumanBooleanMetric(BaseModel):
