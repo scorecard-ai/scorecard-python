@@ -90,7 +90,8 @@ class MetricsResource(SyncAPIResource):
 
           passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 
@@ -238,7 +239,8 @@ class MetricsResource(SyncAPIResource):
 
           passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 
@@ -383,7 +385,8 @@ class MetricsResource(SyncAPIResource):
 
           guidelines: Guidelines for AI evaluation on how to score the metric.
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 
@@ -574,7 +577,8 @@ class MetricsResource(SyncAPIResource):
           prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
               dynamic content.
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 
@@ -725,7 +729,8 @@ class MetricsResource(SyncAPIResource):
           prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
               dynamic content.
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 
@@ -873,7 +878,8 @@ class MetricsResource(SyncAPIResource):
           prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
               dynamic content.
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 
@@ -1211,7 +1217,8 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           passing_threshold: The threshold for determining pass/fail from integer scores (1-5).
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 
@@ -1359,7 +1366,8 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           passing_threshold: Threshold for determining pass/fail from float scores (0.0-1.0).
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 
@@ -1504,7 +1512,8 @@ class AsyncMetricsResource(AsyncAPIResource):
 
           guidelines: Guidelines for AI evaluation on how to score the metric.
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 
@@ -1695,7 +1704,8 @@ class AsyncMetricsResource(AsyncAPIResource):
           prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
               dynamic content.
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 
@@ -1846,7 +1856,8 @@ class AsyncMetricsResource(AsyncAPIResource):
           prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
               dynamic content.
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 
@@ -1994,7 +2005,8 @@ class AsyncMetricsResource(AsyncAPIResource):
           prompt_template: The complete prompt template for AI evaluation. Should include placeholders for
               dynamic content.
 
-          temperature: The temperature for AI evaluation (0-2).
+          temperature: The temperature for AI evaluation (0-2). Omit to use the model provider's
+              default.
 
           extra_headers: Send extra headers
 

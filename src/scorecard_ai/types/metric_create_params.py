@@ -50,7 +50,10 @@ class AIIntMetric(TypedDict, total=False):
     """The threshold for determining pass/fail from integer scores (1-5)."""
 
     temperature: float
-    """The temperature for AI evaluation (0-2)."""
+    """The temperature for AI evaluation (0-2).
+
+    Omit to use the model provider's default.
+    """
 
 
 class HumanIntMetric(TypedDict, total=False):
@@ -122,7 +125,10 @@ class AIFloatMetric(TypedDict, total=False):
     """Threshold for determining pass/fail from float scores (0.0-1.0)."""
 
     temperature: float
-    """The temperature for AI evaluation (0-2)."""
+    """The temperature for AI evaluation (0-2).
+
+    Omit to use the model provider's default.
+    """
 
 
 class HumanFloatMetric(TypedDict, total=False):
@@ -191,7 +197,10 @@ class AIBooleanMetric(TypedDict, total=False):
     """Guidelines for AI evaluation on how to score the metric."""
 
     temperature: float
-    """The temperature for AI evaluation (0-2)."""
+    """The temperature for AI evaluation (0-2).
+
+    Omit to use the model provider's default.
+    """
 
 
 class HumanBooleanMetric(TypedDict, total=False):

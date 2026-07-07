@@ -50,7 +50,10 @@ class AIIntMetric(TypedDict, total=False):
     """
 
     temperature: float
-    """The temperature for AI evaluation (0-2)."""
+    """The temperature for AI evaluation (0-2).
+
+    Omit to use the model provider's default.
+    """
 
 
 class HumanIntMetric(TypedDict, total=False):
@@ -122,7 +125,10 @@ class AIFloatMetric(TypedDict, total=False):
     """
 
     temperature: float
-    """The temperature for AI evaluation (0-2)."""
+    """The temperature for AI evaluation (0-2).
+
+    Omit to use the model provider's default.
+    """
 
 
 class HumanFloatMetric(TypedDict, total=False):
@@ -191,7 +197,10 @@ class AIBooleanMetric(TypedDict, total=False):
     """
 
     temperature: float
-    """The temperature for AI evaluation (0-2)."""
+    """The temperature for AI evaluation (0-2).
+
+    Omit to use the model provider's default.
+    """
 
 
 class HumanBooleanMetric(TypedDict, total=False):
