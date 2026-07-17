@@ -64,6 +64,14 @@ from .testcases import (
     TestcasesResourceWithStreamingResponse,
     AsyncTestcasesResourceWithStreamingResponse,
 )
+from .attachments import (
+    AttachmentsResource,
+    AsyncAttachmentsResource,
+    AttachmentsResourceWithRawResponse,
+    AsyncAttachmentsResourceWithRawResponse,
+    AttachmentsResourceWithStreamingResponse,
+    AsyncAttachmentsResourceWithStreamingResponse,
+)
 
 __all__ = [
     "ProjectsResource",
@@ -108,6 +116,12 @@ __all__ = [
     "AsyncScoresResourceWithRawResponse",
     "ScoresResourceWithStreamingResponse",
     "AsyncScoresResourceWithStreamingResponse",
+    "AttachmentsResource",
+    "AsyncAttachmentsResource",
+    "AttachmentsResourceWithRawResponse",
+    "AsyncAttachmentsResourceWithRawResponse",
+    "AttachmentsResourceWithStreamingResponse",
+    "AsyncAttachmentsResourceWithStreamingResponse",
     "SystemsResource",
     "AsyncSystemsResource",
     "SystemsResourceWithRawResponse",
