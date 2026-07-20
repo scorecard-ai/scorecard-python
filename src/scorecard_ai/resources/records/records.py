@@ -78,6 +78,7 @@ class RecordsResource(SyncAPIResource):
         inputs: Dict[str, object],
         outputs: Dict[str, object],
         otel_link_id: str | Omit = omit,
+        session_id: str | Omit = omit,
         testcase_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -100,6 +101,9 @@ class RecordsResource(SyncAPIResource):
           otel_link_id: Optional ID for linking this record with an OpenTelemetry trace. Used for
               deduplication.
 
+          session_id: Optional session ID for this record. Matches the `session.id` emitted on OTel
+              spans, joining the record to its session's traces and attachments.
+
           testcase_id: The ID of the Testcase.
 
           extra_headers: Send extra headers
@@ -120,6 +124,7 @@ class RecordsResource(SyncAPIResource):
                     "inputs": inputs,
                     "outputs": outputs,
                     "otel_link_id": otel_link_id,
+                    "session_id": session_id,
                     "testcase_id": testcase_id,
                 },
                 record_create_params.RecordCreateParams,
@@ -258,6 +263,7 @@ class AsyncRecordsResource(AsyncAPIResource):
         inputs: Dict[str, object],
         outputs: Dict[str, object],
         otel_link_id: str | Omit = omit,
+        session_id: str | Omit = omit,
         testcase_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -280,6 +286,9 @@ class AsyncRecordsResource(AsyncAPIResource):
           otel_link_id: Optional ID for linking this record with an OpenTelemetry trace. Used for
               deduplication.
 
+          session_id: Optional session ID for this record. Matches the `session.id` emitted on OTel
+              spans, joining the record to its session's traces and attachments.
+
           testcase_id: The ID of the Testcase.
 
           extra_headers: Send extra headers
@@ -300,6 +309,7 @@ class AsyncRecordsResource(AsyncAPIResource):
                     "inputs": inputs,
                     "outputs": outputs,
                     "otel_link_id": otel_link_id,
+                    "session_id": session_id,
                     "testcase_id": testcase_id,
                 },
                 record_create_params.RecordCreateParams,
