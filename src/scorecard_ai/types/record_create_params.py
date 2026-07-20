@@ -29,5 +29,12 @@ class RecordCreateParams(TypedDict, total=False):
     Used for deduplication.
     """
 
+    session_id: Annotated[str, PropertyInfo(alias="sessionId")]
+    """Optional session ID for this record.
+
+    Matches the `session.id` emitted on OTel spans, joining the record to its
+    session's traces and attachments.
+    """
+
     testcase_id: Annotated[str, PropertyInfo(alias="testcaseId")]
     """The ID of the Testcase."""
