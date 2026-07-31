@@ -16,6 +16,14 @@ from .records import (
     RecordsResourceWithStreamingResponse,
     AsyncRecordsResourceWithStreamingResponse,
 )
+from .assignees import (
+    AssigneesResource,
+    AsyncAssigneesResource,
+    AssigneesResourceWithRawResponse,
+    AsyncAssigneesResourceWithRawResponse,
+    AssigneesResourceWithStreamingResponse,
+    AsyncAssigneesResourceWithStreamingResponse,
+)
 from .annotations import (
     AnnotationsResource,
     AsyncAnnotationsResource,
@@ -38,6 +46,12 @@ __all__ = [
     "AsyncTagsResourceWithRawResponse",
     "TagsResourceWithStreamingResponse",
     "AsyncTagsResourceWithStreamingResponse",
+    "AssigneesResource",
+    "AsyncAssigneesResource",
+    "AssigneesResourceWithRawResponse",
+    "AsyncAssigneesResourceWithRawResponse",
+    "AssigneesResourceWithStreamingResponse",
+    "AsyncAssigneesResourceWithStreamingResponse",
     "RecordsResource",
     "AsyncRecordsResource",
     "RecordsResourceWithRawResponse",
