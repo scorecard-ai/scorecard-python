@@ -18,6 +18,14 @@ from ...types import record_list_params, record_create_params
 from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
+from .assignees import (
+    AssigneesResource,
+    AsyncAssigneesResource,
+    AssigneesResourceWithRawResponse,
+    AsyncAssigneesResourceWithRawResponse,
+    AssigneesResourceWithStreamingResponse,
+    AsyncAssigneesResourceWithStreamingResponse,
+)
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
     to_raw_response_wrapper,
@@ -50,6 +58,10 @@ class RecordsResource(SyncAPIResource):
     @cached_property
     def tags(self) -> TagsResource:
         return TagsResource(self._client)
+
+    @cached_property
+    def assignees(self) -> AssigneesResource:
+        return AssigneesResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> RecordsResourceWithRawResponse:
@@ -235,6 +247,10 @@ class AsyncRecordsResource(AsyncAPIResource):
     @cached_property
     def tags(self) -> AsyncTagsResource:
         return AsyncTagsResource(self._client)
+
+    @cached_property
+    def assignees(self) -> AsyncAssigneesResource:
+        return AsyncAssigneesResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncRecordsResourceWithRawResponse:
@@ -434,6 +450,10 @@ class RecordsResourceWithRawResponse:
     def tags(self) -> TagsResourceWithRawResponse:
         return TagsResourceWithRawResponse(self._records.tags)
 
+    @cached_property
+    def assignees(self) -> AssigneesResourceWithRawResponse:
+        return AssigneesResourceWithRawResponse(self._records.assignees)
+
 
 class AsyncRecordsResourceWithRawResponse:
     def __init__(self, records: AsyncRecordsResource) -> None:
@@ -456,6 +476,10 @@ class AsyncRecordsResourceWithRawResponse:
     @cached_property
     def tags(self) -> AsyncTagsResourceWithRawResponse:
         return AsyncTagsResourceWithRawResponse(self._records.tags)
+
+    @cached_property
+    def assignees(self) -> AsyncAssigneesResourceWithRawResponse:
+        return AsyncAssigneesResourceWithRawResponse(self._records.assignees)
 
 
 class RecordsResourceWithStreamingResponse:
@@ -480,6 +504,10 @@ class RecordsResourceWithStreamingResponse:
     def tags(self) -> TagsResourceWithStreamingResponse:
         return TagsResourceWithStreamingResponse(self._records.tags)
 
+    @cached_property
+    def assignees(self) -> AssigneesResourceWithStreamingResponse:
+        return AssigneesResourceWithStreamingResponse(self._records.assignees)
+
 
 class AsyncRecordsResourceWithStreamingResponse:
     def __init__(self, records: AsyncRecordsResource) -> None:
@@ -502,3 +530,7 @@ class AsyncRecordsResourceWithStreamingResponse:
     @cached_property
     def tags(self) -> AsyncTagsResourceWithStreamingResponse:
         return AsyncTagsResourceWithStreamingResponse(self._records.tags)
+
+    @cached_property
+    def assignees(self) -> AsyncAssigneesResourceWithStreamingResponse:
+        return AsyncAssigneesResourceWithStreamingResponse(self._records.assignees)

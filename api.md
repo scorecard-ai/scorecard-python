@@ -119,6 +119,24 @@ Methods:
 - <code title="get /records/{recordId}/tags">client.records.tags.<a href="./src/scorecard_ai/resources/records/tags.py">list</a>(record_id) -> <a href="./src/scorecard_ai/types/records/tag_list_response.py">TagListResponse</a></code>
 - <code title="delete /records/{recordId}/tags/{text}">client.records.tags.<a href="./src/scorecard_ai/resources/records/tags.py">delete</a>(text, \*, record_id) -> <a href="./src/scorecard_ai/types/records/tag_delete_response.py">TagDeleteResponse</a></code>
 
+## Assignees
+
+Types:
+
+```python
+from scorecard_ai.types.records import (
+    RecordAssignment,
+    AssigneeListResponse,
+    AssigneeDeleteResponse,
+)
+```
+
+Methods:
+
+- <code title="post /records/{recordId}/assignees">client.records.assignees.<a href="./src/scorecard_ai/resources/records/assignees.py">create</a>(record_id, \*\*<a href="src/scorecard_ai/types/records/assignee_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/records/record_assignment.py">RecordAssignment</a></code>
+- <code title="get /records/{recordId}/assignees">client.records.assignees.<a href="./src/scorecard_ai/resources/records/assignees.py">list</a>(record_id) -> <a href="./src/scorecard_ai/types/records/assignee_list_response.py">AssigneeListResponse</a></code>
+- <code title="delete /records/{recordId}/assignees/{assigneeUserId}">client.records.assignees.<a href="./src/scorecard_ai/resources/records/assignees.py">delete</a>(assignee_user_id, \*, record_id) -> <a href="./src/scorecard_ai/types/records/assignee_delete_response.py">AssigneeDeleteResponse</a></code>
+
 # Scores
 
 Types:
