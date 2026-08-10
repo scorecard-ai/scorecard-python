@@ -119,6 +119,24 @@ Methods:
 - <code title="get /records/{recordId}/tags">client.records.tags.<a href="./src/scorecard_ai/resources/records/tags.py">list</a>(record_id) -> <a href="./src/scorecard_ai/types/records/tag_list_response.py">TagListResponse</a></code>
 - <code title="delete /records/{recordId}/tags/{text}">client.records.tags.<a href="./src/scorecard_ai/resources/records/tags.py">delete</a>(text, \*, record_id) -> <a href="./src/scorecard_ai/types/records/tag_delete_response.py">TagDeleteResponse</a></code>
 
+## Assignees
+
+Types:
+
+```python
+from scorecard_ai.types.records import (
+    RecordAssignment,
+    AssigneeListResponse,
+    AssigneeDeleteResponse,
+)
+```
+
+Methods:
+
+- <code title="post /records/{recordId}/assignees">client.records.assignees.<a href="./src/scorecard_ai/resources/records/assignees.py">create</a>(record_id, \*\*<a href="src/scorecard_ai/types/records/assignee_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/records/record_assignment.py">RecordAssignment</a></code>
+- <code title="get /records/{recordId}/assignees">client.records.assignees.<a href="./src/scorecard_ai/resources/records/assignees.py">list</a>(record_id) -> <a href="./src/scorecard_ai/types/records/assignee_list_response.py">AssigneeListResponse</a></code>
+- <code title="delete /records/{recordId}/assignees/{assigneeUserId}">client.records.assignees.<a href="./src/scorecard_ai/resources/records/assignees.py">delete</a>(assignee_user_id, \*, record_id) -> <a href="./src/scorecard_ai/types/records/assignee_delete_response.py">AssigneeDeleteResponse</a></code>
+
 # Scores
 
 Types:
@@ -130,6 +148,27 @@ from scorecard_ai.types import Score
 Methods:
 
 - <code title="put /records/{recordId}/scores/{metricConfigId}">client.scores.<a href="./src/scorecard_ai/resources/scores.py">upsert</a>(metric_config_id, \*, record_id, \*\*<a href="src/scorecard_ai/types/score_upsert_params.py">params</a>) -> <a href="./src/scorecard_ai/types/score.py">Score</a></code>
+
+# Attachments
+
+Types:
+
+```python
+from scorecard_ai.types import (
+    Attachment,
+    AttachmentDeleteResponse,
+    AttachmentGetResponse,
+    AttachmentInitiateResponse,
+)
+```
+
+Methods:
+
+- <code title="get /sessions/{sessionId}/attachments">client.attachments.<a href="./src/scorecard_ai/resources/attachments.py">list</a>(session_id, \*\*<a href="src/scorecard_ai/types/attachment_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/attachment.py">SyncPaginatedResponse[Attachment]</a></code>
+- <code title="delete /attachments/{attachmentId}">client.attachments.<a href="./src/scorecard_ai/resources/attachments.py">delete</a>(attachment_id) -> <a href="./src/scorecard_ai/types/attachment_delete_response.py">AttachmentDeleteResponse</a></code>
+- <code title="post /attachments/{attachmentId}/commit">client.attachments.<a href="./src/scorecard_ai/resources/attachments.py">commit</a>(attachment_id) -> <a href="./src/scorecard_ai/types/attachment.py">Attachment</a></code>
+- <code title="get /attachments/{attachmentId}">client.attachments.<a href="./src/scorecard_ai/resources/attachments.py">get</a>(attachment_id) -> <a href="./src/scorecard_ai/types/attachment_get_response.py">AttachmentGetResponse</a></code>
+- <code title="post /attachments">client.attachments.<a href="./src/scorecard_ai/resources/attachments.py">initiate</a>(\*\*<a href="src/scorecard_ai/types/attachment_initiate_params.py">params</a>) -> <a href="./src/scorecard_ai/types/attachment_initiate_response.py">AttachmentInitiateResponse</a></code>
 
 # Systems
 

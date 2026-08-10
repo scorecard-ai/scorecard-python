@@ -11,6 +11,7 @@ from .system import System as System
 from .project import Project as Project
 from .testset import Testset as Testset
 from .testcase import Testcase as Testcase
+from .attachment import Attachment as Attachment
 from .run_list_params import RunListParams as RunListParams
 from .run_create_params import RunCreateParams as RunCreateParams
 from .metric_list_params import MetricListParams as MetricListParams
@@ -29,12 +30,17 @@ from .testcase_list_params import TestcaseListParams as TestcaseListParams
 from .project_create_params import ProjectCreateParams as ProjectCreateParams
 from .testset_create_params import TestsetCreateParams as TestsetCreateParams
 from .testset_update_params import TestsetUpdateParams as TestsetUpdateParams
+from .attachment_list_params import AttachmentListParams as AttachmentListParams
 from .metric_delete_response import MetricDeleteResponse as MetricDeleteResponse
 from .record_delete_response import RecordDeleteResponse as RecordDeleteResponse
 from .system_delete_response import SystemDeleteResponse as SystemDeleteResponse
 from .testcase_create_params import TestcaseCreateParams as TestcaseCreateParams
 from .testcase_delete_params import TestcaseDeleteParams as TestcaseDeleteParams
 from .testcase_update_params import TestcaseUpdateParams as TestcaseUpdateParams
+from .attachment_get_response import AttachmentGetResponse as AttachmentGetResponse
 from .testset_delete_response import TestsetDeleteResponse as TestsetDeleteResponse
 from .testcase_create_response import TestcaseCreateResponse as TestcaseCreateResponse
 from .testcase_delete_response import TestcaseDeleteResponse as TestcaseDeleteResponse
+from .attachment_delete_response import AttachmentDeleteResponse as AttachmentDeleteResponse
+from .attachment_initiate_params import AttachmentInitiateParams as AttachmentInitiateParams
+from .attachment_initiate_response import AttachmentInitiateResponse as AttachmentInitiateResponse

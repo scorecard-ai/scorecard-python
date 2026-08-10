@@ -40,6 +40,7 @@ class TestRecords:
             inputs={"question": "bar"},
             outputs={"response": "bar"},
             otel_link_id="otelLinkId",
+            session_id="c59e5bd0-e5eb-4bf0-a08a-01f7e8f712c7",
             testcase_id="248",
         )
         assert_matches_type(Record, record, path=["response"])
@@ -194,6 +195,7 @@ class TestAsyncRecords:
             inputs={"question": "bar"},
             outputs={"response": "bar"},
             otel_link_id="otelLinkId",
+            session_id="c59e5bd0-e5eb-4bf0-a08a-01f7e8f712c7",
             testcase_id="248",
         )
         assert_matches_type(Record, record, path=["response"])

@@ -1,5 +1,22 @@
 # Changelog
 
+## 3.9.0 (2026-07-31)
+
+Full Changelog: [v3.8.0...v3.9.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.8.0...v3.9.0)
+
+### Features
+
+* **api:** api update ([f7092fc](https://github.com/scorecard-ai/scorecard-python/commit/f7092fc7c61beae93e76b3b8f3136e691470c66e))
+* **api:** api update ([99eb116](https://github.com/scorecard-ai/scorecard-python/commit/99eb1167ba8c4c95666299e729334ae6ee478fb9))
+* **api:** api update ([ca4c4b5](https://github.com/scorecard-ai/scorecard-python/commit/ca4c4b526792ccbb10a9bd9a897dbcbddfc4a022))
+* **api:** api update ([b6d391b](https://github.com/scorecard-ai/scorecard-python/commit/b6d391be490a30e41617467dff18acfb3f337920))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([d0bba7c](https://github.com/scorecard-ai/scorecard-python/commit/d0bba7c44fa0bae6ee4cb576687ffcdbb7f02c46))
+
+
+### Bug Fixes
+
+* **internal:** resolve build failures ([86b5a52](https://github.com/scorecard-ai/scorecard-python/commit/86b5a5275d4e302a022c86548dcfb043748a81f0))
+
 ## 3.8.0 (2026-07-03)
 
 Full Changelog: [v3.7.0...v3.8.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.7.0...v3.8.0)

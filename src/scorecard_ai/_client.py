@@ -35,13 +35,14 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import runs, scores, metrics, records, systems, projects, testsets, testcases
+    from .resources import runs, scores, metrics, records, systems, projects, testsets, testcases, attachments
     from .resources.runs import RunsResource, AsyncRunsResource
     from .resources.scores import ScoresResource, AsyncScoresResource
     from .resources.metrics import MetricsResource, AsyncMetricsResource
     from .resources.projects import ProjectsResource, AsyncProjectsResource
     from .resources.testsets import TestsetsResource, AsyncTestsetsResource
     from .resources.testcases import TestcasesResource, AsyncTestcasesResource
+    from .resources.attachments import AttachmentsResource, AsyncAttachmentsResource
     from .resources.records.records import RecordsResource, AsyncRecordsResource
     from .resources.systems.systems import SystemsResource, AsyncSystemsResource
 
@@ -214,6 +215,12 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
         from .resources.scores import ScoresResource
 
         return ScoresResource(self)
+
+    @cached_property
+    def attachments(self) -> AttachmentsResource:
+        from .resources.attachments import AttachmentsResource
+
+        return AttachmentsResource(self)
 
     @cached_property
     def systems(self) -> SystemsResource:
@@ -467,6 +474,12 @@ class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
         return AsyncScoresResource(self)
 
     @cached_property
+    def attachments(self) -> AsyncAttachmentsResource:
+        from .resources.attachments import AsyncAttachmentsResource
+
+        return AsyncAttachmentsResource(self)
+
+    @cached_property
     def systems(self) -> AsyncSystemsResource:
         from .resources.systems import AsyncSystemsResource
 
@@ -636,6 +649,12 @@ class ScorecardWithRawResponse:
         return ScoresResourceWithRawResponse(self._client.scores)
 
     @cached_property
+    def attachments(self) -> attachments.AttachmentsResourceWithRawResponse:
+        from .resources.attachments import AttachmentsResourceWithRawResponse
+
+        return AttachmentsResourceWithRawResponse(self._client.attachments)
+
+    @cached_property
     def systems(self) -> systems.SystemsResourceWithRawResponse:
         from .resources.systems import SystemsResourceWithRawResponse
 
@@ -689,6 +708,12 @@ class AsyncScorecardWithRawResponse:
         from .resources.scores import AsyncScoresResourceWithRawResponse
 
         return AsyncScoresResourceWithRawResponse(self._client.scores)
+
+    @cached_property
+    def attachments(self) -> attachments.AsyncAttachmentsResourceWithRawResponse:
+        from .resources.attachments import AsyncAttachmentsResourceWithRawResponse
+
+        return AsyncAttachmentsResourceWithRawResponse(self._client.attachments)
 
     @cached_property
     def systems(self) -> systems.AsyncSystemsResourceWithRawResponse:
@@ -746,6 +771,12 @@ class ScorecardWithStreamedResponse:
         return ScoresResourceWithStreamingResponse(self._client.scores)
 
     @cached_property
+    def attachments(self) -> attachments.AttachmentsResourceWithStreamingResponse:
+        from .resources.attachments import AttachmentsResourceWithStreamingResponse
+
+        return AttachmentsResourceWithStreamingResponse(self._client.attachments)
+
+    @cached_property
     def systems(self) -> systems.SystemsResourceWithStreamingResponse:
         from .resources.systems import SystemsResourceWithStreamingResponse
 
@@ -799,6 +830,12 @@ class AsyncScorecardWithStreamedResponse:
         from .resources.scores import AsyncScoresResourceWithStreamingResponse
 
         return AsyncScoresResourceWithStreamingResponse(self._client.scores)
+
+    @cached_property
+    def attachments(self) -> attachments.AsyncAttachmentsResourceWithStreamingResponse:
+        from .resources.attachments import AsyncAttachmentsResourceWithStreamingResponse
+
+        return AsyncAttachmentsResourceWithStreamingResponse(self._client.attachments)
 
     @cached_property
     def systems(self) -> systems.AsyncSystemsResourceWithStreamingResponse:
