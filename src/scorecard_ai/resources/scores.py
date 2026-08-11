@@ -7,7 +7,7 @@ from typing import Dict
 import httpx
 
 from ..types import score_upsert_params
-from .._types import Body, Query, Headers, NotGiven, not_given
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -48,7 +48,7 @@ class ScoresResource(SyncAPIResource):
         metric_config_id: str,
         *,
         record_id: str,
-        score: Dict[str, object],
+        score: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -67,7 +67,9 @@ class ScoresResource(SyncAPIResource):
         Args:
           score: The score of the Record, as arbitrary JSON. This data should ideally conform to
               the output schema defined by the associated MetricConfig. If it doesn't,
-              validation errors will be captured in the `validationErrors` field.
+              validation errors will be captured in the `validationErrors` field. Omit `score`
+              to leave the Score in a pending (ungraded) state — supported only for human
+              metrics, e.g. to queue a record for manual grading.
 
           extra_headers: Send extra headers
 
@@ -118,7 +120,7 @@ class AsyncScoresResource(AsyncAPIResource):
         metric_config_id: str,
         *,
         record_id: str,
-        score: Dict[str, object],
+        score: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -137,7 +139,9 @@ class AsyncScoresResource(AsyncAPIResource):
         Args:
           score: The score of the Record, as arbitrary JSON. This data should ideally conform to
               the output schema defined by the associated MetricConfig. If it doesn't,
-              validation errors will be captured in the `validationErrors` field.
+              validation errors will be captured in the `validationErrors` field. Omit `score`
+              to leave the Score in a pending (ungraded) state — supported only for human
+              metrics, e.g. to queue a record for manual grading.
 
           extra_headers: Send extra headers
 

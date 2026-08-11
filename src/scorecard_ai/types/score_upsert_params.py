@@ -13,10 +13,12 @@ __all__ = ["ScoreUpsertParams"]
 class ScoreUpsertParams(TypedDict, total=False):
     record_id: Required[Annotated[str, PropertyInfo(alias="recordId")]]
 
-    score: Required[Dict[str, object]]
+    score: Dict[str, object]
     """The score of the Record, as arbitrary JSON.
 
     This data should ideally conform to the output schema defined by the associated
     MetricConfig. If it doesn't, validation errors will be captured in the
-    `validationErrors` field.
+    `validationErrors` field. Omit `score` to leave the Score in a pending
+    (ungraded) state — supported only for human metrics, e.g. to queue a record for
+    manual grading.
     """

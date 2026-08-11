@@ -22,6 +22,14 @@ class TestScores:
         score = client.scores.upsert(
             metric_config_id="a1b2c3d4-e5f6-7890-1234-567890abcdef",
             record_id="777",
+        )
+        assert_matches_type(Score, score, path=["response"])
+
+    @parametrize
+    def test_method_upsert_with_all_params(self, client: Scorecard) -> None:
+        score = client.scores.upsert(
+            metric_config_id="a1b2c3d4-e5f6-7890-1234-567890abcdef",
+            record_id="777",
             score={
                 "value": "bar",
                 "reasoning": "bar",
@@ -34,10 +42,6 @@ class TestScores:
         response = client.scores.with_raw_response.upsert(
             metric_config_id="a1b2c3d4-e5f6-7890-1234-567890abcdef",
             record_id="777",
-            score={
-                "value": "bar",
-                "reasoning": "bar",
-            },
         )
 
         assert response.is_closed is True
@@ -50,10 +54,6 @@ class TestScores:
         with client.scores.with_streaming_response.upsert(
             metric_config_id="a1b2c3d4-e5f6-7890-1234-567890abcdef",
             record_id="777",
-            score={
-                "value": "bar",
-                "reasoning": "bar",
-            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -69,20 +69,12 @@ class TestScores:
             client.scores.with_raw_response.upsert(
                 metric_config_id="a1b2c3d4-e5f6-7890-1234-567890abcdef",
                 record_id="",
-                score={
-                    "value": "bar",
-                    "reasoning": "bar",
-                },
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `metric_config_id` but received ''"):
             client.scores.with_raw_response.upsert(
                 metric_config_id="",
                 record_id="777",
-                score={
-                    "value": "bar",
-                    "reasoning": "bar",
-                },
             )
 
 
@@ -93,6 +85,14 @@ class TestAsyncScores:
 
     @parametrize
     async def test_method_upsert(self, async_client: AsyncScorecard) -> None:
+        score = await async_client.scores.upsert(
+            metric_config_id="a1b2c3d4-e5f6-7890-1234-567890abcdef",
+            record_id="777",
+        )
+        assert_matches_type(Score, score, path=["response"])
+
+    @parametrize
+    async def test_method_upsert_with_all_params(self, async_client: AsyncScorecard) -> None:
         score = await async_client.scores.upsert(
             metric_config_id="a1b2c3d4-e5f6-7890-1234-567890abcdef",
             record_id="777",
@@ -108,10 +108,6 @@ class TestAsyncScores:
         response = await async_client.scores.with_raw_response.upsert(
             metric_config_id="a1b2c3d4-e5f6-7890-1234-567890abcdef",
             record_id="777",
-            score={
-                "value": "bar",
-                "reasoning": "bar",
-            },
         )
 
         assert response.is_closed is True
@@ -124,10 +120,6 @@ class TestAsyncScores:
         async with async_client.scores.with_streaming_response.upsert(
             metric_config_id="a1b2c3d4-e5f6-7890-1234-567890abcdef",
             record_id="777",
-            score={
-                "value": "bar",
-                "reasoning": "bar",
-            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -143,18 +135,10 @@ class TestAsyncScores:
             await async_client.scores.with_raw_response.upsert(
                 metric_config_id="a1b2c3d4-e5f6-7890-1234-567890abcdef",
                 record_id="",
-                score={
-                    "value": "bar",
-                    "reasoning": "bar",
-                },
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `metric_config_id` but received ''"):
             await async_client.scores.with_raw_response.upsert(
                 metric_config_id="",
                 record_id="777",
-                score={
-                    "value": "bar",
-                    "reasoning": "bar",
-                },
             )
