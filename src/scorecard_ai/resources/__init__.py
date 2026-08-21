@@ -72,6 +72,14 @@ from .attachments import (
     AttachmentsResourceWithStreamingResponse,
     AsyncAttachmentsResourceWithStreamingResponse,
 )
+from .metric_groups import (
+    MetricGroupsResource,
+    AsyncMetricGroupsResource,
+    MetricGroupsResourceWithRawResponse,
+    AsyncMetricGroupsResourceWithRawResponse,
+    MetricGroupsResourceWithStreamingResponse,
+    AsyncMetricGroupsResourceWithStreamingResponse,
+)
 
 __all__ = [
     "ProjectsResource",
@@ -104,6 +112,12 @@ __all__ = [
     "AsyncMetricsResourceWithRawResponse",
     "MetricsResourceWithStreamingResponse",
     "AsyncMetricsResourceWithStreamingResponse",
+    "MetricGroupsResource",
+    "AsyncMetricGroupsResource",
+    "MetricGroupsResourceWithRawResponse",
+    "AsyncMetricGroupsResourceWithRawResponse",
+    "MetricGroupsResourceWithStreamingResponse",
+    "AsyncMetricGroupsResourceWithStreamingResponse",
     "RecordsResource",
     "AsyncRecordsResource",
     "RecordsResourceWithRawResponse",

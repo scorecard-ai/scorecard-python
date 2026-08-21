@@ -35,7 +35,18 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import runs, scores, metrics, records, systems, projects, testsets, testcases, attachments
+    from .resources import (
+        runs,
+        scores,
+        metrics,
+        records,
+        systems,
+        projects,
+        testsets,
+        testcases,
+        attachments,
+        metric_groups,
+    )
     from .resources.runs import RunsResource, AsyncRunsResource
     from .resources.scores import ScoresResource, AsyncScoresResource
     from .resources.metrics import MetricsResource, AsyncMetricsResource
@@ -43,6 +54,7 @@ if TYPE_CHECKING:
     from .resources.testsets import TestsetsResource, AsyncTestsetsResource
     from .resources.testcases import TestcasesResource, AsyncTestcasesResource
     from .resources.attachments import AttachmentsResource, AsyncAttachmentsResource
+    from .resources.metric_groups import MetricGroupsResource, AsyncMetricGroupsResource
     from .resources.records.records import RecordsResource, AsyncRecordsResource
     from .resources.systems.systems import SystemsResource, AsyncSystemsResource
 
@@ -203,6 +215,12 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
         from .resources.metrics import MetricsResource
 
         return MetricsResource(self)
+
+    @cached_property
+    def metric_groups(self) -> MetricGroupsResource:
+        from .resources.metric_groups import MetricGroupsResource
+
+        return MetricGroupsResource(self)
 
     @cached_property
     def records(self) -> RecordsResource:
@@ -462,6 +480,12 @@ class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
         return AsyncMetricsResource(self)
 
     @cached_property
+    def metric_groups(self) -> AsyncMetricGroupsResource:
+        from .resources.metric_groups import AsyncMetricGroupsResource
+
+        return AsyncMetricGroupsResource(self)
+
+    @cached_property
     def records(self) -> AsyncRecordsResource:
         from .resources.records import AsyncRecordsResource
 
@@ -637,6 +661,12 @@ class ScorecardWithRawResponse:
         return MetricsResourceWithRawResponse(self._client.metrics)
 
     @cached_property
+    def metric_groups(self) -> metric_groups.MetricGroupsResourceWithRawResponse:
+        from .resources.metric_groups import MetricGroupsResourceWithRawResponse
+
+        return MetricGroupsResourceWithRawResponse(self._client.metric_groups)
+
+    @cached_property
     def records(self) -> records.RecordsResourceWithRawResponse:
         from .resources.records import RecordsResourceWithRawResponse
 
@@ -696,6 +726,12 @@ class AsyncScorecardWithRawResponse:
         from .resources.metrics import AsyncMetricsResourceWithRawResponse
 
         return AsyncMetricsResourceWithRawResponse(self._client.metrics)
+
+    @cached_property
+    def metric_groups(self) -> metric_groups.AsyncMetricGroupsResourceWithRawResponse:
+        from .resources.metric_groups import AsyncMetricGroupsResourceWithRawResponse
+
+        return AsyncMetricGroupsResourceWithRawResponse(self._client.metric_groups)
 
     @cached_property
     def records(self) -> records.AsyncRecordsResourceWithRawResponse:
@@ -759,6 +795,12 @@ class ScorecardWithStreamedResponse:
         return MetricsResourceWithStreamingResponse(self._client.metrics)
 
     @cached_property
+    def metric_groups(self) -> metric_groups.MetricGroupsResourceWithStreamingResponse:
+        from .resources.metric_groups import MetricGroupsResourceWithStreamingResponse
+
+        return MetricGroupsResourceWithStreamingResponse(self._client.metric_groups)
+
+    @cached_property
     def records(self) -> records.RecordsResourceWithStreamingResponse:
         from .resources.records import RecordsResourceWithStreamingResponse
 
@@ -818,6 +860,12 @@ class AsyncScorecardWithStreamedResponse:
         from .resources.metrics import AsyncMetricsResourceWithStreamingResponse
 
         return AsyncMetricsResourceWithStreamingResponse(self._client.metrics)
+
+    @cached_property
+    def metric_groups(self) -> metric_groups.AsyncMetricGroupsResourceWithStreamingResponse:
+        from .resources.metric_groups import AsyncMetricGroupsResourceWithStreamingResponse
+
+        return AsyncMetricGroupsResourceWithStreamingResponse(self._client.metric_groups)
 
     @cached_property
     def records(self) -> records.AsyncRecordsResourceWithStreamingResponse:

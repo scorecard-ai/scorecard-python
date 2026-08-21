@@ -79,6 +79,22 @@ Methods:
 - <code title="delete /metrics/{metricId}">client.metrics.<a href="./src/scorecard_ai/resources/metrics.py">delete</a>(metric_id) -> <a href="./src/scorecard_ai/types/metric_delete_response.py">MetricDeleteResponse</a></code>
 - <code title="get /metrics/{metricId}">client.metrics.<a href="./src/scorecard_ai/resources/metrics.py">get</a>(metric_id) -> <a href="./src/scorecard_ai/types/metric.py">Metric</a></code>
 
+# MetricGroups
+
+Types:
+
+```python
+from scorecard_ai.types import MetricGroup, MetricGroupDeleteResponse
+```
+
+Methods:
+
+- <code title="post /projects/{projectId}/metric-groups">client.metric_groups.<a href="./src/scorecard_ai/resources/metric_groups.py">create</a>(project_id, \*\*<a href="src/scorecard_ai/types/metric_group_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/metric_group.py">MetricGroup</a></code>
+- <code title="patch /metric-groups/{metricGroupId}">client.metric_groups.<a href="./src/scorecard_ai/resources/metric_groups.py">update</a>(metric_group_id, \*\*<a href="src/scorecard_ai/types/metric_group_update_params.py">params</a>) -> <a href="./src/scorecard_ai/types/metric_group.py">MetricGroup</a></code>
+- <code title="get /projects/{projectId}/metric-groups">client.metric_groups.<a href="./src/scorecard_ai/resources/metric_groups.py">list</a>(project_id, \*\*<a href="src/scorecard_ai/types/metric_group_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/metric_group.py">SyncPaginatedResponse[MetricGroup]</a></code>
+- <code title="delete /metric-groups/{metricGroupId}">client.metric_groups.<a href="./src/scorecard_ai/resources/metric_groups.py">delete</a>(metric_group_id) -> <a href="./src/scorecard_ai/types/metric_group_delete_response.py">MetricGroupDeleteResponse</a></code>
+- <code title="get /metric-groups/{metricGroupId}">client.metric_groups.<a href="./src/scorecard_ai/resources/metric_groups.py">get</a>(metric_group_id) -> <a href="./src/scorecard_ai/types/metric_group.py">MetricGroup</a></code>
+
 # Records
 
 Types:

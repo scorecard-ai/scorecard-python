@@ -12,6 +12,7 @@ from .project import Project as Project
 from .testset import Testset as Testset
 from .testcase import Testcase as Testcase
 from .attachment import Attachment as Attachment
+from .metric_group import MetricGroup as MetricGroup
 from .run_list_params import RunListParams as RunListParams
 from .run_create_params import RunCreateParams as RunCreateParams
 from .metric_list_params import MetricListParams as MetricListParams
@@ -39,8 +40,12 @@ from .testcase_delete_params import TestcaseDeleteParams as TestcaseDeleteParams
 from .testcase_update_params import TestcaseUpdateParams as TestcaseUpdateParams
 from .attachment_get_response import AttachmentGetResponse as AttachmentGetResponse
 from .testset_delete_response import TestsetDeleteResponse as TestsetDeleteResponse
+from .metric_group_list_params import MetricGroupListParams as MetricGroupListParams
 from .testcase_create_response import TestcaseCreateResponse as TestcaseCreateResponse
 from .testcase_delete_response import TestcaseDeleteResponse as TestcaseDeleteResponse
 from .attachment_delete_response import AttachmentDeleteResponse as AttachmentDeleteResponse
 from .attachment_initiate_params import AttachmentInitiateParams as AttachmentInitiateParams
+from .metric_group_create_params import MetricGroupCreateParams as MetricGroupCreateParams
+from .metric_group_update_params import MetricGroupUpdateParams as MetricGroupUpdateParams
 from .attachment_initiate_response import AttachmentInitiateResponse as AttachmentInitiateResponse
+from .metric_group_delete_response import MetricGroupDeleteResponse as MetricGroupDeleteResponse
