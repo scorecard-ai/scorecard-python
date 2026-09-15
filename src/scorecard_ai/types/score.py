@@ -37,6 +37,12 @@ class Score(BaseModel):
     `validationErrors` field.
     """
 
+    user_id: str = FieldInfo(alias="userId")
+    """
+    Who created the Score: `background-job` for automated graders, or a user ID for
+    human-entered scores.
+    """
+
     validation_errors: Optional[List[ValidationError]] = FieldInfo(alias="validationErrors", default=None)
     """Validation errors found in the Score data.
 

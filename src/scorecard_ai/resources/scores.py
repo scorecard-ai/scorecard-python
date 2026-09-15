@@ -49,6 +49,7 @@ class ScoresResource(SyncAPIResource):
         *,
         record_id: str,
         score: Dict[str, object] | Omit = omit,
+        user_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -71,6 +72,10 @@ class ScoresResource(SyncAPIResource):
               to leave the Score in a pending (ungraded) state — supported only for human
               metrics, e.g. to queue a record for manual grading.
 
+          user_id: Who created the Score, e.g. a user ID when submitting on behalf of a human
+              grader. Must be a member of your organization. Only supported for human metrics
+              and only together with `score`; defaults to `background-job`.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -87,7 +92,13 @@ class ScoresResource(SyncAPIResource):
             path_template(
                 "/records/{record_id}/scores/{metric_config_id}", record_id=record_id, metric_config_id=metric_config_id
             ),
-            body=maybe_transform({"score": score}, score_upsert_params.ScoreUpsertParams),
+            body=maybe_transform(
+                {
+                    "score": score,
+                    "user_id": user_id,
+                },
+                score_upsert_params.ScoreUpsertParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -121,6 +132,7 @@ class AsyncScoresResource(AsyncAPIResource):
         *,
         record_id: str,
         score: Dict[str, object] | Omit = omit,
+        user_id: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -143,6 +155,10 @@ class AsyncScoresResource(AsyncAPIResource):
               to leave the Score in a pending (ungraded) state — supported only for human
               metrics, e.g. to queue a record for manual grading.
 
+          user_id: Who created the Score, e.g. a user ID when submitting on behalf of a human
+              grader. Must be a member of your organization. Only supported for human metrics
+              and only together with `score`; defaults to `background-job`.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -159,7 +175,13 @@ class AsyncScoresResource(AsyncAPIResource):
             path_template(
                 "/records/{record_id}/scores/{metric_config_id}", record_id=record_id, metric_config_id=metric_config_id
             ),
-            body=await async_maybe_transform({"score": score}, score_upsert_params.ScoreUpsertParams),
+            body=await async_maybe_transform(
+                {
+                    "score": score,
+                    "user_id": user_id,
+                },
+                score_upsert_params.ScoreUpsertParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

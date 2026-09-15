@@ -34,6 +34,7 @@ class TestScores:
                 "value": "bar",
                 "reasoning": "bar",
             },
+            user_id="x",
         )
         assert_matches_type(Score, score, path=["response"])
 
@@ -100,6 +101,7 @@ class TestAsyncScores:
                 "value": "bar",
                 "reasoning": "bar",
             },
+            user_id="x",
         )
         assert_matches_type(Score, score, path=["response"])
 

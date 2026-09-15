@@ -22,3 +22,11 @@ class ScoreUpsertParams(TypedDict, total=False):
     (ungraded) state — supported only for human metrics, e.g. to queue a record for
     manual grading.
     """
+
+    user_id: Annotated[str, PropertyInfo(alias="userId")]
+    """Who created the Score, e.g.
+
+    a user ID when submitting on behalf of a human grader. Must be a member of your
+    organization. Only supported for human metrics and only together with `score`;
+    defaults to `background-job`.
+    """

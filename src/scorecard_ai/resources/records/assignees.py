@@ -58,7 +58,9 @@ class AssigneesResource(SyncAPIResource):
         """Assign an organization member to a Record.
 
         Idempotent: re-assigning an existing
-        member returns the existing assignment.
+        member returns the existing assignment. Requires an organization admin: an
+        organization API key, or a token belonging to an admin. Keys and tokens scoped
+        to an individual member receive a 403.
 
         Args:
           assignee_user_id: The ID of the organization member to assign. Idempotent: re-assigning an
@@ -128,8 +130,11 @@ class AssigneesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AssigneeDeleteResponse:
-        """
-        Remove an assignee from a Record.
+        """Remove an assignee from a Record.
+
+        Requires an organization admin: an
+        organization API key, or a token belonging to an admin. Keys and tokens scoped
+        to an individual member receive a 403.
 
         Args:
           extra_headers: Send extra headers
@@ -192,7 +197,9 @@ class AsyncAssigneesResource(AsyncAPIResource):
         """Assign an organization member to a Record.
 
         Idempotent: re-assigning an existing
-        member returns the existing assignment.
+        member returns the existing assignment. Requires an organization admin: an
+        organization API key, or a token belonging to an admin. Keys and tokens scoped
+        to an individual member receive a 403.
 
         Args:
           assignee_user_id: The ID of the organization member to assign. Idempotent: re-assigning an
@@ -264,8 +271,11 @@ class AsyncAssigneesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AssigneeDeleteResponse:
-        """
-        Remove an assignee from a Record.
+        """Remove an assignee from a Record.
+
+        Requires an organization admin: an
+        organization API key, or a token belonging to an admin. Keys and tokens scoped
+        to an individual member receive a 403.
 
         Args:
           extra_headers: Send extra headers
