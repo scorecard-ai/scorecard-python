@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.10.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.9.0...v3.10.0) (2026-09-22)
+
+
+### Features
+
+* admin-only record assignment and a consolidated records actions menu ([80e3f32](https://github.com/scorecard-ai/scorecard-python/commit/80e3f325d846eb94918fc3ce59b41cebd8355150))
+* **api:** add public metric group endpoints ([e2da779](https://github.com/scorecard-ai/scorecard-python/commit/e2da779d82a2620ba1a7cccff1e11ef820ed9654))
+
 ## 3.9.0 (2026-07-31)
 
 Full Changelog: [v3.8.0...v3.9.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.8.0...v3.9.0)
