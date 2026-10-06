@@ -4,6 +4,7 @@ Helper functions for the Scorecard AI library.
 
 from __future__ import annotations
 
+import os
 import uuid
 import asyncio
 import inspect
@@ -11,7 +12,7 @@ from typing import Any, Dict, List, TypeVar, Callable, Coroutine
 from collections.abc import Generator, AsyncGenerator
 from typing_extensions import TypedDict
 
-from scorecard_ai import Scorecard, AsyncScorecard
+from scorecard_ai import ENVIRONMENTS, Scorecard, AsyncScorecard
 from scorecard_ai._types import NOT_GIVEN, Omit, NotGiven, omit
 from scorecard_ai.types.record import Record
 from scorecard_ai.types.testcase import Testcase
@@ -86,7 +87,18 @@ def _transform_testcase(testcase: Testcase | SimpleTestcase) -> _SimpleTestcaseW
 
 
 def _get_run_url(scorecard: Scorecard | AsyncScorecard, project_id: str, run_id: str) -> str:
-    return f"{scorecard.base_app_url}/projects/{project_id}/runs/{run_id}"
+    """Resolve the app URL without relying on the generated client's custom-host fallback."""
+    app_url = os.environ.get("SCORECARD_APP_URL")
+    if not app_url:
+        known_app_urls = {
+            ENVIRONMENTS["production"]: "https://app.scorecard.io",
+            ENVIRONMENTS["staging"]: "https://staging.app.getscorecard.ai",
+            ENVIRONMENTS["local"]: "http://localhost:3002",
+        }
+        # The client's httpx.URL already normalizes scheme and host case, preserving path case.
+        base_url = str(scorecard.base_url).rstrip("/")
+        app_url = known_app_urls.get(base_url, "https://app.scorecard.io")
+    return f"{app_url.rstrip('/')}/projects/{project_id}/runs/{run_id}"
 
 
 class RunResponse(TypedDict):
@@ -98,7 +110,11 @@ class RunResponse(TypedDict):
     """The ID of the run."""
 
     url: str
-    """The URL of the run."""
+    """The URL of the run. Set ``SCORECARD_APP_URL`` to override the app base URL
+    (e.g. ``http://localhost:3002``). Known production, staging, and local API URLs
+    map to their app URLs after normalizing scheme/host case and trailing slashes;
+    unknown API URLs fall back to ``https://app.scorecard.io``. The override is used
+    verbatim except for trailing slashes and may include an app path prefix."""
 
 
 def run_and_evaluate(
