@@ -7,8 +7,8 @@ from __future__ import annotations
 import uuid
 import asyncio
 import inspect
-from typing import Any, Dict, List, TypeVar, Callable, Coroutine
-from collections.abc import Generator, AsyncGenerator
+from typing import Any, Dict, List, TypeVar, Callable
+from collections.abc import Awaitable, Generator, AsyncGenerator
 from typing_extensions import TypedDict
 
 from scorecard_ai import Scorecard, AsyncScorecard
@@ -132,6 +132,7 @@ def run_and_evaluate(
 
         system: The system to run on the Testset. Receives the testcase input and system version (or None).
             Optionally accepts a third ``SystemOptions`` argument containing ``otel_link_id`` for trace deduplication.
+            Must return outputs synchronously; use ``async_run_and_evaluate`` for awaitable results.
 
         trials: The number of times to run the system on each Testcase.
     """
@@ -170,6 +171,10 @@ def run_and_evaluate(
                 model_response = system(testcase["inputs"], system_version, options)
             else:
                 model_response = system(testcase["inputs"], system_version)
+            if inspect.isawaitable(model_response):
+                if inspect.iscoroutine(model_response):
+                    model_response.close()
+                raise TypeError("system returned an awaitable; use async_run_and_evaluate instead of run_and_evaluate")
             client.records.create(
                 run_id=run.id,
                 testcase_id=_omit_if_not_given(testcase["id"]),
@@ -190,7 +195,7 @@ async def async_run_and_evaluate(
     testset_id: str | NotGiven = NOT_GIVEN,
     testcases: List[Testcase] | List[SimpleTestcase] | NotGiven = NOT_GIVEN,
     system_version_id: str | NotGiven = NOT_GIVEN,
-    system: Callable[..., SystemOutput],
+    system: Callable[..., SystemOutput | Awaitable[SystemOutput]],
     trials: int = 1,
 ) -> RunResponse:
     """
@@ -213,6 +218,7 @@ async def async_run_and_evaluate(
 
         system: The system to run on the Testset. Receives the testcase input and system version (or None).
             Optionally accepts a third ``SystemOptions`` argument containing ``otel_link_id`` for trace deduplication.
+            May return outputs synchronously or an awaitable that resolves to outputs.
 
         trials: The number of times to run the system on each Testcase.
     """
@@ -242,16 +248,18 @@ async def async_run_and_evaluate(
 
     accepts_options = _system_accepts_options(system)
 
-    def run_testcase(
+    async def run_testcase(
         testcase: _SimpleTestcaseWithId,
-    ) -> Coroutine[Any, Any, Record]:
+    ) -> Record:
         otel_link_id = str(uuid.uuid4())
         options = SystemOptions(otel_link_id=otel_link_id)
         if accepts_options:
             model_response = system(testcase["inputs"], system_version, options)
         else:
             model_response = system(testcase["inputs"], system_version)
-        return client.records.create(
+        if inspect.isawaitable(model_response):
+            model_response = await model_response
+        return await client.records.create(
             run_id=run.id,
             testcase_id=_omit_if_not_given(testcase["id"]),
             inputs=testcase["inputs"],
