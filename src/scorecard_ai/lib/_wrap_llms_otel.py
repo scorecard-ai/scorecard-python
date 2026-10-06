@@ -528,7 +528,9 @@ class _LLMClientWrapper:
         attr = getattr(self._client, name)
 
         # Only traverse the provider's supported tracing paths, including beta aliases.
-        path = ("chat", "completions", "create") if self._provider == "openai" else ("messages", "create")
+        path: tuple[str, ...] = (
+            ("chat", "completions", "create") if self._provider == "openai" else ("messages", "create")
+        )
         if name == "beta":
             path = ("beta",) + path
         if name == path[0]:
