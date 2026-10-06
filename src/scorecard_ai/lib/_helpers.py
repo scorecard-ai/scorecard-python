@@ -171,9 +171,11 @@ def run_and_evaluate(
                 model_response = system(testcase["inputs"], system_version, options)
             else:
                 model_response = system(testcase["inputs"], system_version)
-            if inspect.isawaitable(model_response):
-                if inspect.iscoroutine(model_response):
-                    model_response.close()
+            # `system` is typed as synchronous, but an async function can still be passed at runtime.
+            maybe_awaitable: object = model_response
+            if inspect.isawaitable(maybe_awaitable):
+                if inspect.iscoroutine(maybe_awaitable):
+                    maybe_awaitable.close()
                 raise TypeError("system returned an awaitable; use async_run_and_evaluate instead of run_and_evaluate")
             client.records.create(
                 run_id=run.id,
