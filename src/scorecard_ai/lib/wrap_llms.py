@@ -43,7 +43,11 @@ def _load_impl() -> Any:
 
 def wrap(client: _ClientT, config: Optional[WrapConfig] = None) -> _ClientT:
     """
-    Wrap any LLM SDK (OpenAI or Anthropic) to automatically trace all API calls.
+    Wrap an OpenAI or Anthropic SDK client to trace supported LLM calls.
+
+    Traces OpenAI ``chat.completions.create`` and ``beta.chat.completions.create``,
+    and Anthropic ``messages.create`` and ``beta.messages.create``, including
+    streaming calls. All other methods pass through untraced.
 
     Requires the optional ``otel`` extra (``pip install 'scorecard-ai[otel]'``).
 

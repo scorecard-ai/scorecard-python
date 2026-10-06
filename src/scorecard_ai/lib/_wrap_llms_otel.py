@@ -527,33 +527,39 @@ class _LLMClientWrapper:
         """Delegate attribute access to wrapped client."""
         attr = getattr(self._client, name)
 
-        # If it's an object (like 'chat' or 'messages'), wrap it recursively
-        if hasattr(attr, "__dict__") and not callable(attr):
-            return _NestedWrapper(attr, self._tracer, self._provider, self._project_id)
+        # Only traverse the provider's supported tracing paths, including beta aliases.
+        path: tuple[str, ...] = (
+            ("chat", "completions", "create") if self._provider == "openai" else ("messages", "create")
+        )
+        if name == "beta":
+            path = ("beta",) + path
+        if name == path[0]:
+            return _NestedWrapper(attr, self._tracer, self._provider, self._project_id, path[1:])
 
         return attr
 
 
 class _NestedWrapper:
-    """Wrapper for nested objects like client.chat.completions."""
+    """Wrapper for objects along a supported tracing path; other attributes pass through."""
 
-    def __init__(self, obj: Any, tracer: Optional[trace.Tracer], provider: str, project_id: Optional[str]):
+    def __init__(
+        self, obj: Any, tracer: Optional[trace.Tracer], provider: str, project_id: Optional[str], path: tuple[str, ...]
+    ):
         self._obj = obj
         self._tracer = tracer
         self._provider = provider
         self._project_id = project_id
+        self._path = path
 
     def __getattr__(self, name: str) -> Any:
         """Delegate attribute access to wrapped object."""
         attr = getattr(self._obj, name)
 
-        # Wrap 'create' methods with tracing
-        if name == "create" and callable(attr):
-            return self._wrap_create(attr)
-
-        # Recursively wrap nested objects
-        if hasattr(attr, "__dict__") and not callable(attr):
-            return _NestedWrapper(attr, self._tracer, self._provider, self._project_id)
+        if name == self._path[0]:
+            if len(self._path) > 1:
+                return _NestedWrapper(attr, self._tracer, self._provider, self._project_id, self._path[1:])
+            if callable(attr):
+                return self._wrap_create(attr)
 
         return attr
 
@@ -588,8 +594,8 @@ class _NestedWrapper:
             if "messages" in kwargs:
                 span.set_attribute("gen_ai.prompt.messages", json.dumps(kwargs["messages"]))
 
-        # Check if the method is async
-        if inspect.iscoroutinefunction(original_method):
+        # SDK decorators may hide the coroutine function behind a synchronous wrapper.
+        if inspect.iscoroutinefunction(inspect.unwrap(original_method)):
 
             async def async_traced_create(*args: Any, **kwargs: Any) -> Any:
                 if self._tracer is None:
@@ -677,7 +683,11 @@ class _NestedWrapper:
 
 def wrap(client: _ClientT, config: Optional[WrapConfig] = None) -> _ClientT:  # type: ignore[return-value]
     """
-    Wrap any LLM SDK (OpenAI or Anthropic) to automatically trace all API calls.
+    Wrap an OpenAI or Anthropic SDK client to trace supported LLM calls.
+
+    Traces OpenAI ``chat.completions.create`` and ``beta.chat.completions.create``,
+    and Anthropic ``messages.create`` and ``beta.messages.create``, including
+    streaming calls. All other methods pass through untraced.
 
     Args:
         client: An instance of OpenAI or Anthropic SDK client
