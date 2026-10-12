@@ -11,7 +11,10 @@ import httpx
 from . import _exceptions
 from ._qs import Querystring
 from ._types import (
+    Body,
     Omit,
+    Query,
+    Headers,
     Timeout,
     NotGiven,
     Transport,
@@ -26,13 +29,21 @@ from ._utils import (
 )
 from ._compat import cached_property
 from ._version import __version__
+from ._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, ScorecardError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
     AsyncAPIClient,
+    make_request_options,
 )
+from .types.whoami import Whoami
 
 if TYPE_CHECKING:
     from .resources import (
@@ -101,6 +112,7 @@ class HasBaseAppURL:
 class Scorecard(HasBaseAppURL, SyncAPIClient):
     # client options
     api_key: str
+    org_id: str | None
 
     _environment: Literal["production", "staging", "local"] | NotGiven
 
@@ -108,6 +120,7 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        org_id: str | None = None,
         environment: Literal["production", "staging", "local"] | NotGiven = not_given,
         base_url: str | httpx.URL | None | NotGiven = not_given,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -130,7 +143,9 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
     ) -> None:
         """Construct a new synchronous Scorecard client instance.
 
-        This automatically infers the `api_key` argument from the `SCORECARD_API_KEY` environment variable if it is not provided.
+        This automatically infers the following arguments from their corresponding environment variables if they are not provided:
+        - `api_key` from `SCORECARD_API_KEY`
+        - `org_id` from `SCORECARD_ORG_ID`
         """
         if api_key is None:
             api_key = os.environ.get("SCORECARD_API_KEY")
@@ -139,6 +154,10 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
                 "The api_key client option must be set either by passing api_key to the client or by setting the SCORECARD_API_KEY environment variable"
             )
         self.api_key = api_key
+
+        if org_id is None:
+            org_id = os.environ.get("SCORECARD_ORG_ID")
+        self.org_id = org_id
 
         self._environment = environment
 
@@ -271,6 +290,7 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
         return {
             **super().default_headers,
             "X-Stainless-Async": "false",
+            "X-Scorecard-Org-Id": self.org_id if self.org_id is not None else Omit(),
             **self._custom_headers,
         }
 
@@ -278,6 +298,7 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        org_id: str | None = None,
         environment: Literal["production", "staging", "local"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -313,6 +334,7 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             api_key=api_key or self.api_key,
+            org_id=org_id or self.org_id,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
@@ -326,6 +348,34 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
     # Alias for `copy` for nicer inline usage, e.g.
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
+
+    def whoami(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Whoami:
+        """
+        Returns the caller's user, organization, and the organizations the credential
+        can act in.
+
+        A request acts in one organization. For an OAuth token or a personal API key,
+        choose it with the `X-Scorecard-Org-Id` header; the caller must be a member, or
+        the API returns 403. Without the header, the API uses the user's most recently
+        updated organization. A JWT or an org API key always acts in its own
+        organization, and a different `X-Scorecard-Org-Id` returns 403.
+        """
+        return self.get(
+            "/whoami",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Whoami,
+        )
 
     @override
     def _make_status_error(
@@ -364,6 +414,7 @@ class Scorecard(HasBaseAppURL, SyncAPIClient):
 class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
     # client options
     api_key: str
+    org_id: str | None
 
     _environment: Literal["production", "staging", "local"] | NotGiven
 
@@ -371,6 +422,7 @@ class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        org_id: str | None = None,
         environment: Literal["production", "staging", "local"] | NotGiven = not_given,
         base_url: str | httpx.URL | None | NotGiven = not_given,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -393,7 +445,9 @@ class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
     ) -> None:
         """Construct a new async AsyncScorecard client instance.
 
-        This automatically infers the `api_key` argument from the `SCORECARD_API_KEY` environment variable if it is not provided.
+        This automatically infers the following arguments from their corresponding environment variables if they are not provided:
+        - `api_key` from `SCORECARD_API_KEY`
+        - `org_id` from `SCORECARD_ORG_ID`
         """
         if api_key is None:
             api_key = os.environ.get("SCORECARD_API_KEY")
@@ -402,6 +456,10 @@ class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
                 "The api_key client option must be set either by passing api_key to the client or by setting the SCORECARD_API_KEY environment variable"
             )
         self.api_key = api_key
+
+        if org_id is None:
+            org_id = os.environ.get("SCORECARD_ORG_ID")
+        self.org_id = org_id
 
         self._environment = environment
 
@@ -534,6 +592,7 @@ class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
         return {
             **super().default_headers,
             "X-Stainless-Async": f"async:{get_async_library()}",
+            "X-Scorecard-Org-Id": self.org_id if self.org_id is not None else Omit(),
             **self._custom_headers,
         }
 
@@ -541,6 +600,7 @@ class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        org_id: str | None = None,
         environment: Literal["production", "staging", "local"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -576,6 +636,7 @@ class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             api_key=api_key or self.api_key,
+            org_id=org_id or self.org_id,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
@@ -589,6 +650,34 @@ class AsyncScorecard(HasBaseAppURL, AsyncAPIClient):
     # Alias for `copy` for nicer inline usage, e.g.
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
+
+    async def whoami(
+        self,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Whoami:
+        """
+        Returns the caller's user, organization, and the organizations the credential
+        can act in.
+
+        A request acts in one organization. For an OAuth token or a personal API key,
+        choose it with the `X-Scorecard-Org-Id` header; the caller must be a member, or
+        the API returns 403. Without the header, the API uses the user's most recently
+        updated organization. A JWT or an org API key always acts in its own
+        organization, and a different `X-Scorecard-Org-Id` returns 403.
+        """
+        return await self.get(
+            "/whoami",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Whoami,
+        )
 
     @override
     def _make_status_error(
@@ -629,6 +718,10 @@ class ScorecardWithRawResponse:
 
     def __init__(self, client: Scorecard) -> None:
         self._client = client
+
+        self.whoami = to_raw_response_wrapper(
+            client.whoami,
+        )
 
     @cached_property
     def projects(self) -> projects.ProjectsResourceWithRawResponse:
@@ -697,6 +790,10 @@ class AsyncScorecardWithRawResponse:
     def __init__(self, client: AsyncScorecard) -> None:
         self._client = client
 
+        self.whoami = async_to_raw_response_wrapper(
+            client.whoami,
+        )
+
     @cached_property
     def projects(self) -> projects.AsyncProjectsResourceWithRawResponse:
         from .resources.projects import AsyncProjectsResourceWithRawResponse
@@ -764,6 +861,10 @@ class ScorecardWithStreamedResponse:
     def __init__(self, client: Scorecard) -> None:
         self._client = client
 
+        self.whoami = to_streamed_response_wrapper(
+            client.whoami,
+        )
+
     @cached_property
     def projects(self) -> projects.ProjectsResourceWithStreamingResponse:
         from .resources.projects import ProjectsResourceWithStreamingResponse
@@ -830,6 +931,10 @@ class AsyncScorecardWithStreamedResponse:
 
     def __init__(self, client: AsyncScorecard) -> None:
         self._client = client
+
+        self.whoami = async_to_streamed_response_wrapper(
+            client.whoami,
+        )
 
     @cached_property
     def projects(self) -> projects.AsyncProjectsResourceWithStreamingResponse:

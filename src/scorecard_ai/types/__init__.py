@@ -8,6 +8,7 @@ from .metric import Metric as Metric
 from .record import Record as Record
 from .shared import APIError as APIError
 from .system import System as System
+from .whoami import Whoami as Whoami
 from .project import Project as Project
 from .testset import Testset as Testset
 from .testcase import Testcase as Testcase

@@ -4,6 +4,18 @@
 from scorecard_ai.types import APIError
 ```
 
+# Scorecard
+
+Types:
+
+```python
+from scorecard_ai.types import Whoami
+```
+
+Methods:
+
+- <code title="get /whoami">client.<a href="./src/scorecard_ai/_client.py">whoami</a>() -> <a href="./src/scorecard_ai/types/whoami.py">Whoami</a></code>
+
 # Projects
 
 Types:
