@@ -99,8 +99,11 @@ class RecordsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Record:
-        """
-        Create a new Record in a Run.
+        """Create a new Record in a Run.
+
+        Creating a Record starts scoring it with every AI
+        and Heuristic metric on the Run. The request body may be up to 15 MB; larger
+        requests are rejected with a 413.
 
         Args:
           expected: The expected outputs for the Testcase.
@@ -288,8 +291,11 @@ class AsyncRecordsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Record:
-        """
-        Create a new Record in a Run.
+        """Create a new Record in a Run.
+
+        Creating a Record starts scoring it with every AI
+        and Heuristic metric on the Run. The request body may be up to 15 MB; larger
+        requests are rejected with a 413.
 
         Args:
           expected: The expected outputs for the Testcase.

@@ -57,7 +57,7 @@ class AIIntMetric(BaseModel):
     temperature: Optional[float] = None
     """The temperature for AI evaluation (0-2).
 
-    Omit to use the model provider's default.
+    Omitted when the model provider's default is used.
     """
 
 
@@ -147,7 +147,7 @@ class AIFloatMetric(BaseModel):
     temperature: Optional[float] = None
     """The temperature for AI evaluation (0-2).
 
-    Omit to use the model provider's default.
+    Omitted when the model provider's default is used.
     """
 
 
@@ -234,7 +234,7 @@ class AIBooleanMetric(BaseModel):
     temperature: Optional[float] = None
     """The temperature for AI evaluation (0-2).
 
-    Omit to use the model provider's default.
+    Omitted when the model provider's default is used.
     """
 
 
