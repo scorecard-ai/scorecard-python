@@ -53,6 +53,54 @@ class TestProjects:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    def test_method_update(self, client: Scorecard) -> None:
+        project = client.projects.update(
+            project_id="314",
+        )
+        assert_matches_type(Project, project, path=["response"])
+
+    @parametrize
+    def test_method_update_with_all_params(self, client: Scorecard) -> None:
+        project = client.projects.update(
+            project_id="314",
+            description="description",
+            name="x",
+            status="completed",
+        )
+        assert_matches_type(Project, project, path=["response"])
+
+    @parametrize
+    def test_raw_response_update(self, client: Scorecard) -> None:
+        response = client.projects.with_raw_response.update(
+            project_id="314",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        project = response.parse()
+        assert_matches_type(Project, project, path=["response"])
+
+    @parametrize
+    def test_streaming_response_update(self, client: Scorecard) -> None:
+        with client.projects.with_streaming_response.update(
+            project_id="314",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            project = response.parse()
+            assert_matches_type(Project, project, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_update(self, client: Scorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
+            client.projects.with_raw_response.update(
+                project_id="",
+            )
+
+    @parametrize
     def test_method_list(self, client: Scorecard) -> None:
         project = client.projects.list()
         assert_matches_type(SyncPaginatedResponse[Project], project, path=["response"])
@@ -84,6 +132,44 @@ class TestProjects:
             assert_matches_type(SyncPaginatedResponse[Project], project, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_method_get(self, client: Scorecard) -> None:
+        project = client.projects.get(
+            "314",
+        )
+        assert_matches_type(Project, project, path=["response"])
+
+    @parametrize
+    def test_raw_response_get(self, client: Scorecard) -> None:
+        response = client.projects.with_raw_response.get(
+            "314",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        project = response.parse()
+        assert_matches_type(Project, project, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get(self, client: Scorecard) -> None:
+        with client.projects.with_streaming_response.get(
+            "314",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            project = response.parse()
+            assert_matches_type(Project, project, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_get(self, client: Scorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
+            client.projects.with_raw_response.get(
+                "",
+            )
 
 
 class TestAsyncProjects:
@@ -126,6 +212,54 @@ class TestAsyncProjects:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    async def test_method_update(self, async_client: AsyncScorecard) -> None:
+        project = await async_client.projects.update(
+            project_id="314",
+        )
+        assert_matches_type(Project, project, path=["response"])
+
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncScorecard) -> None:
+        project = await async_client.projects.update(
+            project_id="314",
+            description="description",
+            name="x",
+            status="completed",
+        )
+        assert_matches_type(Project, project, path=["response"])
+
+    @parametrize
+    async def test_raw_response_update(self, async_client: AsyncScorecard) -> None:
+        response = await async_client.projects.with_raw_response.update(
+            project_id="314",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        project = await response.parse()
+        assert_matches_type(Project, project, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_update(self, async_client: AsyncScorecard) -> None:
+        async with async_client.projects.with_streaming_response.update(
+            project_id="314",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            project = await response.parse()
+            assert_matches_type(Project, project, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_update(self, async_client: AsyncScorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
+            await async_client.projects.with_raw_response.update(
+                project_id="",
+            )
+
+    @parametrize
     async def test_method_list(self, async_client: AsyncScorecard) -> None:
         project = await async_client.projects.list()
         assert_matches_type(AsyncPaginatedResponse[Project], project, path=["response"])
@@ -157,3 +291,41 @@ class TestAsyncProjects:
             assert_matches_type(AsyncPaginatedResponse[Project], project, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_get(self, async_client: AsyncScorecard) -> None:
+        project = await async_client.projects.get(
+            "314",
+        )
+        assert_matches_type(Project, project, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get(self, async_client: AsyncScorecard) -> None:
+        response = await async_client.projects.with_raw_response.get(
+            "314",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        project = await response.parse()
+        assert_matches_type(Project, project, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get(self, async_client: AsyncScorecard) -> None:
+        async with async_client.projects.with_streaming_response.get(
+            "314",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            project = await response.parse()
+            assert_matches_type(Project, project, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_get(self, async_client: AsyncScorecard) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
+            await async_client.projects.with_raw_response.get(
+                "",
+            )

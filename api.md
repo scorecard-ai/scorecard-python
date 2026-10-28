@@ -27,7 +27,9 @@ from scorecard_ai.types import Project
 Methods:
 
 - <code title="post /projects">client.projects.<a href="./src/scorecard_ai/resources/projects.py">create</a>(\*\*<a href="src/scorecard_ai/types/project_create_params.py">params</a>) -> <a href="./src/scorecard_ai/types/project.py">Project</a></code>
+- <code title="patch /projects/{projectId}">client.projects.<a href="./src/scorecard_ai/resources/projects.py">update</a>(project_id, \*\*<a href="src/scorecard_ai/types/project_update_params.py">params</a>) -> <a href="./src/scorecard_ai/types/project.py">Project</a></code>
 - <code title="get /projects">client.projects.<a href="./src/scorecard_ai/resources/projects.py">list</a>(\*\*<a href="src/scorecard_ai/types/project_list_params.py">params</a>) -> <a href="./src/scorecard_ai/types/project.py">SyncPaginatedResponse[Project]</a></code>
+- <code title="get /projects/{projectId}">client.projects.<a href="./src/scorecard_ai/resources/projects.py">get</a>(project_id) -> <a href="./src/scorecard_ai/types/project.py">Project</a></code>
 
 # Testsets
 

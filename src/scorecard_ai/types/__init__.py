@@ -30,6 +30,7 @@ from .system_update_params import SystemUpdateParams as SystemUpdateParams
 from .system_upsert_params import SystemUpsertParams as SystemUpsertParams
 from .testcase_list_params import TestcaseListParams as TestcaseListParams
 from .project_create_params import ProjectCreateParams as ProjectCreateParams
+from .project_update_params import ProjectUpdateParams as ProjectUpdateParams
 from .testset_create_params import TestsetCreateParams as TestsetCreateParams
 from .testset_update_params import TestsetUpdateParams as TestsetUpdateParams
 from .attachment_list_params import AttachmentListParams as AttachmentListParams
