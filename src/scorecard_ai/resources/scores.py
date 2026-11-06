@@ -74,9 +74,11 @@ class ScoresResource(SyncAPIResource):
               to leave the Score in a pending (ungraded) state — supported only for human
               metrics, e.g. to queue a record for manual grading.
 
-          user_id: Who created the Score, e.g. a user ID when submitting on behalf of a human
-              grader. Must be a member of your organization. Only supported for human metrics
-              and only together with `score`; defaults to `background-job`.
+          user_id: For human metrics, omit `userId` to grade as yourself. Org admins and
+              organization API keys may set it to another org member; other callers naming
+              another user receive 403. Organization API keys without a user creator must set
+              `userId` to the org member whose grade this is. Only supported together with
+              `score`. AI and heuristic scores remain system-created (`background-job`).
 
           extra_headers: Send extra headers
 
@@ -159,9 +161,11 @@ class AsyncScoresResource(AsyncAPIResource):
               to leave the Score in a pending (ungraded) state — supported only for human
               metrics, e.g. to queue a record for manual grading.
 
-          user_id: Who created the Score, e.g. a user ID when submitting on behalf of a human
-              grader. Must be a member of your organization. Only supported for human metrics
-              and only together with `score`; defaults to `background-job`.
+          user_id: For human metrics, omit `userId` to grade as yourself. Org admins and
+              organization API keys may set it to another org member; other callers naming
+              another user receive 403. Organization API keys without a user creator must set
+              `userId` to the org member whose grade this is. Only supported together with
+              `score`. AI and heuristic scores remain system-created (`background-job`).
 
           extra_headers: Send extra headers
 
