@@ -1,5 +1,24 @@
 # Changelog
 
+## [3.11.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.10.0...v3.11.0) (2026-11-19)
+
+
+### Features
+
+* **backend:** let OAuth tokens and personal API keys pick their org ([6fa8b13](https://github.com/scorecard-ai/scorecard-python/commit/6fa8b13d8fd258b5bf4dc1bf0e466a113413a856))
+* **projects:** let admins set a project status readable from the API ([bf0cc36](https://github.com/scorecard-ai/scorecard-python/commit/bf0cc36a63c774206eb8aebd0b8cbf09ed4729be))
+
+
+### Bug Fixes
+
+* **api:** only let admins and org keys grade on a member's behalf ([a7026e1](https://github.com/scorecard-ai/scorecard-python/commit/a7026e124936e7c26023a1be1d5515bbc8a24724))
+* **schemas:** align OpenAPI error examples and descriptions with the API ([b9c8900](https://github.com/scorecard-ai/scorecard-python/commit/b9c8900d402ede909eb97d94174ceed0dec89f71))
+
+
+### Documentation
+
+* **api:** state who can grade on another member's behalf in the upsert score description ([8329242](https://github.com/scorecard-ai/scorecard-python/commit/8329242c1d068106fd4edc34d5071d40fa26c918))
+
 ## [3.10.0](https://github.com/scorecard-ai/scorecard-python/compare/v3.9.0...v3.10.0) (2026-09-22)
 
 
